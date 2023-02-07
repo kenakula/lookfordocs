@@ -1,6 +1,7 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Head from 'next/head';
 import { setToaster, useAppDispatch } from '@/stores';
+import { IconArrowLeft, IconSearch } from '@/components/icons';
 
 export default function Home(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -23,6 +24,9 @@ export default function Home(): JSX.Element {
         >
           add toaster
         </Button>
+        <Typography variant="h1">Rubik font</Typography>
+        <IconArrowLeft />
+        <IconSearch />
       </main>
     </>
   );

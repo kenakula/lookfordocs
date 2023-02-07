@@ -1,7 +1,19 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { CssBaseline, PaletteMode } from '@mui/material';
+import { Rubik } from '@next/font/google';
 import { createTheme, Theme, ThemeProvider } from '@mui/material/styles';
 import { LOCAL_STORAGE_THEME_KEY } from '@/shared/assets';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    beje: Palette['primary'];
+  }
+  interface PaletteOptions {
+    beje: PaletteOptions['primary'];
+  }
+}
+
+const rubik = Rubik({ subsets: ['latin'] });
 
 type ContextProps = {
   mode: PaletteMode;
@@ -34,47 +46,41 @@ export const ThemeStoreProvider = ({ children }: Props): JSX.Element => {
   const theme = useMemo(
     () =>
       createTheme({
-        // typography: {
-        //   fontFamily: 'Comfortaa',
-        // },
-        // components: {
-        //   MuiCssBaseline: {
-        //     styleOverrides: `
-        //       @font-face {
-        //         font-family: 'Comfortaa';
-        //         font-style: normal;
-        //         font-weight: 700;
-        //         font-display: swap;
-        //         src: local('Comfortaa'), url(${Comfortaa}) format('woff2');
-        //       }
-        //     `,
-        //   },
-        // },
-        // breakpoints: {
-        //   values: {
-        //     mobile: 0,
-        //     tablet: 768,
-        //     laptop: 1024,
-        //     desktop: 1200,
-        //   },
-        // },
+        typography: {
+          ...rubik.style,
+        },
+        breakpoints: {
+          values: {
+            xs: 0,
+            sm: 360,
+            md: 600,
+            lg: 1024,
+            xl: 1440,
+          },
+        },
         palette: {
           mode,
           primary: {
-            main: '#399fae',
-          },
-          warning: {
-            main: '#ecca75',
-          },
-          error: {
-            main: '#f05454',
-          },
-          background: {
-            default: mode === 'light' ? '#fafafa' : '#222831',
-            paper: mode === 'light' ? '#ffffff' : '#2c3440',
+            main: '#3FC3D0',
+            light: '#B1EBF0',
+            dark: '#12A5B3',
+            contrastText: '#ffffff',
           },
           text: {
-            primary: mode === 'light' ? '#282846' : '#F9F9F9',
+            primary: '#071530',
+            secondary: '#848B98',
+            disabled: '#B9BFCC',
+          },
+          secondary: {
+            main: '#203E7A',
+            light: '#284E99',
+            dark: '#172D58',
+          },
+          background: {
+            default: '#ffffff',
+          },
+          beje: {
+            main: '#FCF7F3',
           },
         },
       }),
