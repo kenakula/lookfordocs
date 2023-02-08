@@ -35,32 +35,6 @@
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-shadow": "warn",
     "no-import-assign": "warn",
-    "react/jsx-filename-extension": [
-      "warn",
-      {
-        "extensions": [".tsx"]
-      }
-    ],
-    "react/require-default-props": "off",
-    "@typescript-eslint/lines-between-class-members": "off",
-    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
-    "linebreak-style": ["warn", "unix"],
-    "eqeqeq": "warn",
-    "no-unused-expressions": "warn",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "comma-dangle": ["warn", "only-multiline"],
-    "@typescript-eslint/no-use-before-define": "warn",
-    "@typescript-eslint/brace-style": "warn",
-    "@typescript-eslint/ban-types": "warn",
-    "@typescript-eslint/explicit-function-return-type": [
-      "warn",
-      {
-        "allowExpressions": true,
-        "allowTypedFunctionExpressions": true,
-        "allowHigherOrderFunctions": true
-      }
-    ],
     "max-len": [
       "error",
       {

@@ -54,7 +54,7 @@ export const ThemeStoreProvider = ({ children }: Props): JSX.Element => {
             xs: 0,
             sm: 360,
             md: 600,
-            lg: 1024,
+            lg: 1128,
             xl: 1440,
           },
         },

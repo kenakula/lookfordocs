@@ -7,6 +7,7 @@ import { store } from '@/stores';
 import { Toaster } from '@/components';
 import { ThemeStoreProvider } from '@/stores/theme-store-provider';
 import { createEmotionCache } from '@/shared/assets';
+import { Header } from '@/components/header/header';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -31,6 +32,7 @@ export default function App({
               />
               <link rel="icon" href="/favicon.ico" />
             </Head>
+            <Header />
             <Component {...pageProps} />
             <Toaster />
           </>
