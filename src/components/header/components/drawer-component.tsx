@@ -6,30 +6,27 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  SwipeableDrawer,
+  Drawer,
 } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 import { DRAWER_WIDTH, navItems } from '../assets';
 
 interface Props {
-  openDrawer: () => void;
   closeDrawer: () => void;
   openState: boolean;
 }
 
 export const DrawerComponent = ({
-  openDrawer,
   closeDrawer,
   openState,
 }: Props): JSX.Element => {
   return (
     <Box component="nav">
-      <SwipeableDrawer
+      <Drawer
         variant="temporary"
         open={openState}
         anchor="right"
-        onOpen={openDrawer}
         onClose={closeDrawer}
         ModalProps={{
           keepMounted: true,
@@ -61,7 +58,7 @@ export const DrawerComponent = ({
             ))}
           </List>
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
     </Box>
   );
 };

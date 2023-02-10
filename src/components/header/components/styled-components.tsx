@@ -1,18 +1,27 @@
 import { AppBar, Box, IconButton, styled, Toolbar } from '@mui/material';
 
-export const StyledHeader = styled(AppBar)(({ theme }) => ({
-  backgroundColor: '#EEFAFB',
-  boxShadow: 'none',
+export const StyledHeader = styled(AppBar, {
+  shouldForwardProp: prop => prop !== 'isScrolled',
+})<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+  backgroundColor: isScrolled ? '#ffffff' : '#EEFAFB',
+  transition: theme.transitions.create(['box-shadow', 'background-color'], {
+    duration: 200,
+  }),
+  boxShadow: isScrolled ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',
   '.MuiToolbar-root': {
     padding: 0,
   },
   '.logo': {
     color: theme.palette.text.primary,
     textDecoration: 'none',
+    marginRight: 'auto',
   },
   [theme.breakpoints.up('lg')]: {
     '.MuiToolbar-root': {
       minHeight: '80px',
+    },
+    '.logo': {
+      order: -2,
     },
   },
 }));
@@ -28,7 +37,6 @@ export const HiddenToolbar = styled(Toolbar)(({ theme }) => ({
 export const StyledNav = styled(Box)(({ theme }) => ({
   ...theme.typography,
   display: 'none',
-  marginLeft: 'auto',
   [theme.breakpoints.up('lg')]: {
     display: 'block',
   },
@@ -96,6 +104,8 @@ export const StyledSearchButton = styled(IconButton)(({ theme }) => ({
   marginRight: theme.spacing(3),
   marginLeft: 'auto',
   [theme.breakpoints.up('lg')]: {
-    display: 'none',
+    order: -1,
+    marginLeft: 0,
+    marginRight: theme.spacing(2),
   },
 }));

@@ -2,8 +2,6 @@
   "root": true,
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "eslint:recommended",
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
     "next/core-web-vitals"
@@ -14,7 +12,7 @@
     "browser": true,
     "jest": true
   },
-  "plugins": ["@typescript-eslint", "react", "react-hooks", "prettier"],
+  "plugins": ["@typescript-eslint", "react-hooks", "prettier"],
   "settings": {
     "react": {
       "version": "detect"
@@ -33,6 +31,7 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-unused-vars": 1,
     "@typescript-eslint/no-shadow": "warn",
     "no-import-assign": "warn",
     "max-len": [

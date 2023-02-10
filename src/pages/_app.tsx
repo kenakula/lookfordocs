@@ -4,10 +4,9 @@ import { Provider } from 'react-redux';
 import Head from 'next/head';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { store } from '@/stores';
-import { Toaster } from '@/components';
+import { Layout } from '@/components';
 import { ThemeStoreProvider } from '@/stores/theme-store-provider';
 import { createEmotionCache } from '@/shared/assets';
-import { Header } from '@/components/header/header';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -24,7 +23,7 @@ export default function App({
     <CacheProvider value={emotionCache}>
       <Provider store={store}>
         <ThemeStoreProvider>
-          <>
+          <Layout>
             <Head>
               <meta
                 name="viewport"
@@ -32,10 +31,8 @@ export default function App({
               />
               <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Header />
             <Component {...pageProps} />
-            <Toaster />
-          </>
+          </Layout>
         </ThemeStoreProvider>
       </Provider>
     </CacheProvider>

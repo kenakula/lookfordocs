@@ -22,8 +22,13 @@ import {
 } from './components';
 
 import { HOME_PAGE } from '@/shared/assets';
+import { ScrollPosition } from '@/shared/types';
 
-export const Header = (): JSX.Element => {
+interface Props {
+  position: ScrollPosition;
+}
+
+export const Header = ({ position }: Props): JSX.Element => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const trigger = useScrollTrigger();
 
@@ -38,7 +43,7 @@ export const Header = (): JSX.Element => {
   return (
     <>
       <Slide appear={false} direction="down" in={!trigger}>
-        <StyledHeader>
+        <StyledHeader isScrolled={position.y > 0}>
           <Container>
             <Toolbar>
               <Link href={HOME_PAGE} className="logo">
@@ -70,9 +75,11 @@ export const Header = (): JSX.Element => {
                   )}
                 </List>
               </StyledNav>
-              <StyledSearchButton>
-                <IconSearch />
-              </StyledSearchButton>
+              {position.y > 0 && (
+                <StyledSearchButton>
+                  <IconSearch />
+                </StyledSearchButton>
+              )}
               <StyledToggler
                 color="inherit"
                 aria-label="Открыть меню"
@@ -85,11 +92,7 @@ export const Header = (): JSX.Element => {
           </Container>
         </StyledHeader>
       </Slide>
-      <DrawerComponent
-        openState={mobileOpen}
-        closeDrawer={closeDrawer}
-        openDrawer={openDrawer}
-      />
+      <DrawerComponent openState={mobileOpen} closeDrawer={closeDrawer} />
       <HiddenToolbar />
     </>
   );
