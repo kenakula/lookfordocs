@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IconMenu, IconSearch } from '../icons';
 import { Container } from '../container/container';
 import { navItems } from './assets';
@@ -22,15 +22,17 @@ import {
 } from './components';
 
 import { HOME_PAGE } from '@/shared/assets';
-import { ScrollPosition } from '@/shared/types';
+import { useScroll } from '@/shared/hooks';
 
-interface Props {
-  position: ScrollPosition;
-}
-
-export const Header = ({ position }: Props): JSX.Element => {
+export const Header = (): JSX.Element => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const position = useScroll(200);
+  const [pageScrolled, setPageScrolled] = useState<boolean>(false);
   const trigger = useScrollTrigger();
+
+  useEffect(() => {
+    setPageScrolled(position.position.y > 0);
+  }, [position.position]);
 
   const openDrawer = (): void => {
     setMobileOpen(true);
@@ -43,7 +45,7 @@ export const Header = ({ position }: Props): JSX.Element => {
   return (
     <>
       <Slide appear={false} direction="down" in={!trigger}>
-        <StyledHeader isScrolled={position.y > 0}>
+        <StyledHeader isScrolled={pageScrolled}>
           <Container>
             <Toolbar>
               <Link href={HOME_PAGE} className="logo">
@@ -75,11 +77,10 @@ export const Header = ({ position }: Props): JSX.Element => {
                   )}
                 </List>
               </StyledNav>
-              {position.y > 0 && (
-                <StyledSearchButton>
-                  <IconSearch />
-                </StyledSearchButton>
-              )}
+              {/* TODO not on main page */}
+              <StyledSearchButton>
+                <IconSearch />
+              </StyledSearchButton>
               <StyledToggler
                 color="inherit"
                 aria-label="Открыть меню"

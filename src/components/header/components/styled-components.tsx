@@ -1,4 +1,4 @@
-import { AppBar, Box, IconButton, styled, Toolbar } from '@mui/material';
+import { alpha, AppBar, Box, IconButton, styled, Toolbar } from '@mui/material';
 
 export const StyledHeader = styled(AppBar, {
   shouldForwardProp: prop => prop !== 'isScrolled',
@@ -58,13 +58,13 @@ export const StyledNav = styled(Box)(({ theme }) => ({
     padding: '7px 20px',
     backgroundColor: theme.palette.background.default,
     borderRadius: theme.shape.borderRadius,
-    boxShadow: '0px 4px 16px rgba(7, 20, 48, 0.04)',
-    transition: theme.transitions.create(['border-color', 'boxShadow']),
+    boxShadow: `0px 4px 16px ${alpha(theme.palette.text.primary, 0.04)}`,
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
     border: '1px solid transparent',
     boxSizing: 'border-box',
     '&:hover': {
       borderColor: '#F6F8FB',
-      boxShadow: ' 0px 8px 16px rgba(7, 20, 48, 0.08)',
+      boxShadow: `0px 8px 16px ${alpha(theme.palette.text.primary, 0.08)}`,
       backgroundColor: theme.palette.background.default,
     },
     '&:active': {
@@ -103,6 +103,9 @@ export const StyledToggler = styled(IconButton)(({ theme }) => ({
 export const StyledSearchButton = styled(IconButton)(({ theme }) => ({
   marginRight: theme.spacing(3),
   marginLeft: 'auto',
+  svg: {
+    stroke: theme.palette.text.primary,
+  },
   [theme.breakpoints.up('lg')]: {
     order: -1,
     marginLeft: 0,

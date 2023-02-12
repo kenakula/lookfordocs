@@ -7,9 +7,14 @@ import { LOCAL_STORAGE_THEME_KEY } from '@/shared/assets';
 declare module '@mui/material/styles' {
   interface Palette {
     beje: Palette['primary'];
+    misc: Palette['primary'];
   }
   interface PaletteOptions {
     beje: PaletteOptions['primary'];
+    misc: PaletteOptions['primary'];
+  }
+  interface BreakpointOverrides {
+    lmd: true;
   }
 }
 
@@ -54,6 +59,7 @@ export const ThemeStoreProvider = ({ children }: Props): JSX.Element => {
             xs: 0,
             sm: 360,
             md: 600,
+            lmd: 768,
             lg: 1128,
             xl: 1440,
           },
@@ -68,7 +74,7 @@ export const ThemeStoreProvider = ({ children }: Props): JSX.Element => {
           },
           text: {
             primary: '#071530',
-            secondary: '#848B98',
+            secondary: '#848998',
             disabled: '#B9BFCC',
           },
           secondary: {
@@ -81,6 +87,11 @@ export const ThemeStoreProvider = ({ children }: Props): JSX.Element => {
           },
           beje: {
             main: '#FCF7F3',
+          },
+          misc: {
+            main: '#F0FBFB',
+            light: '#DDE3EF',
+            dark: '#F6F8FB',
           },
         },
       }),

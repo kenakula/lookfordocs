@@ -1,24 +1,22 @@
-import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { store } from '@/stores';
 import { Layout } from '@/components';
 import { ThemeStoreProvider } from '@/stores/theme-store-provider';
 import { createEmotionCache } from '@/shared/assets';
+import { store } from '@/stores';
 
+// Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-interface ProjectApp extends AppProps {
+interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-export default function App({
-  Component,
-  pageProps,
-  emotionCache = clientSideEmotionCache,
-}: ProjectApp): JSX.Element {
+export default function MyApp(props: MyAppProps) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
   return (
     <CacheProvider value={emotionCache}>
       <Provider store={store}>
@@ -27,9 +25,8 @@ export default function App({
             <Head>
               <meta
                 name="viewport"
-                content="width=device-width, initial-scale=1"
+                content="initial-scale=1, width=device-width"
               />
-              <link rel="icon" href="/favicon.ico" />
             </Head>
             <Component {...pageProps} />
           </Layout>
