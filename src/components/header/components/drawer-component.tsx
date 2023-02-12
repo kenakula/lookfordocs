@@ -1,16 +1,22 @@
 import {
   Box,
   Typography,
-  Divider,
   List,
   ListItem,
   ListItemButton,
-  ListItemText,
-  Drawer,
+  IconButton,
 } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
-import { DRAWER_WIDTH, navItems } from '../assets';
+import { navItems } from '../assets';
+import { StyledDrawer, StyledSocials } from './styled-components';
+import { Container } from '@/components';
+import {
+  IconClose,
+  IconEmail,
+  IconTelegram,
+  IconWatsapp,
+} from '@/components/icons';
 
 interface Props {
   closeDrawer: () => void;
@@ -23,7 +29,7 @@ export const DrawerComponent = ({
 }: Props): JSX.Element => {
   return (
     <Box component="nav">
-      <Drawer
+      <StyledDrawer
         variant="temporary"
         open={openState}
         anchor="right"
@@ -31,34 +37,52 @@ export const DrawerComponent = ({
         ModalProps={{
           keepMounted: true,
         }}
-        sx={{
-          display: { lg: 'none' },
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
-            width: DRAWER_WIDTH,
-          },
-        }}
       >
-        <Box onClick={closeDrawer} sx={{ textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ my: 2 }}>
-            LogoLogo
-          </Typography>
-          <Divider />
+        <Box>
+          <Container>
+            <Typography variant="h6" component="p">
+              LogoLogo
+            </Typography>
+            <IconButton onClick={closeDrawer}>
+              <IconClose />
+            </IconButton>
+          </Container>
           <List>
-            {navItems.map(item => (
-              <ListItem key={item} disablePadding>
-                <ListItemButton
-                  sx={{ textAlign: 'center' }}
-                  component={Link}
-                  href="#"
-                >
-                  <ListItemText primary={item} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {navItems.map((item, index) =>
+              index === navItems.length - 1 ? (
+                <ListItem key={item}>
+                  <ListItemButton
+                    disableRipple
+                    disableTouchRipple
+                    component={Link}
+                    onClick={closeDrawer}
+                    href="#"
+                  >
+                    {item}
+                  </ListItemButton>
+                </ListItem>
+              ) : (
+                <ListItem key={item}>
+                  <Link className="nav-link" href="#" onClick={closeDrawer}>
+                    {item}
+                  </Link>
+                </ListItem>
+              ),
+            )}
           </List>
+          <StyledSocials>
+            <IconButton component={Link} href="mailto:ololo@mail.ru">
+              <IconEmail />
+            </IconButton>
+            <IconButton component={Link} href="wp:ololo@mail.ru">
+              <IconWatsapp />
+            </IconButton>
+            <IconButton component={Link} href="tg:ololo@mail.ru">
+              <IconTelegram />
+            </IconButton>
+          </StyledSocials>
         </Box>
-      </Drawer>
+      </StyledDrawer>
     </Box>
   );
 };

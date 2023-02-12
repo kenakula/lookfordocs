@@ -18,7 +18,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-const rubik = Rubik({ subsets: ['latin'] });
+const rubik = Rubik({ subsets: ['cyrillic-ext'] });
 
 type ContextProps = {
   mode: PaletteMode;

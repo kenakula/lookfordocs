@@ -8,6 +8,20 @@ const StyledButton = styled(Button)(({ theme }) => ({
   fontWeight: 600,
   textTransform: 'none',
   color: theme.palette.text.primary,
+
+  '&:hover': {
+    borderColor: theme.palette.text.disabled,
+    backgroundColor: theme.palette.background.default,
+  },
+
+  '&:focus-visible': {
+    outline: `4px solid ${theme.palette.primary.light}`,
+    borderColor: theme.palette.background.default,
+  },
+
+  [theme.breakpoints.up('lg')]: {
+    maxWidth: 159,
+  },
 }));
 
 interface Props extends ButtonProps {

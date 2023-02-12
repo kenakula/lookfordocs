@@ -1,4 +1,12 @@
-import { alpha, AppBar, Box, IconButton, styled, Toolbar } from '@mui/material';
+import {
+  alpha,
+  AppBar,
+  Box,
+  Drawer,
+  IconButton,
+  styled,
+  Toolbar,
+} from '@mui/material';
 
 export const StyledHeader = styled(AppBar, {
   shouldForwardProp: prop => prop !== 'isScrolled',
@@ -110,5 +118,91 @@ export const StyledSearchButton = styled(IconButton)(({ theme }) => ({
     order: -1,
     marginLeft: 0,
     marginRight: theme.spacing(2),
+  },
+}));
+
+export const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  '.MuiDrawer-paper': {
+    width: '100vw',
+  },
+
+  '.MuiContainer-root': {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(2),
+
+    '.MuiIconButton-root': {
+      marginLeft: 'auto',
+      marginRight: theme.spacing(-1),
+      color: theme.palette.text.primary,
+    },
+  },
+
+  '.MuiListItem-root': {
+    marginBottom: theme.spacing(5),
+
+    '&:last-child': {
+      marginBottom: 0,
+    },
+  },
+
+  '.MuiListItemButton-root': {
+    justifyContent: 'center',
+    minHeight: 48,
+    border: `1px solid ${theme.palette.misc.light}`,
+    fontSize: theme.typography.pxToRem(16),
+    lineHeight: theme.typography.pxToRem(20),
+    fontWeight: 600,
+    textTransform: 'none',
+    color: theme.palette.text.primary,
+    borderRadius: theme.shape.borderRadius,
+
+    '&:hover': {
+      borderColor: theme.palette.text.disabled,
+      backgroundColor: theme.palette.background.default,
+    },
+  },
+
+  '.nav-link': {
+    color: theme.palette.text.primary,
+    textDecoration: 'none',
+    whiteSpace: 'nowrap',
+    fontSize: 16,
+    transition: theme.transitions.create('color'),
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+    '&:active': {
+      color: theme.palette.primary.dark,
+    },
+    '&:focus': {
+      color: theme.palette.primary.main,
+      textDecoration: 'underline',
+      outline: 'none',
+    },
+  },
+
+  [theme.breakpoints.up('lg')]: {
+    display: 'none',
+  },
+}));
+
+export const StyledSocials = styled('ul')(({ theme }) => ({
+  listStyle: 'none',
+  padding: 0,
+  margin: theme.spacing(4, 0, 0, 0),
+  display: 'flex',
+  justifyContent: 'center',
+
+  '.MuiIconButton-root': {
+    marginRight: theme.spacing(1.5),
+
+    '&:last-child': {
+      marginRight: 0,
+    },
+  },
+
+  svg: {
+    fill: theme.palette.primary.main,
   },
 }));

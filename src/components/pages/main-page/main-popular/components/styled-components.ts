@@ -56,7 +56,7 @@ export const StyledCard = styled('li', {
   },
 
   '.MuiTypography-h3': {
-    marginBottom: theme.spacing(1),
+    marginBottom: 'auto',
     fontSize: theme.typography.pxToRem(18),
     lineHeight: theme.typography.pxToRem(24),
     fontWeight: 500,
@@ -64,7 +64,8 @@ export const StyledCard = styled('li', {
   },
 
   '.MuiLink-root': {
-    display: 'block',
+    display: 'flex',
+    flexDirection: 'column',
     padding: theme.spacing(2.5, 3),
     minHeight: minHeight,
     height: '100%',
@@ -89,5 +90,11 @@ export const StyledCard = styled('li', {
     fontSize: theme.typography.pxToRem(16),
     lineHeight: theme.typography.pxToRem(20),
     color: theme.palette.secondary.light,
+  },
+
+  [theme.breakpoints.up('md')]: {
+    '.MuiLink-root': {
+      minHeight: 122,
+    },
   },
 }));
