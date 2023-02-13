@@ -11,7 +11,7 @@ import {
 export const StyledHeader = styled(AppBar, {
   shouldForwardProp: prop => prop !== 'isScrolled',
 })<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
-  backgroundColor: isScrolled ? '#ffffff' : '#EEFAFB',
+  backgroundColor: isScrolled ? '#ffffff' : theme.palette.misc.main,
   transition: theme.transitions.create(['box-shadow', 'background-color'], {
     duration: 200,
   }),
