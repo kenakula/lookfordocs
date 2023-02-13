@@ -15,6 +15,7 @@ import {
   getSiteSettings,
 } from '@/stores/api';
 import getRunningMainPageQueries from '@/stores/api/main-page.api';
+import getRunningGlobalQueries from '@/stores/api/global.api';
 
 export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const siteSettings = await store.dispatch(getSiteSettings.initiate());
@@ -24,6 +25,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   );
 
   await Promise.all(store.dispatch(getRunningMainPageQueries()));
+  await Promise.all(store.dispatch(getRunningGlobalQueries()));
 
   return {
     props: {
