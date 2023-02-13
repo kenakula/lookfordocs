@@ -1,8 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { CollectionResponse, DIRECTUS_ITEMS_URL } from '../assets';
-import { IMainService } from '@/shared/types/main-service.type';
-import { ISpecialty } from '@/shared/types/specialty.type';
+import { IMainService, ISpecialty } from '@/shared/types';
 
 export const mainPageApi = createApi({
   reducerPath: 'mainPageApi',
@@ -50,7 +49,6 @@ export const {
   useGetServicesListQuery,
   useGetSpecialtiesListQuery,
   useGetPopularSpecialtiesListQuery,
-  util: { getRunningQueriesThunk },
 } = mainPageApi;
 
 export const {
@@ -58,3 +56,5 @@ export const {
   getSpecialtiesList,
   getPopularSpecialtiesList,
 } = mainPageApi.endpoints;
+
+export default mainPageApi.util.getRunningQueriesThunk;

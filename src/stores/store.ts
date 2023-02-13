@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { mainPageApi } from './api';
+import { globalApi, mainPageApi } from './api';
 import { toasterReducer } from './slices';
 
 export const makeStore = () =>
@@ -9,9 +9,13 @@ export const makeStore = () =>
     reducer: {
       toaster: toasterReducer,
       [mainPageApi.reducerPath]: mainPageApi.reducer,
+      [globalApi.reducerPath]: globalApi.reducer,
     },
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware().concat(mainPageApi.middleware),
+      getDefaultMiddleware().concat([
+        mainPageApi.middleware,
+        globalApi.middleware,
+      ]),
   });
 
 export const store = makeStore();

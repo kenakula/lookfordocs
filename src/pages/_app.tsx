@@ -2,10 +2,10 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { Layout } from '@/components';
 import { ThemeStoreProvider } from '@/stores/theme-store-provider';
 import { createEmotionCache } from '@/shared/assets';
 import { store } from '@/stores';
+import { Toaster } from '@/components';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -21,7 +21,7 @@ export default function MyApp(props: MyAppProps) {
     <CacheProvider value={emotionCache}>
       <Provider store={store}>
         <ThemeStoreProvider>
-          <Layout>
+          <>
             <Head>
               <meta
                 name="viewport"
@@ -29,7 +29,8 @@ export default function MyApp(props: MyAppProps) {
               />
             </Head>
             <Component {...pageProps} />
-          </Layout>
+            <Toaster />
+          </>
         </ThemeStoreProvider>
       </Provider>
     </CacheProvider>

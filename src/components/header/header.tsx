@@ -11,7 +11,6 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { IconMenu, IconSearch } from '../icons';
 import { Container } from '../container/container';
-import { navItems } from './assets';
 import {
   DrawerComponent,
   HiddenToolbar,
@@ -23,8 +22,13 @@ import {
 
 import { HOME_PAGE } from '@/shared/assets';
 import { useScroll } from '@/shared/hooks';
+import { INavigation } from '@/shared/types';
 
-export const Header = (): JSX.Element => {
+interface Props {
+  navigation: INavigation[];
+}
+
+export const Header = ({ navigation }: Props): JSX.Element => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const position = useScroll(200);
   const [pageScrolled, setPageScrolled] = useState<boolean>(false);
@@ -55,22 +59,22 @@ export const Header = (): JSX.Element => {
               </Link>
               <StyledNav component="nav">
                 <List>
-                  {navItems.map((item, index) =>
-                    index === navItems.length - 1 ? (
-                      <ListItem key={item}>
+                  {navigation.map(({ name, url, isAccent }) =>
+                    isAccent ? (
+                      <ListItem key={name}>
                         <ListItemButton
                           disableRipple
                           disableTouchRipple
                           component={Link}
-                          href="#"
+                          href={url}
                         >
-                          {item}
+                          {name}
                         </ListItemButton>
                       </ListItem>
                     ) : (
-                      <ListItem key={item}>
-                        <Link className="nav-link" href="#">
-                          {item}
+                      <ListItem key={name}>
+                        <Link className="nav-link" href={url}>
+                          {name}
                         </Link>
                       </ListItem>
                     ),
@@ -93,7 +97,11 @@ export const Header = (): JSX.Element => {
           </Container>
         </StyledHeader>
       </Slide>
-      <DrawerComponent openState={mobileOpen} closeDrawer={closeDrawer} />
+      <DrawerComponent
+        navigation={navigation}
+        openState={mobileOpen}
+        closeDrawer={closeDrawer}
+      />
       <HiddenToolbar />
     </>
   );

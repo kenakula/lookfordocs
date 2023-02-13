@@ -8,4 +8,8 @@ export interface CollectionResponse<T> {
   data: T[];
 }
 
+export interface SingletonResponse<T> {
+  data: T;
+}
+
 export const directus = new Directus(DIRECTUS_BASE_URL);

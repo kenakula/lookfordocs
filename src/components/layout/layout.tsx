@@ -1,17 +1,17 @@
 import React from 'react';
 import { Header } from '../header/header';
-import { Toaster } from '../toaster/toaster';
+import { ISiteSettings } from '@/shared/types';
 
 interface Props {
   children: JSX.Element | JSX.Element[];
+  siteSettings?: ISiteSettings;
 }
 
-export const Layout = ({ children }: Props) => {
+export const Layout = ({ children, siteSettings }: Props) => {
   return (
     <>
-      <Header />
+      {siteSettings && <Header navigation={siteSettings.navigation} />}
       <main>{children}</main>
-      <Toaster />
     </>
   );
 };

@@ -8,7 +8,6 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
-import { navItems } from '../assets';
 import { StyledDrawer, StyledSocials } from './styled-components';
 import { Container } from '@/components';
 import {
@@ -17,15 +16,18 @@ import {
   IconTelegram,
   IconWatsapp,
 } from '@/components/icons';
+import { INavigation } from '@/shared/types';
 
 interface Props {
   closeDrawer: () => void;
   openState: boolean;
+  navigation: INavigation[];
 }
 
 export const DrawerComponent = ({
   closeDrawer,
   openState,
+  navigation,
 }: Props): JSX.Element => {
   return (
     <Box component="nav">
@@ -48,23 +50,22 @@ export const DrawerComponent = ({
             </IconButton>
           </Container>
           <List>
-            {navItems.map((item, index) =>
-              index === navItems.length - 1 ? (
-                <ListItem key={item}>
+            {navigation.map(({ name, url, isAccent }) =>
+              isAccent ? (
+                <ListItem key={name}>
                   <ListItemButton
                     disableRipple
                     disableTouchRipple
                     component={Link}
-                    onClick={closeDrawer}
-                    href="#"
+                    href={url}
                   >
-                    {item}
+                    {name}
                   </ListItemButton>
                 </ListItem>
               ) : (
-                <ListItem key={item}>
-                  <Link className="nav-link" href="#" onClick={closeDrawer}>
-                    {item}
+                <ListItem key={name}>
+                  <Link className="nav-link" href={url}>
+                    {name}
                   </Link>
                 </ListItem>
               ),
