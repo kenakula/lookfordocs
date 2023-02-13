@@ -124,6 +124,7 @@ export const StyledSearchButton = styled(IconButton)(({ theme }) => ({
 export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '.MuiDrawer-paper': {
     width: '100vw',
+    paddingBottom: theme.spacing(2),
   },
 
   '.MuiContainer-root': {
@@ -182,6 +183,12 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
     },
   },
 
+  '.copyrights': {
+    padding: theme.spacing(0, 2),
+    alignSelf: 'center',
+    color: theme.palette.text.disabled,
+  },
+
   [theme.breakpoints.up('lg')]: {
     display: 'none',
   },
@@ -189,8 +196,8 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 export const StyledSocials = styled('ul')(({ theme }) => ({
   listStyle: 'none',
-  padding: 0,
-  margin: theme.spacing(4, 0, 0, 0),
+  padding: theme.spacing(0, 2),
+  margin: theme.spacing(4, 0, 'auto', 0),
   display: 'flex',
   justifyContent: 'center',
 

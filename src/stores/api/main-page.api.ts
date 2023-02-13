@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { CollectionResponse } from '../assets';
-import { IMainService, ISpecialty } from '@/shared/types';
+import { IMainService, ISpecialty, IInsurance } from '@/shared/types';
 
 export const mainPageApi = createApi({
   reducerPath: 'mainPageApi',
@@ -42,6 +42,16 @@ export const mainPageApi = createApi({
       transformResponse: (response: CollectionResponse<ISpecialty>) =>
         response.data,
     }),
+    getInsurances: builder.query<IInsurance[], void>({
+      query: () => ({
+        url: '/insurances',
+        params: {
+          fields: 'id, name, image.*',
+        },
+      }),
+      transformResponse: (response: CollectionResponse<IInsurance>) =>
+        response.data,
+    }),
   }),
 });
 
@@ -49,12 +59,14 @@ export const {
   useGetServicesListQuery,
   useGetSpecialtiesListQuery,
   useGetPopularSpecialtiesListQuery,
+  useGetInsurancesQuery,
 } = mainPageApi;
 
 export const {
   getServicesList,
   getSpecialtiesList,
   getPopularSpecialtiesList,
+  getInsurances,
 } = mainPageApi.endpoints;
 
 export default mainPageApi.util.getRunningQueriesThunk;

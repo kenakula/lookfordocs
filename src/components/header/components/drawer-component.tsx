@@ -40,49 +40,50 @@ export const DrawerComponent = ({
           keepMounted: true,
         }}
       >
-        <Box>
-          <Container>
-            <Typography variant="h6" component="p">
-              LogoLogo
-            </Typography>
-            <IconButton onClick={closeDrawer}>
-              <IconClose />
-            </IconButton>
-          </Container>
-          <List>
-            {navigation.map(({ name, url, isAccent }) =>
-              isAccent ? (
-                <ListItem key={name}>
-                  <ListItemButton
-                    disableRipple
-                    disableTouchRipple
-                    component={Link}
-                    href={url}
-                  >
-                    {name}
-                  </ListItemButton>
-                </ListItem>
-              ) : (
-                <ListItem key={name}>
-                  <Link className="nav-link" href={url}>
-                    {name}
-                  </Link>
-                </ListItem>
-              ),
-            )}
-          </List>
-          <StyledSocials>
-            <IconButton component={Link} href="mailto:ololo@mail.ru">
-              <IconEmail />
-            </IconButton>
-            <IconButton component={Link} href="wp:ololo@mail.ru">
-              <IconWatsapp />
-            </IconButton>
-            <IconButton component={Link} href="tg:ololo@mail.ru">
-              <IconTelegram />
-            </IconButton>
-          </StyledSocials>
-        </Box>
+        <Container>
+          <Typography variant="h6" component="p">
+            LogoLogo
+          </Typography>
+          <IconButton onClick={closeDrawer}>
+            <IconClose />
+          </IconButton>
+        </Container>
+        <List>
+          {navigation.map(({ name, url, isAccent }) =>
+            isAccent ? (
+              <ListItem key={name}>
+                <ListItemButton
+                  disableRipple
+                  disableTouchRipple
+                  component={Link}
+                  href={url}
+                >
+                  {name}
+                </ListItemButton>
+              </ListItem>
+            ) : (
+              <ListItem key={name}>
+                <Link className="nav-link" href={url}>
+                  {name}
+                </Link>
+              </ListItem>
+            ),
+          )}
+        </List>
+        <StyledSocials>
+          <IconButton component={Link} href="mailto:ololo@mail.ru">
+            <IconEmail />
+          </IconButton>
+          <IconButton component={Link} href="wp:ololo@mail.ru">
+            <IconWatsapp />
+          </IconButton>
+          <IconButton component={Link} href="tg:ololo@mail.ru">
+            <IconTelegram />
+          </IconButton>
+        </StyledSocials>
+        <Typography variant="caption" className="copyrights">
+          © 2021 LLC &quot;InfoService Group&quot; PSRN 1127847488944
+        </Typography>
       </StyledDrawer>
     </Box>
   );

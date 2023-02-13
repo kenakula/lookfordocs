@@ -10,6 +10,7 @@ import {
 } from '@/components';
 import { wrapper } from '@/stores';
 import {
+  getInsurances,
   getPopularSpecialtiesList,
   getServicesList,
   getSiteSettings,
@@ -23,6 +24,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const specialties = await store.dispatch(
     getPopularSpecialtiesList.initiate(),
   );
+  const insurances = await store.dispatch(getInsurances.initiate());
 
   await Promise.all(store.dispatch(getRunningMainPageQueries()));
   await Promise.all(store.dispatch(getRunningGlobalQueries()));
@@ -31,6 +33,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
     props: {
       services: services.data,
       specialties: specialties.data,
+      insurances: insurances.data,
       siteSettings: siteSettings.data,
     },
   };
@@ -39,6 +42,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
 export default function Home({
   services,
   specialties,
+  insurances,
   siteSettings,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   return (
@@ -51,7 +55,7 @@ export default function Home({
       <MainAppointment />
       <MainPopular specialties={specialties} />
       <MainServices services={services} />
-      <MainInsurances />
+      <MainInsurances insurances={insurances} />
     </Layout>
   );
 }
