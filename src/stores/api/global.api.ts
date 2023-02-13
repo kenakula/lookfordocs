@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { DIRECTUS_ITEMS_URL, SingletonResponse } from '../assets';
+import { SingletonResponse } from '../assets';
 import { ISiteSettings } from '@/shared/types';
 
 export const globalApi = createApi({
   reducerPath: 'globalApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: DIRECTUS_ITEMS_URL,
+    baseUrl: 'https://asw9h040.directus.app/items',
   }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
