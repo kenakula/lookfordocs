@@ -6,6 +6,7 @@ import { ThemeStoreProvider } from '@/stores/theme-store-provider';
 import { createEmotionCache } from '@/shared/assets';
 import { store } from '@/stores';
 import { Toaster } from '@/components';
+import '../styles/global.css';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

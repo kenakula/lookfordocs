@@ -3,10 +3,12 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { SingletonResponse } from '../assets';
 import { ISiteSettings } from '@/shared/types';
 
+const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
+
 export const globalApi = createApi({
   reducerPath: 'globalApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://asw9h040.directus.app/items',
+    baseUrl: DIRECTUS_ITEMS_URL,
   }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {

@@ -80,6 +80,7 @@ export const StyledNav = styled(Box)(({ theme }) => ({
     },
     '&:focus-visible': {
       outline: `4px solid ${theme.palette.primary.light}`,
+      backgroundColor: theme.palette.background.default,
     },
   },
   '.nav-link': {

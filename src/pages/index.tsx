@@ -2,11 +2,13 @@ import Head from 'next/head';
 import { InferGetStaticPropsType } from 'next';
 import {
   Layout,
+  MainAdvantages,
   MainAppointment,
   MainInsurances,
   MainPopular,
   MainPromo,
   MainServices,
+  MainTestimonials,
 } from '@/components';
 import { wrapper } from '@/stores';
 import {
@@ -14,6 +16,7 @@ import {
   getPopularSpecialtiesList,
   getServicesList,
   getSiteSettings,
+  getAdvantages,
 } from '@/stores/api';
 import getRunningMainPageQueries from '@/stores/api/main-page.api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
@@ -25,6 +28,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
     getPopularSpecialtiesList.initiate(),
   );
   const insurances = await store.dispatch(getInsurances.initiate());
+  const advantages = await store.dispatch(getAdvantages.initiate());
 
   await Promise.all(store.dispatch(getRunningMainPageQueries()));
   await Promise.all(store.dispatch(getRunningGlobalQueries()));
@@ -35,6 +39,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
       specialties: specialties.data,
       insurances: insurances.data,
       siteSettings: siteSettings.data,
+      advantages: advantages.data,
     },
   };
 });
@@ -44,6 +49,7 @@ export default function Home({
   specialties,
   insurances,
   siteSettings,
+  advantages,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   return (
     <Layout siteSettings={siteSettings}>
@@ -56,6 +62,8 @@ export default function Home({
       <MainPopular specialties={specialties} />
       <MainServices services={services} />
       <MainInsurances insurances={insurances} />
+      <MainAdvantages advantages={advantages} />
+      <MainTestimonials />
     </Layout>
   );
 }

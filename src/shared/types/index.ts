@@ -4,3 +4,5 @@ export * from './image.type';
 export * from './site-settings.type';
 export * from './main-service.type';
 export * from './specialty.type';
+export * from './insurance.type';
+export * from './advantage.type';

@@ -1,12 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { CollectionResponse } from '../assets';
-import { IMainService, ISpecialty, IInsurance } from '@/shared/types';
+import {
+  IMainService,
+  ISpecialty,
+  IInsurance,
+  IAdvantage,
+} from '@/shared/types';
+
+const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 
 export const mainPageApi = createApi({
   reducerPath: 'mainPageApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://asw9h040.directus.app/items',
+    baseUrl: DIRECTUS_ITEMS_URL,
   }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
@@ -52,6 +59,16 @@ export const mainPageApi = createApi({
       transformResponse: (response: CollectionResponse<IInsurance>) =>
         response.data,
     }),
+    getAdvantages: builder.query<IAdvantage[], void>({
+      query: () => ({
+        url: '/advantages',
+        params: {
+          fields: 'id, title, description, image.*',
+        },
+      }),
+      transformResponse: (response: CollectionResponse<IAdvantage>) =>
+        response.data,
+    }),
   }),
 });
 
@@ -60,6 +77,7 @@ export const {
   useGetSpecialtiesListQuery,
   useGetPopularSpecialtiesListQuery,
   useGetInsurancesQuery,
+  useGetAdvantagesQuery,
 } = mainPageApi;
 
 export const {
@@ -67,6 +85,7 @@ export const {
   getSpecialtiesList,
   getPopularSpecialtiesList,
   getInsurances,
+  getAdvantages,
 } = mainPageApi.endpoints;
 
 export default mainPageApi.util.getRunningQueriesThunk;
