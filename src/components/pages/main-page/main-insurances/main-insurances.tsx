@@ -1,7 +1,7 @@
-import { Container } from '@mui/material';
 import { CardsList, StyledInner } from './components';
 import { PageSection, Subtitle, Title } from '@/shared/assets';
 import { IInsurance } from '@/shared/types/insurance.type';
+import { ContainerComponent } from '@/components';
 
 interface Props {
   insurances?: IInsurance[];
@@ -10,7 +10,7 @@ interface Props {
 export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
   return (
     <PageSection bgColor="beje">
-      <Container>
+      <ContainerComponent>
         <StyledInner>
           <Title className="title" variant="h2" textAlign="center">
             Страховые компании
@@ -20,7 +20,7 @@ export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
           </Subtitle>
           <CardsList insurances={insurances} />
         </StyledInner>
-      </Container>
+      </ContainerComponent>
     </PageSection>
   );
 };

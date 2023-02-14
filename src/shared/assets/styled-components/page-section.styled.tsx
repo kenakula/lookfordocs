@@ -9,7 +9,7 @@ const StyledPageSection = styled(Box, {
 })<{ bgColor?: BgColor; shortBottom?: boolean }>(
   ({ theme, bgColor, shortBottom }) => {
     const color =
-      bgColor === 'beje' ? theme.palette.beje.main : theme.palette.misc.main;
+      bgColor === 'beje' ? theme.palette.alt.beje : theme.palette.alt.lightBlue;
 
     return {
       padding: theme.spacing(8, 0, 5),

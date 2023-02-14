@@ -1,3 +1,4 @@
+export * from './status.type';
 export * from './toaster.type';
 export * from './scroll-position';
 export * from './image.type';
@@ -6,3 +7,4 @@ export * from './main-service.type';
 export * from './specialty.type';
 export * from './insurance.type';
 export * from './advantage.type';
+export * from './testimonial.type';

@@ -15,7 +15,7 @@ interface Props {
   style?: SxProps;
 }
 
-export const Container = ({ children, style }: Props) => {
+export const ContainerComponent = ({ children, style }: Props) => {
   return (
     <StyledContainer sx={style} maxWidth="lg">
       {children}

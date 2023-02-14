@@ -1,7 +1,7 @@
 import { Typography, useMediaQuery } from '@mui/material';
 import { StyledInner } from './components';
 import { PageSection, Subtitle, Title } from '@/shared/assets';
-import { ButtonComponent, Container } from '@/components';
+import { ButtonComponent, ContainerComponent } from '@/components';
 import { useCustomTheme } from '@/stores/theme-store-provider';
 
 export const MainAppointment = (): JSX.Element => {
@@ -10,7 +10,7 @@ export const MainAppointment = (): JSX.Element => {
 
   return (
     <PageSection shortBottom>
-      <Container>
+      <ContainerComponent>
         <StyledInner>
           <Title className="title" variant="h2" minor textAlign="center">
             Не нашли подходящего врача? Запишитесь на{' '}
@@ -37,7 +37,7 @@ export const MainAppointment = (): JSX.Element => {
             text="Записаться"
           />
         </StyledInner>
-      </Container>
+      </ContainerComponent>
     </PageSection>
   );
 };

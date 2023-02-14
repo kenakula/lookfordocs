@@ -33,7 +33,7 @@ export const CardsList = ({ specialties }: Props): JSX.Element => {
   };
 
   const collapsedSize =
-    CARDS_COUNT_SHOW * CARD_HEIGHT + CARDS_COUNT_SHOW * (CARD_GAP + 3);
+    CARDS_COUNT_SHOW * CARD_HEIGHT + CARDS_COUNT_SHOW * CARD_GAP;
 
   return (
     <>

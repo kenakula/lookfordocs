@@ -1,6 +1,8 @@
+import { IStatus } from './status.type';
+
 export interface ISiteSettings {
   id: number;
-  status: string;
+  status: IStatus;
   user_created: string;
   date_created: Date;
   user_updated?: string;

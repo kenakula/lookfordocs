@@ -10,7 +10,6 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { IconMenu, IconSearch } from '../icons';
-import { Container } from '../container/container';
 import {
   DrawerComponent,
   HiddenToolbar,
@@ -19,7 +18,7 @@ import {
   StyledSearchButton,
   StyledToggler,
 } from './components';
-
+import { ContainerComponent } from '@/components';
 import { HOME_PAGE } from '@/shared/assets';
 import { useScroll } from '@/shared/hooks';
 import { INavigation } from '@/shared/types';
@@ -50,7 +49,7 @@ export const Header = ({ navigation }: Props): JSX.Element => {
     <>
       <Slide appear={false} direction="down" in={!trigger}>
         <StyledHeader isScrolled={pageScrolled}>
-          <Container>
+          <ContainerComponent>
             <Toolbar>
               <Link href={HOME_PAGE} className="logo">
                 <Typography variant="h5" component="span">
@@ -94,7 +93,7 @@ export const Header = ({ navigation }: Props): JSX.Element => {
                 <IconMenu />
               </StyledToggler>
             </Toolbar>
-          </Container>
+          </ContainerComponent>
         </StyledHeader>
       </Slide>
       <DrawerComponent

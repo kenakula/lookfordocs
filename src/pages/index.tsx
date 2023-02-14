@@ -17,6 +17,7 @@ import {
   getServicesList,
   getSiteSettings,
   getAdvantages,
+  getTestimonials,
 } from '@/stores/api';
 import getRunningMainPageQueries from '@/stores/api/main-page.api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
@@ -29,6 +30,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   );
   const insurances = await store.dispatch(getInsurances.initiate());
   const advantages = await store.dispatch(getAdvantages.initiate());
+  const testimonials = await store.dispatch(getTestimonials.initiate());
 
   await Promise.all(store.dispatch(getRunningMainPageQueries()));
   await Promise.all(store.dispatch(getRunningGlobalQueries()));
@@ -40,6 +42,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
       insurances: insurances.data,
       siteSettings: siteSettings.data,
       advantages: advantages.data,
+      testimonials: testimonials.data,
     },
   };
 });
@@ -50,6 +53,7 @@ export default function Home({
   insurances,
   siteSettings,
   advantages,
+  testimonials,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   return (
     <Layout siteSettings={siteSettings}>
@@ -63,7 +67,7 @@ export default function Home({
       <MainServices services={services} />
       <MainInsurances insurances={insurances} />
       <MainAdvantages advantages={advantages} />
-      <MainTestimonials />
+      <MainTestimonials testimonials={testimonials} />
     </Layout>
   );
 }

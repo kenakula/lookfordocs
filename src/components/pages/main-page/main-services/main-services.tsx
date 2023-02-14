@@ -1,8 +1,9 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { StyledInner, StyledList, StyledService } from './components';
 import { getImageUrl, PageSection, Title } from '@/shared/assets';
 import { IMainService } from '@/shared/types/main-service.type';
+import { ContainerComponent } from '@/components/container-component/container-component';
 
 interface Props {
   services?: IMainService[];
@@ -11,7 +12,7 @@ interface Props {
 export const MainServices = ({ services = [] }: Props): JSX.Element => {
   return (
     <PageSection>
-      <Container>
+      <ContainerComponent>
         <StyledInner>
           <Title className="title" variant="h2" textAlign="center">
             Услуги
@@ -42,7 +43,7 @@ export const MainServices = ({ services = [] }: Props): JSX.Element => {
             )}
           </StyledList>
         </StyledInner>
-      </Container>
+      </ContainerComponent>
     </PageSection>
   );
 };

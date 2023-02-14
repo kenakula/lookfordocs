@@ -7,7 +7,7 @@ import {
   StyledList,
   StyledListItem,
 } from './components';
-import { Container } from '@/components';
+import { ContainerComponent } from '@/components';
 import { getImageUrl, PageSection, Title } from '@/shared/assets';
 import { IAdvantage } from '@/shared/types';
 
@@ -18,7 +18,7 @@ interface Props {
 export const MainAdvantages = ({ advantages = [] }: Props): JSX.Element => {
   return (
     <PageSection>
-      <Container>
+      <ContainerComponent>
         <StyledInner>
           <Title className="title" textAlign="center" variant="h2">
             Почему нас выбирают?
@@ -47,7 +47,7 @@ export const MainAdvantages = ({ advantages = [] }: Props): JSX.Element => {
             ))}
           </StyledList>
         </StyledInner>
-      </Container>
+      </ContainerComponent>
     </PageSection>
   );
 };

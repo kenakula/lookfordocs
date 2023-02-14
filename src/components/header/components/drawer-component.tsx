@@ -9,7 +9,7 @@ import {
 import Link from 'next/link';
 import React from 'react';
 import { StyledDrawer, StyledSocials } from './styled-components';
-import { Container } from '@/components';
+import { ContainerComponent } from '@/components';
 import {
   IconClose,
   IconEmail,
@@ -40,14 +40,14 @@ export const DrawerComponent = ({
           keepMounted: true,
         }}
       >
-        <Container>
+        <ContainerComponent>
           <Typography variant="h6" component="p">
             LogoLogo
           </Typography>
           <IconButton onClick={closeDrawer}>
             <IconClose />
           </IconButton>
-        </Container>
+        </ContainerComponent>
         <List>
           {navigation.map(({ name, url, isAccent }) =>
             isAccent ? (

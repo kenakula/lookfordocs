@@ -48,14 +48,6 @@ export const StyledCard = styled('li', {
 })<{ minHeight: number }>(({ theme, minHeight }) => ({
   borderRadius: theme.shape.borderRadius,
 
-  '&:focus-within': {
-    outline: `4px solid ${theme.palette.primary.light}`,
-
-    '.MuiLink-root:active': {
-      borderColor: 'transparent',
-    },
-  },
-
   '.MuiTypography-h3': {
     marginBottom: 'auto',
     fontSize: theme.typography.pxToRem(18),
@@ -96,6 +88,16 @@ export const StyledCard = styled('li', {
   [theme.breakpoints.up('md')]: {
     '.MuiLink-root': {
       minHeight: 122,
+    },
+  },
+
+  [theme.breakpoints.up('lg')]: {
+    '&:focus-within': {
+      outline: `4px solid ${theme.palette.primary.light}`,
+
+      '.MuiLink-root:active': {
+        borderColor: 'transparent',
+      },
     },
   },
 }));

@@ -6,11 +6,11 @@ import { LOCAL_STORAGE_THEME_KEY } from '@/shared/assets';
 
 declare module '@mui/material/styles' {
   interface Palette {
-    beje: Palette['primary'];
+    alt: { beje: string; lightBlue: string };
     misc: Palette['primary'];
   }
   interface PaletteOptions {
-    beje: PaletteOptions['primary'];
+    alt: { beje: string; lightBlue: string };
     misc: PaletteOptions['primary'];
   }
   interface BreakpointOverrides {
@@ -85,8 +85,9 @@ export const ThemeStoreProvider = ({ children }: Props): JSX.Element => {
           background: {
             default: '#ffffff',
           },
-          beje: {
-            main: '#FCF7F3',
+          alt: {
+            beje: '#FCF7F3',
+            lightBlue: '#EEFAFB',
           },
           misc: {
             main: '#F0FBFB',

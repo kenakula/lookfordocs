@@ -12,7 +12,7 @@ import {
   StyledSearchButton,
 } from './components';
 import { Becas, Subtitle, Title } from '@/shared/assets';
-import { Container } from '@/components';
+import { ContainerComponent } from '@/components';
 import { IconClose, IconSearch } from '@/components/icons';
 
 export const MainPromo = (): JSX.Element => {
@@ -30,7 +30,7 @@ export const MainPromo = (): JSX.Element => {
 
   return (
     <StyledPromoSection component="section" className="main-promo">
-      <Container>
+      <ContainerComponent>
         <Title className="title" variant="h2">
           Поиск лучших{' '}
           <Typography component="span" className="highlighted">
@@ -75,7 +75,7 @@ export const MainPromo = (): JSX.Element => {
             Найти
           </StyledSearchButton>
         </StyledSearchBox>
-      </Container>
+      </ContainerComponent>
     </StyledPromoSection>
   );
 };

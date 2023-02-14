@@ -6,6 +6,7 @@ import {
   ISpecialty,
   IInsurance,
   IAdvantage,
+  ITestimonial,
 } from '@/shared/types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
@@ -69,6 +70,16 @@ export const mainPageApi = createApi({
       transformResponse: (response: CollectionResponse<IAdvantage>) =>
         response.data,
     }),
+    getTestimonials: builder.query<ITestimonial[], void>({
+      query: () => ({
+        url: '/testimonials',
+        params: {
+          fields: 'id, type, text, author, title, subtitle, date, image.*',
+        },
+      }),
+      transformResponse: (response: CollectionResponse<ITestimonial>) =>
+        response.data,
+    }),
   }),
 });
 
@@ -78,6 +89,7 @@ export const {
   useGetPopularSpecialtiesListQuery,
   useGetInsurancesQuery,
   useGetAdvantagesQuery,
+  useGetTestimonialsQuery,
 } = mainPageApi;
 
 export const {
@@ -86,6 +98,7 @@ export const {
   getPopularSpecialtiesList,
   getInsurances,
   getAdvantages,
+  getTestimonials,
 } = mainPageApi.endpoints;
 
 export default mainPageApi.util.getRunningQueriesThunk;
