@@ -1,6 +1,8 @@
 import { IImage } from './image.type';
 import { IStatus } from './status.type';
 
+export type SocialType = 'email' | 'telegram' | 'watsapp';
+
 export interface ISiteSettings {
   id: number;
   status: IStatus;
@@ -9,7 +11,7 @@ export interface ISiteSettings {
   user_updated?: string;
   date_updated?: Date;
   navigation: INavigation[];
-  ooterLinks: IFooterLink[];
+  footerLinks: IFooterLink[];
   socials: ISocial[];
   copyrights: string;
   documents: IDocumentLink[];
@@ -28,7 +30,7 @@ export interface IFooterLink {
 }
 
 export interface ISocial {
-  type: string;
+  type: SocialType;
   label: string;
   link: string;
 }

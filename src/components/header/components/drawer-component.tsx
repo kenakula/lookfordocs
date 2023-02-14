@@ -11,18 +11,20 @@ import React from 'react';
 import { StyledDrawer, StyledSocials } from './styled-components';
 import { ContainerComponent, Socials } from '@/components';
 import { IconClose } from '@/components/icons';
-import { INavigation } from '@/shared/types';
+import { INavigation, ISocial } from '@/shared/types';
 
 interface Props {
   closeDrawer: () => void;
   openState: boolean;
   navigation: INavigation[];
+  socials: ISocial[];
 }
 
 export const DrawerComponent = ({
   closeDrawer,
   openState,
   navigation,
+  socials,
 }: Props): JSX.Element => {
   return (
     <Box component="nav">
@@ -66,7 +68,7 @@ export const DrawerComponent = ({
           )}
         </List>
         <StyledSocials>
-          <Socials />
+          <Socials socials={socials} />
         </StyledSocials>
         <Typography variant="caption" className="copyrights">
           © 2021 LLC &quot;InfoService Group&quot; PSRN 1127847488944

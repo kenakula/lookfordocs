@@ -1,11 +1,5 @@
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  Slide,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { List, ListItem, ListItemButton, Slide, Toolbar } from '@mui/material';
+import Image from 'next/image';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -19,15 +13,17 @@ import {
   StyledToggler,
 } from './components';
 import { ContainerComponent } from '@/components';
-import { HOME_PAGE } from '@/shared/assets';
+import { getImageUrl, HOME_PAGE } from '@/shared/assets';
 import { useScroll } from '@/shared/hooks';
-import { INavigation } from '@/shared/types';
+import { ISiteSettings } from '@/shared/types';
 
 interface Props {
-  navigation: INavigation[];
+  siteSettings: ISiteSettings;
 }
 
-export const Header = ({ navigation }: Props): JSX.Element => {
+export const Header = ({
+  siteSettings: { navigation, logo, socials },
+}: Props): JSX.Element => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const position = useScroll(200);
   const [pageScrolled, setPageScrolled] = useState<boolean>(false);
@@ -52,9 +48,12 @@ export const Header = ({ navigation }: Props): JSX.Element => {
           <ContainerComponent>
             <Toolbar>
               <Link href={HOME_PAGE} className="logo">
-                <Typography variant="h5" component="span">
-                  LogoLogo
-                </Typography>
+                <Image
+                  src={getImageUrl(logo.id, 'logo')}
+                  width="115"
+                  height="33"
+                  alt="логотип сайта"
+                />
               </Link>
               <StyledNav component="nav">
                 <List>
@@ -100,6 +99,7 @@ export const Header = ({ navigation }: Props): JSX.Element => {
         navigation={navigation}
         openState={mobileOpen}
         closeDrawer={closeDrawer}
+        socials={socials}
       />
       <HiddenToolbar />
     </>

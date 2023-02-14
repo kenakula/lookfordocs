@@ -18,7 +18,12 @@ declare module '@mui/material/styles' {
   }
 }
 
-const rubik = Rubik({ subsets: ['cyrillic-ext'] });
+export const rubik = Rubik({
+  subsets: ['cyrillic', 'latin'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  fallback: ['Arial', 'sans-serif'],
+  display: 'swap',
+});
 
 type ContextProps = {
   mode: PaletteMode;

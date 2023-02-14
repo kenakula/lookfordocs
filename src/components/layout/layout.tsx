@@ -9,12 +9,11 @@ interface Props {
 }
 
 export const Layout = ({ children, siteSettings }: Props) => {
-  console.log('siteSettings:', siteSettings);
   return (
     <>
-      {siteSettings && <Header navigation={siteSettings.navigation} />}
+      {siteSettings && <Header siteSettings={siteSettings} />}
       <main>{children}</main>
-      <Footer />
+      {siteSettings && <Footer siteSettings={siteSettings} />}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { IconButton, styled } from '@mui/material';
 import Link from 'next/link';
 import { IconEmail, IconWatsapp, IconTelegram } from '../icons';
+import { ISocial, SocialType } from '@/shared/types';
 
 const StyledSocials = styled('ul', {
   shouldForwardProp: prop => prop !== 'dense',
@@ -25,21 +26,32 @@ const StyledSocials = styled('ul', {
 }));
 
 interface Props {
+  socials: ISocial[];
   dense?: boolean;
 }
 
-export const Socials = ({ dense }: Props): JSX.Element => {
+export const getSocialIcon = (type: SocialType): JSX.Element | null => {
+  switch (type) {
+    case 'email':
+      return <IconEmail />;
+    case 'telegram':
+      return <IconTelegram />;
+    case 'watsapp':
+      return <IconWatsapp />;
+    default:
+      return null;
+  }
+};
+
+export const Socials = ({ dense, socials }: Props): JSX.Element => {
   return (
     <StyledSocials dense={dense}>
-      <IconButton component={Link} href="mailto:ololo@mail.ru">
-        <IconEmail />
-      </IconButton>
-      <IconButton component={Link} href="wp:ololo@mail.ru">
-        <IconWatsapp />
-      </IconButton>
-      <IconButton component={Link} href="tg:ololo@mail.ru">
-        <IconTelegram />
-      </IconButton>
+      {socials.map(({ label, link, type }) => (
+        <IconButton key={label} component={Link} href={link}>
+          <span className="visually-hidden">{label}</span>
+          {getSocialIcon(type)}
+        </IconButton>
+      ))}
     </StyledSocials>
   );
 };

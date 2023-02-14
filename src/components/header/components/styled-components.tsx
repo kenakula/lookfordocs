@@ -7,6 +7,7 @@ import {
   styled,
   Toolbar,
 } from '@mui/material';
+import { getTypography } from '@/shared/assets';
 
 export const StyledHeader = styled(AppBar, {
   shouldForwardProp: prop => prop !== 'isScrolled',
@@ -20,8 +21,6 @@ export const StyledHeader = styled(AppBar, {
     padding: 0,
   },
   '.logo': {
-    color: theme.palette.text.primary,
-    textDecoration: 'none',
     marginRight: 'auto',
   },
   [theme.breakpoints.up('lg')]: {
@@ -84,18 +83,21 @@ export const StyledNav = styled(Box)(({ theme }) => ({
     },
   },
   '.nav-link': {
+    ...getTypography(theme, 16, 20),
     color: theme.palette.text.primary,
     textDecoration: 'none',
     whiteSpace: 'nowrap',
-    fontSize: 16,
     transition: theme.transitions.create('color'),
+
     '&:hover': {
       color: theme.palette.primary.main,
     },
+
     '&:active': {
       color: theme.palette.primary.dark,
     },
-    '&:focus': {
+
+    '&:focus-visible': {
       color: theme.palette.primary.main,
       textDecoration: 'underline',
       outline: 'none',

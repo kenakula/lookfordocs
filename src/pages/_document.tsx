@@ -3,11 +3,12 @@ import * as React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import { createEmotionCache } from '@/shared/assets';
+import { rubik } from '@/stores/theme-store-provider';
 
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" className={rubik.className}>
         <Head>
           {/* PWA primary color */}
           <meta name="emotion-insertion-point" content="" />

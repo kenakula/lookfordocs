@@ -69,14 +69,16 @@ export const StyledInner = styled(Box)(({ theme }) => ({
       backgroundColor: theme.palette.primary.main,
     },
 
-    '.swiper-pagination-bullet-active-next': {
-      transform: 'scale(1)',
-    },
+    '.swiper-pagination-bullet-active-next, .swiper-pagination-bullet-active-prev':
+      {
+        transform: 'scale(1)',
+      },
 
-    '.swiper-pagination-bullet-active-next-next': {
-      transform: 'scale(0.66)',
-      opacity: 0.6,
-    },
+    '.swiper-pagination-bullet-active-next-next, .swiper-pagination-bullet-active-prev-prev':
+      {
+        transform: 'scale(0.66)',
+        opacity: 0.6,
+      },
 
     [theme.breakpoints.up('xl')]: {
       display: 'none',
