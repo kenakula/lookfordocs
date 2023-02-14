@@ -1,3 +1,4 @@
+import { IImage } from './image.type';
 import { IStatus } from './status.type';
 
 export interface ISiteSettings {
@@ -8,10 +9,31 @@ export interface ISiteSettings {
   user_updated?: string;
   date_updated?: Date;
   navigation: INavigation[];
+  ooterLinks: IFooterLink[];
+  socials: ISocial[];
+  copyrights: string;
+  documents: IDocumentLink[];
+  logo: IImage;
 }
 
 export interface INavigation {
   name: string;
   url: string;
   isAccent: boolean;
+}
+
+export interface IFooterLink {
+  name: string;
+  url: string;
+}
+
+export interface ISocial {
+  type: string;
+  label: string;
+  link: string;
+}
+
+export interface IDocumentLink {
+  name: string;
+  url: string;
 }

@@ -9,13 +9,8 @@ import {
 import Link from 'next/link';
 import React from 'react';
 import { StyledDrawer, StyledSocials } from './styled-components';
-import { ContainerComponent } from '@/components';
-import {
-  IconClose,
-  IconEmail,
-  IconTelegram,
-  IconWatsapp,
-} from '@/components/icons';
+import { ContainerComponent, Socials } from '@/components';
+import { IconClose } from '@/components/icons';
 import { INavigation } from '@/shared/types';
 
 interface Props {
@@ -71,15 +66,7 @@ export const DrawerComponent = ({
           )}
         </List>
         <StyledSocials>
-          <IconButton component={Link} href="mailto:ololo@mail.ru">
-            <IconEmail />
-          </IconButton>
-          <IconButton component={Link} href="wp:ololo@mail.ru">
-            <IconWatsapp />
-          </IconButton>
-          <IconButton component={Link} href="tg:ololo@mail.ru">
-            <IconTelegram />
-          </IconButton>
+          <Socials />
         </StyledSocials>
         <Typography variant="caption" className="copyrights">
           © 2021 LLC &quot;InfoService Group&quot; PSRN 1127847488944

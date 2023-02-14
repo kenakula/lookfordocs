@@ -18,7 +18,13 @@ export const globalApi = createApi({
   tagTypes: [],
   endpoints: builder => ({
     getSiteSettings: builder.query<ISiteSettings, void>({
-      query: () => '/site_settings',
+      query: () => ({
+        url: '/site_settings',
+        params: {
+          fields:
+            'logo.*, documents, copyrights, socials, footerLinks, navigation',
+        },
+      }),
       transformResponse: (response: SingletonResponse<ISiteSettings>) =>
         response.data,
     }),

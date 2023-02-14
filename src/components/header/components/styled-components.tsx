@@ -195,22 +195,7 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   },
 }));
 
-export const StyledSocials = styled('ul')(({ theme }) => ({
-  listStyle: 'none',
+export const StyledSocials = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0, 2),
   margin: theme.spacing(4, 0, 'auto', 0),
-  display: 'flex',
-  justifyContent: 'center',
-
-  '.MuiIconButton-root': {
-    marginRight: theme.spacing(1.5),
-
-    '&:last-child': {
-      marginRight: 0,
-    },
-  },
-
-  svg: {
-    fill: theme.palette.primary.main,
-  },
 }));
