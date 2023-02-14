@@ -29,9 +29,10 @@ export const StyledListItem = styled('li')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     display: 'flex',
     maxWidth: '100%',
-    marginBottom: 140,
+    marginBottom: 160,
+    paddingBottom: 0,
 
-    '&:nth-child(odd)': {
+    '&:nth-of-type(odd)': {
       '.image-container': {
         order: 1,
       },

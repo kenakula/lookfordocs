@@ -22,6 +22,7 @@ export const StyledList = styled('ul', {
 })<{ gap: number }>(({ gap, theme }) => ({
   display: 'grid',
   rowGap: gap,
+  margin: 0,
   padding: theme.spacing(0, 2),
   listStyle: 'none',
 

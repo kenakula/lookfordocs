@@ -9,7 +9,7 @@ interface Props {
 
 export const MainPopular = ({ specialties = [] }: Props) => {
   return (
-    <PageSection>
+    <PageSection shortBottom>
       <Container>
         <StyledInner>
           <Title className="title" variant="h2" minor>

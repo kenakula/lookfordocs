@@ -54,4 +54,8 @@ export const StyledService = styled('li')(({ theme }) => ({
       objectFit: 'cover',
     },
   },
+
+  [theme.breakpoints.up('lg')]: {
+    paddingBottom: 0,
+  },
 }));

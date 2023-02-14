@@ -69,6 +69,10 @@ export const StyledButtonContainer = styled(Box)(({ theme }) => ({
       },
     },
   },
+
+  [theme.breakpoints.up('lg')]: {
+    marginTop: theme.spacing(5),
+  },
 }));
 
 export const StyledCard = styled('li', {

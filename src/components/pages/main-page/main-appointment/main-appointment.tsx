@@ -9,7 +9,7 @@ export const MainAppointment = (): JSX.Element => {
   const matches = useMediaQuery(theme ? theme.breakpoints.up('lg') : '');
 
   return (
-    <PageSection>
+    <PageSection shortBottom>
       <Container>
         <StyledInner>
           <Title className="title" variant="h2" minor textAlign="center">
