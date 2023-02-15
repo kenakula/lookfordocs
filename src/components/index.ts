@@ -6,3 +6,4 @@ export * from './pages/main-page';
 export * from './button-component/button-component';
 export * from './user-avatar/user-avatar';
 export * from './socials/socials';
+export * from './smart-search/smart-search';

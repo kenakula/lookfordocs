@@ -9,6 +9,7 @@ import {
   MainPromo,
   MainServices,
   MainTestimonials,
+  SmartSearch,
 } from '@/components';
 import { wrapper } from '@/stores';
 import {
@@ -68,6 +69,7 @@ export default function Home({
       <MainInsurances insurances={insurances} />
       <MainAdvantages advantages={advantages} />
       <MainTestimonials testimonials={testimonials} />
+      <SmartSearch />
     </Layout>
   );
 }

@@ -16,6 +16,7 @@ import { ContainerComponent } from '@/components';
 import { getImageUrl, HOME_PAGE } from '@/shared/assets';
 import { useScroll } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
+import { openSmartSearch, useAppDispatch } from '@/stores';
 
 interface Props {
   siteSettings: ISiteSettings;
@@ -28,10 +29,15 @@ export const Header = ({
   const position = useScroll(200);
   const [pageScrolled, setPageScrolled] = useState<boolean>(false);
   const trigger = useScrollTrigger();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setPageScrolled(position.position.y > 0);
   }, [position.position]);
+
+  const openSmartSearchBox = (): void => {
+    dispatch(openSmartSearch());
+  };
 
   const openDrawer = (): void => {
     setMobileOpen(true);
@@ -44,7 +50,10 @@ export const Header = ({
   return (
     <>
       <Slide appear={false} direction="down" in={!trigger}>
-        <StyledHeader isScrolled={pageScrolled}>
+        <StyledHeader
+          isScrolled={pageScrolled}
+          style={{ visibility: 'visible' }}
+        >
           <ContainerComponent>
             <Toolbar>
               <Link href={HOME_PAGE} className="logo">
@@ -80,7 +89,7 @@ export const Header = ({
                 </List>
               </StyledNav>
               {/* TODO not on main page */}
-              <StyledSearchButton>
+              <StyledSearchButton onClick={openSmartSearchBox}>
                 <IconSearch />
               </StyledSearchButton>
               <StyledToggler

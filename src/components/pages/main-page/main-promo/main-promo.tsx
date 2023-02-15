@@ -14,9 +14,11 @@ import {
 import { Becas, Subtitle, Title } from '@/shared/assets';
 import { ContainerComponent } from '@/components';
 import { IconClose, IconSearch } from '@/components/icons';
+import { openSmartSearch, useAppDispatch } from '@/stores';
 
 export const MainPromo = (): JSX.Element => {
   const [searchInputValue, setSearchInputValue] = useState('');
+  const dispatch = useAppDispatch();
 
   const onInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -26,6 +28,11 @@ export const MainPromo = (): JSX.Element => {
 
   const clearInput = (): void => {
     setSearchInputValue('');
+  };
+
+  const onInputFocus = (e: React.FocusEvent<HTMLInputElement>): void => {
+    dispatch(openSmartSearch());
+    e.target.blur();
   };
 
   return (
@@ -50,13 +57,11 @@ export const MainPromo = (): JSX.Element => {
               fullWidth
               onChange={onInputChange}
               value={searchInputValue}
+              onFocus={onInputFocus}
               endAdornment={
                 searchInputValue.length ? (
                   <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={clearInput}
-                    >
+                    <IconButton aria-label="очистить" onClick={clearInput}>
                       <IconClose />
                     </IconButton>
                   </InputAdornment>

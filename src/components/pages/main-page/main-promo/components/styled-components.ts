@@ -47,7 +47,7 @@ export const StyledSearchBox = styled(Box)(({ theme }) => ({
     paddingRight: theme.spacing(1),
     minHeight: theme.spacing(7),
     backgroundColor: theme.palette.background.default,
-    boxShadow: `0px 12px 24px ${alpha('#071430', 0.04)}`,
+    boxShadow: `0px 12px 24px ${alpha(theme.palette.text.primary, 0.04)}`,
     borderRadius: theme.shape.borderRadius,
     cursor: 'pointer',
 

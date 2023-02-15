@@ -106,6 +106,12 @@ export const StyledCard = styled('li', {
   [theme.breakpoints.up('lg')]: {
     border: `1px solid transparent`,
 
+    '.MuiLink-root': {
+      img: {
+        width: 160,
+      },
+    },
+
     '&:hover': {
       boxShadow: `0px 8px 16px ${alpha(theme.palette.text.primary, 0.08)}`,
     },

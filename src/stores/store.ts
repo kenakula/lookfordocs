@@ -2,12 +2,13 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { globalApi, mainPageApi } from './api';
-import { toasterReducer } from './slices';
+import { toasterReducer, smartSearchReducer } from './slices';
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       toaster: toasterReducer,
+      smartSearch: smartSearchReducer,
       [mainPageApi.reducerPath]: mainPageApi.reducer,
       [globalApi.reducerPath]: globalApi.reducer,
     },
