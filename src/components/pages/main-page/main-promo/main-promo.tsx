@@ -6,7 +6,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyledPromoSection,
   StyledSearchBox,
@@ -15,11 +15,18 @@ import {
 import { Becas, Subtitle, Title } from '@/shared/assets';
 import { ContainerComponent, SmartSearchDialog } from '@/components';
 import { IconClose, IconSearch } from '@/components/icons';
-import { closeSmartSearch, openSmartSearch, useAppDispatch } from '@/stores';
+import {
+  closeSmartSearch,
+  openSmartSearch,
+  searchFieldClear,
+  searchFieldInput,
+  useAppDispatch,
+  useAppSelector,
+} from '@/stores';
 import { useCustomTheme } from '@/stores/theme-store-provider';
 
 export const MainPromo = (): JSX.Element => {
-  const [searchInputValue, setSearchInputValue] = useState('');
+  const { searchStr } = useAppSelector(state => state.smartSearch);
   const dispatch = useAppDispatch();
   const { theme } = useCustomTheme();
   const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
@@ -27,11 +34,11 @@ export const MainPromo = (): JSX.Element => {
   const onInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
-    setSearchInputValue(e.target.value);
+    dispatch(searchFieldInput(e.target.value));
   };
 
   const clearInput = (): void => {
-    setSearchInputValue('');
+    dispatch(searchFieldClear());
   };
 
   const onInputFocus = (e: React.FocusEvent<HTMLInputElement>): void => {
@@ -69,11 +76,11 @@ export const MainPromo = (): JSX.Element => {
               placeholder="Врача, клиника и услуга"
               fullWidth
               onChange={onInputChange}
-              value={searchInputValue}
+              value={searchStr}
               onFocus={onInputFocus}
               onBlur={onInputBlur}
               endAdornment={
-                searchInputValue.length ? (
+                searchStr.length ? (
                   <InputAdornment position="end">
                     <IconButton aria-label="очистить" onClick={clearInput}>
                       <IconClose />

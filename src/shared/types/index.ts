@@ -8,3 +8,5 @@ export * from './specialty.type';
 export * from './insurance.type';
 export * from './advantage.type';
 export * from './testimonial.type';
+export * from './doctor.type';
+export * from './contact.type';

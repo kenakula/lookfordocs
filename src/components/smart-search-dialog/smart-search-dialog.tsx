@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Box,
   Fade,
@@ -15,16 +15,23 @@ import {
   StyledDialogHeader,
 } from './components';
 import { useCloseOnMainPageTablet, useFullscreenMode } from './hooks';
-import { closeSmartSearch, useAppDispatch, useAppSelector } from '@/stores';
+import {
+  closeSmartSearch,
+  searchFieldClear,
+  searchFieldInput,
+  smartSearch,
+  useAppDispatch,
+  useAppSelector,
+} from '@/stores';
 import { useCustomTheme } from '@/stores/theme-store-provider';
+import { useDebounce } from '@/shared/hooks';
 
 interface Props {
   isMainPage: boolean;
 }
 
 export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
-  const { opened } = useAppSelector(state => state.smartSearch);
-  const [searchInputValue, setSearchInputValue] = useState('');
+  const { opened, searchStr } = useAppSelector(state => state.smartSearch);
   const dispatch = useAppDispatch();
   const { theme } = useCustomTheme();
   const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
@@ -32,15 +39,22 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
   const fullScreenMode = (isMainPage && !isTablet) || !isMainPage;
   useFullscreenMode(opened, isTablet, fullScreenMode, inputRef);
   useCloseOnMainPageTablet(fullScreenMode);
+  const debouncedValue = useDebounce(searchStr, 200);
+
+  useEffect(() => {
+    if (debouncedValue.length > 1) {
+      dispatch(smartSearch(debouncedValue));
+    }
+  }, [debouncedValue, dispatch]);
 
   const onInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
-    setSearchInputValue(e.target.value);
+    dispatch(searchFieldInput(e.target.value));
   };
 
   const clearInput = (): void => {
-    setSearchInputValue('');
+    dispatch(searchFieldClear());
   };
 
   const handleClose = (): void => {
@@ -65,9 +79,9 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
                 placeholder="Врача, клиника и услуга"
                 fullWidth
                 onChange={onInputChange}
-                value={searchInputValue}
+                value={searchStr}
                 endAdornment={
-                  searchInputValue.length ? (
+                  searchStr.length ? (
                     <InputAdornment position="end">
                       <IconButton aria-label="очистить" onClick={clearInput}>
                         <IconClose />
