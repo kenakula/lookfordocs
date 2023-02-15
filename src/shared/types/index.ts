@@ -10,3 +10,5 @@ export * from './advantage.type';
 export * from './testimonial.type';
 export * from './doctor.type';
 export * from './contact.type';
+export * from './clinic.type';
+export * from './smart-search.type';

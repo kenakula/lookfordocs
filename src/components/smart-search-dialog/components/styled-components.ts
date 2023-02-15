@@ -61,9 +61,4 @@ export const StyledDialogHeader = styled(Box)(({ theme }) => ({
 
 export const StyledDialogBody = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0, 0, 3),
-
-  '& > .MuiTypography-caption': {
-    ...getTypography(theme, 16, 20),
-    color: theme.palette.text.secondary,
-  },
 }));

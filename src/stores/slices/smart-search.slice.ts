@@ -1,52 +1,102 @@
+import axios from 'axios';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { axiosClient, AxiosResponse } from '../assets';
-import { IDoctor, ISpecialty } from '@/shared/types';
+import {
+  IClinic,
+  IDoctor,
+  IInsurance,
+  ISmartSearchResult,
+  ISpecialty,
+  SmartSearchStatus,
+} from '@/shared/types';
+
+type DirectusError = {
+  message: string;
+};
 
 interface SmartSearchState {
   opened: boolean;
   searchStr: string;
-  searchState: 'pending' | 'not-found' | 'idle';
+  searchStatus: SmartSearchStatus;
+  errorMessage: string;
+  result: ISmartSearchResult | null;
 }
 
 const initialState: SmartSearchState = {
   opened: false,
   searchStr: '',
-  searchState: 'idle',
+  searchStatus: 'idle',
+  errorMessage: '',
+  result: null,
 };
 
-export interface SearchResult {
-  specialties: ISpecialty[];
-  doctors: IDoctor[];
-}
+export const smartSearch = createAsyncThunk<
+  ISmartSearchResult | undefined,
+  string,
+  { rejectValue: DirectusError }
+>('smart-search/search', async (value: string, thunkApi) => {
+  try {
+    const specialtiesResponse = await axiosClient.get<
+      AxiosResponse<ISpecialty[]>
+    >('/specialties', {
+      params: {
+        search: value,
+        fields: 'id,title',
+      },
+    });
 
-export const smartSearch = createAsyncThunk<SearchResult | undefined, string>(
-  'smart-search/search',
-  async (value: string, thunkApi) => {
-    try {
-      const specialtiesResponse = await axiosClient.get<
-        AxiosResponse<ISpecialty[]>
-      >('/specialties', {
+    const docsResponse = await axiosClient.get<AxiosResponse<IDoctor[]>>(
+      '/doctors',
+      {
         params: {
-          search: value,
+          search: value.toLowerCase(),
+          fields: 'id,firstName,lastName,image.*',
         },
-      });
+      },
+    );
 
-      const doctorsResponse = await axiosClient.get<AxiosResponse<IDoctor[]>>(
-        `/doctors?filter={"first_name":{"_contains": "${value}"}}`,
-      );
+    const clinicsResponse = await axiosClient.get<AxiosResponse<IClinic[]>>(
+      '/clinics',
+      {
+        params: {
+          search: value.toLowerCase(),
+          fields: 'id,name,image.*',
+        },
+      },
+    );
 
-      const specialties = specialtiesResponse.data.data;
-      const doctors = doctorsResponse.data.data;
+    const insurancesResponse = await axiosClient.get<
+      AxiosResponse<IInsurance[]>
+    >('/insurances', {
+      params: {
+        search: value.toLowerCase(),
+        fields: 'id,name,image.*',
+      },
+    });
 
-      return {
-        specialties,
-        doctors,
+    const specialties = specialtiesResponse.data.data;
+    const doctors = docsResponse.data.data;
+    const clinics = clinicsResponse.data.data;
+    const insurances = insurancesResponse.data.data;
+
+    return {
+      specialties,
+      doctors,
+      clinics,
+      insurances,
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data as {
+        errors: { message: string }[];
       };
-    } catch (error) {
-      thunkApi.rejectWithValue(error);
+
+      return thunkApi.rejectWithValue(errorData.errors[0]);
+    } else {
+      throw new Error('error occured on fetch data');
     }
-  },
-);
+  }
+});
 
 export const smartSearchSlice = createSlice({
   name: 'smartSearch',
@@ -60,18 +110,37 @@ export const smartSearchSlice = createSlice({
     },
     searchFieldInput: (state, { payload }: PayloadAction<string>) => {
       state.searchStr = payload;
+
+      if (!payload.length) {
+        state.searchStatus = 'idle';
+        state.result = null;
+      }
     },
     searchFieldClear: state => {
       state.searchStr = '';
+      state.searchStatus = 'idle';
+      state.result = null;
     },
   },
   extraReducers: builder => {
     builder
       .addCase(smartSearch.pending, state => {
-        state.searchState = 'pending';
+        state.result = null;
+        state.searchStatus = 'pending';
       })
       .addCase(smartSearch.fulfilled, (state, { payload }) => {
-        console.error('search result:', payload);
+        state.searchStatus = 'success';
+        state.result = {
+          specialties: payload?.specialties,
+          clinics: payload?.clinics,
+          doctors: payload?.doctors,
+          insurances: payload?.insurances,
+        };
+      })
+      .addCase(smartSearch.rejected, (state, { payload }) => {
+        console.error('error: ', payload?.message);
+        state.searchStatus = 'error';
+        state.errorMessage = payload ? payload.message : '';
       });
   },
 });

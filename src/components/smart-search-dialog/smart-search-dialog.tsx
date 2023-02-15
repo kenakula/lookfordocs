@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { IconClose, IconSearch } from '../icons';
 import {
+  SearchResult,
   StyledDialog,
   StyledDialogBody,
   StyledDialogHeader,
@@ -31,7 +32,8 @@ interface Props {
 }
 
 export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
-  const { opened, searchStr } = useAppSelector(state => state.smartSearch);
+  const { opened, searchStr, searchStatus, errorMessage, result } =
+    useAppSelector(state => state.smartSearch);
   const dispatch = useAppDispatch();
   const { theme } = useCustomTheme();
   const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
@@ -94,9 +96,11 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
           </>
         )}
         <StyledDialogBody>
-          <Typography variant="caption">
-            Начните вводить поисковый запрос ...
-          </Typography>
+          <SearchResult
+            searchStatus={searchStatus}
+            result={result}
+            errorMessage={errorMessage}
+          />
         </StyledDialogBody>
       </StyledDialog>
     </Fade>

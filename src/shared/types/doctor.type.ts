@@ -1,4 +1,5 @@
 import { IContact } from './contact.type';
+import { IImage } from './image.type';
 
 export interface IDoctor {
   id: string;
@@ -9,6 +10,7 @@ export interface IDoctor {
   date_updated: Date;
   description?: string;
   contacts?: IContact[];
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
+  image: IImage;
 }
