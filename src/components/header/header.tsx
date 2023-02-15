@@ -20,16 +20,20 @@ import { openSmartSearch, useAppDispatch } from '@/stores';
 
 interface Props {
   siteSettings: ISiteSettings;
+  isMainPage: boolean;
 }
 
 export const Header = ({
   siteSettings: { navigation, logo, socials },
+  isMainPage,
 }: Props): JSX.Element => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const position = useScroll(200);
   const [pageScrolled, setPageScrolled] = useState<boolean>(false);
   const trigger = useScrollTrigger();
   const dispatch = useAppDispatch();
+  const showSearchButton =
+    !isMainPage || (isMainPage && !trigger && pageScrolled);
 
   useEffect(() => {
     setPageScrolled(position.position.y > 0);
@@ -88,10 +92,11 @@ export const Header = ({
                   )}
                 </List>
               </StyledNav>
-              {/* TODO not on main page */}
-              <StyledSearchButton onClick={openSmartSearchBox}>
-                <IconSearch />
-              </StyledSearchButton>
+              {showSearchButton && (
+                <StyledSearchButton onClick={openSmartSearchBox}>
+                  <IconSearch />
+                </StyledSearchButton>
+              )}
               <StyledToggler
                 color="inherit"
                 aria-label="Открыть меню"
@@ -109,6 +114,7 @@ export const Header = ({
         openState={mobileOpen}
         closeDrawer={closeDrawer}
         socials={socials}
+        logo={logo}
       />
       <HiddenToolbar />
     </>

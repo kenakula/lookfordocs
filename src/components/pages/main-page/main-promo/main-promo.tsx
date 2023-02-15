@@ -4,6 +4,7 @@ import {
   Input,
   InputAdornment,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import React, { useState } from 'react';
 import {
@@ -12,13 +13,16 @@ import {
   StyledSearchButton,
 } from './components';
 import { Becas, Subtitle, Title } from '@/shared/assets';
-import { ContainerComponent } from '@/components';
+import { ContainerComponent, SmartSearchDialog } from '@/components';
 import { IconClose, IconSearch } from '@/components/icons';
-import { openSmartSearch, useAppDispatch } from '@/stores';
+import { closeSmartSearch, openSmartSearch, useAppDispatch } from '@/stores';
+import { useCustomTheme } from '@/stores/theme-store-provider';
 
 export const MainPromo = (): JSX.Element => {
   const [searchInputValue, setSearchInputValue] = useState('');
   const dispatch = useAppDispatch();
+  const { theme } = useCustomTheme();
+  const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
 
   const onInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -32,7 +36,16 @@ export const MainPromo = (): JSX.Element => {
 
   const onInputFocus = (e: React.FocusEvent<HTMLInputElement>): void => {
     dispatch(openSmartSearch());
-    e.target.blur();
+
+    if (!isTablet) {
+      e.target.blur();
+    }
+  };
+
+  const onInputBlur = (): void => {
+    if (isTablet) {
+      dispatch(closeSmartSearch());
+    }
   };
 
   return (
@@ -58,6 +71,7 @@ export const MainPromo = (): JSX.Element => {
               onChange={onInputChange}
               value={searchInputValue}
               onFocus={onInputFocus}
+              onBlur={onInputBlur}
               endAdornment={
                 searchInputValue.length ? (
                   <InputAdornment position="end">
@@ -79,6 +93,7 @@ export const MainPromo = (): JSX.Element => {
           >
             Найти
           </StyledSearchButton>
+          <SmartSearchDialog isMainPage />
         </StyledSearchBox>
       </ContainerComponent>
     </StyledPromoSection>

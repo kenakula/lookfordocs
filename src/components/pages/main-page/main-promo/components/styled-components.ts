@@ -24,7 +24,6 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledSearchBox = styled(Box)(({ theme }) => ({
-  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
 
@@ -42,7 +41,6 @@ export const StyledSearchBox = styled(Box)(({ theme }) => ({
   '.input-container': {
     position: 'relative',
     display: 'flex',
-    alignItems: 'center',
     margin: theme.spacing(0, 0, 1.5, 0),
     paddingRight: theme.spacing(1),
     minHeight: theme.spacing(7),
@@ -74,8 +72,6 @@ export const StyledSearchBox = styled(Box)(({ theme }) => ({
   },
 
   '.MuiInput-root': {
-    height: '100%',
-
     input: {
       width: '100%',
       paddingLeft: theme.spacing(7),
@@ -90,6 +86,10 @@ export const StyledSearchBox = styled(Box)(({ theme }) => ({
       width: 103,
       height: 120,
     },
+  },
+
+  [theme.breakpoints.up('lmd')]: {
+    position: 'relative',
   },
 
   [theme.breakpoints.up('lg')]: {
