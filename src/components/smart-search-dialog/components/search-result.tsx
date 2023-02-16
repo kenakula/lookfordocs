@@ -28,7 +28,7 @@ export const SearchResult = ({
   return (
     <StyledSearchResult>
       {searchStatus === 'error' && (
-        <Typography color="error" className="search-error" textAlign="center">
+        <Typography color="error" className="search-hint" textAlign="center">
           Произошла ошибка. Попробуйте позже
         </Typography>
       )}
@@ -37,7 +37,7 @@ export const SearchResult = ({
           Начните вводить поисковый запрос
         </Typography>
       )}
-      {searchStatus === 'pending' && <LinearProgress />}
+      {searchStatus === 'pending' && <LinearProgress sx={{ mt: 1 }} />}
       {searchStatus === 'success' &&
         result.map(res => {
           if (res.list.length) {

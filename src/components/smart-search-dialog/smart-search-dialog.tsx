@@ -9,12 +9,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { IconClose, IconSearch } from '../icons';
-import {
-  SearchResult,
-  StyledDialog,
-  StyledDialogBody,
-  StyledDialogHeader,
-} from './components';
+import { SearchResult, StyledDialog, StyledDialogHeader } from './components';
 import { useCloseOnMainPageTablet, useFullscreenMode } from './hooks';
 import {
   closeSmartSearch,
@@ -95,14 +90,14 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
             </Box>
           </>
         )}
-        <StyledDialogBody className="dialog-body">
+        <Box className="dialog-body">
           <SearchResult
             searchStatus={searchStatus}
             result={result}
             errorMessage={errorMessage}
             searchStr={searchStr}
           />
-        </StyledDialogBody>
+        </Box>
       </StyledDialog>
     </Fade>
   );

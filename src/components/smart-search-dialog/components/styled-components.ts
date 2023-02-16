@@ -34,26 +34,16 @@ export const StyledDialog = styled(Box, {
     ? {
         position: 'absolute',
         top: 'calc(100% + 10px)',
+        display: 'flex',
+        flexDirection: 'column',
         padding: theme.spacing(3, 4, 0),
         width: '100%',
         height: 'auto',
+        minHeight: 72,
         maxHeight: 400,
         overflowY: 'auto',
         borderRadius: theme.shape.borderRadius,
         boxShadow: `0px 12px 24px ${alpha(theme.palette.text.primary, 0.04)}`,
-
-        '&::-webkit-scrollbar': {
-          width: 5,
-        },
-
-        '&::-webkit-scrollbar-track': {
-          backgroundColor: theme.palette.background.default,
-        },
-
-        '&::-webkit-scrollbar-thumb': {
-          borderRadius: 23,
-          backgroundColor: theme.palette.misc.light,
-        },
       }
     : {},
 }));
@@ -74,13 +64,22 @@ export const StyledDialogHeader = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledDialogBody = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 0, 3),
-}));
-
 export const StyledSearchResult = styled(Box)(({ theme }) => ({
   maxHeight: 320,
   overflowY: 'auto',
+
+  '&::-webkit-scrollbar': {
+    width: 5,
+  },
+
+  '&::-webkit-scrollbar-track': {
+    backgroundColor: theme.palette.background.default,
+  },
+
+  '&::-webkit-scrollbar-thumb': {
+    borderRadius: 23,
+    backgroundColor: theme.palette.misc.light,
+  },
 
   '.search-hint': {
     color: theme.palette.text.secondary,

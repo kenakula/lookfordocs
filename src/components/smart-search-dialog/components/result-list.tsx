@@ -152,7 +152,7 @@ export const ResultList = ({
                   key={`doctor-${id}`}
                   className="complex-item"
                   component={Link}
-                  href={`/doctors/${id}`}
+                  href={`/insurances/${id}`}
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
