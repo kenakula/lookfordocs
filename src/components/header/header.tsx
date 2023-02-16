@@ -68,7 +68,7 @@ export const Header = ({
   return (
     <>
       <Slide appear={false} direction="down" in={!trigger}>
-        <StyledHeader isScrolled={pageScrolled}>
+        <StyledHeader isScrolled={pageScrolled} isMainPage={isMainPage}>
           <ContainerComponent>
             <Toolbar>
               <Link href={HOME_PAGE} className="logo">

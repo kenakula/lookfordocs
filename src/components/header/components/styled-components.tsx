@@ -10,29 +10,33 @@ import {
 import { getTypography } from '@/shared/assets';
 
 export const StyledHeader = styled(AppBar, {
-  shouldForwardProp: prop => prop !== 'isScrolled',
-})<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
-  backgroundColor: isScrolled ? '#ffffff' : theme.palette.misc.main,
-  transition: theme.transitions.create(['box-shadow', 'background-color'], {
-    duration: 200,
-  }),
-  boxShadow: isScrolled ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',
-  visibility: 'visible',
-  '.MuiToolbar-root': {
-    padding: 0,
-  },
-  '.logo': {
-    marginRight: 'auto',
-  },
-  [theme.breakpoints.up('lg')]: {
+  shouldForwardProp: prop =>
+    !['isMainPage', 'isScrolled'].includes(prop.toString()),
+})<{ isScrolled: boolean; isMainPage: boolean }>(
+  ({ theme, isScrolled, isMainPage }) => ({
+    backgroundColor:
+      isScrolled || !isMainPage ? '#ffffff' : theme.palette.misc.main,
+    transition: theme.transitions.create(['box-shadow', 'background-color'], {
+      duration: 200,
+    }),
+    boxShadow: isScrolled ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',
+    visibility: 'visible',
     '.MuiToolbar-root': {
-      minHeight: '80px',
+      padding: 0,
     },
     '.logo': {
-      order: -2,
+      marginRight: 'auto',
     },
-  },
-}));
+    [theme.breakpoints.up('lg')]: {
+      '.MuiToolbar-root': {
+        minHeight: '80px',
+      },
+      '.logo': {
+        order: -2,
+      },
+    },
+  }),
+);
 
 export const HiddenToolbar = styled(Toolbar)(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
