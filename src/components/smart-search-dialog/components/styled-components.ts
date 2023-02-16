@@ -36,6 +36,7 @@ export const StyledDialog = styled(Box, {
         top: 'calc(100% + 10px)',
         padding: theme.spacing(3, 4, 0),
         width: '100%',
+        height: 'auto',
         maxHeight: 400,
         borderRadius: theme.shape.borderRadius,
         boxShadow: `0px 12px 24px ${alpha(theme.palette.text.primary, 0.04)}`,
@@ -61,4 +62,36 @@ export const StyledDialogHeader = styled(Box)(({ theme }) => ({
 
 export const StyledDialogBody = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0, 0, 3),
+}));
+
+export const StyledSearchResult = styled(Box)(({ theme }) => ({
+  '.search-hint': {
+    color: theme.palette.text.secondary,
+  },
+}));
+
+export const StyledResultList = styled(Box)(({ theme }) => ({
+  '.MuiTypography-h3': {
+    ...getTypography(theme, 14, 17),
+    marginBottom: theme.spacing(2),
+    color: alpha(theme.palette.text.primary, 0.4),
+  },
+
+  ul: {
+    padding: 0,
+    margin: 0,
+    listStyle: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    rowGap: theme.spacing(2),
+  },
+
+  '.search-link': {
+    textDecoration: 'none',
+    color: theme.palette.text.primary,
+
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }));

@@ -30,6 +30,8 @@ const initialState: SmartSearchState = {
   result: null,
 };
 
+// TODO прерывать при новом запросе
+
 export const smartSearch = createAsyncThunk<
   ISmartSearchResult | undefined,
   string,
@@ -41,7 +43,7 @@ export const smartSearch = createAsyncThunk<
     >('/specialties', {
       params: {
         search: value,
-        fields: 'id,title',
+        fields: 'id,slug,title',
       },
     });
 

@@ -64,7 +64,7 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
   };
 
   return (
-    <Fade in={opened}>
+    <Fade in={true}>
       <StyledDialog className="search-dialog" fullscreenMode={fullScreenMode}>
         {fullScreenMode && (
           <>
