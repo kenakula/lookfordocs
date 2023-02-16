@@ -149,10 +149,10 @@ export const ResultList = ({
 
               return (
                 <ListItemButton
-                  key={`doctor-${id}`}
+                  key={`insurance-${id}`}
                   className="complex-item"
                   component={Link}
-                  href={`/insurances/${id}`}
+                  href={`${SEARCH_PAGE}?insurance=${id}`}
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
