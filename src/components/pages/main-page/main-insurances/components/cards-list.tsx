@@ -60,7 +60,7 @@ export const CardsList = ({ insurances }: Props): JSX.Element => {
           <Button
             className="button-link"
             component={Link}
-            href="#"
+            href="/insurances"
             variant="outlined"
             disableFocusRipple
             disableRipple
