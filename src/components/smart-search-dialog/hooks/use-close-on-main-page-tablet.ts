@@ -6,7 +6,7 @@ export const useCloseOnMainPageTablet = (isFullScreenMode: boolean): void => {
 
   useEffect(() => {
     if (!isFullScreenMode) {
-      dispatch(closeSmartSearch());
+      dispatch(closeSmartSearch({ clear: false }));
     }
   }, [isFullScreenMode, dispatch]);
 };
