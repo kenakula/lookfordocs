@@ -4,23 +4,21 @@ import { wrapper } from '@/stores';
 import { getSiteSettings } from '@/stores/api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  store => async () => {
-    const siteSettings = await store.dispatch(getSiteSettings.initiate());
+export const getStaticProps = wrapper.getStaticProps(store => async () => {
+  const siteSettings = await store.dispatch(getSiteSettings.initiate());
 
-    await Promise.all(store.dispatch(getRunningGlobalQueries()));
+  await Promise.all(store.dispatch(getRunningGlobalQueries()));
 
-    return {
-      props: {
-        siteSettings: siteSettings.data,
-      },
-    };
-  },
-);
+  return {
+    props: {
+      siteSettings: siteSettings.data,
+    },
+  };
+});
 
 const ContactsPage = ({
   siteSettings,
-}: InferGetStaticPropsType<typeof getServerSideProps>): JSX.Element => {
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   return (
     <Layout siteSettings={siteSettings}>
       <ContainerComponent>

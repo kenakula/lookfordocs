@@ -1,4 +1,4 @@
-import { InferGetStaticPropsType } from 'next';
+import { InferGetServerSidePropsType } from 'next';
 import { ContainerComponent, Layout } from '@/components';
 import { wrapper } from '@/stores';
 import { getSiteSettings } from '@/stores/api';
@@ -20,7 +20,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 const SearchPage = ({
   siteSettings,
-}: InferGetStaticPropsType<typeof getServerSideProps>): JSX.Element => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element => {
   return (
     <Layout siteSettings={siteSettings}>
       <ContainerComponent>
