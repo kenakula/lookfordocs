@@ -10,4 +10,5 @@ export interface IClinic {
   date_updated?: Date;
   name: string;
   image: IImage;
+  address: string;
 }

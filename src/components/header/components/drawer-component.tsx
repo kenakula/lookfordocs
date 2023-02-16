@@ -21,6 +21,7 @@ interface Props {
   navigation: INavigation[];
   socials: ISocial[];
   logo: IImage;
+  copyrights: string;
 }
 
 export const DrawerComponent = ({
@@ -29,6 +30,7 @@ export const DrawerComponent = ({
   navigation,
   socials,
   logo,
+  copyrights,
 }: Props): JSX.Element => {
   return (
     <Box component="nav">
@@ -92,7 +94,7 @@ export const DrawerComponent = ({
           <Socials socials={socials} />
         </StyledSocials>
         <Typography variant="caption" className="copyrights">
-          © 2021 LLC &quot;InfoService Group&quot; PSRN 1127847488944
+          {copyrights}
         </Typography>
       </StyledDrawer>
     </Box>

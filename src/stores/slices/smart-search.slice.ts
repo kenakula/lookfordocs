@@ -19,7 +19,7 @@ interface SmartSearchState {
   searchStr: string;
   searchStatus: SmartSearchStatus;
   errorMessage: string;
-  result: ISmartSearchResult | null;
+  result: ISmartSearchResult[];
 }
 
 const initialState: SmartSearchState = {
@@ -27,66 +27,51 @@ const initialState: SmartSearchState = {
   searchStr: '',
   searchStatus: 'idle',
   errorMessage: '',
-  result: null,
+  result: [],
 };
 
-// TODO прерывать при новом запросе
-
 export const smartSearch = createAsyncThunk<
-  ISmartSearchResult | undefined,
+  ISmartSearchResult[] | undefined,
   string,
   { rejectValue: DirectusError }
 >('smart-search/search', async (value: string, thunkApi) => {
   try {
-    const specialtiesResponse = await axiosClient.get<
-      AxiosResponse<ISpecialty[]>
-    >('/specialties', {
-      params: {
-        search: value,
-        fields: 'id,slug,title',
-      },
-    });
-
-    const docsResponse = await axiosClient.get<AxiosResponse<IDoctor[]>>(
-      '/doctors',
-      {
+    const response = await Promise.all([
+      axiosClient.get<AxiosResponse<ISpecialty[]>>('/specialties', {
+        params: {
+          search: value,
+          fields: 'id,slug,title',
+        },
+      }),
+      axiosClient.get<AxiosResponse<IDoctor[]>>('/doctors', {
         params: {
           search: value.toLowerCase(),
-          fields: 'id,firstName,lastName,image.*',
+          fields: 'id,firstName,lastName,image.*,specialties.specialties_id.*',
         },
-      },
-    );
-
-    const clinicsResponse = await axiosClient.get<AxiosResponse<IClinic[]>>(
-      '/clinics',
-      {
+      }),
+      axiosClient.get<AxiosResponse<IClinic[]>>('/clinics', {
+        params: {
+          search: value.toLowerCase(),
+          fields: 'id,slug,name,address,image.*',
+        },
+      }),
+      axiosClient.get<AxiosResponse<IInsurance[]>>('/insurances', {
         params: {
           search: value.toLowerCase(),
           fields: 'id,name,image.*',
         },
-      },
-    );
+      }),
+    ]);
 
-    const insurancesResponse = await axiosClient.get<
-      AxiosResponse<IInsurance[]>
-    >('/insurances', {
-      params: {
-        search: value.toLowerCase(),
-        fields: 'id,name,image.*',
-      },
-    });
+    const result: ISmartSearchResult[] = [];
+    const [specialties, doctors, clinics, insurances] = response;
 
-    const specialties = specialtiesResponse.data.data;
-    const doctors = docsResponse.data.data;
-    const clinics = clinicsResponse.data.data;
-    const insurances = insurancesResponse.data.data;
+    result.push({ type: 'specialties', list: specialties.data.data });
+    result.push({ type: 'docs', list: doctors.data.data });
+    result.push({ type: 'clinics', list: clinics.data.data });
+    result.push({ type: 'insurances', list: insurances.data.data });
 
-    return {
-      specialties,
-      doctors,
-      clinics,
-      insurances,
-    };
+    return result;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorData = error.response?.data as {
@@ -115,29 +100,27 @@ export const smartSearchSlice = createSlice({
 
       if (!payload.length) {
         state.searchStatus = 'idle';
-        state.result = null;
+        state.result = [];
       }
     },
     searchFieldClear: state => {
       state.searchStr = '';
       state.searchStatus = 'idle';
-      state.result = null;
+      state.result = [];
     },
   },
   extraReducers: builder => {
     builder
       .addCase(smartSearch.pending, state => {
-        state.result = null;
+        state.result = [];
         state.searchStatus = 'pending';
       })
       .addCase(smartSearch.fulfilled, (state, { payload }) => {
         state.searchStatus = 'success';
-        state.result = {
-          specialties: payload?.specialties,
-          clinics: payload?.clinics,
-          doctors: payload?.doctors,
-          insurances: payload?.insurances,
-        };
+
+        if (payload) {
+          state.result = payload;
+        }
       })
       .addCase(smartSearch.rejected, (state, { payload }) => {
         console.error('error: ', payload?.message);

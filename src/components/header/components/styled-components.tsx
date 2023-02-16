@@ -17,6 +17,7 @@ export const StyledHeader = styled(AppBar, {
     duration: 200,
   }),
   boxShadow: isScrolled ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',
+  visibility: 'visible',
   '.MuiToolbar-root': {
     padding: 0,
   },
@@ -120,7 +121,7 @@ export const StyledSearchButton = styled(IconButton)(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     order: -1,
     marginLeft: 0,
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(3),
   },
 }));
 

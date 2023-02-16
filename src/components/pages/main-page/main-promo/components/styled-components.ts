@@ -24,6 +24,7 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledSearchBox = styled(Box)(({ theme }) => ({
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
 

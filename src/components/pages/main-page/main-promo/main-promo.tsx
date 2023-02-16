@@ -6,7 +6,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   StyledPromoSection,
   StyledSearchBox,
@@ -29,6 +29,7 @@ export const MainPromo = (): JSX.Element => {
   const { searchStr } = useAppSelector(state => state.smartSearch);
   const dispatch = useAppDispatch();
   const { theme } = useCustomTheme();
+  const inputRef = useRef<HTMLInputElement>(null);
   const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
 
   const onInputChange = (
@@ -73,6 +74,7 @@ export const MainPromo = (): JSX.Element => {
           <Box className="input-container">
             <IconSearch />
             <Input
+              inputRef={inputRef}
               placeholder="Врача, клиника и услуга"
               fullWidth
               onChange={onInputChange}

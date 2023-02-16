@@ -38,8 +38,22 @@ export const StyledDialog = styled(Box, {
         width: '100%',
         height: 'auto',
         maxHeight: 400,
+        overflowY: 'auto',
         borderRadius: theme.shape.borderRadius,
         boxShadow: `0px 12px 24px ${alpha(theme.palette.text.primary, 0.04)}`,
+
+        '&::-webkit-scrollbar': {
+          width: 5,
+        },
+
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: theme.palette.background.default,
+        },
+
+        '&::-webkit-scrollbar-thumb': {
+          borderRadius: 23,
+          backgroundColor: theme.palette.misc.light,
+        },
       }
     : {},
 }));
@@ -65,12 +79,24 @@ export const StyledDialogBody = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledSearchResult = styled(Box)(({ theme }) => ({
+  maxHeight: 320,
+  overflowY: 'auto',
+
   '.search-hint': {
     color: theme.palette.text.secondary,
   },
 }));
 
 export const StyledResultList = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(2.5),
+  paddingBottom: theme.spacing(3),
+  borderBottom: `1px solid ${theme.palette.misc.light}`,
+
+  '&:last-child': {
+    margin: 0,
+    border: 'none',
+  },
+
   '.MuiTypography-h3': {
     ...getTypography(theme, 14, 17),
     marginBottom: theme.spacing(2),
@@ -89,9 +115,29 @@ export const StyledResultList = styled(Box)(({ theme }) => ({
   '.search-link': {
     textDecoration: 'none',
     color: theme.palette.text.primary,
+  },
 
-    '&:hover': {
-      textDecoration: 'underline',
+  '.complex-item': {
+    display: 'flex',
+    alignItems: 'center',
+
+    '.MuiAvatar-root': {
+      marginRight: theme.spacing(2),
+    },
+  },
+
+  '.highlighted': {
+    color: theme.palette.primary.main,
+  },
+
+  '.complex-item-info': {
+    '.MuiTypography-body1': {
+      ...getTypography(theme, 16, 19),
+    },
+
+    '.MuiTypography-caption': {
+      ...getTypography(theme, 14, 17),
+      color: theme.palette.text.secondary,
     },
   },
 }));

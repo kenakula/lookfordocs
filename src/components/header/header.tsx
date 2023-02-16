@@ -1,4 +1,11 @@
-import { List, ListItem, ListItemButton, Slide, Toolbar } from '@mui/material';
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  Slide,
+  Toolbar,
+  useMediaQuery,
+} from '@mui/material';
 import Image from 'next/image';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
@@ -17,6 +24,7 @@ import { getImageUrl, HOME_PAGE } from '@/shared/assets';
 import { useScroll } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
 import { openSmartSearch, useAppDispatch } from '@/stores';
+import { useCustomTheme } from '@/stores/theme-store-provider';
 
 interface Props {
   siteSettings: ISiteSettings;
@@ -24,13 +32,15 @@ interface Props {
 }
 
 export const Header = ({
-  siteSettings: { navigation, logo, socials },
+  siteSettings: { navigation, logo, socials, copyrights },
   isMainPage,
 }: Props): JSX.Element => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const position = useScroll(200);
   const [pageScrolled, setPageScrolled] = useState<boolean>(false);
   const trigger = useScrollTrigger();
+  const { theme } = useCustomTheme();
+  const isNotMobile = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
   const dispatch = useAppDispatch();
   const showSearchButton =
     !isMainPage || (isMainPage && !trigger && pageScrolled);
@@ -41,6 +51,10 @@ export const Header = ({
 
   const openSmartSearchBox = (): void => {
     dispatch(openSmartSearch());
+
+    if (isNotMobile) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const openDrawer = (): void => {
@@ -54,10 +68,7 @@ export const Header = ({
   return (
     <>
       <Slide appear={false} direction="down" in={!trigger}>
-        <StyledHeader
-          isScrolled={pageScrolled}
-          style={{ visibility: 'visible' }}
-        >
+        <StyledHeader isScrolled={pageScrolled}>
           <ContainerComponent>
             <Toolbar>
               <Link href={HOME_PAGE} className="logo">
@@ -114,6 +125,7 @@ export const Header = ({
         openState={mobileOpen}
         closeDrawer={closeDrawer}
         socials={socials}
+        copyrights={copyrights}
         logo={logo}
       />
       <HiddenToolbar />

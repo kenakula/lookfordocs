@@ -22,7 +22,7 @@ export const Footer = ({
   siteSettings: { footerLinks, copyrights, documents, logo, socials },
 }: Props): JSX.Element => {
   return (
-    <footer>
+    <Box component="footer">
       <ContainerComponent>
         <StyledFooterInner>
           <StyledFooterTop>
@@ -59,6 +59,6 @@ export const Footer = ({
           </StyledFooterBottom>
         </StyledFooterInner>
       </ContainerComponent>
-    </footer>
+    </Box>
   );
 };

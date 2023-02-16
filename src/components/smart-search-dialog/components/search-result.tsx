@@ -1,89 +1,30 @@
-import Link from 'next/link';
 import { LinearProgress, Typography } from '@mui/material';
-import { StyledResultList, StyledSearchResult } from './styled-components';
+import { StyledSearchResult } from './styled-components';
+import { ResultList } from './result-list';
 import { ISmartSearchResult, SmartSearchStatus } from '@/shared/types';
+
+const isResultEmpty = (result: ISmartSearchResult[]): boolean => {
+  const arr = result.map(item => item.list).flat();
+
+  if (arr.length === 0) {
+    return true;
+  }
+
+  return false;
+};
 
 interface Props {
   searchStatus: SmartSearchStatus;
-  result: ISmartSearchResult | null;
+  result: ISmartSearchResult[];
   errorMessage: string;
+  searchStr: string;
 }
 
-const ResultContent = ({
+export const SearchResult = ({
+  searchStatus,
   result,
-}: {
-  result: ISmartSearchResult;
-}): JSX.Element => {
-  if (result.specialties && result.specialties.length) {
-    return (
-      <StyledResultList>
-        <Typography variant="h3">Специализация врачей</Typography>
-        <ul>
-          {result.specialties.map(spec => (
-            <li key={`spec-${spec.id}`}>
-              <Link
-                className="search-link"
-                href={{
-                  pathname: '/search',
-                  query: { specialty: spec.slug },
-                }}
-              >
-                {spec.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </StyledResultList>
-    );
-  }
-
-  if (result.clinics && result.clinics.length) {
-    return (
-      <StyledResultList>
-        <Typography>clinics</Typography>
-        <ul>
-          {result.clinics.map(clinic => (
-            <li key={`clinic-${clinic.id}`}>{clinic.name}</li>
-          ))}
-        </ul>
-      </StyledResultList>
-    );
-  }
-
-  if (result.doctors && result.doctors.length) {
-    return (
-      <StyledResultList>
-        <Typography>doctors</Typography>
-        <ul>
-          {result.doctors.map(doctor => (
-            <li key={`doc-${doctor.id}`}>{doctor.firstName}</li>
-          ))}
-        </ul>
-      </StyledResultList>
-    );
-  }
-
-  if (result.insurances && result.insurances.length) {
-    return (
-      <StyledResultList>
-        <Typography>insurances</Typography>
-        <ul>
-          {result.insurances.map(insurance => (
-            <li key={`ins-${insurance.id}`}>{insurance.name}</li>
-          ))}
-        </ul>
-      </StyledResultList>
-    );
-  }
-
-  return (
-    <Typography className="search-hint" textAlign="center">
-      По вашему запросу ничего не найдено
-    </Typography>
-  );
-};
-
-export const SearchResult = ({ searchStatus, result }: Props): JSX.Element => {
+  searchStr,
+}: Props): JSX.Element => {
   return (
     <StyledSearchResult>
       {searchStatus === 'error' && (
@@ -97,7 +38,20 @@ export const SearchResult = ({ searchStatus, result }: Props): JSX.Element => {
         </Typography>
       )}
       {searchStatus === 'pending' && <LinearProgress />}
-      {result && <ResultContent result={result} />}
+      {searchStatus === 'success' &&
+        result.map(res => {
+          if (res.list.length) {
+            return (
+              <ResultList key={res.type} search={searchStr} result={res} />
+            );
+          }
+        })}
+
+      {searchStatus === 'success' && isResultEmpty(result) ? (
+        <Typography className="search-hint" textAlign="center">
+          По вашему запросу ничего не найдено
+        </Typography>
+      ) : null}
     </StyledSearchResult>
   );
 };

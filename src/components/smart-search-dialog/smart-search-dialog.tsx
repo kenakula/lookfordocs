@@ -41,10 +41,10 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
   const fullScreenMode = (isMainPage && !isTablet) || !isMainPage;
   useFullscreenMode(opened, isTablet, fullScreenMode, inputRef);
   useCloseOnMainPageTablet(fullScreenMode);
-  const debouncedValue = useDebounce(searchStr, 200);
+  const debouncedValue = useDebounce(searchStr, 400);
 
   useEffect(() => {
-    if (debouncedValue.length > 1) {
+    if (debouncedValue.length > 2) {
       dispatch(smartSearch(debouncedValue));
     }
   }, [debouncedValue, dispatch]);
@@ -64,7 +64,7 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
   };
 
   return (
-    <Fade in={true}>
+    <Fade in={opened}>
       <StyledDialog className="search-dialog" fullscreenMode={fullScreenMode}>
         {fullScreenMode && (
           <>
@@ -95,11 +95,12 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
             </Box>
           </>
         )}
-        <StyledDialogBody>
+        <StyledDialogBody className="dialog-body">
           <SearchResult
             searchStatus={searchStatus}
             result={result}
             errorMessage={errorMessage}
+            searchStr={searchStr}
           />
         </StyledDialogBody>
       </StyledDialog>
