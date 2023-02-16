@@ -58,10 +58,7 @@ export const ResultList = ({
                   key={`spec-${id}`}
                   className="search-link"
                   component={Link}
-                  href={{
-                    pathname: SEARCH_PAGE,
-                    query: { specialty: slug },
-                  }}
+                  href={`${SEARCH_PAGE}?specialty=${slug}`}
                 >
                   {getHighlightedLetters(title, search)}
                 </ListItemButton>
