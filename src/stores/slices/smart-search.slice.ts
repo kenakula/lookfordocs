@@ -92,8 +92,17 @@ export const smartSearchSlice = createSlice({
     openSmartSearch: state => {
       state.opened = true;
     },
-    closeSmartSearch: state => {
+    closeSmartSearch: (
+      state,
+      { payload }: PayloadAction<{ clear: boolean }>,
+    ) => {
       state.opened = false;
+
+      if (payload && payload.clear) {
+        state.searchStr = '';
+        state.searchStatus = 'idle';
+        state.result = [];
+      }
     },
     searchFieldInput: (state, { payload }: PayloadAction<string>) => {
       state.searchStr = payload;

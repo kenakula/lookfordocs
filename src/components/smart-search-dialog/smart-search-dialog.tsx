@@ -55,7 +55,7 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
   };
 
   const handleClose = (): void => {
-    dispatch(closeSmartSearch());
+    dispatch(closeSmartSearch({ clear: false }));
   };
 
   return (

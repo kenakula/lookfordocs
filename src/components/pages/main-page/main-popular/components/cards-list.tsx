@@ -14,6 +14,7 @@ import {
 import { ButtonComponent } from '@/components';
 import { useCustomTheme } from '@/stores/theme-store-provider';
 import { ISpecialty } from '@/shared/types/specialty.type';
+import { SEARCH_PAGE } from '@/shared/assets';
 
 const CARD_HEIGHT = 98;
 const CARD_GAP = 12;
@@ -42,9 +43,13 @@ export const CardsList = ({ specialties }: Props): JSX.Element => {
         collapsedSize={matches ? 0 : collapsedSize}
       >
         <StyledList gap={CARD_GAP}>
-          {specialties.map(({ id, title }) => (
+          {specialties.map(({ id, title, slug }) => (
             <StyledCard minHeight={CARD_HEIGHT} key={id}>
-              <MuiLink underline="none" href="#" component={Link}>
+              <MuiLink
+                underline="none"
+                href={`${SEARCH_PAGE}?specialty=${slug}`}
+                component={Link}
+              >
                 <Typography variant="h3">{title}</Typography>
                 <Typography variant="caption">{`100 врачей`}</Typography>
               </MuiLink>

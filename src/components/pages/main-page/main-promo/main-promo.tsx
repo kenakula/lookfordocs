@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   Box,
   IconButton,
@@ -12,7 +13,7 @@ import {
   StyledSearchBox,
   StyledSearchButton,
 } from './components';
-import { Becas, Subtitle, Title } from '@/shared/assets';
+import { Becas, SEARCH_PAGE, Subtitle, Title } from '@/shared/assets';
 import { ContainerComponent, SmartSearchDialog } from '@/components';
 import { IconClose, IconSearch } from '@/components/icons';
 import {
@@ -31,6 +32,7 @@ export const MainPromo = (): JSX.Element => {
   const { theme } = useCustomTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
+  const router = useRouter();
 
   const onInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -52,8 +54,17 @@ export const MainPromo = (): JSX.Element => {
 
   const onInputBlur = (): void => {
     if (isTablet) {
-      dispatch(closeSmartSearch());
+      dispatch(closeSmartSearch({ clear: false }));
     }
+  };
+
+  const onSearchClick = (): void => {
+    router.push({
+      pathname: SEARCH_PAGE,
+      query: {
+        search: searchStr,
+      },
+    });
   };
 
   return (
@@ -99,6 +110,7 @@ export const MainPromo = (): JSX.Element => {
             fullWidth
             disableElevation
             size="large"
+            onClick={onSearchClick}
           >
             Найти
           </StyledSearchButton>

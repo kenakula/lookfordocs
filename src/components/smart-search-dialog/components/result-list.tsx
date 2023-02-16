@@ -1,7 +1,13 @@
 import { Typography, List, ListItemButton, Avatar, Box } from '@mui/material';
 import Link from 'next/link';
 import { StyledResultList } from './styled-components';
-import { getImageUrl, SEARCH_PAGE } from '@/shared/assets';
+import {
+  CLINICS_PAGE,
+  DOCTORS_PAGE,
+  getImageUrl,
+  INSURANCES_PAGE,
+  SEARCH_PAGE,
+} from '@/shared/assets';
 import {
   ISmartSearchResult,
   ISpecialty,
@@ -9,6 +15,7 @@ import {
   IDoctor,
   IInsurance,
 } from '@/shared/types';
+import { closeSmartSearch, useAppDispatch } from '@/stores';
 
 const capitilize = (str: string): string => str[0].toUpperCase() + str.slice(1);
 
@@ -44,6 +51,12 @@ export const ResultList = ({
   result: { type, list },
   search,
 }: Props): JSX.Element => {
+  const dispatch = useAppDispatch();
+
+  const closeSearchBox = (): void => {
+    dispatch(closeSmartSearch({ clear: true }));
+  };
+
   switch (type) {
     case 'specialties':
       return (
@@ -59,6 +72,7 @@ export const ResultList = ({
                   className="search-link"
                   component={Link}
                   href={`${SEARCH_PAGE}?specialty=${slug}`}
+                  onClick={closeSearchBox}
                 >
                   {getHighlightedLetters(title, search)}
                 </ListItemButton>
@@ -80,7 +94,8 @@ export const ResultList = ({
                   key={`clinic-${id}`}
                   className="complex-item"
                   component={Link}
-                  href={`/clinics/${id}`}
+                  href={`${CLINICS_PAGE}/${id}`}
+                  onClick={closeSearchBox}
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
@@ -113,7 +128,8 @@ export const ResultList = ({
                   key={`doctor-${id}`}
                   className="complex-item"
                   component={Link}
-                  href={`/doctors/${id}`}
+                  href={`${DOCTORS_PAGE}/${id}`}
+                  onClick={closeSearchBox}
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
@@ -152,7 +168,8 @@ export const ResultList = ({
                   key={`insurance-${id}`}
                   className="complex-item"
                   component={Link}
-                  href={`insurances/${id}`}
+                  href={`${INSURANCES_PAGE}/${id}`}
+                  onClick={closeSearchBox}
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
