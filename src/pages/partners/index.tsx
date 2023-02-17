@@ -11,7 +11,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
 
   return {
     props: {
-      siteSettings: siteSettings.data,
+      siteSettings: siteSettings.data ?? null,
     },
   };
 });

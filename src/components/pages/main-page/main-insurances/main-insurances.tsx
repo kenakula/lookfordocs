@@ -4,7 +4,7 @@ import { IInsurance } from '@/shared/types/insurance.type';
 import { ContainerComponent } from '@/components';
 
 interface Props {
-  insurances?: IInsurance[];
+  insurances: IInsurance[] | null;
 }
 
 export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
@@ -18,7 +18,7 @@ export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
           <Subtitle className="subtitle" textAlign="center">
             Выберите свою страховую и узнайте какие докторы принимаю по ней
           </Subtitle>
-          <CardsList insurances={insurances} />
+          {insurances && <CardsList insurances={insurances} />}
         </StyledInner>
       </ContainerComponent>
     </PageSection>

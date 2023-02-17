@@ -1,6 +1,9 @@
+import { useRouter } from 'next/router';
+import { Typography } from '@mui/material';
 import Head from 'next/head';
 import { InferGetStaticPropsType } from 'next';
 import {
+  ContainerComponent,
   Layout,
   MainAdvantages,
   MainAppointment,
@@ -37,12 +40,12 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
 
   return {
     props: {
-      services: services.data,
-      specialties: specialties.data,
-      insurances: insurances.data,
-      siteSettings: siteSettings.data,
-      advantages: advantages.data,
-      testimonials: testimonials.data,
+      services: services.data ?? null,
+      specialties: specialties.data ?? null,
+      insurances: insurances.data ?? null,
+      siteSettings: siteSettings.data ?? null,
+      advantages: advantages.data ?? null,
+      testimonials: testimonials.data ?? null,
     },
   };
 });
@@ -55,6 +58,16 @@ export default function Home({
   advantages,
   testimonials,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return (
+      <ContainerComponent>
+        <Typography textAlign="center">Loading...</Typography>
+      </ContainerComponent>
+    );
+  }
+
   return (
     <Layout siteSettings={siteSettings} isMainPage>
       <Head>

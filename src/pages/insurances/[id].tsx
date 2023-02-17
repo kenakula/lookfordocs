@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { GetStaticPaths, InferGetStaticPropsType } from 'next';
 import { ContainerComponent, Layout } from '@/components';
@@ -19,7 +21,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: response.data.data.map(clinic => ({
       params: { id: clinic.id.toString() },
     })),
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -30,7 +32,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
 
   return {
     props: {
-      siteSettings: siteSettings.data,
+      siteSettings: siteSettings.data ?? null,
     },
   };
 });
@@ -38,6 +40,16 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
 const InsurancePage = ({
   siteSettings,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return (
+      <ContainerComponent>
+        <Typography textAlign="center">Loading...</Typography>
+      </ContainerComponent>
+    );
+  }
+
   return (
     <Layout siteSettings={siteSettings}>
       <ContainerComponent>

@@ -4,7 +4,7 @@ import { PageSection, Title } from '@/shared/assets';
 import { ISpecialty } from '@/shared/types/specialty.type';
 
 interface Props {
-  specialties?: ISpecialty[];
+  specialties: ISpecialty[] | null;
 }
 
 export const MainPopular = ({ specialties = [] }: Props) => {

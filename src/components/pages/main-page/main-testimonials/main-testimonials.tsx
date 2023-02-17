@@ -11,7 +11,7 @@ import { IconArrowLeft } from '@/components/icons';
 import { IconArrowRight } from '@/components/icons/icon-arrow-right';
 
 interface Props {
-  testimonials?: ITestimonial[];
+  testimonials: ITestimonial[] | null;
 }
 
 export const MainTestimonials = ({ testimonials = [] }: Props): JSX.Element => {
@@ -52,11 +52,12 @@ export const MainTestimonials = ({ testimonials = [] }: Props): JSX.Element => {
             Отзывы
           </Title>
           <Swiper {...sliderConfig} wrapperTag="ul">
-            {testimonials.map(item => (
-              <SwiperSlide key={item.id} tag="li">
-                <TestimonialCard data={item} />
-              </SwiperSlide>
-            ))}
+            {testimonials &&
+              testimonials.map(item => (
+                <SwiperSlide key={item.id} tag="li">
+                  <TestimonialCard data={item} />
+                </SwiperSlide>
+              ))}
           </Swiper>
           <Box className="slider-buttons">
             <IconButton className="button-prev">
