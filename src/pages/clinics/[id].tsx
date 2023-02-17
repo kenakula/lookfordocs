@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { GetStaticPaths, InferGetStaticPropsType } from 'next';
-import { ContainerComponent, Layout } from '@/components';
+import { ContainerComponent, Layout, PageSeo } from '@/components';
 import { wrapper } from '@/stores';
 import { getSiteSettings } from '@/stores/api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
@@ -49,6 +49,11 @@ const ClinicPage = ({
 
   return (
     <Layout siteSettings={siteSettings}>
+      <PageSeo
+        title="GoodDoc | Клиники португалии"
+        description="Описание сайта и страницы"
+        keyWords="ключевые слова на странице, должны встречаться в текстах"
+      />
       <ContainerComponent>
         <h1>ClinicPage</h1>
       </ContainerComponent>

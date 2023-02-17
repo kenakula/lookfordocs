@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
-import Head from 'next/head';
 import { InferGetStaticPropsType } from 'next';
 import {
   ContainerComponent,
@@ -12,6 +11,7 @@ import {
   MainPromo,
   MainServices,
   MainTestimonials,
+  PageSeo,
 } from '@/components';
 import { wrapper } from '@/stores';
 import {
@@ -70,13 +70,11 @@ export default function Home({
 
   return (
     <Layout siteSettings={siteSettings} isMainPage>
-      <Head>
-        <title>GoodDoc | Поиск врача в Португалии</title>
-        <meta
-          name="description"
-          content="На нашем сайте собраны врачи и клиники португалии. С его помощью можно найти подходящего врача на все случаи жизни"
-        />
-      </Head>
+      <PageSeo
+        title="GoodDoc | Врачи в португалии"
+        description="Описание сайта и страницы"
+        keyWords="ключевые слова на странице, должны встречаться в текстах"
+      />
       <MainPromo />
       <MainAppointment />
       <MainPopular specialties={specialties} />
