@@ -13,9 +13,9 @@ import {
   StyledSearchBox,
   StyledSearchButton,
 } from './components';
-import { Becas, SEARCH_PAGE, Subtitle, Title } from '@/shared/assets';
+import { SEARCH_PAGE, Subtitle, Title } from '@/shared/assets';
 import { ContainerComponent, SmartSearchDialog } from '@/components';
-import { IconClose, IconSearch } from '@/components/icons';
+import { Becas, IconClose, IconSearch } from '@/components/icons';
 import {
   closeSmartSearch,
   openSmartSearch,
@@ -124,7 +124,9 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
               <Input
                 inputRef={inputRef}
                 placeholder={
-                  promoData ? promoData.inputPlaceholder : 'Введите что-нибудь'
+                  isTablet
+                    ? 'Поиск по врачам, клиникам и услугам'
+                    : 'Врач, клиника или услуга'
                 }
                 fullWidth
                 onChange={onInputChange}

@@ -2,7 +2,6 @@
   "root": true,
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
     "next/core-web-vitals"
   ],
@@ -12,7 +11,7 @@
     "browser": true,
     "jest": true
   },
-  "plugins": ["@typescript-eslint", "react-hooks", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "settings": {
     "react": {
       "version": "detect"

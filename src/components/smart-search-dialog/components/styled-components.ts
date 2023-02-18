@@ -28,6 +28,11 @@ export const StyledDialog = styled(Box, {
     '.MuiInput-root::before, .MuiInput-root::after': {
       display: 'none',
     },
+
+    form: {
+      display: 'flex',
+      width: '100%',
+    },
   },
 
   [theme.breakpoints.up('lmd')]: !fullscreenMode
