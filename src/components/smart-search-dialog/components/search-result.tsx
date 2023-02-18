@@ -28,7 +28,10 @@ export const SearchResult = ({
   return (
     <StyledSearchResult>
       {searchStatus === 'error' && (
-        <Typography color="error" className="search-hint" textAlign="center">
+        <Typography
+          className="search-hint search-hint--error"
+          textAlign="center"
+        >
           Произошла ошибка. Попробуйте позже
         </Typography>
       )}

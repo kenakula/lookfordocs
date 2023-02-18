@@ -35,29 +35,31 @@ export const smartSearch = createAsyncThunk<
   string,
   { rejectValue: DirectusError }
 >('smart-search/search', async (value: string, thunkApi) => {
+  const search = value.toLowerCase();
+
   try {
     const response = await Promise.all([
       axiosClient.get<AxiosResponse<ISpecialty[]>>('/specialties', {
         params: {
-          search: value,
+          search,
           fields: 'id,slug,title',
         },
       }),
       axiosClient.get<AxiosResponse<IDoctor[]>>('/doctors', {
         params: {
-          search: value.toLowerCase(),
+          search,
           fields: 'id,firstName,lastName,image.*,specialties.specialties_id.*',
         },
       }),
       axiosClient.get<AxiosResponse<IClinic[]>>('/clinics', {
         params: {
-          search: value.toLowerCase(),
+          search,
           fields: 'id,slug,name,address,image.*',
         },
       }),
       axiosClient.get<AxiosResponse<IInsurance[]>>('/insurances', {
         params: {
-          search: value.toLowerCase(),
+          search,
           fields: 'id,name,image.*',
         },
       }),

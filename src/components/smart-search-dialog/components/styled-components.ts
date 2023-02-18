@@ -83,6 +83,10 @@ export const StyledSearchResult = styled(Box)(({ theme }) => ({
 
   '.search-hint': {
     color: theme.palette.text.secondary,
+
+    '&--error': {
+      color: theme.palette.error.main,
+    },
   },
 }));
 

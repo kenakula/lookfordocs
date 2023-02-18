@@ -25,8 +25,13 @@ import {
   useAppSelector,
 } from '@/stores';
 import { useCustomTheme } from '@/stores/theme-store-provider';
+import { IMainPromo } from '@/shared/types';
 
-export const MainPromo = (): JSX.Element => {
+interface Props {
+  promoData: IMainPromo | null;
+}
+
+export const MainPromo = ({ promoData }: Props): JSX.Element => {
   const { searchStr } = useAppSelector(state => state.smartSearch);
   const dispatch = useAppDispatch();
   const { theme } = useCustomTheme();
@@ -59,49 +64,84 @@ export const MainPromo = (): JSX.Element => {
   };
 
   const onSearchClick = (): void => {
-    router.push({
-      pathname: SEARCH_PAGE,
-      query: {
-        search: searchStr,
-      },
-    });
+    if (searchStr.length) {
+      router.push({
+        pathname: SEARCH_PAGE,
+        query: {
+          search: searchStr,
+        },
+      });
+    }
+  };
+
+  const onSearchFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (searchStr.length) {
+      dispatch(closeSmartSearch({ clear: false }));
+      router.push({
+        pathname: SEARCH_PAGE,
+        query: {
+          search: searchStr,
+        },
+      });
+    }
   };
 
   return (
     <StyledPromoSection component="section" className="main-promo">
       <ContainerComponent>
-        <Title className="title" variant="h2">
-          Поиск лучших{' '}
-          <Typography component="span" className="highlighted">
-            врачей
-          </Typography>
-        </Title>
-        <Subtitle className="subtitle" variant="body1">
-          Выберите доктора и запишитесь на прием
-        </Subtitle>
+        {promoData ? (
+          <>
+            <Title
+              className="title"
+              variant="h2"
+              dangerouslySetInnerHTML={{ __html: promoData.title }}
+            />
+            <Subtitle className="subtitle" variant="body1">
+              {promoData.subtitle}
+            </Subtitle>
+          </>
+        ) : (
+          <>
+            <Title className="title" variant="h2">
+              Поиск лучших{' '}
+              <Typography component="span" className="highlighted">
+                врачей
+              </Typography>
+            </Title>
+            <Subtitle className="subtitle" variant="body1">
+              Выберите доктора и запишитесь на прием
+            </Subtitle>
+          </>
+        )}
 
         <StyledSearchBox>
           <Becas className="becas" />
           <Box className="input-container">
             <IconSearch />
-            <Input
-              inputRef={inputRef}
-              placeholder="Врача, клиника и услуга"
-              fullWidth
-              onChange={onInputChange}
-              value={searchStr}
-              onFocus={onInputFocus}
-              onBlur={onInputBlur}
-              endAdornment={
-                searchStr.length ? (
-                  <InputAdornment position="end">
-                    <IconButton aria-label="очистить" onClick={clearInput}>
-                      <IconClose />
-                    </IconButton>
-                  </InputAdornment>
-                ) : null
-              }
-            />
+            <form action="#" onSubmit={onSearchFormSubmit}>
+              <Input
+                inputRef={inputRef}
+                placeholder={
+                  promoData ? promoData.inputPlaceholder : 'Введите что-нибудь'
+                }
+                fullWidth
+                onChange={onInputChange}
+                value={searchStr}
+                onFocus={onInputFocus}
+                onBlur={onInputBlur}
+                endAdornment={
+                  searchStr.length ? (
+                    <InputAdornment position="end">
+                      <IconButton aria-label="очистить" onClick={clearInput}>
+                        <IconClose />
+                      </IconButton>
+                    </InputAdornment>
+                  ) : null
+                }
+              />
+            </form>
           </Box>
           <StyledSearchButton
             type="button"

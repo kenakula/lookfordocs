@@ -21,15 +21,23 @@ import {
   getSiteSettings,
   getAdvantages,
   getTestimonials,
+  getPromoData,
+  getAppointmentData,
+  getCountedSpecialties,
 } from '@/stores/api';
 import getRunningMainPageQueries from '@/stores/api/main-page.api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
 
 export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const siteSettings = await store.dispatch(getSiteSettings.initiate());
+  const promoData = await store.dispatch(getPromoData.initiate());
+  const appointmentData = await store.dispatch(getAppointmentData.initiate());
   const services = await store.dispatch(getServicesList.initiate());
   const specialties = await store.dispatch(
     getPopularSpecialtiesList.initiate(),
+  );
+  const countedSpecialties = await store.dispatch(
+    getCountedSpecialties.initiate(),
   );
   const insurances = await store.dispatch(getInsurances.initiate());
   const advantages = await store.dispatch(getAdvantages.initiate());
@@ -40,12 +48,15 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
 
   return {
     props: {
+      promoData: promoData.data ?? null,
       services: services.data ?? null,
       specialties: specialties.data ?? null,
+      countedSpecialties: countedSpecialties.data ?? null,
       insurances: insurances.data ?? null,
       siteSettings: siteSettings.data ?? null,
       advantages: advantages.data ?? null,
       testimonials: testimonials.data ?? null,
+      appointmentData: appointmentData.data ?? null,
     },
   };
 });
@@ -53,10 +64,13 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
 export default function Home({
   services,
   specialties,
+  countedSpecialties,
   insurances,
   siteSettings,
   advantages,
   testimonials,
+  promoData,
+  appointmentData,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const router = useRouter();
 
@@ -75,9 +89,12 @@ export default function Home({
         description="Описание сайта и страницы"
         keyWords="ключевые слова на странице, должны встречаться в текстах"
       />
-      <MainPromo />
-      <MainAppointment />
-      <MainPopular specialties={specialties} />
+      <MainPromo promoData={promoData} />
+      <MainAppointment appointmentData={appointmentData} />
+      <MainPopular
+        specialties={specialties}
+        countedSpecialties={countedSpecialties}
+      />
       <MainServices services={services} />
       <MainInsurances insurances={insurances} />
       <MainAdvantages advantages={advantages} />

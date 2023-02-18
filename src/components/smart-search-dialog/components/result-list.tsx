@@ -25,6 +25,11 @@ const getHighlightedLetters = (str: string, substr: string): JSX.Element => {
     .map(word => capitilize(word))
     .join(' ');
   const startIndex = capitilizedStr.toLowerCase().indexOf(substr.toLowerCase());
+
+  if (startIndex === -1) {
+    return <span>{capitilizedStr}</span>;
+  }
+
   const lastIndex = startIndex + substr.length;
   const highlightedStr = capitilizedStr
     .split('')

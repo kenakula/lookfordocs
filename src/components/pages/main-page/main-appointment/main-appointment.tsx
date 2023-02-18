@@ -1,35 +1,46 @@
-import { Typography, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { StyledInner } from './components';
 import { PageSection, Subtitle, Title } from '@/shared/assets';
 import { ButtonComponent, ContainerComponent } from '@/components';
 import { useCustomTheme } from '@/stores/theme-store-provider';
+import { IMainAppointment } from '@/shared/types';
 
-export const MainAppointment = (): JSX.Element => {
+interface Props {
+  appointmentData: IMainAppointment | null;
+}
+
+export const MainAppointment = ({ appointmentData }: Props): JSX.Element => {
   const { theme } = useCustomTheme();
   const matches = useMediaQuery(theme ? theme.breakpoints.up('lg') : '');
+
+  const getMobileTitle = (): string => {
+    if (!appointmentData) {
+      return '';
+    }
+
+    return appointmentData.titleMobile ?? appointmentData.title;
+  };
 
   return (
     <PageSection shortBottom>
       <ContainerComponent>
         <StyledInner>
-          <Title className="title" variant="h2" minor textAlign="center">
-            Не нашли подходящего врача? Запишитесь на{' '}
-            {matches ? (
-              <Typography component="span" className="highlighted">
-                онлайн консультацию
-              </Typography>
-            ) : (
-              <>
-                <Typography component="span" className="highlighted">
-                  онлайн{' '}
-                </Typography>
-                <Typography component="span" className="highlighted">
-                  консультацию
-                </Typography>
-              </>
-            )}
-          </Title>
-          <Subtitle className="subtitle">365 врача со всего мира</Subtitle>
+          {appointmentData && (
+            <>
+              <Title
+                className="title"
+                variant="h2"
+                minor
+                textAlign="center"
+                dangerouslySetInnerHTML={{
+                  __html: matches ? appointmentData.title : getMobileTitle(),
+                }}
+              />
+              <Subtitle className="subtitle">
+                {appointmentData.subtitle}
+              </Subtitle>
+            </>
+          )}
           <ButtonComponent
             type="button"
             variant="outlined"

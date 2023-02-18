@@ -5,3 +5,8 @@ export interface ISpecialty {
   description?: string;
   popular?: boolean;
 }
+
+export interface ICountedSpecialties {
+  specialties_id: number;
+  count: { doctors_id: number };
+}

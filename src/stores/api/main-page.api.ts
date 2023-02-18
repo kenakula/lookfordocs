@@ -1,12 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { CollectionResponse } from '../assets';
+import { CollectionResponse, SingletonResponse } from '../assets';
 import {
   IMainService,
   ISpecialty,
   IInsurance,
   IAdvantage,
   ITestimonial,
+  IMainPromo,
+  IMainAppointment,
+  ICountedSpecialties,
 } from '@/shared/types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
@@ -23,6 +26,26 @@ export const mainPageApi = createApi({
   },
   tagTypes: [],
   endpoints: builder => ({
+    getPromoData: builder.query<IMainPromo, void>({
+      query: () => ({
+        url: '/promo',
+        params: {
+          fields: 'id,title,subtitle,inputPlaceholder',
+        },
+      }),
+      transformResponse: (response: SingletonResponse<IMainPromo>) =>
+        response.data,
+    }),
+    getAppointmentData: builder.query<IMainAppointment, void>({
+      query: () => ({
+        url: '/appointment',
+        params: {
+          fields: 'id,title,subtitle,titleMobile',
+        },
+      }),
+      transformResponse: (response: SingletonResponse<IMainAppointment>) =>
+        response.data,
+    }),
     getServicesList: builder.query<IMainService[], void>({
       query: () => ({
         url: '/services',
@@ -38,6 +61,17 @@ export const mainPageApi = createApi({
         url: '/specialties',
       }),
       transformResponse: (response: CollectionResponse<ISpecialty>) =>
+        response.data,
+    }),
+    getCountedSpecialties: builder.query<ICountedSpecialties[], void>({
+      query: () => ({
+        url: '/doctors_specialties',
+        params: {
+          groupBy: 'specialties_id',
+          'aggregate[count]': 'doctors_id',
+        },
+      }),
+      transformResponse: (response: CollectionResponse<ICountedSpecialties>) =>
         response.data,
     }),
     getPopularSpecialtiesList: builder.query<ISpecialty[], void>({
@@ -86,19 +120,25 @@ export const mainPageApi = createApi({
 export const {
   useGetServicesListQuery,
   useGetSpecialtiesListQuery,
+  useGetCountedSpecialtiesQuery,
   useGetPopularSpecialtiesListQuery,
   useGetInsurancesQuery,
   useGetAdvantagesQuery,
   useGetTestimonialsQuery,
+  useGetPromoDataQuery,
+  useGetAppointmentDataQuery,
 } = mainPageApi;
 
 export const {
   getServicesList,
   getSpecialtiesList,
+  getCountedSpecialties,
   getPopularSpecialtiesList,
   getInsurances,
   getAdvantages,
   getTestimonials,
+  getPromoData,
+  getAppointmentData,
 } = mainPageApi.endpoints;
 
 export default mainPageApi.util.getRunningQueriesThunk;

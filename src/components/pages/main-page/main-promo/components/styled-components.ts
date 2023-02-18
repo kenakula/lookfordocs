@@ -50,6 +50,11 @@ export const StyledSearchBox = styled(Box)(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     cursor: 'pointer',
 
+    form: {
+      display: 'flex',
+      width: '100%',
+    },
+
     '&:focus-within': {
       outline: `4px solid ${theme.palette.primary.light}`,
     },
