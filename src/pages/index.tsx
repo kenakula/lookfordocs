@@ -22,11 +22,14 @@ import {
   getAdvantages,
   getTestimonials,
   getPromoData,
+  getPageSettings,
   getAppointmentData,
   getCountedSpecialties,
 } from '@/stores/api';
 import getRunningMainPageQueries from '@/stores/api/main-page.api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
+
+const PAGE_SLUG = 'main';
 
 export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const siteSettings = await store.dispatch(getSiteSettings.initiate());
@@ -43,8 +46,14 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const advantages = await store.dispatch(getAdvantages.initiate());
   const testimonials = await store.dispatch(getTestimonials.initiate());
 
-  await Promise.all(store.dispatch(getRunningMainPageQueries()));
-  await Promise.all(store.dispatch(getRunningGlobalQueries()));
+  const pageSettings = await store.dispatch(
+    getPageSettings.initiate(PAGE_SLUG),
+  );
+
+  await Promise.all([
+    ...store.dispatch(getRunningMainPageQueries()),
+    ...store.dispatch(getRunningGlobalQueries()),
+  ]);
 
   return {
     props: {
@@ -57,6 +66,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
       advantages: advantages.data ?? null,
       testimonials: testimonials.data ?? null,
       appointmentData: appointmentData.data ?? null,
+      pageSettings: pageSettings.data ?? null,
     },
   };
 });
@@ -70,6 +80,7 @@ export default function Home({
   advantages,
   testimonials,
   promoData,
+  pageSettings,
   appointmentData,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const router = useRouter();
@@ -84,11 +95,7 @@ export default function Home({
 
   return (
     <Layout siteSettings={siteSettings} isMainPage>
-      <PageSeo
-        title="GoodDoc | Врачи в португалии"
-        description="Описание сайта и страницы"
-        keyWords="ключевые слова на странице, должны встречаться в текстах"
-      />
+      <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
       <MainPromo promoData={promoData} />
       <MainAppointment appointmentData={appointmentData} />
       <MainPopular

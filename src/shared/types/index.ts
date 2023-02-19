@@ -15,3 +15,4 @@ export * from './smart-search.type';
 export * from './block-data.type';
 export * from './main-promo.type';
 export * from './main-appointment.type';
+export * from './page-settings.type';

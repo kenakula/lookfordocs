@@ -1,7 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { globalApi, mainPageApi } from './api';
+import {
+  doctorApi,
+  globalApi,
+  mainPageApi,
+  clinicApi,
+  insuranceApi,
+} from './api';
 import { toasterReducer, smartSearchReducer } from './slices';
 
 export const makeStore = () =>
@@ -11,11 +17,17 @@ export const makeStore = () =>
       smartSearch: smartSearchReducer,
       [mainPageApi.reducerPath]: mainPageApi.reducer,
       [globalApi.reducerPath]: globalApi.reducer,
+      [doctorApi.reducerPath]: doctorApi.reducer,
+      [clinicApi.reducerPath]: clinicApi.reducer,
+      [insuranceApi.reducerPath]: insuranceApi.reducer,
     },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware().concat([
         mainPageApi.middleware,
         globalApi.middleware,
+        doctorApi.middleware,
+        clinicApi.middleware,
+        insuranceApi.middleware,
       ]),
   });
 

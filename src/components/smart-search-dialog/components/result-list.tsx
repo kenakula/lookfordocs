@@ -138,7 +138,7 @@ export const ResultList = ({
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
-                    variant="rounded"
+                    variant="circular"
                     src={getImageUrl(image.id, firstName, 'width=80&height=80')}
                   />
                   <Box className="complex-item-info">

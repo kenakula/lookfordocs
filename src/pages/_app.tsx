@@ -59,17 +59,14 @@ export default function MyApp(props: MyAppProps) {
                 property="og:url"
                 content="https://goodoc-git-dev-kenakula.vercel.app/"
               />
-              <meta property="og:image" content="favicons/mstile-150x150.png" />
+              <meta property="og:image" content="/mstile-150x150.png" />
               {/* twitter */}
               <meta property="twitter:card" content="summary_large_image" />
               <meta
                 property="twitter:url"
                 content="https://goodoc-git-dev-kenakula.vercel.app/"
               />
-              <meta
-                property="twitter:image"
-                content="favicons/mstile-150x150.png"
-              />
+              <meta property="twitter:image" content="/mstile-150x150.png" />
             </Head>
             <Component {...pageProps} />
             <Toaster />

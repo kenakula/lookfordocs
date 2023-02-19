@@ -1,25 +1,27 @@
 import Head from 'next/head';
+import { IPageSettings } from '@/shared/types';
 
 interface Props {
-  title: string;
-  description: string;
-  keyWords: string;
+  pageSettings: IPageSettings | null;
 }
 
-export const PageSeo = ({
-  title,
-  description,
-  keyWords,
-}: Props): JSX.Element => {
+export const PageSeo = ({ pageSettings }: Props): JSX.Element | null => {
+  if (!pageSettings) {
+    return null;
+  }
+
   return (
     <Head>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keyWords} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="twitter:title" content={title} />
-      <meta property="twitter:description" content={description} />
+      <title>{pageSettings.pageTitle}</title>
+      <meta name="description" content={pageSettings.pageDescription} />
+      <meta name="keywords" content={pageSettings.pageKeywords} />
+      <meta property="og:title" content={pageSettings.pageTitle} />
+      <meta property="og:description" content={pageSettings.pageDescription} />
+      <meta property="twitter:title" content={pageSettings.pageTitle} />
+      <meta
+        property="twitter:description"
+        content={pageSettings.pageDescription}
+      />
     </Head>
   );
 };

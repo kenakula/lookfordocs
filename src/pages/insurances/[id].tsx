@@ -1,16 +1,28 @@
+import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
-import { GetStaticPaths, InferGetStaticPropsType } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ContainerComponent, Layout, PageSeo } from '@/components';
 import { wrapper } from '@/stores';
-import { getSiteSettings } from '@/stores/api';
-import getRunningGlobalQueries from '@/stores/api/global.api';
+import { getInsuranceInfo, getSiteSettings } from '@/stores/api';
 import { axiosClient } from '@/stores/assets';
-import { IClinic } from '@/shared/types';
+import { IInsurance, ISiteSettings } from '@/shared/types';
+import getRunningGlobalQueries from '@/stores/api/global.api';
+import getRunningInsuranceQueries from '@/stores/api/insurance.api';
+
+interface PageParams extends ParsedUrlQuery {
+  id: string;
+}
+
+interface InsurancePageProps {
+  siteSettings?: ISiteSettings | null;
+  insuranceInfo?: IInsurance | null;
+  notFound?: boolean;
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await axiosClient.get<AxiosResponse<IClinic[]>>(
+  const response = await axiosClient.get<AxiosResponse<IInsurance[]>>(
     '/insurances',
     {
       params: { fields: 'id' },
@@ -18,27 +30,44 @@ export const getStaticPaths: GetStaticPaths = async () => {
   );
 
   return {
-    paths: response.data.data.map(clinic => ({
-      params: { id: clinic.id.toString() },
+    paths: response.data.data.map(insurance => ({
+      params: { id: insurance.id.toString() },
     })),
     fallback: true,
   };
 };
 
-export const getStaticProps = wrapper.getStaticProps(store => async () => {
-  const siteSettings = await store.dispatch(getSiteSettings.initiate());
+export const getStaticProps: GetStaticProps<InsurancePageProps, PageParams> =
+  wrapper.getStaticProps(store => async ({ params }) => {
+    const insuranceId = (params as PageParams).id;
 
-  await Promise.all(store.dispatch(getRunningGlobalQueries()));
+    const siteSettings = await store.dispatch(getSiteSettings.initiate());
+    const insuranceInfo = await store.dispatch(
+      getInsuranceInfo.initiate(insuranceId),
+    );
 
-  return {
-    props: {
-      siteSettings: siteSettings.data ?? null,
-    },
-  };
-});
+    await Promise.all([
+      ...store.dispatch(getRunningGlobalQueries()),
+      ...store.dispatch(getRunningInsuranceQueries()),
+    ]);
+
+    if (!insuranceInfo) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        siteSettings: siteSettings.data ?? null,
+        insuranceInfo: insuranceInfo.data ?? null,
+      },
+    };
+  });
 
 const InsurancePage = ({
   siteSettings,
+  insuranceInfo,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
 
@@ -50,15 +79,27 @@ const InsurancePage = ({
     );
   }
 
+  if (!siteSettings || !insuranceInfo) {
+    return (
+      <ContainerComponent>
+        <Typography textAlign="center">Not Found</Typography>
+      </ContainerComponent>
+    );
+  }
+
   return (
     <Layout siteSettings={siteSettings}>
       <PageSeo
-        title="GoodDoc | Страховая компания"
-        description="Описание сайта и страницы"
-        keyWords="ключевые слова на странице, должны встречаться в текстах"
+        pageSettings={{
+          pageTitle: insuranceInfo.name,
+          pageDescription: 'Описание страховки',
+          pageKeywords: 'keywords',
+          slug: 'insurance',
+        }}
       />
       <ContainerComponent>
         <h1>InsurancePage</h1>
+        <p>{insuranceInfo.name}</p>
       </ContainerComponent>
     </Layout>
   );

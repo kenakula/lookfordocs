@@ -1,13 +1,25 @@
+import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
-import { GetStaticPaths, InferGetStaticPropsType } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ContainerComponent, Layout, PageSeo } from '@/components';
 import { wrapper } from '@/stores';
-import { getSiteSettings } from '@/stores/api';
-import getRunningGlobalQueries from '@/stores/api/global.api';
+import { getClinicInfo, getSiteSettings } from '@/stores/api';
 import { axiosClient } from '@/stores/assets';
-import { IClinic } from '@/shared/types';
+import { IClinic, ISiteSettings } from '@/shared/types';
+import getRunningGlobalQueries from '@/stores/api/global.api';
+import getRunningClinicQueries from '@/stores/api/clinic.api';
+
+interface PageParams extends ParsedUrlQuery {
+  id: string;
+}
+
+interface ClinicPageProps {
+  siteSettings?: ISiteSettings | null;
+  clinicInfo?: IClinic | null;
+  notFound?: boolean;
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await axiosClient.get<AxiosResponse<IClinic[]>>('/clinics', {
@@ -22,20 +34,35 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = wrapper.getStaticProps(store => async () => {
-  const siteSettings = await store.dispatch(getSiteSettings.initiate());
+export const getStaticProps: GetStaticProps<ClinicPageProps, PageParams> =
+  wrapper.getStaticProps(store => async ({ params }) => {
+    const clinicId = (params as PageParams).id;
 
-  await Promise.all(store.dispatch(getRunningGlobalQueries()));
+    const siteSettings = await store.dispatch(getSiteSettings.initiate());
+    const clinicInfo = await store.dispatch(getClinicInfo.initiate(clinicId));
 
-  return {
-    props: {
-      siteSettings: siteSettings.data ?? null,
-    },
-  };
-});
+    await Promise.all([
+      ...store.dispatch(getRunningGlobalQueries()),
+      ...store.dispatch(getRunningClinicQueries()),
+    ]);
+
+    if (!clinicInfo) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        siteSettings: siteSettings.data ?? null,
+        clinicInfo: clinicInfo.data ?? null,
+      },
+    };
+  });
 
 const ClinicPage = ({
   siteSettings,
+  clinicInfo,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
 
@@ -47,15 +74,27 @@ const ClinicPage = ({
     );
   }
 
+  if (!siteSettings || !clinicInfo) {
+    return (
+      <ContainerComponent>
+        <Typography textAlign="center">Not Found</Typography>
+      </ContainerComponent>
+    );
+  }
+
   return (
     <Layout siteSettings={siteSettings}>
       <PageSeo
-        title="GoodDoc | Клиники португалии"
-        description="Описание сайта и страницы"
-        keyWords="ключевые слова на странице, должны встречаться в текстах"
+        pageSettings={{
+          pageTitle: clinicInfo.name,
+          pageDescription: 'Описание клиники',
+          pageKeywords: 'keywords',
+          slug: 'clinic',
+        }}
       />
       <ContainerComponent>
         <h1>ClinicPage</h1>
+        <p>{clinicInfo.name}</p>
       </ContainerComponent>
     </Layout>
   );

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { SingletonResponse } from '../assets';
-import { ISiteSettings } from '@/shared/types';
+import { CollectionResponse, SingletonResponse } from '../assets';
+import { IPageSettings, ISiteSettings } from '@/shared/types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 
@@ -28,11 +28,21 @@ export const globalApi = createApi({
       transformResponse: (response: SingletonResponse<ISiteSettings>) =>
         response.data,
     }),
+    getPageSettings: builder.query<IPageSettings[], string>({
+      query: (str: string) => ({
+        url: '/pages',
+        params: {
+          filter: JSON.stringify({ slug: { _eq: str } }),
+        },
+      }),
+      transformResponse: (response: CollectionResponse<IPageSettings>) =>
+        response.data,
+    }),
   }),
 });
 
-export const { useGetSiteSettingsQuery } = globalApi;
+export const { useGetSiteSettingsQuery, useGetPageSettingsQuery } = globalApi;
 
-export const { getSiteSettings } = globalApi.endpoints;
+export const { getSiteSettings, getPageSettings } = globalApi.endpoints;
 
 export default globalApi.util.getRunningQueriesThunk;

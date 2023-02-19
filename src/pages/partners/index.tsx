@@ -1,31 +1,34 @@
 import { InferGetStaticPropsType } from 'next';
 import { ContainerComponent, Layout, PageSeo } from '@/components';
 import { wrapper } from '@/stores';
-import { getSiteSettings } from '@/stores/api';
+import { getSiteSettings, getPageSettings } from '@/stores/api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
+
+const PAGE_SLUG = 'partners';
 
 export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const siteSettings = await store.dispatch(getSiteSettings.initiate());
+  const pageSettings = await store.dispatch(
+    getPageSettings.initiate(PAGE_SLUG),
+  );
 
   await Promise.all(store.dispatch(getRunningGlobalQueries()));
 
   return {
     props: {
       siteSettings: siteSettings.data ?? null,
+      pageSettings: pageSettings.data ?? null,
     },
   };
 });
 
 const PartnersPage = ({
   siteSettings,
+  pageSettings,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   return (
     <Layout siteSettings={siteSettings}>
-      <PageSeo
-        title="GoodDoc | Докторам и клиникам"
-        description="Описание сайта и страницы"
-        keyWords="ключевые слова на странице, должны встречаться в текстах"
-      />
+      <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
       <ContainerComponent>
         <h1>PartnersPage</h1>
       </ContainerComponent>
