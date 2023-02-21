@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { axiosClient, AxiosResponse } from '../assets';
+import {
+  axiosClient,
+  AxiosResponse,
+  getClinicsFilterString,
+  getDoctorsFilterString,
+  getInsurancesFilterString,
+  getSpecialtiesFilterString,
+} from '../assets';
 import {
   IClinic,
   IDoctor,
@@ -41,25 +48,25 @@ export const smartSearch = createAsyncThunk<
     const response = await Promise.all([
       axiosClient.get<AxiosResponse<ISpecialty[]>>('/specialties', {
         params: {
-          search,
+          filter: getSpecialtiesFilterString(search),
           fields: 'id,slug,title',
         },
       }),
       axiosClient.get<AxiosResponse<IDoctor[]>>('/doctors', {
         params: {
-          search,
+          filter: getDoctorsFilterString(search),
           fields: 'id,firstName,lastName,image.*,specialties.specialties_id.*',
         },
       }),
       axiosClient.get<AxiosResponse<IClinic[]>>('/clinics', {
         params: {
-          search,
+          filter: getClinicsFilterString(search),
           fields: 'id,slug,name,address,image.*',
         },
       }),
       axiosClient.get<AxiosResponse<IInsurance[]>>('/insurances', {
         params: {
-          search,
+          filter: getInsurancesFilterString(search),
           fields: 'id,name,image.*',
         },
       }),

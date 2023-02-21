@@ -16,7 +16,7 @@ export interface IDoctor {
   description?: string;
   contacts?: IContact[];
   firstName: string;
-  lastName: string;
+  lastName?: string;
   image: IImage;
   specialties: SpecialtyRef[];
 }

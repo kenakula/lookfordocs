@@ -32,7 +32,9 @@ interface Props {
 }
 
 export const MainPromo = ({ promoData }: Props): JSX.Element => {
-  const { searchStr } = useAppSelector(state => state.smartSearch);
+  const { searchStr, searchStatus } = useAppSelector(
+    state => state.smartSearch,
+  );
   const dispatch = useAppDispatch();
   const { theme } = useCustomTheme();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -153,6 +155,7 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
             disableElevation
             size="large"
             onClick={onSearchClick}
+            disabled={searchStatus === 'pending'}
           >
             Найти
           </StyledSearchButton>

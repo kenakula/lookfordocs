@@ -22,6 +22,7 @@ const capitilize = (str: string): string => str[0].toUpperCase() + str.slice(1);
 const getHighlightedLetters = (str: string, substr: string): JSX.Element => {
   const capitilizedStr = str
     .split(' ')
+    .filter(word => word.length)
     .map(word => capitilize(word))
     .join(' ');
   const startIndex = capitilizedStr.toLowerCase().indexOf(substr.toLowerCase());
@@ -144,7 +145,7 @@ export const ResultList = ({
                   <Box className="complex-item-info">
                     <Typography>
                       {getHighlightedLetters(
-                        `${firstName} ${lastName}`,
+                        `${firstName} ${lastName ?? ''}`,
                         search,
                       )}
                     </Typography>

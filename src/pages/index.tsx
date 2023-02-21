@@ -6,7 +6,6 @@ import {
   Layout,
   MainAdvantages,
   MainAppointment,
-  MainInsurances,
   MainPopular,
   MainPromo,
   MainServices,
@@ -75,7 +74,6 @@ export default function Home({
   services,
   specialties,
   countedSpecialties,
-  insurances,
   siteSettings,
   advantages,
   testimonials,
@@ -103,7 +101,7 @@ export default function Home({
         countedSpecialties={countedSpecialties}
       />
       <MainServices services={services} />
-      <MainInsurances insurances={insurances} />
+      {/* <MainInsurances insurances={insurances} /> */}
       <MainAdvantages advantages={advantages} />
       <MainTestimonials testimonials={testimonials} />
     </Layout>

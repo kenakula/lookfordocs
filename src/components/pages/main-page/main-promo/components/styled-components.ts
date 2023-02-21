@@ -167,6 +167,10 @@ export const StyledSearchButton = styled(Button)(({ theme }) => ({
   '&:focus-visible': {
     outline: `4px solid ${theme.palette.primary.light}`,
   },
+  '&.Mui-disabled': {
+    backgroundColor: theme.palette.text.disabled,
+    color: theme.palette.background.default,
+  },
 
   [theme.breakpoints.up('lg')]: {
     alignSelf: 'center',
