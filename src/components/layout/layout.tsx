@@ -5,8 +5,8 @@ import { SmartSearchDialog } from '@/components';
 
 interface Props {
   children: JSX.Element | JSX.Element[];
-  isMainPage?: boolean;
   siteSettings: ISiteSettings | null;
+  isMainPage?: boolean;
 }
 
 export const Layout = ({

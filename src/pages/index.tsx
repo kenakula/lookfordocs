@@ -101,7 +101,6 @@ export default function Home({
         countedSpecialties={countedSpecialties}
       />
       <MainServices services={services} />
-      {/* <MainInsurances insurances={insurances} /> */}
       <MainAdvantages advantages={advantages} />
       <MainTestimonials testimonials={testimonials} />
     </Layout>
