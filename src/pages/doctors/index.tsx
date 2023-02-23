@@ -80,6 +80,9 @@ const DoctorsPage = ({
 
   return (
     <Layout siteSettings={siteSettings}>
+      {pageSettings ? (
+        <h1 className="visually-hidden">{pageSettings[0].h1 ?? ''}</h1>
+      ) : null}
       <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
       <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
       {promoData && <Promo promoData={promoData} />}

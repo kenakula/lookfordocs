@@ -5,12 +5,14 @@ import {
   AxiosResponse,
   getClinicsFilterString,
   getDoctorsFilterString,
+  getGlobalServicesFilterString,
   getInsurancesFilterString,
   getSpecialtiesFilterString,
 } from '../assets';
 import {
   IClinic,
   IDoctor,
+  IGlobalService,
   IInsurance,
   ISmartSearchResult,
   ISpecialty,
@@ -70,15 +72,23 @@ export const smartSearch = createAsyncThunk<
           fields: 'id,name,image.*',
         },
       }),
+      axiosClient.get<AxiosResponse<IGlobalService[]>>('/globalServices', {
+        params: {
+          filter: getGlobalServicesFilterString(search),
+          fields: 'id,name,slug',
+        },
+      }),
     ]);
 
     const result: ISmartSearchResult[] = [];
-    const [specialties, doctors, clinics, insurances] = response;
+    const [specialties, doctors, clinics, insurances, globalServices] =
+      response;
 
     result.push({ type: 'specialties', list: specialties.data.data });
     result.push({ type: 'docs', list: doctors.data.data });
     result.push({ type: 'clinics', list: clinics.data.data });
     result.push({ type: 'insurances', list: insurances.data.data });
+    result.push({ type: 'globalService', list: globalServices.data.data });
 
     return result;
   } catch (error) {

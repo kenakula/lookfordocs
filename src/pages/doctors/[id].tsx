@@ -90,6 +90,7 @@ const DoctorPage = ({
           pageDescription: 'Описание врача',
           pageKeywords: 'keywords',
           slug: 'doc',
+          h1: 'Page title',
         }}
       />
       <ContainerComponent>

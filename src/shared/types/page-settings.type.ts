@@ -3,4 +3,5 @@ export interface IPageSettings {
   pageTitle: string;
   pageDescription: string;
   pageKeywords: string;
+  h1: string;
 }

@@ -8,6 +8,7 @@ import {
   IClinic,
   IDoctor,
   IInsurance,
+  IGlobalService,
 } from '@/shared/types';
 import { closeSmartSearch, useAppDispatch } from '@/stores';
 
@@ -75,6 +76,29 @@ export const ResultList = ({
                   onClick={closeSearchBox}
                 >
                   {getHighlightedLetters(title, search)}
+                </ListItemButton>
+              );
+            })}
+          </List>
+        </StyledResultList>
+      );
+    case 'globalService':
+      return (
+        <StyledResultList>
+          <Typography variant="h3">Услуги</Typography>
+          <List>
+            {list.map(item => {
+              const { id, name } = item as IGlobalService;
+
+              return (
+                <ListItemButton
+                  key={`service-${id}`}
+                  className="search-link"
+                  component={Link}
+                  href={`${DOCTORS_PAGE}?service=${id}`}
+                  onClick={closeSearchBox}
+                >
+                  {getHighlightedLetters(name, search)}
                 </ListItemButton>
               );
             })}

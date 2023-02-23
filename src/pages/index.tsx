@@ -93,6 +93,9 @@ export default function Home({
 
   return (
     <Layout siteSettings={siteSettings} isMainPage>
+      {pageSettings ? (
+        <h1 className="visually-hidden">{pageSettings[0].h1 ?? ''}</h1>
+      ) : null}
       <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
       {promoData && <MainPromo promoData={promoData} />}
       <MainAppointment appointmentData={appointmentData} />
