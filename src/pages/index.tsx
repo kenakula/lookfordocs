@@ -20,7 +20,7 @@ import {
   getSiteSettings,
   getAdvantages,
   getTestimonials,
-  getPromoData,
+  getMainPagePromoData,
   getPageSettings,
   getAppointmentData,
   getCountedSpecialties,
@@ -32,7 +32,7 @@ const PAGE_SLUG = 'main';
 
 export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const siteSettings = await store.dispatch(getSiteSettings.initiate());
-  const promoData = await store.dispatch(getPromoData.initiate());
+  const promoData = await store.dispatch(getMainPagePromoData.initiate());
   const appointmentData = await store.dispatch(getAppointmentData.initiate());
   const services = await store.dispatch(getServicesList.initiate());
   const specialties = await store.dispatch(
@@ -94,7 +94,7 @@ export default function Home({
   return (
     <Layout siteSettings={siteSettings} isMainPage>
       <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
-      <MainPromo promoData={promoData} />
+      {promoData && <MainPromo promoData={promoData} />}
       <MainAppointment appointmentData={appointmentData} />
       <MainPopular
         specialties={specialties}

@@ -42,8 +42,7 @@ export const Header = ({
   const { theme } = useCustomTheme();
   const isNotMobile = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
   const dispatch = useAppDispatch();
-  const showSearchButton =
-    !isMainPage || (isMainPage && !trigger && pageScrolled);
+  const showSearchButton = isMainPage && !trigger && pageScrolled;
 
   useEffect(() => {
     setPageScrolled(position.position.y > 0);

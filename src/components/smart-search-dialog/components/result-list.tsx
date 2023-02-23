@@ -1,13 +1,7 @@
 import { Typography, List, ListItemButton, Avatar, Box } from '@mui/material';
 import Link from 'next/link';
 import { StyledResultList } from './styled-components';
-import {
-  CLINICS_PAGE,
-  DOCTORS_PAGE,
-  getImageUrl,
-  INSURANCES_PAGE,
-  SEARCH_PAGE,
-} from '@/shared/assets';
+import { getImageUrl, DOCTORS_PAGE } from '@/shared/assets';
 import {
   ISmartSearchResult,
   ISpecialty,
@@ -70,14 +64,14 @@ export const ResultList = ({
           <Typography variant="h3">Специализация врачей</Typography>
           <List>
             {list.map(item => {
-              const { id, title, slug } = item as ISpecialty;
+              const { id, title } = item as ISpecialty;
 
               return (
                 <ListItemButton
                   key={`spec-${id}`}
                   className="search-link"
                   component={Link}
-                  href={`${SEARCH_PAGE}?specialty=${slug}`}
+                  href={`${DOCTORS_PAGE}?specialty=${id}`}
                   onClick={closeSearchBox}
                 >
                   {getHighlightedLetters(title, search)}
@@ -100,7 +94,7 @@ export const ResultList = ({
                   key={`clinic-${id}`}
                   className="complex-item"
                   component={Link}
-                  href={`${CLINICS_PAGE}/${id}`}
+                  href={`${DOCTORS_PAGE}?clinic=${id}`}
                   onClick={closeSearchBox}
                 >
                   <Avatar
@@ -174,7 +168,7 @@ export const ResultList = ({
                   key={`insurance-${id}`}
                   className="complex-item"
                   component={Link}
-                  href={`${INSURANCES_PAGE}/${id}`}
+                  href={`${DOCTORS_PAGE}?insurance=${id}`}
                   onClick={closeSearchBox}
                 >
                   <Avatar

@@ -22,7 +22,7 @@ import {
 } from '@/stores';
 import { useCustomTheme } from '@/stores/theme-store-provider';
 import { useDebounce } from '@/shared/hooks';
-import { SEARCH_PAGE } from '@/shared/assets';
+import { DOCTORS_PAGE } from '@/shared/assets';
 
 interface Props {
   isMainPage: boolean;
@@ -67,9 +67,9 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
     if (searchStr.length) {
       router
         .push({
-          pathname: SEARCH_PAGE,
+          pathname: DOCTORS_PAGE,
           query: {
-            search: searchStr,
+            name: searchStr,
           },
         })
         .then(() => {

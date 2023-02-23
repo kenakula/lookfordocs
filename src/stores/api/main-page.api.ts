@@ -7,9 +7,9 @@ import {
   IInsurance,
   IAdvantage,
   ITestimonial,
-  IMainPromo,
-  IMainAppointment,
+  IBlockData,
   ICountedSpecialties,
+  IPromoBlockData,
 } from '@/shared/types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
@@ -26,24 +26,24 @@ export const mainPageApi = createApi({
   },
   tagTypes: [],
   endpoints: builder => ({
-    getPromoData: builder.query<IMainPromo, void>({
+    getMainPagePromoData: builder.query<IPromoBlockData, void>({
       query: () => ({
         url: '/promo',
         params: {
-          fields: 'id,title,subtitle,inputPlaceholder',
+          fields: 'id,title,subtitle',
         },
       }),
-      transformResponse: (response: SingletonResponse<IMainPromo>) =>
+      transformResponse: (response: SingletonResponse<IPromoBlockData>) =>
         response.data,
     }),
-    getAppointmentData: builder.query<IMainAppointment, void>({
+    getAppointmentData: builder.query<IBlockData, void>({
       query: () => ({
         url: '/appointment',
         params: {
           fields: 'id,title,subtitle,titleMobile',
         },
       }),
-      transformResponse: (response: SingletonResponse<IMainAppointment>) =>
+      transformResponse: (response: SingletonResponse<IBlockData>) =>
         response.data,
     }),
     getServicesList: builder.query<IMainService[], void>({
@@ -125,7 +125,7 @@ export const {
   useGetInsurancesQuery,
   useGetAdvantagesQuery,
   useGetTestimonialsQuery,
-  useGetPromoDataQuery,
+  useGetMainPagePromoDataQuery,
   useGetAppointmentDataQuery,
 } = mainPageApi;
 
@@ -137,7 +137,7 @@ export const {
   getInsurances,
   getAdvantages,
   getTestimonials,
-  getPromoData,
+  getMainPagePromoData,
   getAppointmentData,
 } = mainPageApi.endpoints;
 

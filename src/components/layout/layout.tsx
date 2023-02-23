@@ -1,10 +1,9 @@
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 import { ISiteSettings } from '@/shared/types';
-import { SmartSearchDialog } from '@/components';
 
 interface Props {
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode;
   siteSettings: ISiteSettings | null;
   isMainPage?: boolean;
 }
@@ -21,7 +20,6 @@ export const Layout = ({
       )}
       <main>{children}</main>
       {siteSettings && <Footer siteSettings={siteSettings} />}
-      {!isMainPage && <SmartSearchDialog isMainPage={isMainPage} />}
     </>
   );
 };

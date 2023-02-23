@@ -8,3 +8,6 @@ export * from './user-avatar/user-avatar';
 export * from './socials/socials';
 export * from './smart-search-dialog/smart-search-dialog';
 export * from './page-seo/page-seo';
+export * from './promo/promo';
+export * from './chip-component/chip-component';
+export * from './breadcrumbs-component/breadcrumbs-component';

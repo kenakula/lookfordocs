@@ -7,6 +7,7 @@ import {
   mainPageApi,
   clinicApi,
   insuranceApi,
+  doctorsPageApi,
 } from './api';
 import { toasterReducer, smartSearchReducer } from './slices';
 
@@ -20,6 +21,7 @@ export const makeStore = () =>
       [doctorApi.reducerPath]: doctorApi.reducer,
       [clinicApi.reducerPath]: clinicApi.reducer,
       [insuranceApi.reducerPath]: insuranceApi.reducer,
+      [doctorsPageApi.reducerPath]: doctorsPageApi.reducer,
     },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware().concat([
@@ -28,6 +30,7 @@ export const makeStore = () =>
         doctorApi.middleware,
         clinicApi.middleware,
         insuranceApi.middleware,
+        doctorsPageApi.middleware,
       ]),
   });
 

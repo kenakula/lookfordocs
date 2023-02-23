@@ -14,7 +14,7 @@ import {
 import { ButtonComponent } from '@/components';
 import { useCustomTheme } from '@/stores/theme-store-provider';
 import { ISpecialty, ICountedSpecialties } from '@/shared/types';
-import { numWord, SEARCH_PAGE } from '@/shared/assets';
+import { DOCTORS_PAGE, numWord } from '@/shared/assets';
 
 const CARD_HEIGHT = 98;
 const CARD_GAP = 12;
@@ -77,7 +77,7 @@ export const CardsList = ({
             <StyledCard minHeight={CARD_HEIGHT} key={id}>
               <MuiLink
                 underline="none"
-                href={`${SEARCH_PAGE}?specialty=${slug}`}
+                href={`${DOCTORS_PAGE}?specialty=${slug}`}
                 component={Link}
               >
                 <Typography variant="h3">

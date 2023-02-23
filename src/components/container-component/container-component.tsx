@@ -11,7 +11,7 @@ const StyledContainer = styled(MuiContainer)(({ theme }) => ({
 }));
 
 interface Props {
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode;
   style?: SxProps;
 }
 

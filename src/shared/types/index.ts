@@ -13,6 +13,5 @@ export * from './contact.type';
 export * from './clinic.type';
 export * from './smart-search.type';
 export * from './block-data.type';
-export * from './main-promo.type';
-export * from './main-appointment.type';
 export * from './page-settings.type';
+export * from './breadcrumb.type';

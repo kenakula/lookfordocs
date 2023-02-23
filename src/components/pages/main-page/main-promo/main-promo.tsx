@@ -4,7 +4,6 @@ import {
   IconButton,
   Input,
   InputAdornment,
-  Typography,
   useMediaQuery,
 } from '@mui/material';
 import React, { useRef } from 'react';
@@ -13,7 +12,7 @@ import {
   StyledSearchBox,
   StyledSearchButton,
 } from './components';
-import { SEARCH_PAGE, Subtitle, Title } from '@/shared/assets';
+import { DOCTORS_PAGE, Subtitle, Title } from '@/shared/assets';
 import { ContainerComponent, SmartSearchDialog } from '@/components';
 import { Becas, IconClose, IconSearch } from '@/components/icons';
 import {
@@ -25,10 +24,10 @@ import {
   useAppSelector,
 } from '@/stores';
 import { useCustomTheme } from '@/stores/theme-store-provider';
-import { IMainPromo } from '@/shared/types';
+import { IPromoBlockData } from '@/shared/types';
 
 interface Props {
-  promoData: IMainPromo | null;
+  promoData: IPromoBlockData;
 }
 
 export const MainPromo = ({ promoData }: Props): JSX.Element => {
@@ -68,7 +67,7 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
   const onSearchClick = (): void => {
     if (searchStr.length) {
       router.push({
-        pathname: SEARCH_PAGE,
+        pathname: DOCTORS_PAGE,
         query: {
           search: searchStr,
         },
@@ -82,9 +81,9 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
     if (searchStr.length) {
       dispatch(closeSmartSearch({ clear: false }));
       router.push({
-        pathname: SEARCH_PAGE,
+        pathname: DOCTORS_PAGE,
         query: {
-          search: searchStr,
+          name: searchStr,
         },
       });
     }
@@ -93,30 +92,14 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
   return (
     <StyledPromoSection component="section" className="main-promo">
       <ContainerComponent>
-        {promoData ? (
-          <>
-            <Title
-              className="title"
-              variant="h2"
-              dangerouslySetInnerHTML={{ __html: promoData.title }}
-            />
-            <Subtitle className="subtitle" variant="body1">
-              {promoData.subtitle}
-            </Subtitle>
-          </>
-        ) : (
-          <>
-            <Title className="title" variant="h2">
-              Поиск лучших{' '}
-              <Typography component="span" className="highlighted">
-                врачей
-              </Typography>
-            </Title>
-            <Subtitle className="subtitle" variant="body1">
-              Выберите доктора и запишитесь на прием
-            </Subtitle>
-          </>
-        )}
+        <Title
+          className="title"
+          variant="h2"
+          dangerouslySetInnerHTML={{ __html: promoData.title }}
+        />
+        <Subtitle className="subtitle" variant="body1">
+          {promoData.subtitle}
+        </Subtitle>
 
         <StyledSearchBox>
           <Becas className="becas" />

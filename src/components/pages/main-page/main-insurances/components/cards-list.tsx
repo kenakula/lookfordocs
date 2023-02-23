@@ -15,7 +15,7 @@ import {
 import { ButtonComponent } from '@/components';
 import { useCustomTheme } from '@/stores/theme-store-provider';
 import { IInsurance } from '@/shared/types/insurance.type';
-import { getImageUrl, INSURANCES_PAGE } from '@/shared/assets';
+import { getImageUrl, DOCTORS_PAGE } from '@/shared/assets';
 
 const CARD_HEIGHT = 120;
 const CARD_GAP = 12;
@@ -43,7 +43,7 @@ export const CardsList = ({ insurances }: Props): JSX.Element => {
             <StyledCard minHeight={CARD_HEIGHT} key={id}>
               <MuiLink
                 underline="none"
-                href={`${INSURANCES_PAGE}/${id}`}
+                href={`${DOCTORS_PAGE}`}
                 component={Link}
               >
                 <Typography className="visually-hidden" variant="h3">
@@ -64,7 +64,7 @@ export const CardsList = ({ insurances }: Props): JSX.Element => {
           <Button
             className="button-link"
             component={Link}
-            href={INSURANCES_PAGE}
+            href={DOCTORS_PAGE}
             variant="outlined"
             disableFocusRipple
             disableRipple

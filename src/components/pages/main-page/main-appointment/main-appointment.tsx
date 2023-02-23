@@ -3,10 +3,10 @@ import { StyledInner } from './components';
 import { PageSection, Subtitle, Title } from '@/shared/assets';
 import { ButtonComponent, ContainerComponent } from '@/components';
 import { useCustomTheme } from '@/stores/theme-store-provider';
-import { IMainAppointment } from '@/shared/types';
+import { IBlockData } from '@/shared/types';
 
 interface Props {
-  appointmentData: IMainAppointment | null;
+  appointmentData: IBlockData | null;
 }
 
 export const MainAppointment = ({ appointmentData }: Props): JSX.Element => {
