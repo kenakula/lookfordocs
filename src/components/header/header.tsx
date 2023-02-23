@@ -49,10 +49,15 @@ export const Header = ({
   }, [position.position]);
 
   const openSmartSearchBox = (): void => {
-    dispatch(openSmartSearch());
-
     if (isNotMobile) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const searchInput = document.getElementById('main-search');
+
+      if (searchInput) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        searchInput.focus({ preventScroll: true });
+      }
+    } else {
+      dispatch(openSmartSearch());
     }
   };
 

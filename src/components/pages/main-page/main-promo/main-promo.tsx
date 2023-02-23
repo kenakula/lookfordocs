@@ -107,6 +107,7 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
             <IconSearch />
             <form action="#" onSubmit={onSearchFormSubmit}>
               <Input
+                id="main-search"
                 inputRef={inputRef}
                 placeholder={
                   isTablet
