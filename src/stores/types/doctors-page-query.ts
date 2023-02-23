@@ -5,4 +5,5 @@ export type DoctorsFilterQuery = {
   insurance?: string;
   city?: string;
   lang?: string;
+  service?: string;
 };

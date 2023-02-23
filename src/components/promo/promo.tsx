@@ -1,7 +1,7 @@
 import { ContainerComponent } from '../container-component/container-component';
 import { ChipComponent } from '../chip-component/chip-component';
 import { ButtonComponent } from '../button-component/button-component';
-// import { Becas } from '../icons';
+import { Becas } from '../icons';
 import { StyledChips, StyledPromoSection } from './components';
 import { Subtitle, Title } from '@/shared/assets';
 import { IPromoBlockData } from '@/shared/types';
@@ -23,7 +23,7 @@ export const Promo = ({ promoData }: Props): JSX.Element => {
           {promoData.subtitle}
         </Subtitle>
         {promoData.chips ? (
-          <StyledChips>
+          <StyledChips className="chips">
             {promoData.chips.map(chip => (
               <li key={chip.text}>
                 <ChipComponent data={chip} />
@@ -36,9 +36,8 @@ export const Promo = ({ promoData }: Props): JSX.Element => {
           variant="outlined"
           fullWidth
           text="Записаться"
-          sx={{ mt: 4 }}
         />
-        {/* <Becas className="becas" /> */}
+        <Becas className="becas" />
       </ContainerComponent>
     </StyledPromoSection>
   );

@@ -15,3 +15,5 @@ export * from './smart-search.type';
 export * from './block-data.type';
 export * from './page-settings.type';
 export * from './breadcrumb.type';
+export * from './global-service.type';
+export * from './language.type';

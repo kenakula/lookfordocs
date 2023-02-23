@@ -142,6 +142,30 @@ export const getDoctorsQueryString = (query: DoctorsFilterQuery): string => {
       `
     : '';
 
+  const serviceArr = query.service ? query.service.split(',') : [];
+  const serviceString = serviceArr.length
+    ? `
+        {
+          "_or": [
+            ${serviceArr.map(
+              service =>
+                `
+                  {
+                    "globalServices": {
+                      "globalServices_id": {
+                        "id": {
+                          "_eq": "${service}"
+                        }
+                      }
+                    }
+                  }
+                `,
+            )}
+          ]
+        }
+      `
+    : '';
+
   const langArr = query.lang ? query.lang.split(',') : [];
   const langString = langArr.length
     ? `
@@ -172,6 +196,7 @@ export const getDoctorsQueryString = (query: DoctorsFilterQuery): string => {
     insuranceString,
     clinicsString,
     langString,
+    serviceString,
   ]
     .filter(str => Boolean(str.length))
     .join(',');

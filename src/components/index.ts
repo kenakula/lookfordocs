@@ -11,3 +11,4 @@ export * from './page-seo/page-seo';
 export * from './promo/promo';
 export * from './chip-component/chip-component';
 export * from './breadcrumbs-component/breadcrumbs-component';
+export * from './page-result/page-result';
