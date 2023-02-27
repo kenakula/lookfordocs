@@ -14,6 +14,8 @@ import { StyledDrawer, StyledSocials } from './styled-components';
 import { ContainerComponent, Socials } from '@/components';
 import { IImage, INavigation, ISocial } from '@/shared/types';
 import { getImageUrl } from '@/shared/assets';
+import { getActiveStateClassName } from '../assets';
+import { useRouter } from 'next/router';
 
 interface Props {
   closeDrawer: () => void;
@@ -32,6 +34,8 @@ export const DrawerComponent = ({
   logo,
   copyrights,
 }: Props): JSX.Element => {
+  const router = useRouter();
+
   return (
     <Box component="nav">
       <StyledDrawer
@@ -83,7 +87,13 @@ export const DrawerComponent = ({
               </ListItem>
             ) : (
               <ListItem key={name}>
-                <Link className="nav-link" href={url}>
+                <Link
+                  className={`nav-link ${getActiveStateClassName(
+                    url,
+                    router.pathname,
+                  )}`}
+                  href={url}
+                >
                   {name}
                 </Link>
               </ListItem>

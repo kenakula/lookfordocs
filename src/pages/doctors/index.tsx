@@ -1,6 +1,7 @@
 import { InferGetStaticPropsType } from 'next';
 import {
   BreadcrumbsComponent,
+  DoctorsFilter,
   Layout,
   PageResult,
   PageSeo,
@@ -50,34 +51,15 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   };
 });
 
-// const usePageQuery = (): {
-//   data: IDoctor[] | undefined;
-//   isLoading: boolean;
-// } => {
-//   const router = useRouter();
-//   const [triggerQuery, { data, isLoading }] = useLazyGetDoctorsListQuery();
-
-//   useEffect(() => {
-//     if (router.isReady) {
-//       const query = router.query as DoctorsFilterQuery;
-
-//       triggerQuery(query);
-//     }
-//   }, [router, triggerQuery]);
-
-//   return {
-//     data,
-//     isLoading,
-//   };
-// };
-
 const DoctorsPage = ({
   siteSettings,
   pageSettings,
+  specialties,
   promoData,
+  insurances,
+  globalServices,
+  languages,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
-  // const { data, isLoading } = usePageQuery();
-
   return (
     <Layout siteSettings={siteSettings}>
       {pageSettings ? (
@@ -87,7 +69,14 @@ const DoctorsPage = ({
       <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
       {promoData && <Promo promoData={promoData} />}
       <PageResult>
-        <h1>Page result</h1>
+        {specialties && globalServices && insurances && languages ? (
+          <DoctorsFilter
+            specialties={specialties}
+            services={globalServices}
+            insurances={insurances}
+            languages={languages}
+          />
+        ) : null}
       </PageResult>
     </Layout>
   );

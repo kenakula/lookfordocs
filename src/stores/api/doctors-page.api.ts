@@ -50,7 +50,7 @@ export const doctorsPageApi = createApi({
     }),
     getDoctorsSpecialtiesList: builder.query<ISpecialty[], void>({
       query: () => ({
-        url: '/specialties',
+        url: '/specialties?sort=-popular',
       }),
       transformResponse: (response: CollectionResponse<ISpecialty>) =>
         response.data,

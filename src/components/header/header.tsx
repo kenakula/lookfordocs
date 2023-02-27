@@ -6,6 +6,7 @@ import {
   Toolbar,
   useMediaQuery,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
@@ -25,6 +26,7 @@ import { useScroll } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
 import { openSmartSearch, useAppDispatch } from '@/stores';
 import { useCustomTheme } from '@/stores/theme-store-provider';
+import { getActiveStateClassName } from './assets';
 
 interface Props {
   siteSettings: ISiteSettings;
@@ -43,6 +45,7 @@ export const Header = ({
   const isNotMobile = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
   const dispatch = useAppDispatch();
   const showSearchButton = isMainPage && !trigger && pageScrolled;
+  const router = useRouter();
 
   useEffect(() => {
     setPageScrolled(position.position.y > 0);
@@ -83,23 +86,24 @@ export const Header = ({
                   alt="логотип сайта"
                 />
               </Link>
-              <StyledNav component="nav">
+              <StyledNav component="nav" isMainPage={isMainPage}>
                 <List>
                   {navigation.map(({ name, url, isAccent }) =>
                     isAccent ? (
                       <ListItem key={name}>
-                        <ListItemButton
-                          disableRipple
-                          disableTouchRipple
-                          component={Link}
-                          href={url}
-                        >
+                        <ListItemButton disableRipple disableTouchRipple>
                           {name}
                         </ListItemButton>
                       </ListItem>
                     ) : (
                       <ListItem key={name}>
-                        <Link className="nav-link" href={url}>
+                        <Link
+                          className={`nav-link ${getActiveStateClassName(
+                            url,
+                            router.pathname,
+                          )}`}
+                          href={`/${url}`}
+                        >
                           {name}
                         </Link>
                       </ListItem>

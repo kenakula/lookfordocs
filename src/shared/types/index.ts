@@ -17,3 +17,4 @@ export * from './page-settings.type';
 export * from './breadcrumb.type';
 export * from './global-service.type';
 export * from './language.type';
+export * from './filter-form-model.type';

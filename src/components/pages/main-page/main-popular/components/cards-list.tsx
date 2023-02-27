@@ -73,11 +73,11 @@ export const CardsList = ({
         collapsedSize={matches ? 0 : collapsedSize}
       >
         <StyledList gap={CARD_GAP}>
-          {specialties.map(({ id, title, slug }) => (
+          {specialties.map(({ id, title }) => (
             <StyledCard minHeight={CARD_HEIGHT} key={id}>
               <MuiLink
                 underline="none"
-                href={`${DOCTORS_PAGE}?specialty=${slug}`}
+                href={`${DOCTORS_PAGE}?specialty=${id}`}
                 component={Link}
               >
                 <Typography variant="h3">

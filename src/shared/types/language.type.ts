@@ -1,5 +1,5 @@
 export interface ILanguage {
-  id: string;
+  id: number;
   slug: string;
   name: string;
 }

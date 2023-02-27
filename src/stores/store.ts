@@ -9,13 +9,18 @@ import {
   insuranceApi,
   doctorsPageApi,
 } from './api';
-import { toasterReducer, smartSearchReducer } from './slices';
+import {
+  toasterReducer,
+  smartSearchReducer,
+  doctorsPageReducer,
+} from './slices';
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       toaster: toasterReducer,
       smartSearch: smartSearchReducer,
+      doctorsPage: doctorsPageReducer,
       [mainPageApi.reducerPath]: mainPageApi.reducer,
       [globalApi.reducerPath]: globalApi.reducer,
       [doctorApi.reducerPath]: doctorApi.reducer,

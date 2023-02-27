@@ -35,21 +35,39 @@ export const StyledInner = styled(Box)(({ theme }) => ({
   },
 
   '.slider-buttons': {
+    position: 'absolute',
     display: 'none',
+    justifyContent: 'space-between',
+    top: '56%',
+    left: -50,
+    right: -50,
+    transform: 'translateY(-50%)',
 
-    '.swiper-button-disabled': {
+    [theme.breakpoints.up('xl')]: {
+      display: 'flex',
+    },
+  },
+
+  '.slider-button': {
+    opacity: 0.7,
+    transition: theme.transitions.create('opacity'),
+    borderRadius: '50%',
+
+    '&.swiper-button-disabled': {
       opacity: 0.3,
       pointerEvents: 'none',
     },
 
-    [theme.breakpoints.up('xl')]: {
-      position: 'absolute',
-      display: 'flex',
-      justifyContent: 'space-between',
-      top: '56%',
-      left: -50,
-      right: -50,
-      transform: 'translateY(-50%)',
+    '&:hover': {
+      opacity: 1,
+    },
+
+    '&:active': {
+      backgroundColor: theme.palette.misc.dark,
+    },
+
+    '&:focus-visible': {
+      outline: `4px solid ${theme.palette.primary.light}`,
     },
   },
 

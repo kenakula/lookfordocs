@@ -60,10 +60,18 @@ export const MainTestimonials = ({ testimonials = [] }: Props): JSX.Element => {
               ))}
           </Swiper>
           <Box className="slider-buttons">
-            <IconButton className="button-prev">
+            <IconButton
+              className="button-prev slider-button"
+              disableFocusRipple
+              disableRipple
+            >
               <IconArrowLeft />
             </IconButton>
-            <IconButton className="button-next">
+            <IconButton
+              className="button-next slider-button"
+              disableFocusRipple
+              disableRipple
+            >
               <IconArrowRight />
             </IconButton>
           </Box>
