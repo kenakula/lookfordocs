@@ -69,6 +69,11 @@ export const StyledFiltersTop = styled(Box)(({ theme }) => ({
   display: 'flex',
   marginBottom: theme.spacing(3),
 
+  '.filter-toggler': {
+    display: 'block',
+    width: '100%',
+  },
+
   [theme.breakpoints.up('lmd')]: {
     margin: 0,
 
@@ -177,16 +182,40 @@ export const StyledMobileFilter = styled(Dialog)(({ theme }) => ({
     width: '100%',
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(1.5, 2),
-    // boxShadow: '0px 12px 24px rgba(7, 20, 48, 0.04)',
 
     '.MuiTypography-h2': {
       ...getTypography(theme, 20, 26),
-      paddingRight: theme.spacing(2),
       fontWeight: 600,
     },
 
     '.MuiIconButton-root': {
       marginLeft: 'auto',
+    },
+
+    '.filters-count': {
+      ...getTypography(theme, 14, 20),
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: theme.spacing(0, 2),
+      width: 24,
+      height: 24,
+      borderRadius: '50%',
+      fontWeight: 600,
+      color: theme.palette.background.default,
+      backgroundColor: theme.palette.primary.main,
+    },
+
+    '.clear-filters-button': {
+      ...getTypography(theme, 14, 23),
+      padding: 0,
+      fontWeight: 400,
+      textTransform: 'none',
+      color: theme.palette.secondary.light,
+
+      '&:hover': {
+        background: 'none',
+      },
     },
   },
 
@@ -200,5 +229,22 @@ export const StyledMobileFilter = styled(Dialog)(({ theme }) => ({
     left: 0,
     width: '100%',
     padding: theme.spacing(1.5, 2),
+  },
+}));
+
+export const FilterResultList = styled('ul')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  rowGap: theme.spacing(1.5),
+  listStyle: 'none',
+  padding: 0,
+  margin: theme.spacing(0, -2),
+
+  [theme.breakpoints.up('lmd')]: {
+    margin: 0,
+  },
+
+  [theme.breakpoints.up('lg')]: {
+    rowGap: theme.spacing(2),
   },
 }));

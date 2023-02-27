@@ -1,54 +1,29 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import {
-  useMediaQuery,
-  Input,
-  InputAdornment,
-  IconButton,
-} from '@mui/material';
+import { ChangeEvent } from 'react';
+import { Input, InputAdornment, IconButton } from '@mui/material';
 import { StyledInput } from './styled-components';
 import { IconSearch, IconClose } from '@/components/icons';
-import { useCustomTheme } from '@/stores/theme-store-provider';
-import { useDebounce } from '@/shared/hooks';
-import { clearDoctorsSearchValue, useAppDispatch } from '@/stores';
 
 interface Props {
-  setDebouncedSearch: Dispatch<SetStateAction<string>>;
+  searchStr: string;
+  clearInput: () => void;
+  handleSearchChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const SearchInput = ({ setDebouncedSearch }: Props): JSX.Element => {
-  const { theme } = useCustomTheme();
-  const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
-  const [searchStr, setSearchStr] = useState('');
-  const debouncedValue = useDebounce(searchStr);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    setDebouncedSearch(debouncedValue);
-  }, [debouncedValue, setDebouncedSearch]);
-
-  const clearInput = (): void => {
-    dispatch(clearDoctorsSearchValue());
-    setSearchStr('');
-  };
-
-  const handleInputChange = (value: string): void => {
-    setSearchStr(value);
-  };
-
+export const SearchInput = ({
+  searchStr,
+  handleSearchChange,
+  clearInput,
+}: Props): JSX.Element => {
   return (
     <StyledInput className="input-container">
       <IconSearch />
       <form action="#">
         <Input
           id="main-search"
-          placeholder={
-            isTablet
-              ? 'Поиск по врачам, клиникам и услугам'
-              : 'Врач, клиника или услуга'
-          }
+          placeholder="Врач, клиника или услуга"
           fullWidth
           value={searchStr}
-          onChange={e => handleInputChange(e.target.value)}
+          onChange={handleSearchChange}
           endAdornment={
             searchStr.length ? (
               <InputAdornment position="end">

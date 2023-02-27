@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import { Control } from 'react-hook-form';
 import { StyledMobileFilter } from './styled-components';
 import { FiltersList } from './filters-list';
@@ -11,6 +11,7 @@ import {
   FilterFormModel,
 } from '@/shared/types';
 import { ButtonComponent } from '@/components/button-component/button-component';
+import { useAppSelector } from '@/stores';
 
 interface Props {
   open: boolean;
@@ -24,6 +25,7 @@ interface Props {
   handleExpandGroup: (id: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formControl: Control<FilterFormModel, any>;
+  resetFilters: () => void;
 }
 
 export const MobileFilter = ({
@@ -37,15 +39,31 @@ export const MobileFilter = ({
   expandedBlocks,
   handleExpandGroup,
   formControl,
+  resetFilters,
 }: Props): JSX.Element => {
-  const onSubmit = () => {
-    buildQueryString();
-  };
+  const { filtersCount } = useAppSelector(state => state.doctorsPage);
 
   return (
     <StyledMobileFilter fullScreen open={open} onClose={setClosed} keepMounted>
       <Box component="header">
         <Typography variant="h2">Фильтры</Typography>
+        {filtersCount > 0 && (
+          <>
+            <Typography variant="caption" className="filters-count">
+              {filtersCount}
+            </Typography>
+            <Button
+              type="button"
+              variant="text"
+              disableFocusRipple
+              disableRipple
+              onClick={resetFilters}
+              className="clear-filters-button"
+            >
+              Очистить все
+            </Button>
+          </>
+        )}
         <IconButton
           edge="start"
           color="inherit"
@@ -63,7 +81,7 @@ export const MobileFilter = ({
           services={services}
           insurances={insurances}
           languages={languages}
-          handleSubmit={onSubmit}
+          handleChange={buildQueryString}
           formControl={formControl}
           expandedBlocks={expandedBlocks}
           handleExpandGroup={handleExpandGroup}
@@ -76,10 +94,7 @@ export const MobileFilter = ({
           fullWidth
           disableFocusRipple
           disableRipple
-          onClick={() => {
-            onSubmit();
-            setClosed();
-          }}
+          onClick={setClosed}
         />
       </Box>
     </StyledMobileFilter>

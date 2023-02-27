@@ -14,3 +14,4 @@ export * from './chip-component/chip-component';
 export * from './breadcrumbs-component/breadcrumbs-component';
 export * from './page-result/page-result';
 export * from './form-components';
+export * from './doctors-card/doctors-card';
