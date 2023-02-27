@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
-import { Control, useForm } from 'react-hook-form';
-import { getFilterValues } from '../assets';
+import { Control } from 'react-hook-form';
 import { StyledMobileFilter } from './styled-components';
 import { FiltersList } from './filters-list';
 import { IconClose } from '@/components/icons';
@@ -13,7 +11,6 @@ import {
   FilterFormModel,
 } from '@/shared/types';
 import { ButtonComponent } from '@/components/button-component/button-component';
-import { DoctorsFilterQuery } from '@/stores/types';
 
 interface Props {
   open: boolean;
@@ -25,6 +22,7 @@ interface Props {
   buildQueryString: () => void;
   expandedBlocks: string[];
   handleExpandGroup: (id: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formControl: Control<FilterFormModel, any>;
 }
 

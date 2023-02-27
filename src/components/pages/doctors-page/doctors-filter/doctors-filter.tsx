@@ -9,7 +9,6 @@ import {
   StyledFiltersBody,
   StyledFiltersTop,
 } from './components';
-import { getFilterValues } from './assets';
 import {
   FilterFormModel,
   FilterGroupValue,
@@ -22,13 +21,8 @@ import {
 import { DoctorsFilterQuery } from '@/stores/types';
 import { DOCTORS_PAGE } from '@/shared/assets';
 import { ButtonComponent } from '@/components';
-import { useDebounce, usePageQuery } from '@/shared/hooks';
+import { usePageQuery } from '@/shared/hooks';
 import { useLazyGetDoctorsListQuery } from '@/stores/api';
-import {
-  setDoctorsSearchValue,
-  useAppDispatch,
-  useAppSelector,
-} from '@/stores';
 
 interface Props {
   specialties: ISpecialty[];
@@ -44,13 +38,11 @@ export const DoctorsFilter = ({
   services,
 }: Props): JSX.Element => {
   const router = useRouter();
-  const { searshString } = useAppSelector(state => state.doctorsPage);
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [expandedBlocks, setExpandedBlocks] = useState<string[]>([]);
-  const dispatch = useAppDispatch();
 
-  const { data, query, isLoading } = usePageQuery<
+  const { data, isLoading } = usePageQuery<
     IDoctor,
     DoctorsFilterQuery,
     typeof useLazyGetDoctorsListQuery
@@ -64,7 +56,7 @@ export const DoctorsFilter = ({
     setMobileFilterOpen(false);
   };
 
-  const { control, getValues, setValue } = useForm<FilterFormModel>({
+  const { control, getValues } = useForm<FilterFormModel>({
     defaultValues: {
       specialties: [],
       services: [],
@@ -112,6 +104,7 @@ export const DoctorsFilter = ({
 
   useEffect(() => {
     buildQueryString();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch]);
 
   const onFilterChange = () => {

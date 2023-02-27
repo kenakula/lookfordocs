@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   Box,
   Typography,
@@ -10,12 +11,11 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import { getActiveStateClassName } from '../assets';
 import { StyledDrawer, StyledSocials } from './styled-components';
 import { ContainerComponent, Socials } from '@/components';
 import { IImage, INavigation, ISocial } from '@/shared/types';
 import { getImageUrl } from '@/shared/assets';
-import { getActiveStateClassName } from '../assets';
-import { useRouter } from 'next/router';
 
 interface Props {
   closeDrawer: () => void;

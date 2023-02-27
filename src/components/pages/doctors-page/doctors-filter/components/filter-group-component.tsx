@@ -1,8 +1,8 @@
-import { FilterFormModel } from '@/shared/types';
 import { Typography, Collapse, Button } from '@mui/material';
 import { Control } from 'react-hook-form';
 import { DoctorsFilterCheckboxName, FilterCheckbox } from './filter-checkbox';
 import { StyledFilterGroup } from './styled-components';
+import { FilterFormModel } from '@/shared/types';
 
 const SHOWED_CHECKBOXES_COUNT = 5;
 const ITEM_HEIGHT = 36;

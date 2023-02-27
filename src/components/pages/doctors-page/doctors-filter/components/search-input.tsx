@@ -9,11 +9,7 @@ import { StyledInput } from './styled-components';
 import { IconSearch, IconClose } from '@/components/icons';
 import { useCustomTheme } from '@/stores/theme-store-provider';
 import { useDebounce } from '@/shared/hooks';
-import {
-  clearDoctorsSearchValue,
-  setDoctorsSearchValue,
-  useAppDispatch,
-} from '@/stores';
+import { clearDoctorsSearchValue, useAppDispatch } from '@/stores';
 
 interface Props {
   setDebouncedSearch: Dispatch<SetStateAction<string>>;

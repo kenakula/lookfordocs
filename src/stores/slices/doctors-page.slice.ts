@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DoctorsFilterQuery } from '../types';
-import { FilterFormModel, FilterGroupValue } from '@/shared/types';
 
 interface DoctorsPageState {
   searshString: string;

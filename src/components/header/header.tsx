@@ -20,13 +20,13 @@ import {
   StyledSearchButton,
   StyledToggler,
 } from './components';
+import { getActiveStateClassName } from './assets';
 import { ContainerComponent } from '@/components';
 import { getImageUrl, HOME_PAGE } from '@/shared/assets';
 import { useScroll } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
 import { openSmartSearch, useAppDispatch } from '@/stores';
 import { useCustomTheme } from '@/stores/theme-store-provider';
-import { getActiveStateClassName } from './assets';
 
 interface Props {
   siteSettings: ISiteSettings;
