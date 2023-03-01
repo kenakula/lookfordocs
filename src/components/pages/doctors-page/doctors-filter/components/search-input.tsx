@@ -17,24 +17,22 @@ export const SearchInput = ({
   return (
     <StyledInput className="input-container">
       <IconSearch />
-      <form action="#">
-        <Input
-          id="main-search"
-          placeholder="Врач, клиника или услуга"
-          fullWidth
-          value={searchStr}
-          onChange={handleSearchChange}
-          endAdornment={
-            searchStr.length ? (
-              <InputAdornment position="end">
-                <IconButton aria-label="очистить" onClick={clearInput}>
-                  <IconClose />
-                </IconButton>
-              </InputAdornment>
-            ) : null
-          }
-        />
-      </form>
+      <Input
+        id="main-search"
+        placeholder="Врач, клиника или услуга"
+        fullWidth
+        value={searchStr}
+        onChange={handleSearchChange}
+        endAdornment={
+          searchStr.length ? (
+            <InputAdornment position="end">
+              <IconButton aria-label="очистить" onClick={clearInput}>
+                <IconClose />
+              </IconButton>
+            </InputAdornment>
+          ) : null
+        }
+      />
     </StyledInput>
   );
 };

@@ -1,10 +1,14 @@
+import { IImage } from '../types';
+
 export const getImageUrl = (
-  id: string,
+  id: string | IImage,
   name: string,
   params?: string,
 ): string => {
   const paramsString = params ? `?${params}` : '';
   const assetsUrl = process.env.NEXT_PUBLIC_ASSETS_URL ?? '';
 
-  return `${assetsUrl}/${id}/${name}${paramsString}`;
+  const imageId = typeof id === 'string' ? id : id.id;
+
+  return `${assetsUrl}/${imageId}/${name}${paramsString}`;
 };

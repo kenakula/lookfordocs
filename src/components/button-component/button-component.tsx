@@ -1,14 +1,18 @@
 import { styled, Button, ButtonProps } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-const StyledButton = styled(Button)(({ theme, variant, size }) => ({
+// TODO кастомизировать стили для mui компонента
+
+const StyledButton = styled(Button, {
+  shouldForwardProp: prop => prop !== 'shadow',
+})<{ shadow?: boolean }>(({ theme, variant, size, shadow }) => ({
   ...getTypography(theme, 16, 20),
   minHeight: size === 'large' ? 56 : 48,
   borderColor:
     variant === 'outlined' ? theme.palette.misc.light : 'transparent',
   backgroundColor:
     variant === 'contained' ? theme.palette.secondary.light : 'transparent',
-  boxShadow: 'none',
+  boxShadow: shadow ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',
   fontWeight: 600,
   textTransform: 'none',
   color:
@@ -46,11 +50,12 @@ const StyledButton = styled(Button)(({ theme, variant, size }) => ({
 
 interface Props extends ButtonProps {
   text: string;
+  shadow?: boolean;
 }
 
-export const ButtonComponent = ({ text, ...props }: Props) => {
+export const ButtonComponent = ({ text, shadow, ...props }: Props) => {
   return (
-    <StyledButton disableRipple disableFocusRipple {...props}>
+    <StyledButton disableRipple disableFocusRipple {...props} shadow={shadow}>
       {text}
     </StyledButton>
   );

@@ -20,9 +20,8 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/stores';
-import { useCustomTheme } from '@/stores/theme-store-provider';
 import { useDebounce } from '@/shared/hooks';
-import { DOCTORS_PAGE } from '@/shared/assets';
+import { DOCTORS_PAGE, TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
 
 interface Props {
   isMainPage: boolean;
@@ -32,8 +31,7 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
   const { opened, searchStr, searchStatus, errorMessage, result } =
     useAppSelector(state => state.smartSearch);
   const dispatch = useAppDispatch();
-  const { theme } = useCustomTheme();
-  const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
+  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
   const inputRef = useRef<HTMLInputElement>(null);
   const fullScreenMode = (isMainPage && !isTablet) || !isMainPage;
   useFullscreenMode(opened, isTablet, fullScreenMode, inputRef);

@@ -18,3 +18,6 @@ export * from './breadcrumb.type';
 export * from './global-service.type';
 export * from './language.type';
 export * from './filter-form-model.type';
+export * from './perk.type';
+export * from './city.type';
+export * from './directus-api-refs';

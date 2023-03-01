@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --max-warnings=0",
-    "lint-fix": "next lint --fix"
+    "lint-fix": "next lint --fix",
+    "lint-timing": "set TIMING=1 && eslint src --cache --cache-strategy metadata"
   },
   "dependencies": {
     "@directus/sdk": "^10.3.1",

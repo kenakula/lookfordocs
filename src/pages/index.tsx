@@ -105,7 +105,7 @@ export default function Home({
       />
       <MainServices services={services} />
       <MainAdvantages advantages={advantages} />
-      <MainTestimonials testimonials={testimonials} />
+      {testimonials && <MainTestimonials testimonials={testimonials} />}
     </Layout>
   );
 }

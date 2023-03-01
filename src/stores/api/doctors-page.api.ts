@@ -17,6 +17,8 @@ import {
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 
+// TODO трансформировать ответы без рефов чтобы было
+
 export const doctorsPageApi = createApi({
   reducerPath: 'doctorsPageApi',
   baseQuery: fetchBaseQuery({
@@ -38,10 +40,8 @@ export const doctorsPageApi = createApi({
     }),
     getDoctorsList: builder.query<IDoctor[], DoctorsFilterQuery>({
       query: arg => ({
-        url: '/doctors',
+        url: '/doctors?fields=*.*,specialties.specialties_id.*,clinics.clinics_id.*,insurances.insurances_id.*,lang.languages_id.*,globalServices.globalServices_id.*&fields=clinics.clinics_id.cities.cities_id.*.*&fields=clinics.clinics_id.insurances.insurances_id.*.*',
         params: {
-          fields:
-            '*.*,specialties.specialties_id.*,clinics.clinics_id.*,insurances.insurances_id.*,lang.languages_id.*,globalServices.globalServices_id.*',
           filter: getDoctorsQueryString(arg),
         },
       }),

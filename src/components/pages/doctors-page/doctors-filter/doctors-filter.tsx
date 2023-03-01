@@ -1,16 +1,16 @@
 import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
-  FiltersList,
-  MobileFilter,
-  ResultList,
+  FiltersBlock,
+  FiltersResult,
   SearchInput,
   StyledFiltersBody,
   StyledFiltersTop,
 } from './components';
 import { getFilterValues } from './assets';
+import { useSearchInput } from './hooks';
 import {
   FilterFormModel,
   FilterGroupValue,
@@ -23,7 +23,7 @@ import {
 import { DoctorsFilterQuery } from '@/stores/types';
 import { DOCTORS_PAGE } from '@/shared/assets';
 import { ButtonComponent } from '@/components';
-import { useDebounce, usePageQuery } from '@/shared/hooks';
+import { usePageQuery } from '@/shared/hooks';
 import { useLazyGetDoctorsListQuery } from '@/stores/api';
 import { setFiltersCount, useAppDispatch } from '@/stores';
 
@@ -41,63 +41,13 @@ export const DoctorsFilter = ({
   services,
 }: Props): JSX.Element => {
   const router = useRouter();
-  const [searchStr, setSearchStr] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [searchTouched, setSearchTouched] = useState(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [expandedBlocks, setExpandedBlocks] = useState<string[]>([]);
-  const dispatch = useAppDispatch();
   const [filteredDoctors, setFilteredDoctors] = useState<IDoctor[] | null>(
     null,
   );
-  const [fetchDoctorsList, { data: filteredDoctorsList, isLoading }] =
+  const dispatch = useAppDispatch();
+  const [fetchDoctorsList, { data: filteredDoctorsList }] =
     useLazyGetDoctorsListQuery();
-  const debouncedValue = useDebounce(searchStr);
-
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    if (!searchTouched) {
-      setSearchTouched(true);
-    }
-
-    setSearchStr(e.target.value);
-  };
-
-  const clearInput = (): void => {
-    setSearchStr('');
-  };
-
-  useEffect(() => {
-    if (searchTouched) {
-      setDebouncedSearch(debouncedValue);
-    }
-  }, [debouncedValue, setDebouncedSearch, searchTouched]);
-
-  const {
-    data: initialData,
-    isLoading: initialLoading,
-    query,
-  } = usePageQuery<
-    IDoctor,
-    DoctorsFilterQuery,
-    typeof useLazyGetDoctorsListQuery
-  >(useLazyGetDoctorsListQuery);
-
-  useEffect(() => {
-    if (initialData && !filteredDoctorsList) {
-      setFilteredDoctors(initialData);
-    } else if (filteredDoctorsList) {
-      setFilteredDoctors(filteredDoctorsList);
-    }
-  }, [initialData, filteredDoctorsList]);
-
-  const handleOpenMobileFilter = (): void => {
-    setMobileFilterOpen(true);
-  };
-
-  const handleCloseMobileFilter = (): void => {
-    setMobileFilterOpen(false);
-  };
-
   const { control, getValues, setValue, reset } = useForm<FilterFormModel>({
     defaultValues: {
       specialties: [],
@@ -107,30 +57,9 @@ export const DoctorsFilter = ({
     },
   });
 
-  useEffect(() => {
-    if (query.specialty) {
-      setValue('specialties', getFilterValues(specialties, query.specialty));
-    }
-
-    if (query.service) {
-      setValue('services', getFilterValues(services, query.service));
-    }
-
-    if (query.insurance) {
-      setValue('insurances', getFilterValues(insurances, query.insurance));
-    }
-
-    if (query.lang) {
-      setValue('languages', getFilterValues(languages, query.lang));
-    }
-
-    if (query.name) {
-      setSearchStr(query.name);
-    }
-
-    countFilters();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  const handleOpenMobileFilter = (): void => {
+    setMobileFilterOpen(true);
+  };
 
   const buildQueryString = (): void => {
     const queryObj = {} as DoctorsFilterQuery;
@@ -159,7 +88,7 @@ export const DoctorsFilter = ({
       queryObj.name = debouncedSearch;
     }
 
-    countFilters(values);
+    countFilters();
     fetchDoctorsList(queryObj);
 
     router.push(
@@ -172,58 +101,86 @@ export const DoctorsFilter = ({
     );
   };
 
+  const {
+    debouncedSearch,
+    setSearchStringValue,
+    clearInputValue,
+    searchStringValue,
+    handleSearchChange,
+  } = useSearchInput({
+    buildQueryCb: buildQueryString,
+  });
+
+  const { data: initialDoctorsList, query } = usePageQuery<
+    IDoctor,
+    DoctorsFilterQuery,
+    typeof useLazyGetDoctorsListQuery
+  >(useLazyGetDoctorsListQuery);
+
   useEffect(() => {
-    if (searchTouched) {
-      buildQueryString();
+    if (initialDoctorsList && !filteredDoctorsList) {
+      setFilteredDoctors(initialDoctorsList);
     }
+
+    if (!initialDoctorsList && filteredDoctorsList) {
+      setFilteredDoctors(filteredDoctorsList);
+    }
+
+    if (initialDoctorsList && filteredDoctorsList) {
+      setFilteredDoctors(filteredDoctorsList);
+    }
+  }, [initialDoctorsList, filteredDoctorsList]);
+
+  useEffect(() => {
+    if (query.specialty) {
+      setValue('specialties', getFilterValues(specialties, query.specialty));
+    }
+
+    if (query.service) {
+      setValue('services', getFilterValues(services, query.service));
+    }
+
+    if (query.insurance) {
+      setValue('insurances', getFilterValues(insurances, query.insurance));
+    }
+
+    if (query.lang) {
+      setValue('languages', getFilterValues(languages, query.lang));
+    }
+
+    if (query.name) {
+      setSearchStringValue(query.name);
+    }
+
+    countFilters();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearch, searchTouched]);
+  }, [query]);
 
-  const countFilters = (values?: FilterGroupValue[]): void => {
-    if (values) {
-      const filtered = values.map(group => group.filter(val => Boolean(val)));
+  const countFilters = useCallback((): void => {
+    const formValues = getValues();
+    const arr = Object.values(formValues) as FilterGroupValue[];
+    const filtered = arr.map(group => group.filter(val => Boolean(val)));
 
-      const count = filtered.reduce((sum, curr) => {
-        return sum + curr.length;
-      }, 0);
+    const count = filtered.reduce((sum, curr) => {
+      return sum + curr.length;
+    }, 0);
 
-      dispatch(setFiltersCount(count));
-    } else {
-      const formValues = getValues();
-      const arr = Object.values(formValues) as FilterGroupValue[];
-      const filtered = arr.map(group => group.filter(val => Boolean(val)));
-
-      const count = filtered.reduce((sum, curr) => {
-        return sum + curr.length;
-      }, 0);
-
-      dispatch(setFiltersCount(count));
-    }
-  };
+    dispatch(setFiltersCount(count));
+  }, [getValues, dispatch]);
 
   const resetFilters = (): void => {
     reset();
     buildQueryString();
   };
 
-  const handleExpandGroup = (id: string): void => {
-    setExpandedBlocks(prev => {
-      if (!prev.includes(id)) {
-        return [...prev, id];
-      }
-
-      return prev.filter(item => item !== id);
-    });
-  };
-
   return (
-    <Box>
-      <SearchInput
-        handleSearchChange={handleSearchChange}
-        clearInput={clearInput}
-        searchStr={searchStr}
-      />
-      <StyledFiltersTop>
+    <Box className="doctors-filter">
+      <StyledFiltersTop className="filter-top">
+        <SearchInput
+          handleSearchChange={handleSearchChange}
+          clearInput={clearInputValue}
+          searchStr={searchStringValue}
+        />
         <ButtonComponent
           type="button"
           variant="outlined"
@@ -233,37 +190,19 @@ export const DoctorsFilter = ({
           onClick={handleOpenMobileFilter}
         />
       </StyledFiltersTop>
-      <StyledFiltersBody>
-        <Box className="filters-column">
-          <Typography variant="h2">Фильтры</Typography>
-          <FiltersList
-            specialties={specialties}
-            services={services}
-            insurances={insurances}
-            languages={languages}
-            handleChange={buildQueryString}
-            formControl={control}
-            expandedBlocks={expandedBlocks}
-            handleExpandGroup={handleExpandGroup}
-          />
-        </Box>
-        <ResultList
-          loading={initialLoading || isLoading}
-          filteredDoctors={filteredDoctors}
-        />
-        <MobileFilter
-          open={mobileFilterOpen}
-          setClosed={handleCloseMobileFilter}
+      <StyledFiltersBody className="filters-body">
+        <FiltersBlock
+          mobileFilterOpen={mobileFilterOpen}
+          resetFilters={resetFilters}
+          setMobileFilterOpen={setMobileFilterOpen}
+          buildQueryString={buildQueryString}
+          control={control}
           specialties={specialties}
           services={services}
           insurances={insurances}
           languages={languages}
-          buildQueryString={buildQueryString}
-          expandedBlocks={expandedBlocks}
-          handleExpandGroup={handleExpandGroup}
-          formControl={control}
-          resetFilters={resetFilters}
         />
+        {filteredDoctors && <FiltersResult doctorsList={filteredDoctors} />}
       </StyledFiltersBody>
     </Box>
   );

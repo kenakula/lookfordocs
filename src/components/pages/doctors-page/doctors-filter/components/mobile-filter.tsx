@@ -1,7 +1,9 @@
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { Control } from 'react-hook-form';
 import { StyledMobileFilter } from './styled-components';
 import { FiltersList } from './filters-list';
+import { ClearFiltersButton } from './clear-filters-button';
+import { FiltersCounter } from './filters-counter';
 import { IconClose } from '@/components/icons';
 import {
   ISpecialty,
@@ -49,19 +51,8 @@ export const MobileFilter = ({
         <Typography variant="h2">Фильтры</Typography>
         {filtersCount > 0 && (
           <>
-            <Typography variant="caption" className="filters-count">
-              {filtersCount}
-            </Typography>
-            <Button
-              type="button"
-              variant="text"
-              disableFocusRipple
-              disableRipple
-              onClick={resetFilters}
-              className="clear-filters-button"
-            >
-              Очистить все
-            </Button>
+            <FiltersCounter value={filtersCount} />
+            <ClearFiltersButton resetFilters={resetFilters} />
           </>
         )}
         <IconButton

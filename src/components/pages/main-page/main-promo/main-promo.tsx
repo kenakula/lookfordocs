@@ -12,7 +12,12 @@ import {
   StyledSearchBox,
   StyledSearchButton,
 } from './components';
-import { DOCTORS_PAGE, Subtitle, Title } from '@/shared/assets';
+import {
+  DOCTORS_PAGE,
+  Subtitle,
+  TABLET_WIDE_BREAKPOINT,
+  Title,
+} from '@/shared/assets';
 import { ContainerComponent, SmartSearchDialog } from '@/components';
 import { Becas, IconClose, IconSearch } from '@/components/icons';
 import {
@@ -23,7 +28,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/stores';
-import { useCustomTheme } from '@/stores/theme-store-provider';
 import { IPromoBlockData } from '@/shared/types';
 
 interface Props {
@@ -35,9 +39,8 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
     state => state.smartSearch,
   );
   const dispatch = useAppDispatch();
-  const { theme } = useCustomTheme();
   const inputRef = useRef<HTMLInputElement>(null);
-  const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
+  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
   const router = useRouter();
 
   const onInputChange = (

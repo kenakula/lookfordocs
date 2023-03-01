@@ -1,7 +1,11 @@
 import { Typography, List, ListItemButton, Avatar, Box } from '@mui/material';
 import Link from 'next/link';
 import { StyledResultList } from './styled-components';
-import { getImageUrl, DOCTORS_PAGE } from '@/shared/assets';
+import {
+  getImageUrl,
+  DOCTORS_PAGE,
+  getHighlightedLetters,
+} from '@/shared/assets';
 import {
   ISmartSearchResult,
   ISpecialty,
@@ -11,37 +15,6 @@ import {
   IGlobalService,
 } from '@/shared/types';
 import { closeSmartSearch, useAppDispatch } from '@/stores';
-
-const capitilize = (str: string): string => str[0].toUpperCase() + str.slice(1);
-
-const getHighlightedLetters = (str: string, substr: string): JSX.Element => {
-  const capitilizedStr = str
-    .split(' ')
-    .filter(word => word.length)
-    .map(word => capitilize(word))
-    .join(' ');
-  const startIndex = capitilizedStr.toLowerCase().indexOf(substr.toLowerCase());
-
-  if (startIndex === -1) {
-    return <span>{capitilizedStr}</span>;
-  }
-
-  const lastIndex = startIndex + substr.length;
-  const highlightedStr = capitilizedStr
-    .split('')
-    .splice(startIndex, substr.length)
-    .join('');
-  const firstPartStr = capitilizedStr.slice(0, startIndex);
-  const lastPartStr = capitilizedStr.slice(lastIndex);
-
-  return (
-    <span>
-      <span>{firstPartStr}</span>
-      <span className="highlighted">{highlightedStr}</span>
-      <span>{lastPartStr}</span>
-    </span>
-  );
-};
 
 interface Props {
   result: ISmartSearchResult;

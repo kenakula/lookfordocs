@@ -15,11 +15,12 @@ export const usePageQuery = <
 ): {
   data: DataType[] | undefined;
   isLoading: boolean;
+  isError: boolean;
   query: QueryType;
 } => {
   const router = useRouter();
   const [query, setQuery] = useState<QueryType>({} as QueryType);
-  const [triggerQuery, { data, isLoading }] = lazyQuery();
+  const [triggerQuery, { data, isLoading, isError }] = lazyQuery();
 
   useEffect(() => {
     if (router.isReady) {
@@ -35,5 +36,6 @@ export const usePageQuery = <
     data,
     query,
     isLoading,
+    isError,
   };
 };

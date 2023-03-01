@@ -13,9 +13,8 @@ import {
   StyledButtonContainer,
 } from './styled-components';
 import { ButtonComponent } from '@/components';
-import { useCustomTheme } from '@/stores/theme-store-provider';
 import { IInsurance } from '@/shared/types/insurance.type';
-import { getImageUrl, DOCTORS_PAGE } from '@/shared/assets';
+import { getImageUrl, DOCTORS_PAGE, TABLET_BREAKPOINT } from '@/shared/assets';
 
 const CARD_HEIGHT = 120;
 const CARD_GAP = 12;
@@ -27,8 +26,7 @@ interface Props {
 
 export const CardsList = ({ insurances }: Props): JSX.Element => {
   const [showedCards, setShowedCards] = useState(CARDS_COUNT_SHOW);
-  const { theme } = useCustomTheme();
-  const matches = useMediaQuery(theme ? theme.breakpoints.up('md') : '');
+  const matches = useMediaQuery(TABLET_BREAKPOINT);
 
   const handleChange = () => {
     setShowedCards(prev => (prev !== 0 ? 0 : CARDS_COUNT_SHOW));

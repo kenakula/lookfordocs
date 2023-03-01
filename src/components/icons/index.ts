@@ -6,3 +6,6 @@ export * from './icon-email';
 export * from './icon-watsapp';
 export * from './icon-telegram';
 export * from './becas';
+export * from './icon-rus';
+export * from './icon-en';
+export * from './icon-port';

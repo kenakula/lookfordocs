@@ -1,9 +1,8 @@
 import { Breadcrumbs, useMediaQuery } from '@mui/material';
 import { ContainerComponent } from '../container-component/container-component';
 import { StyledBreadcrumbs, Crumb } from './components';
-import { HOME_PAGE } from '@/shared/assets';
+import { DESKTOP_BREAKPOINT, HOME_PAGE } from '@/shared/assets';
 import { IBreadCrumb } from '@/shared/types';
-import { useCustomTheme } from '@/stores/theme-store-provider';
 
 interface Props {
   crumbs: IBreadCrumb[];
@@ -11,8 +10,7 @@ interface Props {
 
 export const BreadcrumbsComponent = ({ crumbs }: Props): JSX.Element => {
   const list: IBreadCrumb[] = [{ text: 'Главная', link: HOME_PAGE }, ...crumbs];
-  const { theme } = useCustomTheme();
-  const isDesktop = useMediaQuery(theme?.breakpoints.up('lg') ?? '');
+  const isDesktop = useMediaQuery(DESKTOP_BREAKPOINT);
 
   return (
     <ContainerComponent>

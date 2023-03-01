@@ -1,7 +1,10 @@
+import { useCallback } from 'react';
 import { Typography, Collapse, Button } from '@mui/material';
 import { Control } from 'react-hook-form';
+import { useGetGroupFiltersCount } from '../hooks';
 import { DoctorsFilterCheckboxName, FilterCheckbox } from './filter-checkbox';
-import { StyledFilterGroup } from './styled-components';
+import { StyledFilterGroup, StyledFilterGroupTop } from './styled-components';
+import { FiltersCounter } from './filters-counter';
 import { FilterFormModel } from '@/shared/types';
 
 const SHOWED_CHECKBOXES_COUNT = 5;
@@ -34,8 +37,9 @@ export const FilterGroupComponent = <T extends IList>({
   name,
 }: Props<T>): JSX.Element => {
   const needToExpand = list.length > SHOWED_CHECKBOXES_COUNT;
+  const checkedCount = useGetGroupFiltersCount(formControl._formValues[name]);
 
-  const getItemName = (item: IList): string => {
+  const getItemName = useCallback((item: IList): string => {
     if (item.name) {
       return item.name;
     }
@@ -44,11 +48,15 @@ export const FilterGroupComponent = <T extends IList>({
     }
 
     return '';
-  };
+  }, []);
 
   return (
     <StyledFilterGroup id={`${name}-group`}>
-      <Typography variant="h3">{title}</Typography>
+      <StyledFilterGroupTop>
+        <Typography variant="h3">{title}</Typography>
+        {checkedCount > 0 ? <FiltersCounter value={checkedCount} /> : null}
+      </StyledFilterGroupTop>
+
       <Collapse
         collapsedSize={
           needToExpand ? ITEM_HEIGHT * SHOWED_CHECKBOXES_COUNT : undefined

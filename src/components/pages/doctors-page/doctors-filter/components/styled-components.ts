@@ -1,4 +1,11 @@
-import { alpha, Box, Dialog, FormGroup, styled } from '@mui/material';
+import {
+  alpha,
+  Box,
+  Dialog,
+  FormGroup,
+  styled,
+  Typography,
+} from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
 export const StyledInput = styled(Box)(({ theme }) => ({
@@ -66,7 +73,6 @@ export const StyledInput = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledFiltersTop = styled(Box)(({ theme }) => ({
-  display: 'flex',
   marginBottom: theme.spacing(3),
 
   '.filter-toggler': {
@@ -75,8 +81,6 @@ export const StyledFiltersTop = styled(Box)(({ theme }) => ({
   },
 
   [theme.breakpoints.up('lmd')]: {
-    margin: 0,
-
     '.filter-toggler': {
       display: 'none',
     },
@@ -84,25 +88,41 @@ export const StyledFiltersTop = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledFiltersBody = styled(Box)(({ theme }) => ({
-  '.filters-column': {
-    display: 'none',
-  },
-
   '.MuiTypography-h2': {
     ...getTypography(theme, 20, 26),
     fontWeight: 600,
-    margin: theme.spacing(0, 0, 3, 0),
   },
 
   [theme.breakpoints.up('lmd')]: {
-    display: 'grid',
-    gridTemplateColumns: '2fr 3fr',
-    columnGap: theme.spacing(4),
+    display: 'flex',
+    columnGap: theme.spacing(2),
 
-    '.filters-column': {
-      display: 'block',
+    '.filters-result': {
+      width: '60%',
+      flexGrow: 1,
+    },
+
+    '.filters-block': {
+      width: `calc(40% - ${theme.spacing(2)})`,
     },
   },
+
+  [theme.breakpoints.up('lg')]: {
+    '.filters-result': {
+      width: '75%',
+    },
+
+    '.filters-block': {
+      width: `calc(25% - ${theme.spacing(2)})`,
+    },
+  },
+}));
+
+export const StyledFiltersBlockTop = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginBottom: theme.spacing(3),
 }));
 
 export const StyledFilterGroup = styled(FormGroup)(({ theme }) => ({
@@ -111,16 +131,6 @@ export const StyledFilterGroup = styled(FormGroup)(({ theme }) => ({
 
   '&:last-of-type': {
     marginBottom: 0,
-  },
-
-  '.MuiTypography-h3': {
-    marginBottom: theme.spacing(1),
-    ...getTypography(theme, 16, 20),
-    fontWeight: 500,
-
-    [theme.breakpoints.up('lmd')]: {
-      ...getTypography(theme, 20, 24),
-    },
   },
 
   '.MuiFormControlLabel-root': {
@@ -141,10 +151,6 @@ export const StyledFilterGroup = styled(FormGroup)(({ theme }) => ({
 
     '&:first-letter': {
       textTransform: 'uppercase',
-    },
-
-    [theme.breakpoints.up('lmd')]: {
-      ...getTypography(theme, 16, 20),
     },
   },
 
@@ -171,6 +177,27 @@ export const StyledFilterGroup = styled(FormGroup)(({ theme }) => ({
   },
 }));
 
+export const StyledFilterGroupTop = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginBottom: theme.spacing(1),
+
+  '.filters-counter': {
+    display: 'none',
+  },
+
+  '.MuiTypography-h3': {
+    ...getTypography(theme, 16, 20),
+    fontWeight: 500,
+  },
+
+  [theme.breakpoints.up('lmd')]: {
+    '.filters-counter': {
+      display: 'flex',
+    },
+  },
+}));
+
 export const StyledMobileFilter = styled(Dialog)(({ theme }) => ({
   header: {
     position: 'sticky',
@@ -183,6 +210,10 @@ export const StyledMobileFilter = styled(Dialog)(({ theme }) => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(1.5, 2),
 
+    '.filters-counter': {
+      marginRight: theme.spacing(1),
+    },
+
     '.MuiTypography-h2': {
       ...getTypography(theme, 20, 26),
       fontWeight: 600,
@@ -190,32 +221,6 @@ export const StyledMobileFilter = styled(Dialog)(({ theme }) => ({
 
     '.MuiIconButton-root': {
       marginLeft: 'auto',
-    },
-
-    '.filters-count': {
-      ...getTypography(theme, 14, 20),
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      margin: theme.spacing(0, 2),
-      width: 24,
-      height: 24,
-      borderRadius: '50%',
-      fontWeight: 600,
-      color: theme.palette.background.default,
-      backgroundColor: theme.palette.primary.main,
-    },
-
-    '.clear-filters-button': {
-      ...getTypography(theme, 14, 23),
-      padding: 0,
-      fontWeight: 400,
-      textTransform: 'none',
-      color: theme.palette.secondary.light,
-
-      '&:hover': {
-        background: 'none',
-      },
     },
   },
 
@@ -247,4 +252,8 @@ export const FilterResultList = styled('ul')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     rowGap: theme.spacing(2),
   },
+}));
+
+export const FilterEmptyResult = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.disabled,
 }));
