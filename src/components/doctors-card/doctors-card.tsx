@@ -97,7 +97,7 @@ export const DoctorsCard = ({
           />
         </DoctorsCardTextsBlock>
       </StyledCardBody>
-      <StyledClinics sx={{ maxHeight: cardHeight }} className="doctors-clinics">
+      <StyledClinics maxListHeight={cardHeight} className="doctors-clinics">
         <DoctorClinics list={clinics} />
       </StyledClinics>
     </StyledDoctorsCard>

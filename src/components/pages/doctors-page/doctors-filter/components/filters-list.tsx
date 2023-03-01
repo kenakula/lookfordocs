@@ -7,6 +7,7 @@ import {
   IInsurance,
   ILanguage,
   FilterFormModel,
+  IClinic,
 } from '@/shared/types';
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
   services: IGlobalService[];
   insurances: IInsurance[];
   languages: ILanguage[];
+  clinics: IClinic[];
   handleChange: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formControl: Control<FilterFormModel, any>;
@@ -30,6 +32,7 @@ export const FiltersList = ({
   formControl,
   expandedBlocks,
   handleExpandGroup,
+  clinics,
 }: Props): JSX.Element => {
   return (
     <Box component="form" className="filter-form" onChange={handleChange}>
@@ -51,6 +54,15 @@ export const FiltersList = ({
         list={services}
         name="services"
       />
+      <FilterGroupComponent<ILanguage>
+        title="Говорит на языках"
+        formControl={formControl}
+        id="languages-group"
+        expandedBlocks={expandedBlocks}
+        handleExpandGroup={handleExpandGroup}
+        list={languages}
+        name="languages"
+      />
       <FilterGroupComponent<IInsurance>
         title="Работает со страховыми"
         formControl={formControl}
@@ -60,14 +72,15 @@ export const FiltersList = ({
         list={insurances}
         name="insurances"
       />
-      <FilterGroupComponent<ILanguage>
-        title="Говорит на языках"
+
+      <FilterGroupComponent<IClinic>
+        title="Работает в клиниках"
         formControl={formControl}
-        id="languages-group"
+        id="clinics-group"
         expandedBlocks={expandedBlocks}
         handleExpandGroup={handleExpandGroup}
-        list={languages}
-        name="languages"
+        list={clinics}
+        name="clinics"
       />
     </Box>
   );

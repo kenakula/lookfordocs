@@ -7,6 +7,7 @@ import {
 } from '../assets';
 import { DoctorsFilterQuery } from '../types';
 import {
+  IClinic,
   IDoctor,
   IGlobalService,
   IInsurance,
@@ -82,6 +83,16 @@ export const doctorsPageApi = createApi({
       transformResponse: (response: CollectionResponse<ILanguage>) =>
         response.data,
     }),
+    getDoctorsClinics: builder.query<IClinic[], void>({
+      query: () => ({
+        url: '/clinics',
+        params: {
+          fields: 'id, name',
+        },
+      }),
+      transformResponse: (response: CollectionResponse<IClinic>) =>
+        response.data,
+    }),
   }),
 });
 
@@ -92,6 +103,7 @@ export const {
   useGetGlobalServicesListQuery,
   useGetDoctorsInsurancesQuery,
   useGetDoctorsLanguagesQuery,
+  useGetDoctorsClinicsQuery,
 } = doctorsPageApi;
 
 export const {
@@ -100,6 +112,7 @@ export const {
   getGlobalServicesList,
   getDoctorsInsurances,
   getDoctorsLanguages,
+  getDoctorsClinics,
 } = doctorsPageApi.endpoints;
 
 export default doctorsPageApi.util.getRunningQueriesThunk;

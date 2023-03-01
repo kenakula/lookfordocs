@@ -16,6 +16,7 @@ import getRunningDoctorsPageQueries, {
   getDoctorsPagePromoData,
   getDoctorsInsurances,
   getDoctorsLanguages,
+  getDoctorsClinics,
 } from '@/stores/api/doctors-page.api';
 
 const PAGE_SLUG = 'doctors';
@@ -32,6 +33,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const globalServices = await store.dispatch(getGlobalServicesList.initiate());
   const insurances = await store.dispatch(getDoctorsInsurances.initiate());
   const languages = await store.dispatch(getDoctorsLanguages.initiate());
+  const clinics = await store.dispatch(getDoctorsClinics.initiate());
 
   await Promise.all([
     ...store.dispatch(getRunningGlobalQueries()),
@@ -47,6 +49,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
       globalServices: globalServices.data ?? null,
       insurances: insurances.data ?? null,
       languages: languages.data ?? null,
+      clinics: clinics.data ?? null,
     },
   };
 });
@@ -59,6 +62,7 @@ const DoctorsPage = ({
   insurances,
   globalServices,
   languages,
+  clinics,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   return (
     <Layout siteSettings={siteSettings}>
@@ -69,12 +73,13 @@ const DoctorsPage = ({
       <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
       {promoData && <Promo promoData={promoData} />}
       <PageResult>
-        {specialties && globalServices && insurances && languages ? (
+        {specialties && globalServices && insurances && languages && clinics ? (
           <DoctorsFilter
             specialties={specialties}
             services={globalServices}
             insurances={insurances}
             languages={languages}
+            clinics={clinics}
           />
         ) : null}
       </PageResult>

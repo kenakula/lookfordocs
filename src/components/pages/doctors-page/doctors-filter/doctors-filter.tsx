@@ -14,6 +14,7 @@ import { useSearchInput } from './hooks';
 import {
   FilterFormModel,
   FilterGroupValue,
+  IClinic,
   IDoctor,
   IGlobalService,
   IInsurance,
@@ -32,6 +33,7 @@ interface Props {
   services: IGlobalService[];
   insurances: IInsurance[];
   languages: ILanguage[];
+  clinics: IClinic[];
 }
 
 export const DoctorsFilter = ({
@@ -39,6 +41,7 @@ export const DoctorsFilter = ({
   insurances,
   languages,
   services,
+  clinics,
 }: Props): JSX.Element => {
   const router = useRouter();
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -54,6 +57,7 @@ export const DoctorsFilter = ({
       services: [],
       insurances: [],
       languages: [],
+      clinics: [],
     },
   });
 
@@ -65,8 +69,13 @@ export const DoctorsFilter = ({
     const queryObj = {} as DoctorsFilterQuery;
     const formValue = getValues();
     const values = Object.values(formValue) as FilterGroupValue[];
-    const [specialtiesList, servicesList, insurancesList, languagesList] =
-      values.map(group => group.filter(val => Boolean(val)));
+    const [
+      specialtiesList,
+      servicesList,
+      insurancesList,
+      languagesList,
+      clinicsList,
+    ] = values.map(group => group.filter(val => Boolean(val)));
 
     if (specialtiesList.length) {
       queryObj.specialty = specialtiesList.join(',');
@@ -82,6 +91,10 @@ export const DoctorsFilter = ({
 
     if (languagesList.length) {
       queryObj.lang = languagesList.join(',');
+    }
+
+    if (clinicsList.length) {
+      queryObj.clinic = clinicsList.join(',');
     }
 
     if (debouncedSearch.length) {
@@ -148,6 +161,10 @@ export const DoctorsFilter = ({
       setValue('languages', getFilterValues(languages, query.lang));
     }
 
+    if (query.clinic) {
+      setValue('clinics', getFilterValues(clinics, query.clinic));
+    }
+
     if (query.name) {
       setSearchStringValue(query.name);
     }
@@ -201,6 +218,7 @@ export const DoctorsFilter = ({
           services={services}
           insurances={insurances}
           languages={languages}
+          clinics={clinics}
         />
         {filteredDoctors && <FiltersResult doctorsList={filteredDoctors} />}
       </StyledFiltersBody>

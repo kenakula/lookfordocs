@@ -11,6 +11,7 @@ import {
   IInsurance,
   ILanguage,
   FilterFormModel,
+  IClinic,
 } from '@/shared/types';
 import { useAppSelector } from '@/stores';
 import { TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
@@ -20,6 +21,7 @@ interface Props {
   services: IGlobalService[];
   insurances: IInsurance[];
   languages: ILanguage[];
+  clinics: IClinic[];
   mobileFilterOpen: boolean;
   setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
   buildQueryString: () => void;
@@ -38,6 +40,7 @@ export const FiltersBlock = ({
   buildQueryString,
   resetFilters,
   control,
+  clinics,
 }: Props): JSX.Element => {
   const [expandedBlocks, setExpandedBlocks] = useState<string[]>([]);
   const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
@@ -71,6 +74,7 @@ export const FiltersBlock = ({
           services={services}
           insurances={insurances}
           languages={languages}
+          clinics={clinics}
           handleChange={buildQueryString}
           formControl={control}
           expandedBlocks={expandedBlocks}
@@ -88,6 +92,7 @@ export const FiltersBlock = ({
       services={services}
       insurances={insurances}
       languages={languages}
+      clinics={clinics}
       buildQueryString={buildQueryString}
       expandedBlocks={expandedBlocks}
       handleExpandGroup={handleExpandGroup}

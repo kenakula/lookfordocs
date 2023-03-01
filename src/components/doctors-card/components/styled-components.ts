@@ -6,6 +6,7 @@ export const StyledDoctorsCard = styled(Box, {
 })<{ multipleClinics: boolean }>(({ theme, multipleClinics }) => ({
   padding: theme.spacing(2),
   backgroundColor: theme.palette.background.default,
+  borderRadius: theme.shape.borderRadius,
 
   '.swiper': {
     margin: theme.spacing(0, -2),
@@ -238,7 +239,9 @@ export const StyledLanguages = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledClinics = styled(Box)(({ theme }) => ({
+export const StyledClinics = styled(Box, {
+  shouldForwardProp: prop => prop !== 'maxListHeight',
+})<{ maxListHeight: number }>(({ theme, maxListHeight }) => ({
   '.doctors-no-clinic': {
     ...getTypography(theme, 14, 20),
     color: theme.palette.text.disabled,
@@ -246,22 +249,34 @@ export const StyledClinics = styled(Box)(({ theme }) => ({
   },
 
   [theme.breakpoints.up('lg')]: {
-    overflowY: 'auto',
     width: '32.21%',
     borderLeft: `1px solid ${theme.palette.misc.light}`,
     flexShrink: 0,
+    paddingRight: 4,
+    paddingTop: 2,
+    paddingBottom: 2,
 
-    '&::-webkit-scrollbar': {
-      width: 5,
-    },
+    '.clinics-wrapper': {
+      maxHeight: maxListHeight,
+      overflowY: 'auto',
 
-    '&::-webkit-scrollbar-track': {
-      backgroundColor: theme.palette.background.default,
-    },
+      '&::-webkit-scrollbar': {
+        width: 4,
+      },
 
-    '&::-webkit-scrollbar-thumb': {
-      borderRadius: 23,
-      backgroundColor: theme.palette.misc.light,
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: theme.palette.background.default,
+      },
+
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: 23,
+        backgroundColor: theme.palette.misc.light,
+      },
+
+      '.doctors-no-clinic': {
+        ...getTypography(theme, 16, 20),
+        paddingTop: theme.spacing(3),
+      },
     },
   },
 }));

@@ -11,6 +11,7 @@ import {
   IInsurance,
   ILanguage,
   FilterFormModel,
+  IClinic,
 } from '@/shared/types';
 import { ButtonComponent } from '@/components/button-component/button-component';
 import { useAppSelector } from '@/stores';
@@ -22,6 +23,7 @@ interface Props {
   services: IGlobalService[];
   insurances: IInsurance[];
   languages: ILanguage[];
+  clinics: IClinic[];
   buildQueryString: () => void;
   expandedBlocks: string[];
   handleExpandGroup: (id: string) => void;
@@ -37,6 +39,7 @@ export const MobileFilter = ({
   services,
   insurances,
   languages,
+  clinics,
   buildQueryString,
   expandedBlocks,
   handleExpandGroup,
@@ -72,6 +75,7 @@ export const MobileFilter = ({
           services={services}
           insurances={insurances}
           languages={languages}
+          clinics={clinics}
           handleChange={buildQueryString}
           formControl={formControl}
           expandedBlocks={expandedBlocks}
