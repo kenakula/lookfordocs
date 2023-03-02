@@ -138,7 +138,58 @@ export const StyledInfo = styled(Box)(({ theme }) => ({
   '.MuiTypography-h3': {
     ...getTypography(theme, 18, 24),
     marginBottom: theme.spacing(0.75),
-    fontWeight: 500,
+
+    a: {
+      ...getTypography(theme, 18, 24),
+      color: theme.palette.text.primary,
+      transition: theme.transitions.create('color'),
+      textDecoration: 'none',
+      fontWeight: 500,
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+      },
+
+      '&:active': {
+        color: theme.palette.primary.dark,
+      },
+    },
+  },
+}));
+
+export const StyledGlobalServices = styled(Box)(({ theme }) => ({
+  paddingTop: theme.spacing(1.5),
+
+  ul: {
+    padding: 0,
+    listStyle: 'none',
+    display: 'flex',
+    flexWrap: 'wrap',
+    columnGap: theme.spacing(1),
+    rowGap: theme.spacing(1),
+  },
+
+  li: {
+    display: 'flex',
+    flexShrink: 0,
+    width: 32,
+    height: 32,
+    borderRadius: '50%',
+    backgroundColor: theme.palette.misc.main,
+    cursor: 'pointer',
+
+    span: {
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    svg: {
+      fill: 'transparent',
+      width: 16,
+      height: 16,
+    },
   },
 }));
 

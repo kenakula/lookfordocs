@@ -16,6 +16,7 @@ import {
   DoctorClinics,
   StyledClinics,
   DoctorsCardTextsBlock,
+  DoctorGlobalServices,
 } from './components';
 import { useGetCardHeight } from './hooks';
 import { ButtonComponent } from '@/components';
@@ -42,6 +43,7 @@ export const DoctorsCard = ({
     lang,
     services,
     clinics,
+    globalServices,
   },
 }: Props): JSX.Element => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -68,18 +70,24 @@ export const DoctorsCard = ({
               />
             </Link>
           </StyledImage>
-          {!isDesktop && (
+          {!isDesktop ? (
             <StyledInfo>
-              <Typography variant="h3">{doctorName}</Typography>
+              <Typography variant="h3">
+                <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
+              </Typography>
               <DoctorLanguages list={lang} />
             </StyledInfo>
+          ) : (
+            <DoctorGlobalServices list={globalServices} />
           )}
         </DoctorCardInfo>
         <DoctorsCardTextsBlock>
           {isDesktop && (
             <StyledInfo>
               <DoctorSpecialties list={specialties} />
-              <Typography variant="h3">{doctorName}</Typography>
+              <Typography variant="h3">
+                <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
+              </Typography>
               <DoctorLanguages list={lang} />
             </StyledInfo>
           )}

@@ -1,4 +1,9 @@
-type GlobalServiceType = 'clinic' | 'home' | 'online' | 'child' | 'recipe';
+export type GlobalServiceType =
+  | 'clinic'
+  | 'home'
+  | 'online'
+  | 'child'
+  | 'receipt';
 
 export interface IGlobalService {
   id: number;

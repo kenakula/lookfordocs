@@ -9,3 +9,6 @@ export * from './becas';
 export * from './icon-rus';
 export * from './icon-en';
 export * from './icon-port';
+export * from './icon-home';
+export * from './icon-receipt';
+export * from './icon-online';
