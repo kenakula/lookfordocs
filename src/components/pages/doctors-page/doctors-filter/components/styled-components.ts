@@ -80,9 +80,17 @@ export const StyledFiltersTop = styled(Box)(({ theme }) => ({
     width: '100%',
   },
 
+  '.input-container': {
+    marginBottom: theme.spacing(3),
+  },
+
   [theme.breakpoints.up('lmd')]: {
     '.filter-toggler': {
       display: 'none',
+    },
+
+    '.input-container': {
+      marginBottom: 0,
     },
   },
 }));

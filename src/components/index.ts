@@ -8,6 +8,7 @@ export * from './button-component/button-component';
 export * from './user-avatar/user-avatar';
 export * from './socials/socials';
 export * from './smart-search-dialog/smart-search-dialog';
+export * from './smart-search-input/smart-search-input';
 export * from './page-seo/page-seo';
 export * from './promo/promo';
 export * from './chip-component/chip-component';

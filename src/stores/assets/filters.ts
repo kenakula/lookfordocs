@@ -58,6 +58,14 @@ export const getGlobalServicesFilterString = (search: string): string => `
   }
 `;
 
+export const getLanguagesFilterString = (search: string): string => `
+  {
+    "name": {
+      "_contains": "${search}"
+    }
+  }
+`;
+
 export const getDoctorsQueryString = (query: DoctorsFilterQuery): string => {
   const nameString = query.name
     ? `

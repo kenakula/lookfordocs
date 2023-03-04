@@ -35,7 +35,11 @@ export const FiltersList = ({
   clinics,
 }: Props): JSX.Element => {
   return (
-    <Box component="form" className="filter-form" onChange={handleChange}>
+    <Box
+      component="form"
+      className="filter-form"
+      onChange={() => handleChange()}
+    >
       <FilterGroupComponent<ISpecialty>
         title="Специальность"
         formControl={formControl}

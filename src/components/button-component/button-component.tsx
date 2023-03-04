@@ -49,7 +49,7 @@ const StyledButton = styled(Button, {
 }));
 
 interface Props extends ButtonProps {
-  text: string;
+  text: string | JSX.Element;
   shadow?: boolean;
 }
 

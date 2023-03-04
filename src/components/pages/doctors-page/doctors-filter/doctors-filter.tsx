@@ -4,13 +4,12 @@ import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
   FiltersBlock,
+  FiltersCounter,
   FiltersResult,
-  SearchInput,
   StyledFiltersBody,
   StyledFiltersTop,
 } from './components';
 import { getFilterValues } from './assets';
-import { useSearchInput } from './hooks';
 import {
   FilterFormModel,
   FilterGroupValue,
@@ -20,13 +19,19 @@ import {
   IInsurance,
   ILanguage,
   ISpecialty,
+  SmartSearchQuery,
 } from '@/shared/types';
 import { DoctorsFilterQuery } from '@/stores/types';
 import { DOCTORS_PAGE } from '@/shared/assets';
-import { ButtonComponent } from '@/components';
+import { ButtonComponent, SmartSearchInput } from '@/components';
 import { usePageQuery } from '@/shared/hooks';
 import { useLazyGetDoctorsListQuery } from '@/stores/api';
-import { setFiltersCount, useAppDispatch } from '@/stores';
+import {
+  searchFieldInput,
+  setFiltersCount,
+  useAppDispatch,
+  useAppSelector,
+} from '@/stores';
 
 interface Props {
   specialties: ISpecialty[];
@@ -48,6 +53,7 @@ export const DoctorsFilter = ({
   const [filteredDoctors, setFilteredDoctors] = useState<IDoctor[] | null>(
     null,
   );
+  const { filtersCount } = useAppSelector(state => state.doctorsPage);
   const dispatch = useAppDispatch();
   const [fetchDoctorsList, { data: filteredDoctorsList }] =
     useLazyGetDoctorsListQuery();
@@ -65,7 +71,7 @@ export const DoctorsFilter = ({
     setMobileFilterOpen(true);
   };
 
-  const buildQueryString = (): void => {
+  const buildQueryString = (nameString?: string): void => {
     const queryObj = {} as DoctorsFilterQuery;
     const formValue = getValues();
     const values = Object.values(formValue) as FilterGroupValue[];
@@ -97,8 +103,8 @@ export const DoctorsFilter = ({
       queryObj.clinic = clinicsList.join(',');
     }
 
-    if (debouncedSearch.length) {
-      queryObj.name = debouncedSearch;
+    if (nameString) {
+      queryObj.name = nameString;
     }
 
     countFilters();
@@ -113,16 +119,6 @@ export const DoctorsFilter = ({
       { shallow: true },
     );
   };
-
-  const {
-    debouncedSearch,
-    setSearchStringValue,
-    clearInputValue,
-    searchStringValue,
-    handleSearchChange,
-  } = useSearchInput({
-    buildQueryCb: buildQueryString,
-  });
 
   const { data: initialDoctorsList, query } = usePageQuery<
     IDoctor,
@@ -166,7 +162,7 @@ export const DoctorsFilter = ({
     }
 
     if (query.name) {
-      setSearchStringValue(query.name);
+      dispatch(searchFieldInput(query.name));
     }
 
     countFilters();
@@ -190,22 +186,71 @@ export const DoctorsFilter = ({
     buildQueryString();
   };
 
+  const handleSmartSearchSubmit = (name?: string): void => {
+    buildQueryString(name);
+  };
+
+  const handleClearInput = (): void => {
+    buildQueryString('');
+  };
+
+  const handleChooseResultOption = ({
+    name,
+    value,
+  }: SmartSearchQuery<FilterFormModel>): void => {
+    switch (name) {
+      case 'specialties':
+        setValue(name, getFilterValues(specialties, value));
+        break;
+      case 'services':
+        setValue(name, getFilterValues(services, value));
+        break;
+      case 'insurances':
+        setValue(name, getFilterValues(insurances, value));
+        break;
+      case 'clinics':
+        setValue(name, getFilterValues(clinics, value));
+        break;
+      case 'languages':
+        setValue(name, getFilterValues(languages, value));
+        break;
+      default:
+        break;
+    }
+
+    buildQueryString();
+  };
+
   return (
     <Box className="doctors-filter">
       <StyledFiltersTop className="filter-top">
-        <SearchInput
-          handleSearchChange={handleSearchChange}
-          clearInput={clearInputValue}
-          searchStr={searchStringValue}
+        <SmartSearchInput
+          placeholder="Введите врача, специальность или клинику"
+          mobilePlaceholder="Врач, специальнось, клиника"
+          handleSubmitCb={handleSmartSearchSubmit}
+          handleChooseOptionCb={handleChooseResultOption}
+          clearInputCb={handleClearInput}
+          hideButtonOnMobile
+          useCustomQuery
         />
         <ButtonComponent
           type="button"
           variant="outlined"
           fullWidth
-          text="Фильтры"
+          text={
+            <>
+              <span>Фильтры</span>
+              {filtersCount ? (
+                <FiltersCounter
+                  style={{ display: 'inline-flex', ml: 1.5 }}
+                  value={filtersCount}
+                />
+              ) : null}
+            </>
+          }
           className="filter-toggler"
           onClick={handleOpenMobileFilter}
-        />
+        ></ButtonComponent>
       </StyledFiltersTop>
       <StyledFiltersBody className="filters-body">
         <FiltersBlock

@@ -323,11 +323,11 @@ export const StyledClinics = styled(Box, {
         borderRadius: 23,
         backgroundColor: theme.palette.misc.light,
       },
+    },
 
-      '.doctors-no-clinic': {
-        ...getTypography(theme, 16, 20),
-        paddingTop: theme.spacing(3),
-      },
+    '.doctors-no-clinic': {
+      ...getTypography(theme, 16, 20),
+      paddingTop: theme.spacing(3),
     },
   },
 }));

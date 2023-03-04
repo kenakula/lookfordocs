@@ -7,6 +7,7 @@ import {
   getDoctorsFilterString,
   getGlobalServicesFilterString,
   getInsurancesFilterString,
+  getLanguagesFilterString,
   getSpecialtiesFilterString,
 } from '../assets';
 import {
@@ -14,6 +15,7 @@ import {
   IDoctor,
   IGlobalService,
   IInsurance,
+  ILanguage,
   ISmartSearchResult,
   ISpecialty,
   SmartSearchStatus,
@@ -29,6 +31,7 @@ interface SmartSearchState {
   searchStatus: SmartSearchStatus;
   errorMessage: string;
   result: ISmartSearchResult[];
+  useCustomQuery: boolean;
 }
 
 const initialState: SmartSearchState = {
@@ -37,6 +40,7 @@ const initialState: SmartSearchState = {
   searchStatus: 'idle',
   errorMessage: '',
   result: [],
+  useCustomQuery: false,
 };
 
 export const smartSearch = createAsyncThunk<
@@ -78,17 +82,30 @@ export const smartSearch = createAsyncThunk<
           fields: 'id,name,slug',
         },
       }),
+      axiosClient.get<AxiosResponse<ILanguage[]>>('/languages', {
+        params: {
+          filter: getLanguagesFilterString(search),
+          fields: 'id,name,slug',
+        },
+      }),
     ]);
 
     const result: ISmartSearchResult[] = [];
-    const [specialties, doctors, clinics, insurances, globalServices] =
-      response;
+    const [
+      specialties,
+      doctors,
+      clinics,
+      insurances,
+      globalServices,
+      languages,
+    ] = response;
 
     result.push({ type: 'specialties', list: specialties.data.data });
     result.push({ type: 'docs', list: doctors.data.data });
     result.push({ type: 'clinics', list: clinics.data.data });
     result.push({ type: 'insurances', list: insurances.data.data });
     result.push({ type: 'globalService', list: globalServices.data.data });
+    result.push({ type: 'languages', list: languages.data.data });
 
     return result;
   } catch (error) {
@@ -136,6 +153,9 @@ export const smartSearchSlice = createSlice({
       state.searchStatus = 'idle';
       state.result = [];
     },
+    setUseCustomQuery: (state, { payload }: PayloadAction<boolean>) => {
+      state.useCustomQuery = payload;
+    },
   },
   extraReducers: builder => {
     builder
@@ -163,5 +183,6 @@ export const {
   closeSmartSearch,
   searchFieldInput,
   searchFieldClear,
+  setUseCustomQuery,
 } = smartSearchSlice.actions;
 export const smartSearchReducer = smartSearchSlice.reducer;

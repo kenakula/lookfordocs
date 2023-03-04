@@ -1,4 +1,4 @@
-import { styled, Typography } from '@mui/material';
+import { styled, SxProps, Typography } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
 const StyledFiltersCounter = styled(Typography)(({ theme }) => ({
@@ -17,11 +17,16 @@ const StyledFiltersCounter = styled(Typography)(({ theme }) => ({
 
 interface Props {
   value: number;
+  style?: SxProps;
 }
 
-export const FiltersCounter = ({ value }: Props): JSX.Element => {
+export const FiltersCounter = ({ value, style }: Props): JSX.Element => {
   return (
-    <StyledFiltersCounter variant="caption" className="filters-counter">
+    <StyledFiltersCounter
+      sx={style}
+      variant="caption"
+      className="filters-counter"
+    >
       {value}
     </StyledFiltersCounter>
   );
