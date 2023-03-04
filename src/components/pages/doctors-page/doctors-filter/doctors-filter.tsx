@@ -50,13 +50,16 @@ export const DoctorsFilter = ({
 }: Props): JSX.Element => {
   const router = useRouter();
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [filteredDoctors, setFilteredDoctors] = useState<IDoctor[] | null>(
-    null,
-  );
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
   const dispatch = useAppDispatch();
-  const [fetchDoctorsList, { data: filteredDoctorsList }] =
-    useLazyGetDoctorsListQuery();
+
+  const { data, isLoading, isError, query, fetchDoctors, isFetching } =
+    usePageQuery<
+      IDoctor,
+      DoctorsFilterQuery,
+      typeof useLazyGetDoctorsListQuery
+    >(useLazyGetDoctorsListQuery);
+
   const { control, getValues, setValue, reset } = useForm<FilterFormModel>({
     defaultValues: {
       specialties: [],
@@ -108,7 +111,7 @@ export const DoctorsFilter = ({
     }
 
     countFilters();
-    fetchDoctorsList(queryObj);
+    fetchDoctors(queryObj);
 
     router.push(
       {
@@ -119,26 +122,6 @@ export const DoctorsFilter = ({
       { shallow: true },
     );
   };
-
-  const { data: initialDoctorsList, query } = usePageQuery<
-    IDoctor,
-    DoctorsFilterQuery,
-    typeof useLazyGetDoctorsListQuery
-  >(useLazyGetDoctorsListQuery);
-
-  useEffect(() => {
-    if (initialDoctorsList && !filteredDoctorsList) {
-      setFilteredDoctors(initialDoctorsList);
-    }
-
-    if (!initialDoctorsList && filteredDoctorsList) {
-      setFilteredDoctors(filteredDoctorsList);
-    }
-
-    if (initialDoctorsList && filteredDoctorsList) {
-      setFilteredDoctors(filteredDoctorsList);
-    }
-  }, [initialDoctorsList, filteredDoctorsList]);
 
   useEffect(() => {
     if (query.specialty) {
@@ -265,7 +248,11 @@ export const DoctorsFilter = ({
           languages={languages}
           clinics={clinics}
         />
-        {filteredDoctors && <FiltersResult doctorsList={filteredDoctors} />}
+        <FiltersResult
+          doctorsList={data}
+          loading={isLoading || isFetching}
+          error={isError}
+        />
       </StyledFiltersBody>
     </Box>
   );

@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { QueryDefinition } from '@reduxjs/toolkit/dist/query';
-import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
+import {
+  LazyQueryTrigger,
+  UseLazyQuery,
+} from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -15,12 +18,16 @@ export const usePageQuery = <
 ): {
   data: DataType[] | undefined;
   isLoading: boolean;
+  isFetching: boolean;
   isError: boolean;
   query: QueryType;
+  fetchDoctors: LazyQueryTrigger<
+    QueryDefinition<any, any, any, DataType[], any>
+  >;
 } => {
   const router = useRouter();
   const [query, setQuery] = useState<QueryType>({} as QueryType);
-  const [triggerQuery, { data, isLoading, isError }] = lazyQuery();
+  const [triggerQuery, { data, isLoading, isError, isFetching }] = lazyQuery();
 
   useEffect(() => {
     if (router.isReady) {
@@ -36,6 +43,8 @@ export const usePageQuery = <
     data,
     query,
     isLoading,
+    isFetching,
     isError,
+    fetchDoctors: triggerQuery,
   };
 };

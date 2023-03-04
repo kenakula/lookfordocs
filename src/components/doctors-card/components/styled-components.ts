@@ -345,8 +345,20 @@ export const StyledClinicCard = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     marginBottom: theme.spacing(1),
 
-    '.MuiTypography-body2': {
+    a: {
+      ...getTypography(theme, 16, 20),
+      color: theme.palette.text.primary,
+      transition: theme.transitions.create('color'),
+      textDecoration: 'none',
       fontWeight: 600,
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+      },
+
+      '&:active': {
+        color: theme.palette.primary.dark,
+      },
     },
   },
 

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import { useCallback } from 'react';
 import { Box, Typography } from '@mui/material';
@@ -12,6 +13,7 @@ interface Props {
 
 export const DoctorCardClinic = ({
   clinic: {
+    id,
     name,
     image,
     cities: citiesList,
@@ -50,7 +52,7 @@ export const DoctorCardClinic = ({
             src={getImageUrl(image, name)}
           />
         </Box>
-        <Typography variant="body2">{name}</Typography>
+        <Link href={`/clinics/${id}`}>{name}</Link>
       </Box>
       <Typography variant="body2" className="clinic-address">
         {getClinicAddress(address, citiesList[0])}

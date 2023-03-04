@@ -101,6 +101,15 @@ export const StyledFiltersBody = styled(Box)(({ theme }) => ({
     fontWeight: 600,
   },
 
+  '.MuiSkeleton-root': {
+    width: '100%',
+    transform: 'none',
+
+    '& + .MuiSkeleton-root': {
+      marginTop: theme.spacing(1),
+    },
+  },
+
   [theme.breakpoints.up('lmd')]: {
     display: 'flex',
     columnGap: theme.spacing(2),
