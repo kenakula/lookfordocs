@@ -1,7 +1,12 @@
 import { LinearProgress, Typography } from '@mui/material';
 import { StyledSearchResult } from './styled-components';
 import { ResultList } from './result-list';
-import { ISmartSearchResult, SmartSearchStatus } from '@/shared/types';
+import {
+  FilterFormModel,
+  ISmartSearchResult,
+  SmartSearchQuery,
+  SmartSearchStatus,
+} from '@/shared/types';
 
 const isResultEmpty = (result: ISmartSearchResult[]): boolean => {
   const arr = result.map(item => item.list).flat();
@@ -18,12 +23,16 @@ interface Props {
   result: ISmartSearchResult[];
   errorMessage: string;
   searchStr: string;
+  handleChooseOptionCb?: (
+    customQuery: SmartSearchQuery<FilterFormModel>,
+  ) => void;
 }
 
 export const SearchResult = ({
   searchStatus,
   result,
   searchStr,
+  handleChooseOptionCb,
 }: Props): JSX.Element => {
   return (
     <StyledSearchResult>
@@ -45,7 +54,12 @@ export const SearchResult = ({
         result.map(res => {
           if (res.list.length) {
             return (
-              <ResultList key={res.type} search={searchStr} result={res} />
+              <ResultList
+                handleChooseOptionCb={handleChooseOptionCb}
+                key={res.type}
+                search={searchStr}
+                result={res}
+              />
             );
           }
         })}

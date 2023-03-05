@@ -1,8 +1,12 @@
 import { useMediaQuery } from '@mui/material';
 import { StyledInner } from './components';
-import { PageSection, Subtitle, Title } from '@/shared/assets';
+import {
+  DESKTOP_BREAKPOINT,
+  PageSection,
+  Subtitle,
+  Title,
+} from '@/shared/assets';
 import { ButtonComponent, ContainerComponent } from '@/components';
-import { useCustomTheme } from '@/stores/theme-store-provider';
 import { IBlockData } from '@/shared/types';
 
 interface Props {
@@ -10,8 +14,7 @@ interface Props {
 }
 
 export const MainAppointment = ({ appointmentData }: Props): JSX.Element => {
-  const { theme } = useCustomTheme();
-  const matches = useMediaQuery(theme ? theme.breakpoints.up('lg') : '');
+  const matches = useMediaQuery(DESKTOP_BREAKPOINT);
 
   const getMobileTitle = (): string => {
     if (!appointmentData) {

@@ -1,6 +1,7 @@
 import { InferGetStaticPropsType } from 'next';
 import {
   BreadcrumbsComponent,
+  DoctorsFilter,
   Layout,
   PageResult,
   PageSeo,
@@ -15,6 +16,7 @@ import getRunningDoctorsPageQueries, {
   getDoctorsPagePromoData,
   getDoctorsInsurances,
   getDoctorsLanguages,
+  getDoctorsClinics,
 } from '@/stores/api/doctors-page.api';
 
 const PAGE_SLUG = 'doctors';
@@ -31,6 +33,7 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const globalServices = await store.dispatch(getGlobalServicesList.initiate());
   const insurances = await store.dispatch(getDoctorsInsurances.initiate());
   const languages = await store.dispatch(getDoctorsLanguages.initiate());
+  const clinics = await store.dispatch(getDoctorsClinics.initiate());
 
   await Promise.all([
     ...store.dispatch(getRunningGlobalQueries()),
@@ -46,45 +49,39 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
       globalServices: globalServices.data ?? null,
       insurances: insurances.data ?? null,
       languages: languages.data ?? null,
+      clinics: clinics.data ?? null,
     },
   };
 });
 
-// const usePageQuery = (): {
-//   data: IDoctor[] | undefined;
-//   isLoading: boolean;
-// } => {
-//   const router = useRouter();
-//   const [triggerQuery, { data, isLoading }] = useLazyGetDoctorsListQuery();
-
-//   useEffect(() => {
-//     if (router.isReady) {
-//       const query = router.query as DoctorsFilterQuery;
-
-//       triggerQuery(query);
-//     }
-//   }, [router, triggerQuery]);
-
-//   return {
-//     data,
-//     isLoading,
-//   };
-// };
-
 const DoctorsPage = ({
   siteSettings,
   pageSettings,
+  specialties,
   promoData,
+  insurances,
+  globalServices,
+  languages,
+  clinics,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
-  // const { data, isLoading } = usePageQuery();
-
   return (
     <Layout siteSettings={siteSettings}>
+      {pageSettings ? (
+        <h1 className="visually-hidden">{pageSettings[0].h1 ?? ''}</h1>
+      ) : null}
       <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
       <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
       {promoData && <Promo promoData={promoData} />}
       <PageResult>
-        <h1>Page result</h1>
+        {specialties && globalServices && insurances && languages && clinics ? (
+          <DoctorsFilter
+            specialties={specialties}
+            services={globalServices}
+            insurances={insurances}
+            languages={languages}
+            clinics={clinics}
+          />
+        ) : null}
       </PageResult>
     </Layout>
   );

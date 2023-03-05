@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import {
   Box,
@@ -20,26 +19,33 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/stores';
-import { useCustomTheme } from '@/stores/theme-store-provider';
 import { useDebounce } from '@/shared/hooks';
-import { DOCTORS_PAGE } from '@/shared/assets';
+import { TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
+import { SmartSearchQuery, FilterFormModel } from '@/shared/types';
 
 interface Props {
-  isMainPage: boolean;
+  handleSubmitCb: (name?: string) => void;
+  placeholder: string;
+  handleChooseOptionCb?: (
+    customQuery: SmartSearchQuery<FilterFormModel>,
+  ) => void;
+  clearInputCb?: () => void;
 }
 
-export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
+export const SmartSearchDialog = ({
+  handleSubmitCb,
+  placeholder,
+  handleChooseOptionCb,
+  clearInputCb,
+}: Props): JSX.Element => {
   const { opened, searchStr, searchStatus, errorMessage, result } =
     useAppSelector(state => state.smartSearch);
   const dispatch = useAppDispatch();
-  const { theme } = useCustomTheme();
-  const isTablet = useMediaQuery(theme?.breakpoints.up('lmd') ?? '');
+  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
   const inputRef = useRef<HTMLInputElement>(null);
-  const fullScreenMode = (isMainPage && !isTablet) || !isMainPage;
-  useFullscreenMode(opened, isTablet, fullScreenMode, inputRef);
-  useCloseOnMainPageTablet(fullScreenMode);
+  useFullscreenMode(opened, isTablet, inputRef);
+  useCloseOnMainPageTablet(isTablet);
   const debouncedValue = useDebounce(searchStr, 400);
-  const router = useRouter();
 
   useEffect(() => {
     if (debouncedValue.length > 2) {
@@ -55,6 +61,10 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
 
   const clearInput = (): void => {
     dispatch(searchFieldClear());
+
+    if (clearInputCb) {
+      clearInputCb();
+    }
   };
 
   const handleClose = (): void => {
@@ -64,24 +74,14 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
   const onSearchFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (searchStr.length) {
-      router
-        .push({
-          pathname: DOCTORS_PAGE,
-          query: {
-            name: searchStr,
-          },
-        })
-        .then(() => {
-          dispatch(closeSmartSearch({ clear: false }));
-        });
-    }
+    dispatch(closeSmartSearch({ clear: false }));
+    handleSubmitCb(searchStr);
   };
 
   return (
     <Fade in={opened}>
-      <StyledDialog className="search-dialog" fullscreenMode={fullScreenMode}>
-        {fullScreenMode && (
+      <StyledDialog className="search-dialog">
+        {!isTablet && (
           <>
             <StyledDialogHeader>
               <Typography variant="h2">Поиск</Typography>
@@ -94,7 +94,7 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
               <form action="#" onSubmit={onSearchFormSubmit}>
                 <Input
                   inputRef={inputRef}
-                  placeholder="Врача, клиника и услуга"
+                  placeholder={placeholder}
                   fullWidth
                   onChange={onInputChange}
                   value={searchStr}
@@ -118,6 +118,7 @@ export const SmartSearchDialog = ({ isMainPage }: Props): JSX.Element => {
             result={result}
             errorMessage={errorMessage}
             searchStr={searchStr}
+            handleChooseOptionCb={handleChooseOptionCb}
           />
         </Box>
       </StyledDialog>

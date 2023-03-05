@@ -5,5 +5,7 @@ export * from './routes';
 export * from './get-typography';
 export * from './is-browser';
 export * from './get-image-url';
-export * from './string-to-color';
 export * from './num-words';
+export * from './string-utils';
+export * from './theme-breakpoints';
+export * from './price-utils';

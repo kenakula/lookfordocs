@@ -6,15 +6,14 @@ import {
   useAppDispatch,
   removeToasterFromPack,
 } from '@/stores';
-import { useCustomTheme } from '@/stores/theme-store-provider';
+import { MOBILE_BREAKPOINT } from '@/shared/assets';
 
 export const useToasterPosition = (): SnackbarOrigin => {
   const [origin, setOrigin] = useState<SnackbarOrigin>({
     vertical: 'bottom',
     horizontal: 'center',
   });
-  const { theme } = useCustomTheme();
-  const matches = useMediaQuery(theme ? theme.breakpoints.up('sm') : '');
+  const matches = useMediaQuery(MOBILE_BREAKPOINT);
 
   useEffect(() => {
     if (matches) {

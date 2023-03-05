@@ -1,5 +1,7 @@
 export interface ILanguage {
-  id: string;
-  slug: string;
+  id: number;
+  slug: LanguageSlug;
   name: string;
 }
+
+export type LanguageSlug = 'rus' | 'en' | 'port';

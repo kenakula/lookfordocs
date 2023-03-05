@@ -32,10 +32,13 @@ export const Promo = ({ promoData }: Props): JSX.Element => {
           </StyledChips>
         ) : null}
         <ButtonComponent
+          className="promo-button"
           type="button"
-          variant="outlined"
+          color="secondary"
+          variant="contained"
+          size="large"
           fullWidth
-          text="Записаться"
+          text="Записаться к врачу"
         />
         <Becas className="becas" />
       </ContainerComponent>

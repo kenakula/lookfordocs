@@ -1,22 +1,42 @@
-import { IContact } from './contact.type';
+import {
+  SpecialtyRef,
+  InsurancesRef,
+  LanguagesRef,
+  ClinicsRef,
+  GlobalServicesRef,
+} from './directus-api-refs';
 import { IImage } from './image.type';
-import { ISpecialty } from './specialty.type';
+import { Perk } from './perk.type';
 
-interface SpecialtyRef {
-  specialties_id: ISpecialty;
+export interface IDoctorCount {
+  count: { id: number };
+}
+
+export interface IDoctorService {
+  name: string;
+  value: string;
+  price: string;
+  priceFrom: boolean;
 }
 
 export interface IDoctor {
-  id: string;
+  id: number;
   status: string;
-  user_created: string;
+  sort?: number;
   date_created: Date;
-  user_updated: string;
   date_updated: Date;
-  description?: string;
-  contacts?: IContact[];
   firstName: string;
-  lastName?: string;
+  lastName: string;
+  gender: string;
+  shortText?: string;
+  longText?: string;
+  perks: Perk[];
   image: IImage;
   specialties: SpecialtyRef[];
+  insurances: InsurancesRef[];
+  lang: LanguagesRef[];
+  clinics: ClinicsRef[];
+  services: IDoctorService[];
+  globalServices: GlobalServicesRef[];
+  reembolso?: boolean;
 }

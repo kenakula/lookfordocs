@@ -14,11 +14,12 @@ export const StyledHeader = styled(AppBar, {
     !['isMainPage', 'isScrolled'].includes(prop.toString()),
 })<{ isScrolled: boolean; isMainPage: boolean }>(
   ({ theme, isScrolled, isMainPage }) => ({
+    zIndex: theme.zIndex.modal,
     backgroundColor:
-      isScrolled || !isMainPage ? '#ffffff' : theme.palette.misc.main,
-    transition: theme.transitions.create(['box-shadow', 'background-color'], {
-      duration: 200,
-    }),
+      isScrolled || !isMainPage
+        ? theme.palette.background.default
+        : theme.palette.misc.main,
+    transition: theme.transitions.create(['box-shadow', 'background-color']),
     boxShadow: isScrolled ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',
     visibility: 'visible',
     '.MuiToolbar-root': {
@@ -46,7 +47,9 @@ export const HiddenToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-export const StyledNav = styled(Box)(({ theme }) => ({
+export const StyledNav = styled(Box, {
+  shouldForwardProp: prop => prop !== 'isMainPage',
+})<{ isMainPage: boolean }>(({ theme, isMainPage }) => ({
   ...theme.typography,
   display: 'none',
   [theme.breakpoints.up('lg')]: {
@@ -72,19 +75,22 @@ export const StyledNav = styled(Box)(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     boxShadow: `0px 4px 16px ${alpha(theme.palette.text.primary, 0.04)}`,
     transition: theme.transitions.create(['border-color', 'box-shadow']),
-    border: '1px solid transparent',
+    border: isMainPage
+      ? '1px solid transparent'
+      : `1px solid ${theme.palette.misc.light}`,
     boxSizing: 'border-box',
     '&:hover': {
-      borderColor: '#F6F8FB',
+      borderColor: theme.palette.misc.light,
       boxShadow: `0px 8px 16px ${alpha(theme.palette.text.primary, 0.08)}`,
       backgroundColor: theme.palette.background.default,
     },
     '&:active': {
-      borderColor: '#DDE3EF',
+      borderColor: theme.palette.text.disabled,
     },
     '&:focus-visible': {
       outline: `4px solid ${theme.palette.primary.light}`,
       backgroundColor: theme.palette.background.default,
+      borderColor: 'transparent',
     },
   },
   '.nav-link': {
@@ -93,6 +99,23 @@ export const StyledNav = styled(Box)(({ theme }) => ({
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     transition: theme.transitions.create('color'),
+
+    '&.active': {
+      position: 'relative',
+      pointerEvents: 'none',
+
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        bottom: -3,
+        display: 'block',
+        width: '100%',
+        height: 3,
+        backgroundColor: theme.palette.primary.main,
+        borderRadius: theme.shape.borderRadius / 2,
+      },
+    },
 
     '&:hover': {
       color: theme.palette.primary.main,
@@ -178,12 +201,32 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
     whiteSpace: 'nowrap',
     fontSize: 16,
     transition: theme.transitions.create('color'),
+
+    '&.active': {
+      position: 'relative',
+      pointerEvents: 'none',
+
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        bottom: -3,
+        display: 'block',
+        width: '100%',
+        height: 3,
+        backgroundColor: theme.palette.primary.main,
+        borderRadius: theme.shape.borderRadius / 2,
+      },
+    },
+
     '&:hover': {
       color: theme.palette.primary.main,
     },
+
     '&:active': {
       color: theme.palette.primary.dark,
     },
+
     '&:focus': {
       color: theme.palette.primary.main,
       textDecoration: 'underline',

@@ -1,57 +1,41 @@
 import { Typography, List, ListItemButton, Avatar, Box } from '@mui/material';
 import Link from 'next/link';
 import { StyledResultList } from './styled-components';
-import { getImageUrl, DOCTORS_PAGE } from '@/shared/assets';
+import {
+  getImageUrl,
+  DOCTORS_PAGE,
+  getHighlightedLetters,
+} from '@/shared/assets';
 import {
   ISmartSearchResult,
   ISpecialty,
   IClinic,
   IDoctor,
   IInsurance,
+  IGlobalService,
+  FilterFormModel,
+  SmartSearchQuery,
+  ILanguage,
 } from '@/shared/types';
-import { closeSmartSearch, useAppDispatch } from '@/stores';
+import { closeSmartSearch, useAppDispatch, useAppSelector } from '@/stores';
 
-const capitilize = (str: string): string => str[0].toUpperCase() + str.slice(1);
-
-const getHighlightedLetters = (str: string, substr: string): JSX.Element => {
-  const capitilizedStr = str
-    .split(' ')
-    .filter(word => word.length)
-    .map(word => capitilize(word))
-    .join(' ');
-  const startIndex = capitilizedStr.toLowerCase().indexOf(substr.toLowerCase());
-
-  if (startIndex === -1) {
-    return <span>{capitilizedStr}</span>;
-  }
-
-  const lastIndex = startIndex + substr.length;
-  const highlightedStr = capitilizedStr
-    .split('')
-    .splice(startIndex, substr.length)
-    .join('');
-  const firstPartStr = capitilizedStr.slice(0, startIndex);
-  const lastPartStr = capitilizedStr.slice(lastIndex);
-
-  return (
-    <span>
-      <span>{firstPartStr}</span>
-      <span className="highlighted">{highlightedStr}</span>
-      <span>{lastPartStr}</span>
-    </span>
-  );
-};
+// TODO рефактор
 
 interface Props {
   result: ISmartSearchResult;
   search: string;
+  handleChooseOptionCb?: (
+    customQuery: SmartSearchQuery<FilterFormModel>,
+  ) => void;
 }
 
 export const ResultList = ({
   result: { type, list },
   search,
+  handleChooseOptionCb,
 }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
+  const { useCustomQuery } = useAppSelector(state => state.smartSearch);
 
   const closeSearchBox = (): void => {
     dispatch(closeSmartSearch({ clear: true }));
@@ -72,9 +56,54 @@ export const ResultList = ({
                   className="search-link"
                   component={Link}
                   href={`${DOCTORS_PAGE}?specialty=${id}`}
-                  onClick={closeSearchBox}
+                  onClick={e => {
+                    if (useCustomQuery && handleChooseOptionCb) {
+                      e.preventDefault();
+                      handleChooseOptionCb({
+                        name: 'specialties',
+                        value: id.toString(),
+                      });
+                      closeSearchBox();
+                    } else {
+                      closeSearchBox();
+                    }
+                  }}
                 >
                   {getHighlightedLetters(title, search)}
+                </ListItemButton>
+              );
+            })}
+          </List>
+        </StyledResultList>
+      );
+    case 'globalService':
+      return (
+        <StyledResultList>
+          <Typography variant="h3">Услуги</Typography>
+          <List>
+            {list.map(item => {
+              const { id, name } = item as IGlobalService;
+
+              return (
+                <ListItemButton
+                  key={`service-${id}`}
+                  className="search-link"
+                  component={Link}
+                  href={`${DOCTORS_PAGE}?service=${id}`}
+                  onClick={e => {
+                    if (useCustomQuery && handleChooseOptionCb) {
+                      e.preventDefault();
+                      handleChooseOptionCb({
+                        name: 'services',
+                        value: id.toString(),
+                      });
+                      closeSearchBox();
+                    } else {
+                      closeSearchBox();
+                    }
+                  }}
+                >
+                  {getHighlightedLetters(name, search)}
                 </ListItemButton>
               );
             })}
@@ -95,7 +124,18 @@ export const ResultList = ({
                   className="complex-item"
                   component={Link}
                   href={`${DOCTORS_PAGE}?clinic=${id}`}
-                  onClick={closeSearchBox}
+                  onClick={e => {
+                    if (useCustomQuery && handleChooseOptionCb) {
+                      e.preventDefault();
+                      handleChooseOptionCb({
+                        name: 'clinics',
+                        value: id.toString(),
+                      });
+                      closeSearchBox();
+                    } else {
+                      closeSearchBox();
+                    }
+                  }}
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
@@ -169,7 +209,18 @@ export const ResultList = ({
                   className="complex-item"
                   component={Link}
                   href={`${DOCTORS_PAGE}?insurance=${id}`}
-                  onClick={closeSearchBox}
+                  onClick={e => {
+                    if (useCustomQuery && handleChooseOptionCb) {
+                      e.preventDefault();
+                      handleChooseOptionCb({
+                        name: 'insurances',
+                        value: id.toString(),
+                      });
+                      closeSearchBox();
+                    } else {
+                      closeSearchBox();
+                    }
+                  }}
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
@@ -181,6 +232,40 @@ export const ResultList = ({
                       {getHighlightedLetters(name, search)}
                     </Typography>
                   </Box>
+                </ListItemButton>
+              );
+            })}
+          </List>
+        </StyledResultList>
+      );
+    default:
+      return (
+        <StyledResultList>
+          <Typography variant="h3">Языки врача</Typography>
+          <List>
+            {list.map(item => {
+              const { id, name } = item as ILanguage;
+
+              return (
+                <ListItemButton
+                  key={`lang-${id}`}
+                  className="search-link"
+                  component={Link}
+                  href={`${DOCTORS_PAGE}?lang=${id}`}
+                  onClick={e => {
+                    if (useCustomQuery && handleChooseOptionCb) {
+                      e.preventDefault();
+                      handleChooseOptionCb({
+                        name: 'languages',
+                        value: id.toString(),
+                      });
+                      closeSearchBox();
+                    } else {
+                      closeSearchBox();
+                    }
+                  }}
+                >
+                  {getHighlightedLetters(name, search)}
                 </ListItemButton>
               );
             })}

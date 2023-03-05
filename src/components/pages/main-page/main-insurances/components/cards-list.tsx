@@ -1,11 +1,5 @@
-import {
-  Typography,
-  Link as MuiLink,
-  useMediaQuery,
-  Button,
-} from '@mui/material';
+import { Typography, Link as MuiLink } from '@mui/material';
 import Link from 'next/link';
-import React, { useState } from 'react';
 import Image from 'next/image';
 import {
   StyledList,
@@ -13,37 +7,34 @@ import {
   StyledButtonContainer,
 } from './styled-components';
 import { ButtonComponent } from '@/components';
-import { useCustomTheme } from '@/stores/theme-store-provider';
 import { IInsurance } from '@/shared/types/insurance.type';
 import { getImageUrl, DOCTORS_PAGE } from '@/shared/assets';
 
 const CARD_HEIGHT = 120;
 const CARD_GAP = 12;
-const CARDS_COUNT_SHOW = 4;
 
 interface Props {
   insurances: IInsurance[];
+  cardsNumber: number;
+  handleExpand: () => void;
+  expanded: boolean;
 }
 
-export const CardsList = ({ insurances }: Props): JSX.Element => {
-  const [showedCards, setShowedCards] = useState(CARDS_COUNT_SHOW);
-  const { theme } = useCustomTheme();
-  const matches = useMediaQuery(theme ? theme.breakpoints.up('md') : '');
-
-  const handleChange = () => {
-    setShowedCards(prev => (prev !== 0 ? 0 : CARDS_COUNT_SHOW));
-  };
-
+export const CardsList = ({
+  expanded,
+  insurances,
+  cardsNumber,
+  handleExpand,
+}: Props): JSX.Element => {
   return (
     <>
       <StyledList gap={CARD_GAP}>
-        {insurances
-          .slice(matches ? 0 : showedCards)
-          .map(({ id, name, image }) => (
+        {insurances.map(({ id, name, image }, index: number) =>
+          index < cardsNumber ? (
             <StyledCard minHeight={CARD_HEIGHT} key={id}>
               <MuiLink
                 underline="none"
-                href={`${DOCTORS_PAGE}`}
+                href={`${DOCTORS_PAGE}?insurance=${id}`}
                 component={Link}
               >
                 <Typography className="visually-hidden" variant="h3">
@@ -57,32 +48,18 @@ export const CardsList = ({ insurances }: Props): JSX.Element => {
                 />
               </MuiLink>
             </StyledCard>
-          ))}
+          ) : null,
+        )}
       </StyledList>
-      {matches ? (
-        <StyledButtonContainer>
-          <Button
-            className="button-link"
-            component={Link}
-            href={DOCTORS_PAGE}
-            variant="outlined"
-            disableFocusRipple
-            disableRipple
-          >
-            Показать все
-          </Button>
-        </StyledButtonContainer>
-      ) : (
-        <StyledButtonContainer>
-          <ButtonComponent
-            className="button-link"
-            fullWidth
-            onClick={handleChange}
-            variant="outlined"
-            text={showedCards === 0 ? 'Скрыть' : 'Показать все'}
-          />
-        </StyledButtonContainer>
-      )}
+      <StyledButtonContainer>
+        <ButtonComponent
+          className="button-link"
+          fullWidth
+          variant="outlined"
+          text={expanded ? 'Скрыть' : 'Показать все'}
+          onClick={handleExpand}
+        />
+      </StyledButtonContainer>
     </>
   );
 };

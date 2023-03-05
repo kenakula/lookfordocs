@@ -33,57 +33,6 @@ export const StyledInner = styled(Box)(({ theme }) => ({
     margin: 0,
     padding: 0,
   },
-
-  '.slider-buttons': {
-    display: 'none',
-
-    '.swiper-button-disabled': {
-      opacity: 0.3,
-      pointerEvents: 'none',
-    },
-
-    [theme.breakpoints.up('xl')]: {
-      position: 'absolute',
-      display: 'flex',
-      justifyContent: 'space-between',
-      top: '56%',
-      left: -50,
-      right: -50,
-      transform: 'translateY(-50%)',
-    },
-  },
-
-  '.swiper-pagination': {
-    '&.swiper-pagination': {
-      bottom: 0,
-    },
-
-    '.swiper-pagination-bullet': {
-      backgroundColor: theme.palette.primary.light,
-      width: 12,
-      height: 12,
-      opacity: 1,
-    },
-
-    '.swiper-pagination-bullet-active': {
-      backgroundColor: theme.palette.primary.main,
-    },
-
-    '.swiper-pagination-bullet-active-next, .swiper-pagination-bullet-active-prev':
-      {
-        transform: 'scale(1)',
-      },
-
-    '.swiper-pagination-bullet-active-next-next, .swiper-pagination-bullet-active-prev-prev':
-      {
-        transform: 'scale(0.66)',
-        opacity: 0.6,
-      },
-
-    [theme.breakpoints.up('xl')]: {
-      display: 'none',
-    },
-  },
 }));
 
 export const StyledCard = styled(Box)(({ theme }) => ({

@@ -1,4 +1,11 @@
+import { CitiesRef, InsurancesRef } from './directus-api-refs';
 import { IImage } from './image.type';
+
+export interface IMetro {
+  color: string;
+  name: string;
+  slug: string;
+}
 
 export interface IClinic {
   id: number;
@@ -11,4 +18,7 @@ export interface IClinic {
   name: string;
   image: IImage;
   address: string;
+  cities: CitiesRef[];
+  metro: IMetro[];
+  insurances: InsurancesRef[];
 }

@@ -12,9 +12,13 @@ import {
   StyledButtonContainer,
 } from './styled-components';
 import { ButtonComponent } from '@/components';
-import { useCustomTheme } from '@/stores/theme-store-provider';
 import { ISpecialty, ICountedSpecialties } from '@/shared/types';
-import { DOCTORS_PAGE, numWord } from '@/shared/assets';
+import {
+  capitalize,
+  DOCTORS_PAGE,
+  numWord,
+  TABLET_BREAKPOINT,
+} from '@/shared/assets';
 
 const CARD_HEIGHT = 98;
 const CARD_GAP = 12;
@@ -30,8 +34,7 @@ export const CardsList = ({
   countedSpecialties,
 }: Props): JSX.Element => {
   const [expanded, setExpanded] = useState(false);
-  const { theme } = useCustomTheme();
-  const matches = useMediaQuery(theme ? theme.breakpoints.up('md') : '');
+  const matches = useMediaQuery(TABLET_BREAKPOINT);
 
   const handleChange = () => {
     setExpanded(prev => !prev);
@@ -39,15 +42,6 @@ export const CardsList = ({
 
   const collapsedSize =
     CARDS_COUNT_SHOW * CARD_HEIGHT + CARDS_COUNT_SHOW * CARD_GAP;
-
-  const getCapitilizedTitle = (str: string): string => {
-    return str
-      .split(' ')
-      .map((word: string, index: number) =>
-        index === 0 ? word[0].toUpperCase() + word.slice(1) : word,
-      )
-      .join(' ');
-  };
 
   const getSpecialtyCount = (id: number): number => {
     const spec = countedSpecialties.find(item => item.specialties_id === id);
@@ -73,16 +67,14 @@ export const CardsList = ({
         collapsedSize={matches ? 0 : collapsedSize}
       >
         <StyledList gap={CARD_GAP}>
-          {specialties.map(({ id, title, slug }) => (
+          {specialties.map(({ id, title }) => (
             <StyledCard minHeight={CARD_HEIGHT} key={id}>
               <MuiLink
                 underline="none"
-                href={`${DOCTORS_PAGE}?specialty=${slug}`}
+                href={`${DOCTORS_PAGE}?specialty=${id}`}
                 component={Link}
               >
-                <Typography variant="h3">
-                  {getCapitilizedTitle(title)}
-                </Typography>
+                <Typography variant="h3">{capitalize(title)}</Typography>
                 <Typography variant="caption">{getCountValue(id)}</Typography>
               </MuiLink>
             </StyledCard>

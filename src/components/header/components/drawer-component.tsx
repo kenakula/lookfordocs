@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   Box,
   Typography,
@@ -10,6 +11,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import { getActiveStateClassName } from '../assets';
 import { StyledDrawer, StyledSocials } from './styled-components';
 import { ContainerComponent, Socials } from '@/components';
 import { IImage, INavigation, ISocial } from '@/shared/types';
@@ -32,6 +34,8 @@ export const DrawerComponent = ({
   logo,
   copyrights,
 }: Props): JSX.Element => {
+  const router = useRouter();
+
   return (
     <Box component="nav">
       <StyledDrawer
@@ -83,7 +87,13 @@ export const DrawerComponent = ({
               </ListItem>
             ) : (
               <ListItem key={name}>
-                <Link className="nav-link" href={url}>
+                <Link
+                  className={`nav-link ${getActiveStateClassName(
+                    url,
+                    router.pathname,
+                  )}`}
+                  href={url}
+                >
                   {name}
                 </Link>
               </ListItem>

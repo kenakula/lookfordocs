@@ -4,7 +4,7 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
-  padding: theme.spacing(4, 0, 2),
+  padding: theme.spacing(4, 0, 8),
 
   '.title': {
     marginBottom: theme.spacing(1.5),
@@ -15,30 +15,46 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
   },
 
   '.chips': {
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(4),
   },
 
   '.becas': {
     position: 'absolute',
-    bottom: theme.spacing(8),
-    right: 40,
+    bottom: theme.spacing(15),
+    right: '6%',
     display: 'block',
-    width: 86,
-    height: 100,
+    width: 56,
+    height: 64,
     cursor: 'default',
     transform: 'scale(-1, 1)',
 
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up('md')]: {
+      right: '10%',
+    },
+
+    [theme.breakpoints.up('lmd')]: {
       bottom: 0,
-      right: 290,
+      right: '20%',
       width: 154,
       height: 179,
+    },
+
+    [theme.breakpoints.up('lg')]: {
+      right: 'calc(50vw - 564px + 100px)',
+      width: 208,
+      height: 242,
+    },
+  },
+
+  [theme.breakpoints.up('lmd')]: {
+    '.promo-button': {
+      width: 'auto',
     },
   },
 
   [theme.breakpoints.up('lg')]: {
     position: 'relative',
-    padding: theme.spacing(11, 0, 2),
+    padding: theme.spacing(11, 0, 12.5),
 
     '.subtitle': {
       marginBottom: theme.spacing(4),
@@ -48,12 +64,15 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
 
 export const StyledChips = styled('ul')(({ theme }) => ({
   display: 'flex',
-  flexDirection: 'column',
   alignItems: 'flex-start',
   flexWrap: 'wrap',
   listStyle: 'none',
   margin: 0,
-  padding: theme.spacing(0, 17.5, 0, 0),
+  padding: theme.spacing(0, 13, 0, 0),
   columnGap: theme.spacing(1.5),
   rowGap: theme.spacing(1.5),
+
+  [theme.breakpoints.up('lmd')]: {
+    paddingRight: '50%',
+  },
 }));
