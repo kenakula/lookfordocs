@@ -33,6 +33,12 @@ export const StyledInner = styled(Box)(({ theme }) => ({
     margin: 0,
     padding: 0,
   },
+
+  '.swiper-slide': {
+    alignSelf: 'stretch',
+    display: 'flex',
+    height: 'auto',
+  },
 }));
 
 export const StyledCard = styled(Box)(({ theme }) => ({
@@ -73,6 +79,7 @@ export const StyledCard = styled(Box)(({ theme }) => ({
 
   '.card-text': {
     ...getTypography(theme, 16, 20),
+    marginBottom: theme.spacing(2),
     color: theme.palette.text.secondary,
   },
 
@@ -90,6 +97,15 @@ export const StyledCard = styled(Box)(({ theme }) => ({
 
     '.MuiTypography-root': {
       ...getTypography(theme, 14, 20),
+    },
+  },
+
+  '.MuiAvatar-root': {
+    width: 56,
+    height: 56,
+
+    '&.app-avatar': {
+      backgroundColor: theme.palette.primary.main,
     },
   },
 
