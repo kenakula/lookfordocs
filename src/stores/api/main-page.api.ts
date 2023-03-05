@@ -88,7 +88,8 @@ export const mainPageApi = createApi({
       query: () => ({
         url: '/insurances',
         params: {
-          fields: 'id, name, image.*',
+          fields: 'id, name, image.*, sort',
+          sort: 'sort',
         },
       }),
       transformResponse: (response: CollectionResponse<IInsurance>) =>
