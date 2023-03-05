@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { CircularProgress, Skeleton, Typography } from '@mui/material';
 import { FilterEmptyResult, FilterResultList } from './styled-components';
 import { IDoctor } from '@/shared/types';
 import { DoctorsCard } from '@/components';
@@ -6,12 +6,14 @@ import { DoctorsCard } from '@/components';
 interface Props {
   doctorsList: IDoctor[] | undefined;
   loading: boolean;
+  fetching: boolean;
   error: boolean;
 }
 
 export const FiltersResult = ({
   doctorsList,
   loading,
+  fetching,
   error,
 }: Props): JSX.Element | null => {
   if (!doctorsList) {
@@ -20,9 +22,10 @@ export const FiltersResult = ({
 
   if (loading) {
     return (
-      <Typography variant="body2" color="secondary" textAlign="center">
-        Загрузка...
-      </Typography>
+      <>
+        <Skeleton height={200} />
+        <Skeleton height={200} />
+      </>
     );
   }
 
@@ -36,12 +39,17 @@ export const FiltersResult = ({
 
   if (doctorsList.length) {
     return (
-      <FilterResultList className="filters-result">
+      <FilterResultList>
         {doctorsList.map(item => (
           <li key={item.id}>
             <DoctorsCard data={item} />
           </li>
         ))}
+        {fetching && (
+          <li className="loader">
+            <CircularProgress size={60} />
+          </li>
+        )}
       </FilterResultList>
     );
   }

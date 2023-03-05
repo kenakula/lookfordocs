@@ -22,3 +22,4 @@ export * from './perk.type';
 export * from './city.type';
 export * from './directus-api-refs';
 export * from './smart-serach-query.type';
+export * from './paging.type';

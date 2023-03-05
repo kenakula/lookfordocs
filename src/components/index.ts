@@ -17,3 +17,4 @@ export * from './page-result/page-result';
 export * from './form-components';
 export * from './doctors-card/doctors-card';
 export * from './slider-component/slider-component';
+export * from './pagination-component/pagination-component';

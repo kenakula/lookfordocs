@@ -8,6 +8,10 @@ import {
 import { IImage } from './image.type';
 import { Perk } from './perk.type';
 
+export interface IDoctorCount {
+  count: { id: number };
+}
+
 export interface IDoctorService {
   name: string;
   value: string;

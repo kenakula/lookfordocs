@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
@@ -23,10 +23,19 @@ import {
 } from '@/shared/types';
 import { DoctorsFilterQuery } from '@/stores/types';
 import { DOCTORS_PAGE } from '@/shared/assets';
-import { ButtonComponent, SmartSearchInput } from '@/components';
-import { usePageQuery } from '@/shared/hooks';
-import { useLazyGetDoctorsListQuery } from '@/stores/api';
 import {
+  ButtonComponent,
+  PaginationComponent,
+  SmartSearchInput,
+} from '@/components';
+import { usePageQuery, usePaginationQuery } from '@/shared/hooks';
+import {
+  DOCTORS_PAGE_LIMIT,
+  useLazyGetDoctorsCountQuery,
+  useLazyGetDoctorsListQuery,
+} from '@/stores/api';
+import {
+  searchFieldClear,
   searchFieldInput,
   setFiltersCount,
   useAppDispatch,
@@ -50,8 +59,11 @@ export const DoctorsFilter = ({
 }: Props): JSX.Element => {
   const router = useRouter();
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [searchString, setSearchString] = useState('');
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
   const dispatch = useAppDispatch();
+  const [pagingValue, setPagingValue] = useState(1);
+  const topBlockRef = useRef<HTMLDivElement>(null);
 
   const { data, isLoading, isError, query, fetchDoctors, isFetching } =
     usePageQuery<
@@ -59,6 +71,11 @@ export const DoctorsFilter = ({
       DoctorsFilterQuery,
       typeof useLazyGetDoctorsListQuery
     >(useLazyGetDoctorsListQuery);
+
+  const { getDoctorsCount, totalItemsCount } = usePaginationQuery<
+    DoctorsFilterQuery,
+    typeof useLazyGetDoctorsCountQuery
+  >(useLazyGetDoctorsCountQuery);
 
   const { control, getValues, setValue, reset } = useForm<FilterFormModel>({
     defaultValues: {
@@ -74,7 +91,7 @@ export const DoctorsFilter = ({
     setMobileFilterOpen(true);
   };
 
-  const buildQueryString = (nameString?: string): void => {
+  const buildQueryString = (nameString?: string, pageNumber?: number): void => {
     const queryObj = {} as DoctorsFilterQuery;
     const formValue = getValues();
     const values = Object.values(formValue) as FilterGroupValue[];
@@ -108,10 +125,22 @@ export const DoctorsFilter = ({
 
     if (nameString) {
       queryObj.name = nameString;
+      setSearchString(nameString);
+    } else {
+      setSearchString('');
+      dispatch(searchFieldClear());
+    }
+
+    if (!pageNumber) {
+      setPagingValue(1);
     }
 
     countFilters();
-    fetchDoctors(queryObj);
+    fetchDoctors(queryObj, {
+      page: pageNumber ?? 1,
+      limit: DOCTORS_PAGE_LIMIT,
+    });
+    getDoctorsCount(queryObj);
 
     router.push(
       {
@@ -146,6 +175,7 @@ export const DoctorsFilter = ({
 
     if (query.name) {
       dispatch(searchFieldInput(query.name));
+      setSearchString(query.name);
     }
 
     countFilters();
@@ -167,14 +197,17 @@ export const DoctorsFilter = ({
   const resetFilters = (): void => {
     reset();
     buildQueryString();
+    dispatch(searchFieldClear());
   };
 
   const handleSmartSearchSubmit = (name?: string): void => {
+    setSearchString(name ?? '');
     buildQueryString(name);
   };
 
   const handleClearInput = (): void => {
-    buildQueryString('');
+    buildQueryString();
+    dispatch(searchFieldClear());
   };
 
   const handleChooseResultOption = ({
@@ -204,9 +237,17 @@ export const DoctorsFilter = ({
     buildQueryString();
   };
 
+  const setPage = (value: number): void => {
+    if (topBlockRef.current) {
+      topBlockRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    setPagingValue(value);
+    buildQueryString(searchString, value);
+  };
+
   return (
     <Box className="doctors-filter">
-      <StyledFiltersTop className="filter-top">
+      <StyledFiltersTop className="filter-top" ref={topBlockRef}>
         <SmartSearchInput
           placeholder="Введите врача, специальность или клинику"
           mobilePlaceholder="Врач, специальнось, клиника"
@@ -248,11 +289,21 @@ export const DoctorsFilter = ({
           languages={languages}
           clinics={clinics}
         />
-        <FiltersResult
-          doctorsList={data}
-          loading={isLoading || isFetching}
-          error={isError}
-        />
+        <Box className="filters-result">
+          <FiltersResult
+            doctorsList={data}
+            loading={isLoading}
+            fetching={isFetching}
+            error={isError}
+          />
+          {data && totalItemsCount ? (
+            <PaginationComponent
+              setPage={setPage}
+              page={pagingValue}
+              total={totalItemsCount}
+            />
+          ) : null}
+        </Box>
       </StyledFiltersBody>
     </Box>
   );

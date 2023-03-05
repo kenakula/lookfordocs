@@ -28,3 +28,9 @@ export interface InsurancesRef {
 export interface CitiesRef {
   cities_id: ICity;
 }
+
+export interface TriggerQueryArgs<T> {
+  filter: T;
+  page?: number;
+  limit?: number;
+}
