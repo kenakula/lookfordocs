@@ -1,3 +1,10 @@
+import {
+  CitiesRef,
+  ClinicsRef,
+  DoctorRef,
+  InsurancesRef,
+  SpecialtyRef,
+} from './directus-api-refs';
 import { IImage } from './image.type';
 import { IStatus } from './status.type';
 
@@ -8,9 +15,12 @@ export interface ITestimonial {
   status: IStatus;
   date: string;
   type: TestimonialType;
-  text: string;
+  comment: string;
   author: string;
-  title: string;
   image?: IImage;
-  subtitle?: string;
+  targetDoctor?: DoctorRef[];
+  targetClinic?: ClinicsRef[];
+  targetInsurance?: InsurancesRef[];
+  specialty?: SpecialtyRef[];
+  city?: CitiesRef[];
 }

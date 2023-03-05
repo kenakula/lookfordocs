@@ -109,7 +109,8 @@ export const mainPageApi = createApi({
       query: () => ({
         url: '/testimonials',
         params: {
-          fields: 'id, type, text, author, title, subtitle, date, image.*',
+          fields:
+            'id,type,author,date,comment,targetClinic.clinics_id.*,targetDoctor.doctors_id.*,specialty.specialties_id.*,targetInsurance.insurances_id.*,city.cities_id.*',
         },
       }),
       transformResponse: (response: CollectionResponse<ITestimonial>) =>
