@@ -1,8 +1,6 @@
 import { alpha, Box, styled } from '@mui/material';
 
 export const StyledInner = styled(Box)(({ theme }) => ({
-  overflow: 'hidden',
-
   '.title': {
     marginBottom: theme.spacing(2),
   },
