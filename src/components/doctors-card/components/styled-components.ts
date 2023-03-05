@@ -418,23 +418,14 @@ export const StyledClinicCard = styled(Box)(({ theme }) => ({
     padding: theme.spacing(2, 0, 0, 0),
 
     li: {
-      display: 'flex',
-      border: `1px solid ${theme.palette.misc.light}`,
-      borderRadius: theme.shape.borderRadius,
-      overflow: 'hidden',
       cursor: 'pointer',
-      width: 28,
-      height: 28,
-      position: 'relative',
+    },
 
-      img: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        left: 0,
-        top: 0,
-        objectFit: 'cover',
-      },
+    '.MuiAvatar-root': {
+      ...getTypography(theme, 14, 18),
+      backgroundColor: 'transparent',
+      color: theme.palette.text.secondary,
+      border: `1px solid ${theme.palette.misc.light}`,
     },
   },
 

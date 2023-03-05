@@ -1,6 +1,9 @@
-import Image from 'next/image';
-import { Box } from '@mui/material';
-import { getImageUrl, TooltipComponent } from '@/shared/assets';
+import { Avatar, Box } from '@mui/material';
+import {
+  capitalize,
+  getAvatarLetters,
+  TooltipComponent,
+} from '@/shared/assets';
 import { InsurancesRef } from '@/shared/types';
 
 interface Props {
@@ -10,15 +13,12 @@ interface Props {
 export const DoctorCardInsurances = ({ list }: Props): JSX.Element => {
   return (
     <Box className="clinic-insurances" component="ul">
-      {list.map(({ insurances_id: { id, name, image } }) => (
+      {list.map(({ insurances_id: { id, name } }) => (
         <Box component="li" key={id}>
-          <TooltipComponent title={name} placement="top">
-            <Image
-              width={56}
-              height={56}
-              alt={name}
-              src={getImageUrl(image.id, name, 'width=56&height=56')}
-            />
+          <TooltipComponent title={capitalize(name)} placement="top">
+            <Avatar sx={{ width: 28, height: 28 }} variant="rounded">
+              {getAvatarLetters(name)}
+            </Avatar>
           </TooltipComponent>
         </Box>
       ))}

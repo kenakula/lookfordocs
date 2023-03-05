@@ -9,7 +9,7 @@ const StyledPagination = styled(Box)(({ theme }) => ({
   paddingTop: theme.spacing(3),
 
   '.pagination-button': {
-    ...getTypography(theme, 14, 20),
+    fontSize: 0,
     color: theme.palette.text.primary,
     textTransform: 'none',
     fontWeight: 600,
@@ -27,6 +27,10 @@ const StyledPagination = styled(Box)(({ theme }) => ({
     '&.Mui-disabled': {
       opacity: 0.5,
     },
+
+    [theme.breakpoints.up('lg')]: {
+      ...getTypography(theme, 14, 20),
+    },
   },
 
   '.pagination-prev': {
@@ -40,6 +44,16 @@ const StyledPagination = styled(Box)(({ theme }) => ({
   '.MuiPaginationItem-root': {
     ...getTypography(theme, 14, 20),
     fontWeight: 600,
+
+    '&:hover': {
+      color: theme.palette.primary.main,
+      backgroundColor: 'transparent',
+    },
+
+    '&:active': {
+      color: theme.palette.primary.dark,
+      backgroundColor: 'transparent',
+    },
 
     '&.Mui-selected': {
       backgroundColor: theme.palette.background.default,

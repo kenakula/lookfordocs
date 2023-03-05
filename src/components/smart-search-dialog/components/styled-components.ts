@@ -1,9 +1,7 @@
 import { alpha, Box, styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledDialog = styled(Box, {
-  shouldForwardProp: prop => prop !== 'fullscreenMode',
-})<{ fullscreenMode?: boolean }>(({ theme, fullscreenMode }) => ({
+export const StyledDialog = styled(Box)(({ theme }) => ({
   position: 'fixed',
   zIndex: theme.zIndex.drawer,
   left: 0,
@@ -35,22 +33,20 @@ export const StyledDialog = styled(Box, {
     },
   },
 
-  [theme.breakpoints.up('lmd')]: !fullscreenMode
-    ? {
-        position: 'absolute',
-        top: 'calc(100% + 10px)',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: theme.spacing(3, 4, 0),
-        width: '100%',
-        height: 'auto',
-        minHeight: 72,
-        maxHeight: 400,
-        overflowY: 'auto',
-        borderRadius: theme.shape.borderRadius,
-        boxShadow: `0px 12px 24px ${alpha(theme.palette.text.primary, 0.04)}`,
-      }
-    : {},
+  [theme.breakpoints.up('lmd')]: {
+    position: 'absolute',
+    top: 'calc(100% + 10px)',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(3, 4, 0),
+    width: '100%',
+    height: 'auto',
+    minHeight: 72,
+    maxHeight: 400,
+    overflowY: 'auto',
+    borderRadius: theme.shape.borderRadius,
+    boxShadow: `0px 12px 24px ${alpha(theme.palette.text.primary, 0.04)}`,
+  },
 }));
 
 export const StyledDialogHeader = styled(Box)(({ theme }) => ({

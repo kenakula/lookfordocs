@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
   FiltersBlock,
@@ -290,6 +290,13 @@ export const DoctorsFilter = ({
           clinics={clinics}
         />
         <Box className="filters-result">
+          {totalItemsCount ? (
+            <Box className="filters-sort">
+              <Typography className="filters-total">
+                Найдено врачей: {totalItemsCount}
+              </Typography>
+            </Box>
+          ) : null}
           <FiltersResult
             doctorsList={data}
             loading={isLoading}

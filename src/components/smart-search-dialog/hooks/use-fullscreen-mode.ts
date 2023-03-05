@@ -4,7 +4,6 @@ import { useScrollLock } from '@/shared/hooks';
 export const useFullscreenMode = (
   opened: boolean,
   isTablet: boolean,
-  fullScreenMode: boolean,
   ref: RefObject<HTMLInputElement>,
 ): void => {
   const { lockScroll, unlockScroll } = useScrollLock();
@@ -14,10 +13,10 @@ export const useFullscreenMode = (
       ref.current.focus();
     }
 
-    if (opened && fullScreenMode) {
+    if (opened && !isTablet) {
       lockScroll();
     } else {
       unlockScroll();
     }
-  }, [opened, isTablet, ref, fullScreenMode, unlockScroll, lockScroll]);
+  }, [opened, isTablet, ref, unlockScroll, lockScroll]);
 };

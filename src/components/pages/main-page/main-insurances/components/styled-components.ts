@@ -1,17 +1,14 @@
 import { alpha, Box, styled } from '@mui/material';
 
 export const StyledInner = styled(Box)(({ theme }) => ({
+  overflow: 'hidden',
+
   '.title': {
     marginBottom: theme.spacing(2),
   },
 
   '.subtitle': {
     marginBottom: theme.spacing(4),
-  },
-
-  '.MuiCollapse-root': {
-    margin: theme.spacing(0, -3),
-    padding: theme.spacing(0, 3),
   },
 }));
 
@@ -39,35 +36,9 @@ export const StyledList = styled('ul', {
 export const StyledButtonContainer = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(3),
 
-  '.button-link': {
-    '&:hover': {
-      borderColor: theme.palette.text.disabled,
-      backgroundColor: 'transparent',
-    },
-
-    '&:focus-visible': {
-      outline: `4px solid ${theme.palette.primary.light}`,
-      borderColor: 'transparent',
-    },
-  },
-
   [theme.breakpoints.up('md')]: {
     display: 'flex',
     justifyContent: 'center',
-
-    '.button-link': {
-      minHeight: 48,
-      borderColor: theme.palette.misc.light,
-      fontSize: theme.typography.pxToRem(16),
-      lineHeight: theme.typography.pxToRem(20),
-      fontWeight: 600,
-      textTransform: 'none',
-      color: theme.palette.text.primary,
-
-      [theme.breakpoints.up('md')]: {
-        minWidth: 159,
-      },
-    },
   },
 
   [theme.breakpoints.up('lg')]: {
@@ -98,7 +69,8 @@ export const StyledCard = styled('li', {
       left: '50%',
       top: '50%',
       width: 200,
-      height: 'auto',
+      maxHeight: 90,
+      objectFit: 'contain',
       transform: 'translate(-50%, -50%)',
     },
   },

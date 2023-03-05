@@ -24,7 +24,6 @@ import { TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
 import { SmartSearchQuery, FilterFormModel } from '@/shared/types';
 
 interface Props {
-  isMainPage: boolean;
   handleSubmitCb: (name?: string) => void;
   placeholder: string;
   handleChooseOptionCb?: (
@@ -34,7 +33,6 @@ interface Props {
 }
 
 export const SmartSearchDialog = ({
-  isMainPage,
   handleSubmitCb,
   placeholder,
   handleChooseOptionCb,
@@ -45,9 +43,8 @@ export const SmartSearchDialog = ({
   const dispatch = useAppDispatch();
   const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
   const inputRef = useRef<HTMLInputElement>(null);
-  const fullScreenMode = (isMainPage && !isTablet) || !isMainPage;
-  useFullscreenMode(opened, isTablet, fullScreenMode, inputRef);
-  useCloseOnMainPageTablet(fullScreenMode);
+  useFullscreenMode(opened, isTablet, inputRef);
+  useCloseOnMainPageTablet(isTablet);
   const debouncedValue = useDebounce(searchStr, 400);
 
   useEffect(() => {
@@ -83,8 +80,8 @@ export const SmartSearchDialog = ({
 
   return (
     <Fade in={opened}>
-      <StyledDialog className="search-dialog" fullscreenMode={fullScreenMode}>
-        {fullScreenMode && (
+      <StyledDialog className="search-dialog">
+        {!isTablet && (
           <>
             <StyledDialogHeader>
               <Typography variant="h2">Поиск</Typography>

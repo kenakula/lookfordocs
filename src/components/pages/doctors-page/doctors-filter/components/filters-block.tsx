@@ -24,7 +24,7 @@ interface Props {
   clinics: IClinic[];
   mobileFilterOpen: boolean;
   setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
-  buildQueryString: () => void;
+  buildQueryString: (name?: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<FilterFormModel, any>;
   resetFilters: () => void;

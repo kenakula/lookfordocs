@@ -150,7 +150,6 @@ export const SmartSearchInput = forwardRef(
         </Box>
         {renderButton()}
         <SmartSearchDialog
-          isMainPage
           handleSubmitCb={handleSubmitCb}
           placeholder={mobileInputPlaceholder}
           clearInputCb={clearInputCb}

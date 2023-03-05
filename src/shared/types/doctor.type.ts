@@ -38,4 +38,5 @@ export interface IDoctor {
   clinics: ClinicsRef[];
   services: IDoctorService[];
   globalServices: GlobalServicesRef[];
+  reembolso?: boolean;
 }

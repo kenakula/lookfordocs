@@ -46,7 +46,7 @@ export const Header = ({
   const trigger = useScrollTrigger();
   const isNotMobile = useMediaQuery(TABLET_WIDE_BREAKPOINT);
   const dispatch = useAppDispatch();
-  const showSearchButton = isMainPage && !trigger && pageScrolled;
+  const showSearchButton = !trigger && pageScrolled;
   const router = useRouter();
 
   useEffect(() => {

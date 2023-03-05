@@ -101,6 +101,14 @@ export const StyledFiltersBody = styled(Box)(({ theme }) => ({
     fontWeight: 600,
   },
 
+  '.filters-sort': {
+    marginBottom: theme.spacing(2),
+  },
+
+  '.filters-total': {
+    color: theme.palette.text.secondary,
+  },
+
   '.MuiSkeleton-root': {
     width: '100%',
     transform: 'none',
@@ -113,6 +121,15 @@ export const StyledFiltersBody = styled(Box)(({ theme }) => ({
   [theme.breakpoints.up('lmd')]: {
     display: 'flex',
     columnGap: theme.spacing(2),
+
+    '.filters-sort': {
+      display: 'flex',
+      marginBottom: theme.spacing(3),
+    },
+
+    '.filters-total': {
+      marginLeft: 'auto',
+    },
 
     '.filters-result': {
       width: '60%',

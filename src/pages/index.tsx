@@ -6,6 +6,7 @@ import {
   Layout,
   MainAdvantages,
   MainAppointment,
+  MainInsurances,
   MainPopular,
   MainPromo,
   MainServices,
@@ -79,6 +80,7 @@ export default function Home({
   testimonials,
   promoData,
   pageSettings,
+  insurances,
   appointmentData,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const router = useRouter();
@@ -104,6 +106,7 @@ export default function Home({
         countedSpecialties={countedSpecialties}
       />
       <MainServices services={services} />
+      {insurances && <MainInsurances insurances={insurances} />}
       <MainAdvantages advantages={advantages} />
       {testimonials && <MainTestimonials testimonials={testimonials} />}
     </Layout>

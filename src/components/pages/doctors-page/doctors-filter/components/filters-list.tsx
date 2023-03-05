@@ -9,6 +9,7 @@ import {
   FilterFormModel,
   IClinic,
 } from '@/shared/types';
+import { useAppSelector } from '@/stores';
 
 interface Props {
   specialties: ISpecialty[];
@@ -16,7 +17,7 @@ interface Props {
   insurances: IInsurance[];
   languages: ILanguage[];
   clinics: IClinic[];
-  handleChange: () => void;
+  handleChange: (name?: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formControl: Control<FilterFormModel, any>;
   expandedBlocks: string[];
@@ -34,11 +35,13 @@ export const FiltersList = ({
   handleExpandGroup,
   clinics,
 }: Props): JSX.Element => {
+  const { searchStr } = useAppSelector(state => state.smartSearch);
+
   return (
     <Box
       component="form"
       className="filter-form"
-      onChange={() => handleChange()}
+      onChange={() => handleChange(searchStr)}
     >
       <FilterGroupComponent<ISpecialty>
         title="Специальность"
