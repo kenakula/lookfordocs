@@ -75,7 +75,7 @@ export const PaginationComponent = ({
   setPage,
   page,
   total,
-}: Props): JSX.Element => {
+}: Props): JSX.Element | null => {
   const totalPages = Math.ceil(total / DOCTORS_PAGE_LIMIT);
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -88,6 +88,10 @@ export const PaginationComponent = ({
 
     setPage(value);
   };
+
+  if (totalPages <= 1) {
+    return null;
+  }
 
   return (
     <StyledPagination className="pagination">

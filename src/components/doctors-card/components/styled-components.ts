@@ -189,6 +189,7 @@ export const StyledGlobalServices = styled(Box)(({ theme }) => ({
       fill: 'transparent',
       width: 16,
       height: 16,
+      pointerEvents: 'none',
     },
   },
 }));

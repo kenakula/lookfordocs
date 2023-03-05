@@ -1,5 +1,10 @@
 import { Avatar, styled, SxProps } from '@mui/material';
-import { getImageUrl, getTypography, stringToColor } from '@/shared/assets';
+import {
+  getAvatarLetters,
+  getImageUrl,
+  getTypography,
+  stringToColor,
+} from '@/shared/assets';
 import { IImage } from '@/shared/types';
 
 interface Props {
@@ -8,14 +13,6 @@ interface Props {
   variant?: 'circular' | 'rounded' | 'square';
   style?: SxProps;
 }
-
-const getNameLetters = (name: string): string => {
-  const nameWords = name.split(' ');
-
-  return nameWords.reduce((prev, curr) => {
-    return prev + curr[0];
-  }, '');
-};
 
 const StyledAvatar = styled(Avatar, {
   shouldForwardProp: prop => prop !== 'textColor',
@@ -34,7 +31,7 @@ export const UserAvatar = ({
   variant,
   style,
 }: Props): JSX.Element => {
-  const nameLetters = getNameLetters(name);
+  const nameLetters = getAvatarLetters(name);
 
   if (image) {
     return (

@@ -90,6 +90,7 @@ export const doctorsPageApi = createApi({
         url: '/insurances',
         params: {
           fields: 'id, name, image.*',
+          sort: 'sort',
         },
       }),
       transformResponse: (response: CollectionResponse<IInsurance>) =>

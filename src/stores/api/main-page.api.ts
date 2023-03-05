@@ -88,7 +88,8 @@ export const mainPageApi = createApi({
       query: () => ({
         url: '/insurances',
         params: {
-          fields: 'id, name, image.*',
+          fields: 'id, name, image.*, sort',
+          sort: 'sort',
         },
       }),
       transformResponse: (response: CollectionResponse<IInsurance>) =>
@@ -108,7 +109,8 @@ export const mainPageApi = createApi({
       query: () => ({
         url: '/testimonials',
         params: {
-          fields: 'id, type, text, author, title, subtitle, date, image.*',
+          fields:
+            'id,type,author,date,comment,targetClinic.clinics_id.*,targetDoctor.doctors_id.*,specialty.specialties_id.*,targetInsurance.insurances_id.*,city.cities_id.*',
         },
       }),
       transformResponse: (response: CollectionResponse<ITestimonial>) =>

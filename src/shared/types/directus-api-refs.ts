@@ -1,5 +1,6 @@
 import { ICity } from './city.type';
 import { IClinic } from './clinic.type';
+import { IDoctor } from './doctor.type';
 import { IGlobalService } from './global-service.type';
 import { IInsurance } from './insurance.type';
 import { ILanguage } from './language.type';
@@ -15,6 +16,10 @@ export interface GlobalServicesRef {
 
 export interface ClinicsRef {
   clinics_id: IClinic;
+}
+
+export interface DoctorRef {
+  doctors_id: IDoctor;
 }
 
 export interface LanguagesRef {

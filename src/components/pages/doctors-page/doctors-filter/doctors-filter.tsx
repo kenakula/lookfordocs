@@ -58,6 +58,7 @@ export const DoctorsFilter = ({
   clinics,
 }: Props): JSX.Element => {
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [searchString, setSearchString] = useState('');
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
@@ -124,7 +125,7 @@ export const DoctorsFilter = ({
     }
 
     if (nameString) {
-      queryObj.name = nameString;
+      queryObj.name = nameString.toLowerCase();
       setSearchString(nameString);
     } else {
       setSearchString('');
@@ -203,6 +204,10 @@ export const DoctorsFilter = ({
   const handleSmartSearchSubmit = (name?: string): void => {
     setSearchString(name ?? '');
     buildQueryString(name);
+
+    if (inputRef.current) {
+      inputRef.current.blur();
+    }
   };
 
   const handleClearInput = (): void => {
@@ -256,6 +261,7 @@ export const DoctorsFilter = ({
           clearInputCb={handleClearInput}
           hideButtonOnMobile
           useCustomQuery
+          ref={inputRef}
         />
         <ButtonComponent
           type="button"
@@ -290,13 +296,11 @@ export const DoctorsFilter = ({
           clinics={clinics}
         />
         <Box className="filters-result">
-          {totalItemsCount ? (
-            <Box className="filters-sort">
-              <Typography className="filters-total">
-                Найдено врачей: {totalItemsCount}
-              </Typography>
-            </Box>
-          ) : null}
+          <Box className="filters-sort">
+            <Typography className="filters-total">
+              Найдено врачей: {totalItemsCount}
+            </Typography>
+          </Box>
           <FiltersResult
             doctorsList={data}
             loading={isLoading}
