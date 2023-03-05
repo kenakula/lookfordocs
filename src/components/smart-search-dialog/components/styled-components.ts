@@ -3,7 +3,7 @@ import { getTypography } from '@/shared/assets';
 
 export const StyledDialog = styled(Box)(({ theme }) => ({
   position: 'fixed',
-  zIndex: theme.zIndex.drawer,
+  zIndex: theme.zIndex.appBar,
   left: 0,
   top: 0,
   padding: theme.spacing(2),
@@ -34,6 +34,7 @@ export const StyledDialog = styled(Box)(({ theme }) => ({
   },
 
   [theme.breakpoints.up('lmd')]: {
+    zIndex: theme.zIndex.fab,
     position: 'absolute',
     top: 'calc(100% + 10px)',
     display: 'flex',

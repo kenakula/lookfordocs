@@ -14,7 +14,7 @@ export const StyledHeader = styled(AppBar, {
     !['isMainPage', 'isScrolled'].includes(prop.toString()),
 })<{ isScrolled: boolean; isMainPage: boolean }>(
   ({ theme, isScrolled, isMainPage }) => ({
-    zIndex: theme.zIndex.modal,
+    zIndex: theme.zIndex.appBar,
     backgroundColor:
       isScrolled || !isMainPage
         ? theme.palette.background.default
