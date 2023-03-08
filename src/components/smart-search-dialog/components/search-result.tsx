@@ -49,7 +49,7 @@ export const SearchResult = ({
           Начните вводить поисковый запрос
         </Typography>
       )}
-      {searchStatus === 'pending' && <LinearProgress sx={{ mt: 1 }} />}
+      {searchStatus === 'pending' && <LinearProgress sx={{ mt: 1, mr: 4 }} />}
       {searchStatus === 'success' &&
         result.map(res => {
           if (res.list.length) {
