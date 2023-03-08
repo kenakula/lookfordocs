@@ -3,13 +3,23 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
-  FiltersBlock,
-  FiltersCounter,
-  FiltersResult,
-  StyledFiltersBody,
-  StyledFiltersTop,
-} from './components';
-import { getFilterValues } from './assets';
+  ButtonComponent,
+  PaginationComponent,
+  SmartSearchInput,
+} from '@/components';
+
+import {
+  DOCTORS_PAGE_LIMIT,
+  useLazyGetDoctorsCountQuery,
+  useLazyGetDoctorsListQuery,
+} from '@/stores/api';
+import {
+  searchFieldClear,
+  searchFieldInput,
+  setFiltersCount,
+  useAppDispatch,
+  useAppSelector,
+} from '@/stores';
 import {
   FilterFormModel,
   FilterGroupValue,
@@ -23,24 +33,16 @@ import {
 } from '@/shared/types';
 import { DoctorsFilterQuery } from '@/stores/types';
 import { DOCTORS_PAGE } from '@/shared/assets';
-import {
-  ButtonComponent,
-  PaginationComponent,
-  SmartSearchInput,
-} from '@/components';
 import { usePageQuery, usePaginationQuery } from '@/shared/hooks';
 import {
-  DOCTORS_PAGE_LIMIT,
-  useLazyGetDoctorsCountQuery,
-  useLazyGetDoctorsListQuery,
-} from '@/stores/api';
-import {
-  searchFieldClear,
-  searchFieldInput,
-  setFiltersCount,
-  useAppDispatch,
-  useAppSelector,
-} from '@/stores';
+  FilterResultSkeleton,
+  FiltersBlock,
+  FiltersCounter,
+  FiltersResult,
+  StyledFiltersBody,
+  StyledFiltersTop,
+} from './components';
+import { getFilterValues } from './assets';
 
 interface Props {
   specialties: ISpecialty[];
@@ -296,14 +298,16 @@ export const DoctorsFilter = ({
           clinics={clinics}
         />
         <Box className="filters-result">
-          <Box className="filters-sort">
-            <Typography className="filters-total">
-              Найдено врачей: {totalItemsCount}
-            </Typography>
-          </Box>
+          {isLoading && <FilterResultSkeleton />}
+          {data && totalItemsCount && (
+            <Box className="filters-sort">
+              <Typography className="filters-total">
+                Найдено врачей: {totalItemsCount}
+              </Typography>
+            </Box>
+          )}
           <FiltersResult
             doctorsList={data}
-            loading={isLoading}
             fetching={isFetching}
             error={isError}
           />

@@ -16,6 +16,7 @@ export const InsuranceHeader = ({
         sx={{
           backgroundColor: stringToColor(name),
         }}
+        alt="логотип страховой компании"
       >
         {getAvatarLetters(name)}
       </Avatar>

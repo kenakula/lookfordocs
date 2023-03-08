@@ -47,10 +47,12 @@ export const Socials = ({ dense, socials }: Props): JSX.Element => {
   return (
     <StyledSocials dense={dense}>
       {socials.map(({ label, link, type }) => (
-        <IconButton key={label} component={Link} href={link}>
-          <span className="visually-hidden">{label}</span>
-          {getSocialIcon(type)}
-        </IconButton>
+        <li key={label}>
+          <IconButton component={Link} href={link}>
+            <span className="visually-hidden">{label}</span>
+            {getSocialIcon(type)}
+          </IconButton>
+        </li>
       ))}
     </StyledSocials>
   );

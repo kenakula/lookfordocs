@@ -39,7 +39,7 @@ export const StyledDialog = styled(Box)(({ theme }) => ({
     top: 'calc(100% + 10px)',
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(3, 4, 0),
+    padding: theme.spacing(0.5, 0.5, 0, 4),
     width: '100%',
     height: 'auto',
     minHeight: 72,
@@ -67,6 +67,7 @@ export const StyledDialogHeader = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledSearchResult = styled(Box)(({ theme }) => ({
+  paddingTop: theme.spacing(3),
   maxHeight: 320,
   overflowY: 'auto',
 
@@ -94,7 +95,8 @@ export const StyledSearchResult = styled(Box)(({ theme }) => ({
 
 export const StyledResultList = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2.5),
-  paddingBottom: theme.spacing(3),
+  padding: theme.spacing(3),
+  marginRight: theme.spacing(4),
   borderBottom: `1px solid ${theme.palette.misc.light}`,
 
   '&:last-child': {

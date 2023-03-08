@@ -24,7 +24,7 @@ interface Props {
 
 export const DoctorLanguages = ({ list }: Props): JSX.Element => {
   return (
-    <StyledLanguages>
+    <StyledLanguages className="doctor-card-language">
       <Typography variant="caption">Языки</Typography>
       <ul>
         {list.map(({ languages_id: { id, name, slug } }) => (

@@ -2,17 +2,17 @@ import { useMemo } from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { SwiperSlide } from 'swiper/react';
 import { SwiperOptions, Navigation, Pagination } from 'swiper';
-import { DoctorCardClinic } from './doctor-card-clinic';
 import { ClinicsRef } from '@/shared/types';
 import { SliderComponent } from '@/components';
-import { DESKTOP_BREAKPOINT } from '@/shared/assets';
+import { Breakpoints } from '@/shared/enums';
+import { DoctorCardClinic } from './doctor-card-clinic';
 
 interface Props {
   list: ClinicsRef[];
 }
 
 export const DoctorClinics = ({ list }: Props): JSX.Element => {
-  const isDesktop = useMediaQuery(DESKTOP_BREAKPOINT);
+  const isDesktop = useMediaQuery(Breakpoints.Desktop);
 
   const sliderConfig: SwiperOptions = useMemo(
     () => ({

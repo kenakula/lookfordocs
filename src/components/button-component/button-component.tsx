@@ -55,7 +55,13 @@ interface Props extends ButtonProps {
 
 export const ButtonComponent = ({ text, shadow, ...props }: Props) => {
   return (
-    <StyledButton disableRipple disableFocusRipple {...props} shadow={shadow}>
+    <StyledButton
+      className="btn"
+      disableRipple
+      disableFocusRipple
+      {...props}
+      shadow={shadow}
+    >
       {text}
     </StyledButton>
   );

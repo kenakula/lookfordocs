@@ -11,7 +11,13 @@ import Image from 'next/image';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { IconMenu, IconSearch } from '../icons';
+import { openSmartSearch, useAppDispatch } from '@/stores';
+import { ContainerComponent } from '@/components';
+import { IconMenu, IconSearch } from '@/components/icons';
+import { useScroll } from '@/shared/hooks';
+import { ISiteSettings } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
+import { getImageUrl, HOME_PAGE } from '@/shared/assets';
 import {
   DrawerComponent,
   HiddenToolbar,
@@ -21,32 +27,25 @@ import {
   StyledToggler,
 } from './components';
 import { getActiveStateClassName } from './assets';
-import { ContainerComponent } from '@/components';
-import {
-  getImageUrl,
-  HOME_PAGE,
-  TABLET_WIDE_BREAKPOINT,
-} from '@/shared/assets';
-import { useScroll } from '@/shared/hooks';
-import { ISiteSettings } from '@/shared/types';
-import { openSmartSearch, useAppDispatch } from '@/stores';
 
 interface Props {
   siteSettings: ISiteSettings;
   isMainPage: boolean;
+  isDetailedPage: boolean;
 }
 
 export const Header = ({
   siteSettings: { navigation, logo, socials, copyrights },
   isMainPage,
+  isDetailedPage,
 }: Props): JSX.Element => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const position = useScroll(200);
   const [pageScrolled, setPageScrolled] = useState<boolean>(false);
   const trigger = useScrollTrigger();
-  const isNotMobile = useMediaQuery(TABLET_WIDE_BREAKPOINT);
+  const isNotMobile = useMediaQuery(Breakpoints.TabeltWide);
   const dispatch = useAppDispatch();
-  const showSearchButton = !trigger && pageScrolled;
+  const showSearchButton = !trigger && pageScrolled && !isDetailedPage;
   const router = useRouter();
 
   useEffect(() => {
@@ -114,11 +113,17 @@ export const Header = ({
                 </List>
               </StyledNav>
               {showSearchButton && (
-                <StyledSearchButton onClick={openSmartSearchBox}>
+                <StyledSearchButton
+                  disableFocusRipple
+                  disableRipple
+                  onClick={openSmartSearchBox}
+                >
                   <IconSearch />
                 </StyledSearchButton>
               )}
               <StyledToggler
+                disableFocusRipple
+                disableRipple
                 color="inherit"
                 aria-label="Открыть меню"
                 edge="end"

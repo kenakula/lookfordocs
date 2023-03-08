@@ -156,6 +156,10 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '.MuiDrawer-paper': {
     width: '100vw',
     paddingBottom: theme.spacing(2),
+
+    [theme.breakpoints.up('md')]: {
+      maxWidth: 360,
+    },
   },
 
   '.MuiContainer-root': {
@@ -167,6 +171,10 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
       marginLeft: 'auto',
       marginRight: theme.spacing(-1),
       color: theme.palette.text.primary,
+
+      [theme.breakpoints.up('md')]: {
+        marginRight: 0,
+      },
     },
   },
 

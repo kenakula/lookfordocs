@@ -3,21 +3,48 @@ import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import { ContainerComponent, Layout, PageSeo } from '@/components';
+
 import { wrapper } from '@/stores';
 import { getSiteSettings, getDocInfo } from '@/stores/api';
-import { IDoctor, ISiteSettings } from '@/shared/types';
 import { axiosClient } from '@/stores/assets';
-import getRunningGlobalQueries from '@/stores/api/global.api';
-import getRunningDoctorQueries from '@/stores/api/doctor.api';
+import getRunningGlobalQueries, {
+  getGlobalCities,
+  getGlobalInsurances,
+} from '@/stores/api/global.api';
+import getRunningDoctorQueries, {
+  getDocsTestimonials,
+} from '@/stores/api/doctor.api';
+import {
+  BreadcrumbsComponent,
+  ContainerComponent,
+  DetailedDoctorPage,
+  Layout,
+  PageSeo,
+} from '@/components';
+import {
+  ICity,
+  IDoctor,
+  IInsurance,
+  ISiteSettings,
+  ITestimonial,
+} from '@/shared/types';
+import {
+  capitilizeName,
+  DOCTORS_PAGE,
+  getSeoDoctorPageH1,
+  getSeoDoctorPageTitle,
+} from '@/shared/assets';
 
 interface PageParams extends ParsedUrlQuery {
   id: string;
 }
 
 interface DoctorPageProps {
-  siteSettings?: ISiteSettings | null;
-  doctorInfo?: IDoctor | null;
+  siteSettings?: ISiteSettings;
+  doctorInfo?: IDoctor;
+  cities?: ICity[];
+  insurances?: IInsurance[];
+  testimonials?: ITestimonial[];
   notFound?: boolean;
 }
 
@@ -39,7 +66,12 @@ export const getStaticProps: GetStaticProps<DoctorPageProps, PageParams> =
     const docId = (params as PageParams).id;
 
     const siteSettings = await store.dispatch(getSiteSettings.initiate());
+    const cities = await store.dispatch(getGlobalCities.initiate());
+    const insurances = await store.dispatch(getGlobalInsurances.initiate());
     const doctorInfo = await store.dispatch(getDocInfo.initiate(docId));
+    const testimonials = await store.dispatch(
+      getDocsTestimonials.initiate(docId),
+    );
 
     await Promise.all([
       ...store.dispatch(getRunningGlobalQueries()),
@@ -56,15 +88,23 @@ export const getStaticProps: GetStaticProps<DoctorPageProps, PageParams> =
       props: {
         siteSettings: siteSettings.data ?? null,
         doctorInfo: doctorInfo.data ?? null,
+        cities: cities.data ?? null,
+        insurances: insurances.data ?? null,
+        testimonials: testimonials.data ?? null,
       },
     };
   });
 
 const DoctorPage = ({
+  testimonials,
   siteSettings,
   doctorInfo,
+  insurances,
+  cities,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
+  const someDataFailed =
+    !siteSettings || !doctorInfo || !cities || !insurances || !testimonials;
 
   if (router.isFallback) {
     return (
@@ -74,7 +114,7 @@ const DoctorPage = ({
     );
   }
 
-  if (!siteSettings || !doctorInfo) {
+  if (someDataFailed) {
     return (
       <ContainerComponent>
         <Typography textAlign="center">Not Found</Typography>
@@ -83,20 +123,31 @@ const DoctorPage = ({
   }
 
   return (
-    <Layout siteSettings={siteSettings}>
+    <Layout siteSettings={siteSettings} isDetailedPage>
       <PageSeo
         pageSettings={{
-          pageTitle: doctorInfo.firstName,
-          pageDescription: 'Описание врача',
-          pageKeywords: 'keywords',
-          slug: 'doc',
-          h1: 'Page title',
+          pageTitle: getSeoDoctorPageTitle(
+            doctorInfo.firstName,
+            doctorInfo.lastName,
+          ),
+          pageDescription: doctorInfo.shortText ?? '',
         }}
       />
-      <ContainerComponent>
-        <h1>DoctorPage</h1>
-        <p>{doctorInfo.firstName}</p>
-      </ContainerComponent>
+      <BreadcrumbsComponent
+        crumbs={[
+          { text: 'Врачи', link: DOCTORS_PAGE },
+          { text: capitilizeName(doctorInfo.firstName, doctorInfo.lastName) },
+        ]}
+      />
+      <h1 className="visually-hidden">
+        {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
+      </h1>
+      <DetailedDoctorPage
+        data={doctorInfo}
+        cities={cities}
+        insurances={insurances}
+        testimonials={testimonials}
+      />
     </Layout>
   );
 };

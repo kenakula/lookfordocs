@@ -1,8 +1,9 @@
 import { Breadcrumbs, useMediaQuery } from '@mui/material';
-import { ContainerComponent } from '../container-component/container-component';
-import { StyledBreadcrumbs, Crumb } from './components';
-import { DESKTOP_BREAKPOINT, HOME_PAGE } from '@/shared/assets';
+import { ContainerComponent } from '@/components';
+import { HOME_PAGE } from '@/shared/assets';
 import { IBreadCrumb } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
+import { StyledBreadcrumbs, Crumb } from './components';
 
 interface Props {
   crumbs: IBreadCrumb[];
@@ -10,12 +11,12 @@ interface Props {
 
 export const BreadcrumbsComponent = ({ crumbs }: Props): JSX.Element => {
   const list: IBreadCrumb[] = [{ text: 'Главная', link: HOME_PAGE }, ...crumbs];
-  const isDesktop = useMediaQuery(DESKTOP_BREAKPOINT);
+  const isDesktop = useMediaQuery(Breakpoints.TabeltWide);
 
   return (
     <ContainerComponent>
       <StyledBreadcrumbs className={isDesktop ? '' : 'visually-hidden'}>
-        <Breadcrumbs aria-label="хлебные крошки">
+        <Breadcrumbs aria-label="навигация">
           {list.map(crumb => (
             <Crumb key={crumb.text} data={crumb} />
           ))}

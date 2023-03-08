@@ -1,6 +1,4 @@
-export interface IChip {
-  text: string;
-}
+import { IChip } from './chip.type';
 
 export interface IBlockData {
   id: number;

@@ -8,9 +8,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { IconClose, IconSearch } from '../icons';
-import { SearchResult, StyledDialog, StyledDialogHeader } from './components';
-import { useCloseOnMainPageTablet, useFullscreenMode } from './hooks';
+import { IconClose, IconSearch } from '@/components/icons';
 import {
   closeSmartSearch,
   searchFieldClear,
@@ -20,8 +18,10 @@ import {
   useAppSelector,
 } from '@/stores';
 import { useDebounce } from '@/shared/hooks';
-import { TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
 import { SmartSearchQuery, FilterFormModel } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
+import { SearchResult, StyledDialog, StyledDialogHeader } from './components';
+import { useCloseOnMainPageTablet, useFullscreenMode } from './hooks';
 
 interface Props {
   handleSubmitCb: (name?: string) => void;
@@ -41,7 +41,7 @@ export const SmartSearchDialog = ({
   const { opened, searchStr, searchStatus, errorMessage, result } =
     useAppSelector(state => state.smartSearch);
   const dispatch = useAppDispatch();
-  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
+  const isTablet = useMediaQuery(Breakpoints.TabeltWide);
   const inputRef = useRef<HTMLInputElement>(null);
   useFullscreenMode(opened, isTablet, inputRef);
   useCloseOnMainPageTablet(isTablet);
@@ -86,7 +86,7 @@ export const SmartSearchDialog = ({
             <StyledDialogHeader>
               <Typography variant="h2">Поиск</Typography>
               <IconButton onClick={handleClose}>
-                <IconClose />
+                <IconClose id="smart-search-close" />
               </IconButton>
             </StyledDialogHeader>
             <Box className="input-container">
@@ -102,7 +102,7 @@ export const SmartSearchDialog = ({
                     searchStr.length ? (
                       <InputAdornment position="end">
                         <IconButton aria-label="очистить" onClick={clearInput}>
-                          <IconClose />
+                          <IconClose id="smart-search-clear" />
                         </IconButton>
                       </InputAdornment>
                     ) : null

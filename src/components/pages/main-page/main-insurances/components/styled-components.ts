@@ -64,23 +64,16 @@ export const StyledCard = styled('li', {
 
     img: {
       position: 'absolute',
-      left: '50%',
-      top: '50%',
-      width: 200,
-      maxHeight: 90,
-      objectFit: 'contain',
-      transform: 'translate(-50%, -50%)',
+      left: 0,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
     },
   },
 
   [theme.breakpoints.up('lg')]: {
     border: `1px solid transparent`,
-
-    '.MuiLink-root': {
-      img: {
-        width: 160,
-      },
-    },
 
     '&:hover': {
       boxShadow: `0px 8px 16px ${alpha(theme.palette.text.primary, 0.08)}`,

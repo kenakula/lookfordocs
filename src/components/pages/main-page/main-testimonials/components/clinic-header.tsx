@@ -13,7 +13,10 @@ export const ClinicHeader = ({
 }: Props): JSX.Element => {
   return (
     <Box component="header" className="card-header">
-      <Avatar src={getImageUrl(image, 'изображение клиники')} />
+      <Avatar
+        src={getImageUrl(image, 'изображение клиники')}
+        alt="логотип клиники"
+      />
       <Box className="card-info">
         <Typography variant="h3" className="card-title">
           {name}

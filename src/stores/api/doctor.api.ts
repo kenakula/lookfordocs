@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { CollectionResponse } from '../assets';
-import { IDoctor } from '@/shared/types';
+import { IDoctor, ITestimonial } from '@/shared/types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 
@@ -23,17 +23,30 @@ export const doctorApi = createApi({
         params: {
           filter: JSON.stringify({ id: { _eq: docId } }),
           fields:
-            'id,status,firstName,lastName,image.*,gender,specialties.specialties_id.*,languages.languages_id.*,insurances.insurances_id.*',
+            'id,firstName,lastName,shortText,longText,perks,services,reembolso,nosologies,education,image.*,gender,specialties.specialties_id.*,lang.languages_id.*,insurances.insurances_id.*,clinics.clinics_id.*,globalServices.globalServices_id.*',
         },
       }),
       transformResponse: (response: CollectionResponse<IDoctor>) =>
         response.data[0],
     }),
+    getDocsTestimonials: builder.query<ITestimonial[], string>({
+      query: (docId: string) => ({
+        url: '/testimonials',
+        params: {
+          filter: JSON.stringify({
+            targetDoctor: { doctors_id: { _eq: docId } },
+          }),
+          fields: 'id,type,author,date,comment,targetDoctor.*',
+        },
+      }),
+      transformResponse: (response: CollectionResponse<ITestimonial>) =>
+        response.data,
+    }),
   }),
 });
 
-export const { useGetDocInfoQuery } = doctorApi;
+export const { useGetDocInfoQuery, useGetDocsTestimonialsQuery } = doctorApi;
 
-export const { getDocInfo } = doctorApi.endpoints;
+export const { getDocInfo, getDocsTestimonials } = doctorApi.endpoints;
 
 export default doctorApi.util.getRunningQueriesThunk;
