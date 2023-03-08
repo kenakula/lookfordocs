@@ -1,10 +1,7 @@
 import { Control } from 'react-hook-form';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
-import { FiltersList } from './filters-list';
-import { MobileFilter } from './mobile-filter';
-import { StyledFiltersBlockTop } from './styled-components';
-import { ClearFiltersButton } from './clear-filters-button';
+import { useAppSelector } from '@/stores';
 import {
   ISpecialty,
   IGlobalService,
@@ -13,8 +10,11 @@ import {
   FilterFormModel,
   IClinic,
 } from '@/shared/types';
-import { useAppSelector } from '@/stores';
-import { TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
+import { Breakpoints } from '@/shared/enums';
+import { FiltersList } from './filters-list';
+import { MobileFilter } from './mobile-filter';
+import { StyledFiltersBlockTop } from './styled-components';
+import { ClearFiltersButton } from './clear-filters-button';
 
 interface Props {
   specialties: ISpecialty[];
@@ -43,7 +43,7 @@ export const FiltersBlock = ({
   clinics,
 }: Props): JSX.Element => {
   const [expandedBlocks, setExpandedBlocks] = useState<string[]>([]);
-  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
+  const isTablet = useMediaQuery(Breakpoints.TabeltWide);
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
 
   const handleCloseMobileFilter = (): void => {

@@ -2,10 +2,10 @@ import { useCallback, useMemo } from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { SwiperSlide } from 'swiper/react';
 import { SwiperOptions, Navigation, Pagination } from 'swiper';
-import { ClinicsRef, ICity, IClinic, IInsurance } from '@/shared/types';
 import { SliderComponent } from '@/components';
-import { TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
 import { DoctorCardClinic } from '@/components/doctors-card/components';
+import { ClinicsRef, ICity, IClinic, IInsurance } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
 
 interface Props {
   clinics: ClinicsRef[];
@@ -18,7 +18,7 @@ export const DetailedDoctorClinics = ({
   cities,
   insurances,
 }: Props): JSX.Element => {
-  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
+  const isTablet = useMediaQuery(Breakpoints.TabeltWide);
 
   const getClinicData = useCallback(
     (clinic: IClinic) => {

@@ -1,6 +1,11 @@
 import { useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { Box, Typography, useMediaQuery } from '@mui/material';
+import { ButtonComponent } from '@/components';
+import { IDoctor } from '@/shared/types';
+import { capitilizeName, DOCTORS_PAGE } from '@/shared/assets';
+import { Breakpoints } from '@/shared/enums';
+import { useGetCardHeight } from './hooks';
 import {
   DoctorSpecialties,
   StyledDoctorsCard,
@@ -16,14 +21,6 @@ import {
   DoctorGlobalServices,
   CardImage,
 } from './components';
-import { useGetCardHeight } from './hooks';
-import { ButtonComponent } from '@/components';
-import { IDoctor } from '@/shared/types';
-import {
-  capitilizeName,
-  DESKTOP_BREAKPOINT,
-  DOCTORS_PAGE,
-} from '@/shared/assets';
 
 interface Props {
   data: IDoctor;
@@ -47,7 +44,7 @@ export const DoctorsCard = ({
 }: Props): JSX.Element => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetCardHeight(cardRef);
-  const isDesktop = useMediaQuery(DESKTOP_BREAKPOINT);
+  const isDesktop = useMediaQuery(Breakpoints.Desktop);
 
   const doctorName = useMemo(
     () => capitilizeName(firstName, lastName),

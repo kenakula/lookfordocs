@@ -1,14 +1,10 @@
 import { useMediaQuery } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import { CardsList, StyledInner } from './components';
-import {
-  DESKTOP_BREAKPOINT,
-  PageSection,
-  Subtitle,
-  Title,
-} from '@/shared/assets';
-import { IInsurance } from '@/shared/types/insurance.type';
 import { ContainerComponent } from '@/components';
+import { PageSection, Subtitle, Title } from '@/shared/assets';
+import { IInsurance } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
+import { CardsList, StyledInner } from './components';
 
 const CARDS_COUNT_SHOW_MOBILE = 4;
 const CARDS_COUNT_SHOW_DESKTOP = 8;
@@ -21,7 +17,7 @@ export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
   const blockRef = useRef<HTMLElement>(null);
   const [expanded, setExpanded] = useState(false);
   const [cardsNumber, setCardsNumber] = useState(CARDS_COUNT_SHOW_MOBILE);
-  const isDesktop = useMediaQuery(DESKTOP_BREAKPOINT);
+  const isDesktop = useMediaQuery(Breakpoints.Desktop);
 
   useEffect(() => {
     setExpanded(false);

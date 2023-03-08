@@ -3,6 +3,17 @@ import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+
+import { wrapper } from '@/stores';
+import { getSiteSettings, getDocInfo } from '@/stores/api';
+import { axiosClient } from '@/stores/assets';
+import getRunningGlobalQueries, {
+  getGlobalCities,
+  getGlobalInsurances,
+} from '@/stores/api/global.api';
+import getRunningDoctorQueries, {
+  getDocsTestimonials,
+} from '@/stores/api/doctor.api';
 import {
   BreadcrumbsComponent,
   ContainerComponent,
@@ -10,16 +21,6 @@ import {
   Layout,
   PageSeo,
 } from '@/components';
-import { wrapper } from '@/stores';
-import { getSiteSettings, getDocInfo } from '@/stores/api';
-import { axiosClient } from '@/stores/assets';
-import getRunningGlobalQueries, {
-  getCities,
-  getInsurances,
-} from '@/stores/api/global.api';
-import getRunningDoctorQueries, {
-  getDocsTestimonials,
-} from '@/stores/api/doctor.api';
 import {
   ICity,
   IDoctor,
@@ -65,8 +66,8 @@ export const getStaticProps: GetStaticProps<DoctorPageProps, PageParams> =
     const docId = (params as PageParams).id;
 
     const siteSettings = await store.dispatch(getSiteSettings.initiate());
-    const cities = await store.dispatch(getCities.initiate());
-    const insurances = await store.dispatch(getInsurances.initiate());
+    const cities = await store.dispatch(getGlobalCities.initiate());
+    const insurances = await store.dispatch(getGlobalInsurances.initiate());
     const doctorInfo = await store.dispatch(getDocInfo.initiate(docId));
     const testimonials = await store.dispatch(
       getDocsTestimonials.initiate(docId),

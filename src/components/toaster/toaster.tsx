@@ -1,6 +1,6 @@
 import { Alert, Snackbar } from '@mui/material';
 import React from 'react';
-import { useToasterMessage, useToasterPosition } from './assets';
+import { useToasterPosition, useToasterMessage } from './hooks';
 
 const HIDE_TOASTER_TIME = 6000;
 

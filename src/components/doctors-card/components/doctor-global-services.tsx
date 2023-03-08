@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
-import { StyledGlobalServices } from './styled-components';
 import { GlobalServicesRef, GlobalServiceType } from '@/shared/types';
 import {
   IconHome,
@@ -8,7 +7,9 @@ import {
   IconReceipt,
   IconFace,
 } from '@/components/icons';
-import { TABLET_WIDE_BREAKPOINT, TooltipComponent } from '@/shared/assets';
+import { TooltipComponent } from '@/shared/assets';
+import { Breakpoints } from '@/shared/enums';
+import { StyledGlobalServices } from './styled-components';
 
 interface IconProps {
   name: string;
@@ -17,7 +18,7 @@ interface IconProps {
 
 const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
   const [openedTooltips, setOpenedTooltips] = useState<string[]>([]);
-  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
+  const isTablet = useMediaQuery(Breakpoints.TabeltWide);
 
   const handleChange = (itemName: string): void => {
     setOpenedTooltips(prev => {

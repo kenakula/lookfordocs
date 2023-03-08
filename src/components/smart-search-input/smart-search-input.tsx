@@ -6,10 +6,6 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { forwardRef, useEffect } from 'react';
-import { IconSearch, IconClose } from '../icons';
-import { SmartSearchDialog } from '../smart-search-dialog/smart-search-dialog';
-import { StyledSearchBox, StyledSearchButton } from './components';
-import { TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
 import {
   closeSmartSearch,
   openSmartSearch,
@@ -19,7 +15,11 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/stores';
+import { IconSearch, IconClose } from '@/components/icons';
 import { FilterFormModel, SmartSearchQuery } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
+import { SmartSearchDialog } from '../smart-search-dialog/smart-search-dialog';
+import { StyledSearchBox, StyledSearchButton } from './components';
 
 interface Props {
   placeholder: string;
@@ -52,7 +52,7 @@ export const SmartSearchInput = forwardRef(
       state => state.smartSearch,
     );
     const dispatch = useAppDispatch();
-    const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
+    const isTablet = useMediaQuery(Breakpoints.TabeltWide);
     const mobileInputPlaceholder = mobilePlaceholder ?? placeholder;
 
     useEffect(() => {

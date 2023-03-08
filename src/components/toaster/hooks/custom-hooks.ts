@@ -1,19 +1,19 @@
 import { SnackbarOrigin, useMediaQuery } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { ToasterMessage } from '@/shared/types';
 import {
   useAppSelector,
   useAppDispatch,
   removeToasterFromPack,
 } from '@/stores';
-import { MOBILE_BREAKPOINT } from '@/shared/assets';
+import { ToasterMessage } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
 
 export const useToasterPosition = (): SnackbarOrigin => {
   const [origin, setOrigin] = useState<SnackbarOrigin>({
     vertical: 'bottom',
     horizontal: 'center',
   });
-  const matches = useMediaQuery(MOBILE_BREAKPOINT);
+  const matches = useMediaQuery(Breakpoints.Mobile);
 
   useEffect(() => {
     if (matches) {

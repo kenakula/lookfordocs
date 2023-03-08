@@ -1,20 +1,16 @@
 import { useMediaQuery } from '@mui/material';
 import { StyledInner } from './components';
-import {
-  DESKTOP_BREAKPOINT,
-  PageSection,
-  Subtitle,
-  Title,
-} from '@/shared/assets';
 import { ButtonComponent, ContainerComponent } from '@/components';
+import { PageSection, Subtitle, Title } from '@/shared/assets';
 import { IBlockData } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
 
 interface Props {
   appointmentData: IBlockData | null;
 }
 
 export const MainAppointment = ({ appointmentData }: Props): JSX.Element => {
-  const matches = useMediaQuery(DESKTOP_BREAKPOINT);
+  const matches = useMediaQuery(Breakpoints.Desktop);
 
   const getMobileTitle = (): string => {
     if (!appointmentData) {

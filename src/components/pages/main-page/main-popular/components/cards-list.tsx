@@ -6,19 +6,15 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { ButtonComponent } from '@/components';
+import { ISpecialty, ICountedSpecialties } from '@/shared/types';
+import { capitalize, DOCTORS_PAGE, numWord } from '@/shared/assets';
+import { Breakpoints } from '@/shared/enums';
 import {
   StyledList,
   StyledCard,
   StyledButtonContainer,
 } from './styled-components';
-import { ButtonComponent } from '@/components';
-import { ISpecialty, ICountedSpecialties } from '@/shared/types';
-import {
-  capitalize,
-  DOCTORS_PAGE,
-  numWord,
-  TABLET_BREAKPOINT,
-} from '@/shared/assets';
 
 const CARD_HEIGHT = 98;
 const CARD_GAP = 12;
@@ -34,7 +30,7 @@ export const CardsList = ({
   countedSpecialties,
 }: Props): JSX.Element => {
   const [expanded, setExpanded] = useState(false);
-  const matches = useMediaQuery(TABLET_BREAKPOINT);
+  const matches = useMediaQuery(Breakpoints.Tablet);
 
   const handleChange = () => {
     setExpanded(prev => !prev);

@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { CollectionResponse, SingletonResponse } from '../assets';
 import {
   ICity,
   IInsurance,
   IPageSettings,
   ISiteSettings,
 } from '@/shared/types';
+import { CollectionResponse, SingletonResponse } from '../assets';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 
@@ -43,13 +43,13 @@ export const globalApi = createApi({
       transformResponse: (response: CollectionResponse<IPageSettings>) =>
         response.data,
     }),
-    getCities: builder.query<ICity[], void>({
+    getGlobalCities: builder.query<ICity[], void>({
       query: () => ({
         url: '/cities',
       }),
       transformResponse: (response: CollectionResponse<ICity>) => response.data,
     }),
-    getInsurances: builder.query<IInsurance[], void>({
+    getGlobalInsurances: builder.query<IInsurance[], void>({
       query: () => ({
         url: '/insurances',
       }),
@@ -62,11 +62,15 @@ export const globalApi = createApi({
 export const {
   useGetSiteSettingsQuery,
   useGetPageSettingsQuery,
-  useGetCitiesQuery,
-  useGetInsurancesQuery,
+  useGetGlobalCitiesQuery,
+  useGetGlobalInsurancesQuery,
 } = globalApi;
 
-export const { getSiteSettings, getPageSettings, getCities, getInsurances } =
-  globalApi.endpoints;
+export const {
+  getSiteSettings,
+  getPageSettings,
+  getGlobalCities,
+  getGlobalInsurances,
+} = globalApi.endpoints;
 
 export default globalApi.util.getRunningQueriesThunk;

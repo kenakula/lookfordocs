@@ -1,12 +1,12 @@
 import { Box, useMediaQuery } from '@mui/material';
 import { ButtonComponent, ContainerComponent, DoctorsCard } from '@/components';
 import { ICity, IDoctor, IInsurance, ITestimonial } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
 import {
   DetailedDoctorClinics,
   DetailedInfo,
   StyledDetailedPageLayout,
 } from './components';
-import { TABLET_WIDE_BREAKPOINT } from '@/shared/assets';
 
 interface Props {
   data: IDoctor;
@@ -21,7 +21,7 @@ export const DetailedDoctorPage = ({
   insurances,
   testimonials,
 }: Props): JSX.Element => {
-  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
+  const isTablet = useMediaQuery(Breakpoints.TabeltWide);
 
   return (
     <ContainerComponent>

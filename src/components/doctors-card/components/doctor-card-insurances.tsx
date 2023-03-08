@@ -3,10 +3,10 @@ import { Avatar, Box, useMediaQuery } from '@mui/material';
 import {
   capitalize,
   getAvatarLetters,
-  TABLET_WIDE_BREAKPOINT,
   TooltipComponent,
 } from '@/shared/assets';
 import { InsurancesRef } from '@/shared/types';
+import { Breakpoints } from '@/shared/enums';
 
 interface Props {
   list: InsurancesRef[];
@@ -14,7 +14,7 @@ interface Props {
 
 export const DoctorCardInsurances = ({ list }: Props): JSX.Element => {
   const [openedTooltips, setOpenedTooltips] = useState<string[]>([]);
-  const isTablet = useMediaQuery(TABLET_WIDE_BREAKPOINT);
+  const isTablet = useMediaQuery(Breakpoints.TabeltWide);
 
   const handleChange = (name: string): void => {
     setOpenedTooltips(prev => {
