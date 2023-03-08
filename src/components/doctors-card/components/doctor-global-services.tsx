@@ -37,7 +37,7 @@ const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
   switch (type) {
     case 'home':
       return (
-        <li aria-label={name} role="presention">
+        <li>
           <TooltipComponent
             placement="top"
             title={name}
@@ -55,7 +55,7 @@ const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
       );
     case 'online':
       return (
-        <li aria-label={name}>
+        <li>
           <TooltipComponent
             placement="top"
             title={name}
@@ -73,7 +73,7 @@ const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
       );
     case 'receipt':
       return (
-        <li aria-label={name}>
+        <li>
           <TooltipComponent
             placement="top"
             title={name}
@@ -91,7 +91,7 @@ const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
       );
     default:
       return (
-        <li aria-label={name}>
+        <li>
           <TooltipComponent
             placement="top"
             title={name}
