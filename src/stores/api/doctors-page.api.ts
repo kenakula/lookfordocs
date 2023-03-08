@@ -50,6 +50,7 @@ export const doctorsPageApi = createApi({
         url: '/doctors?fields=*.*,specialties.specialties_id.*,clinics.clinics_id.*,insurances.insurances_id.*,lang.languages_id.*,globalServices.globalServices_id.*&fields=clinics.clinics_id.cities.cities_id.*.*&fields=clinics.clinics_id.insurances.insurances_id.*.*',
         params: {
           filter: getDoctorsQueryString(filter),
+          sort: '-image',
           page,
           limit,
         },

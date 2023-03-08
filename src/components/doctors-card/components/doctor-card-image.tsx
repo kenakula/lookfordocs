@@ -9,23 +9,26 @@ interface Props {
   docID: number;
   docName: string;
   imageId: string;
+  detailedLocation: boolean;
 }
 
-export const CardImage = ({
+export const DoctorCardImage = ({
   isDetailedPage,
   docID,
   docName,
   imageId,
+  detailedLocation,
 }: Props): JSX.Element => {
   if (!isDetailedPage) {
     return (
       <StyledImage className="image">
         <Link href={`${DOCTORS_PAGE}/${docID}`}>
           <Image
-            width={120}
-            height={164}
-            src={getImageUrl(imageId, docName)}
+            width={360}
+            height={500}
+            src={getImageUrl(imageId, docName, 'quality=100')}
             alt={docName}
+            priority={detailedLocation}
           />
         </Link>
       </StyledImage>
@@ -36,10 +39,11 @@ export const CardImage = ({
     <StyledImage className="image">
       <Box className="image-container">
         <Image
-          width={120}
-          height={164}
-          src={getImageUrl(imageId, docName)}
+          width={360}
+          height={500}
+          src={getImageUrl(imageId, docName, 'quality=100')}
           alt={docName}
+          priority={detailedLocation}
         />
       </Box>
     </StyledImage>

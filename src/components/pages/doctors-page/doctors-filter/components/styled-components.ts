@@ -132,22 +132,17 @@ export const StyledFiltersBody = styled(Box)(({ theme }) => ({
     },
 
     '.filters-result': {
-      width: '60%',
-      flexGrow: 1,
+      width: '73%',
     },
 
     '.filters-block': {
-      width: `calc(40% - ${theme.spacing(2)})`,
+      flexGrow: 1,
     },
   },
 
   [theme.breakpoints.up('lg')]: {
     '.filters-result': {
-      width: '75%',
-    },
-
-    '.filters-block': {
-      width: `calc(25% - ${theme.spacing(2)})`,
+      width: '90%',
     },
   },
 }));
@@ -286,7 +281,7 @@ export const FilterResultList = styled('ul')(({ theme }) => ({
     left: 0,
     display: 'flex',
     justifyContent: 'center',
-    paddingTop: 200,
+    paddingTop: 100,
     width: '100%',
     height: '100%',
     backgroundColor: alpha(theme.palette.background.default, 0.5),

@@ -19,7 +19,7 @@ import {
   DoctorClinics,
   StyledClinics,
   DoctorGlobalServices,
-  CardImage,
+  DoctorCardImage,
 } from './components';
 
 interface Props {
@@ -39,8 +39,9 @@ export const DoctorsCard = ({
     services,
     clinics,
     globalServices,
+    reembolso,
   },
-  detailedLocation,
+  detailedLocation = false,
 }: Props): JSX.Element => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetCardHeight(cardRef);
@@ -64,7 +65,8 @@ export const DoctorsCard = ({
         {!isDesktop && <DoctorSpecialties list={specialties} />}
         <DoctorCardInfo className="doctor-card-info">
           <Box className="mobile-image-container">
-            <CardImage
+            <DoctorCardImage
+              detailedLocation={detailedLocation}
               docID={id}
               docName={doctorName}
               imageId={image.id}
@@ -85,7 +87,7 @@ export const DoctorsCard = ({
             </StyledInfo>
           )}
         </DoctorCardInfo>
-        <Box>
+        <Box sx={{ flexGrow: 1 }}>
           {isDesktop && (
             <StyledInfo>
               <DoctorSpecialties list={specialties} />
@@ -121,6 +123,12 @@ export const DoctorsCard = ({
       {!detailedLocation && (
         <StyledClinics maxListHeight={cardHeight} className="doctors-clinics">
           <DoctorClinics list={clinics} />
+          {reembolso && (
+            <Typography className="doctors-reembolso">
+              Возможность получения возмещения оказанных услуг в страховой
+              компании по программе reembolso
+            </Typography>
+          )}
         </StyledClinics>
       )}
     </StyledDoctorsCard>

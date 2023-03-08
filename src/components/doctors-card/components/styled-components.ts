@@ -345,8 +345,15 @@ export const StyledClinics = styled(Box, {
 })<{ maxListHeight: number }>(({ theme, maxListHeight }) => ({
   '.doctors-no-clinic': {
     ...getTypography(theme, 14, 20),
-    color: theme.palette.text.disabled,
+    color: theme.palette.primary.main,
+    fontWeight: 600,
     textAlign: 'center',
+  },
+
+  '.doctors-reembolso': {
+    ...getTypography(theme, 12, 16),
+    marginTop: theme.spacing(1),
+    color: theme.palette.text.secondary,
   },
 
   [theme.breakpoints.up('lg')]: {
@@ -377,7 +384,13 @@ export const StyledClinics = styled(Box, {
 
     '.doctors-no-clinic': {
       ...getTypography(theme, 16, 20),
-      paddingTop: theme.spacing(3),
+      padding: theme.spacing(3, 3, 0),
+      textAlign: 'left',
+    },
+
+    '.doctors-reembolso': {
+      ...getTypography(theme, 12, 16),
+      padding: theme.spacing(0, 3),
     },
   },
 }));

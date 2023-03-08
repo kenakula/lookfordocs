@@ -113,11 +113,17 @@ export const Header = ({
                 </List>
               </StyledNav>
               {showSearchButton && (
-                <StyledSearchButton onClick={openSmartSearchBox}>
+                <StyledSearchButton
+                  disableFocusRipple
+                  disableRipple
+                  onClick={openSmartSearchBox}
+                >
                   <IconSearch />
                 </StyledSearchButton>
               )}
               <StyledToggler
+                disableFocusRipple
+                disableRipple
                 color="inherit"
                 aria-label="Открыть меню"
                 edge="end"

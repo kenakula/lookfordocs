@@ -8,3 +8,4 @@ export * from './filters-result';
 export * from './filters-block';
 export * from './clear-filters-button';
 export * from './filters-counter';
+export * from './filter-result-skeleton';
