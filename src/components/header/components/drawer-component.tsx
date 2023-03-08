@@ -80,7 +80,7 @@ export const DrawerComponent = ({
                   disableRipple
                   disableTouchRipple
                   component={Link}
-                  href={url}
+                  href={`/${url}`}
                 >
                   {name}
                 </ListItemButton>
@@ -92,7 +92,7 @@ export const DrawerComponent = ({
                     url,
                     router.pathname,
                   )}`}
-                  href={url}
+                  href={`/${url}`}
                 >
                   {name}
                 </Link>

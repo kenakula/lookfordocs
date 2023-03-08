@@ -9,6 +9,7 @@ import { CitiesRef, IClinic } from '@/shared/types';
 
 interface Props {
   clinic: IClinic;
+  detailedLocation?: boolean;
 }
 
 export const DoctorCardClinic = ({
@@ -21,6 +22,7 @@ export const DoctorCardClinic = ({
     metro,
     insurances: insurancesList,
   },
+  detailedLocation = false,
 }: Props): JSX.Element => {
   const getClinicAddress = useCallback(
     (addressStr?: string, city?: CitiesRef): string => {
@@ -42,7 +44,7 @@ export const DoctorCardClinic = ({
   );
 
   return (
-    <StyledClinicCard>
+    <StyledClinicCard detailedLocation={detailedLocation}>
       <Box className="clinic-top">
         <Box className="clinic-image">
           <Image

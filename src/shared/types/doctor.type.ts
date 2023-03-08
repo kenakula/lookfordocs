@@ -8,6 +8,13 @@ import {
 import { IImage } from './image.type';
 import { Perk } from './perk.type';
 
+export type DoctorEducationType =
+  | 'base'
+  | 'internship'
+  | 'ordinator'
+  | 'training'
+  | 'retrainig';
+
 export interface IDoctorCount {
   count: { id: number };
 }
@@ -19,6 +26,19 @@ export interface IDoctorService {
   priceFrom: boolean;
 }
 
+export interface IDoctorNosology {
+  group: string;
+  list: string;
+}
+
+export interface IDoctorEducation {
+  year: string;
+  type: DoctorEducationType;
+  typeString: string;
+  specialty: string;
+  text: string;
+}
+
 export interface IDoctor {
   id: number;
   status: string;
@@ -26,7 +46,7 @@ export interface IDoctor {
   date_created: Date;
   date_updated: Date;
   firstName: string;
-  lastName: string;
+  lastName?: string;
   gender: string;
   shortText?: string;
   longText?: string;
@@ -39,4 +59,6 @@ export interface IDoctor {
   services: IDoctorService[];
   globalServices: GlobalServicesRef[];
   reembolso?: boolean;
+  nosologies?: IDoctorNosology[];
+  education?: IDoctorEducation[];
 }

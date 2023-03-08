@@ -14,7 +14,9 @@ export const PageSeo = ({ pageSettings }: Props): JSX.Element | null => {
     <Head>
       <title>{pageSettings.pageTitle}</title>
       <meta name="description" content={pageSettings.pageDescription} />
-      <meta name="keywords" content={pageSettings.pageKeywords} />
+      {pageSettings.pageKeywords && (
+        <meta name="keywords" content={pageSettings.pageKeywords} />
+      )}
       <meta property="og:title" content={pageSettings.pageTitle} />
       <meta property="og:description" content={pageSettings.pageDescription} />
       <meta property="twitter:title" content={pageSettings.pageTitle} />

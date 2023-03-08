@@ -1,7 +1,7 @@
 export interface IPageSettings {
-  slug: string;
+  slug?: string;
   pageTitle: string;
   pageDescription: string;
-  pageKeywords: string;
-  h1: string;
+  pageKeywords?: string;
+  h1?: string;
 }

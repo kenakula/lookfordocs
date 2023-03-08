@@ -34,11 +34,13 @@ import { openSmartSearch, useAppDispatch } from '@/stores';
 interface Props {
   siteSettings: ISiteSettings;
   isMainPage: boolean;
+  isDetailedPage: boolean;
 }
 
 export const Header = ({
   siteSettings: { navigation, logo, socials, copyrights },
   isMainPage,
+  isDetailedPage,
 }: Props): JSX.Element => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const position = useScroll(200);
@@ -46,7 +48,7 @@ export const Header = ({
   const trigger = useScrollTrigger();
   const isNotMobile = useMediaQuery(TABLET_WIDE_BREAKPOINT);
   const dispatch = useAppDispatch();
-  const showSearchButton = !trigger && pageScrolled;
+  const showSearchButton = !trigger && pageScrolled && !isDetailedPage;
   const router = useRouter();
 
   useEffect(() => {

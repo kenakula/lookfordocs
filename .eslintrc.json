@@ -45,7 +45,6 @@
         "ignoreTemplateLiterals": true
       }
     ],
-    "import/order": "warn",
     "no-console": [
       "warn",
       {

@@ -1,12 +1,10 @@
 import { useMemo, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import {
   DoctorSpecialties,
   StyledDoctorsCard,
   StyledCardBody,
-  StyledImage,
   StyledInfo,
   StyledText,
   StyleSevices,
@@ -15,8 +13,8 @@ import {
   DoctorServices,
   DoctorClinics,
   StyledClinics,
-  DoctorsCardTextsBlock,
   DoctorGlobalServices,
+  CardImage,
 } from './components';
 import { useGetCardHeight } from './hooks';
 import { ButtonComponent } from '@/components';
@@ -25,11 +23,11 @@ import {
   capitilizeName,
   DESKTOP_BREAKPOINT,
   DOCTORS_PAGE,
-  getImageUrl,
 } from '@/shared/assets';
 
 interface Props {
   data: IDoctor;
+  detailedLocation?: boolean;
 }
 
 export const DoctorsCard = ({
@@ -45,6 +43,7 @@ export const DoctorsCard = ({
     clinics,
     globalServices,
   },
+  detailedLocation,
 }: Props): JSX.Element => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetCardHeight(cardRef);
@@ -56,58 +55,77 @@ export const DoctorsCard = ({
   );
 
   return (
-    <StyledDoctorsCard multipleClinics={clinics.length > 1}>
-      <StyledCardBody className="doctor-card-main" ref={cardRef}>
+    <StyledDoctorsCard
+      multipleClinics={clinics.length > 1}
+      detailedLocation={!!detailedLocation}
+    >
+      <StyledCardBody
+        detailedLocation={!!detailedLocation}
+        className="doctor-card-main"
+        ref={cardRef}
+      >
         {!isDesktop && <DoctorSpecialties list={specialties} />}
         <DoctorCardInfo className="doctor-card-info">
-          <StyledImage className="image">
-            <Link href={`${DOCTORS_PAGE}/${id}`}>
-              <Image
-                width={120}
-                height={164}
-                src={getImageUrl(image.id, doctorName)}
-                alt={firstName}
-              />
-            </Link>
-          </StyledImage>
-          {!isDesktop ? (
+          <Box className="mobile-image-container">
+            <CardImage
+              docID={id}
+              docName={doctorName}
+              imageId={image.id}
+              isDetailedPage={!!detailedLocation}
+            />
+            <DoctorGlobalServices list={globalServices} />
+          </Box>
+          {!isDesktop && (
             <StyledInfo>
-              <Typography variant="h3">
-                <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
-              </Typography>
+              {detailedLocation ? (
+                <Typography variant="h3">{doctorName}</Typography>
+              ) : (
+                <Typography variant="h3">
+                  <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
+                </Typography>
+              )}
               <DoctorLanguages list={lang} />
             </StyledInfo>
-          ) : (
-            <DoctorGlobalServices list={globalServices} />
           )}
         </DoctorCardInfo>
-        <DoctorsCardTextsBlock>
+        <Box>
           {isDesktop && (
             <StyledInfo>
               <DoctorSpecialties list={specialties} />
-              <Typography variant="h3">
-                <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
-              </Typography>
+              {detailedLocation ? (
+                <Typography variant="h3">{doctorName}</Typography>
+              ) : (
+                <Typography variant="h3">
+                  <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
+                </Typography>
+              )}
               <DoctorLanguages list={lang} />
             </StyledInfo>
           )}
-          <StyledText sx={{ mt: 2, mb: 2 }}>{shortText}</StyledText>
+          <StyledText className="doctor-card-text" sx={{ mt: 2, mb: 2 }}>
+            {shortText}
+          </StyledText>
           {services && (
             <StyleSevices>
               <DoctorServices list={services} />
             </StyleSevices>
           )}
-          <ButtonComponent
-            text="Записаться"
-            fullWidth
-            variant="outlined"
-            shadow
-          />
-        </DoctorsCardTextsBlock>
+          {!detailedLocation && (
+            <ButtonComponent
+              text={detailedLocation ? 'Записаться к врачу' : 'Записаться'}
+              fullWidth
+              variant={detailedLocation ? 'contained' : 'outlined'}
+              size={detailedLocation ? 'large' : 'medium'}
+              shadow={!detailedLocation}
+            />
+          )}
+        </Box>
       </StyledCardBody>
-      <StyledClinics maxListHeight={cardHeight} className="doctors-clinics">
-        <DoctorClinics list={clinics} />
-      </StyledClinics>
+      {!detailedLocation && (
+        <StyledClinics maxListHeight={cardHeight} className="doctors-clinics">
+          <DoctorClinics list={clinics} />
+        </StyledClinics>
+      )}
     </StyledDoctorsCard>
   );
 };

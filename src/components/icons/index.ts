@@ -12,3 +12,4 @@ export * from './icon-port';
 export * from './icon-home';
 export * from './icon-receipt';
 export * from './icon-online';
+export * from './icon-face';

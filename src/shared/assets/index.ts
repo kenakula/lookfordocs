@@ -9,3 +9,4 @@ export * from './num-words';
 export * from './string-utils';
 export * from './theme-breakpoints';
 export * from './price-utils';
+export * from './seo-utils';

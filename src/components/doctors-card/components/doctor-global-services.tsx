@@ -3,10 +3,10 @@ import { useMediaQuery } from '@mui/material';
 import { StyledGlobalServices } from './styled-components';
 import { GlobalServicesRef, GlobalServiceType } from '@/shared/types';
 import {
-  IconEmail,
   IconHome,
   IconOnline,
   IconReceipt,
+  IconFace,
 } from '@/components/icons';
 import { TABLET_WIDE_BREAKPOINT, TooltipComponent } from '@/shared/assets';
 
@@ -101,7 +101,7 @@ const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
               onMouseEnter={isTablet ? () => handleChange(name) : undefined}
               onMouseOut={() => handleClose(name)}
             >
-              <IconEmail />
+              <IconFace />
             </span>
           </TooltipComponent>
         </li>
