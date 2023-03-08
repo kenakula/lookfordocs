@@ -86,7 +86,7 @@ export const SmartSearchDialog = ({
             <StyledDialogHeader>
               <Typography variant="h2">Поиск</Typography>
               <IconButton onClick={handleClose}>
-                <IconClose />
+                <IconClose id="smart-search-close" />
               </IconButton>
             </StyledDialogHeader>
             <Box className="input-container">
@@ -102,7 +102,7 @@ export const SmartSearchDialog = ({
                     searchStr.length ? (
                       <InputAdornment position="end">
                         <IconButton aria-label="очистить" onClick={clearInput}>
-                          <IconClose />
+                          <IconClose id="smart-search-clear" />
                         </IconButton>
                       </InputAdornment>
                     ) : null

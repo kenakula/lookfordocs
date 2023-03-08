@@ -66,7 +66,6 @@ export const DoctorsCard = ({
         <DoctorCardInfo className="doctor-card-info">
           <Box className="mobile-image-container">
             <DoctorCardImage
-              detailedLocation={detailedLocation}
               docID={id}
               docName={doctorName}
               imageId={image.id}

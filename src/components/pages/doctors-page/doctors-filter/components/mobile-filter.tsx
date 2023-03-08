@@ -59,14 +59,12 @@ export const MobileFilter = ({
           </>
         )}
         <IconButton
-          edge="start"
-          color="inherit"
           onClick={setClosed}
           aria-label="Закрыть окно"
           disableFocusRipple
           disableRipple
         >
-          <IconClose />
+          <IconClose id="filter" color="inherit" />
         </IconButton>
       </Box>
       <Box className="filters-box">

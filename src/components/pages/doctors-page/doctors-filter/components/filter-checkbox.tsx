@@ -37,7 +37,7 @@ export const FilterCheckbox = ({
             return (
               <CheckboxComponent
                 {...field}
-                id={`spec-${value}`}
+                id={`${name}-${value}`}
                 value={value}
                 checked={field.value === value}
                 onChange={event => {

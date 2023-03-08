@@ -9,7 +9,6 @@ interface Props {
   docID: number;
   docName: string;
   imageId: string;
-  detailedLocation: boolean;
 }
 
 export const DoctorCardImage = ({
@@ -17,7 +16,6 @@ export const DoctorCardImage = ({
   docID,
   docName,
   imageId,
-  detailedLocation,
 }: Props): JSX.Element => {
   if (!isDetailedPage) {
     return (
@@ -28,7 +26,7 @@ export const DoctorCardImage = ({
             height={500}
             src={getImageUrl(imageId, docName, 'quality=100')}
             alt={docName}
-            priority={detailedLocation}
+            priority
           />
         </Link>
       </StyledImage>
@@ -43,7 +41,7 @@ export const DoctorCardImage = ({
           height={500}
           src={getImageUrl(imageId, docName, 'quality=100')}
           alt={docName}
-          priority={detailedLocation}
+          priority
         />
       </Box>
     </StyledImage>

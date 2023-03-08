@@ -10,12 +10,12 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
-import { getActiveStateClassName } from '../assets';
-import { StyledDrawer, StyledSocials } from './styled-components';
 import { ContainerComponent, Socials } from '@/components';
+import { IconClose } from '@/components/icons';
 import { IImage, INavigation, ISocial } from '@/shared/types';
 import { getImageUrl } from '@/shared/assets';
-import { IconClose } from '@/components/icons';
+import { getActiveStateClassName } from '../assets';
+import { StyledDrawer, StyledSocials } from './styled-components';
 
 interface Props {
   closeDrawer: () => void;
@@ -55,7 +55,7 @@ export const DrawerComponent = ({
             alt="логотип сайта"
           />
           <IconButton disableFocusRipple disableRipple onClick={closeDrawer}>
-            <IconClose />
+            <IconClose id="menu" color="inherit" />
           </IconButton>
         </ContainerComponent>
         <List>

@@ -37,7 +37,7 @@ const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
   switch (type) {
     case 'home':
       return (
-        <li aria-label={name}>
+        <li aria-label={name} role="presention">
           <TooltipComponent
             placement="top"
             title={name}

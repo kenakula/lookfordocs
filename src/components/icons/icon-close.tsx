@@ -4,7 +4,7 @@ import React from 'react';
 export const IconClose = (props: SvgIconProps): JSX.Element => {
   return (
     <SvgIcon {...props}>
-      <g clipPath="url(#clip0_148_1343)">
+      <g clipPath={`url(#clip-${props.id})`}>
         <path
           fillRule="evenodd"
           clipRule="evenodd"
@@ -13,7 +13,7 @@ export const IconClose = (props: SvgIconProps): JSX.Element => {
         />
       </g>
       <defs>
-        <clipPath id="clip0_148_1343">
+        <clipPath id={`clip-${props.id}`}>
           <rect width="24" height="24" fill="white" />
         </clipPath>
       </defs>

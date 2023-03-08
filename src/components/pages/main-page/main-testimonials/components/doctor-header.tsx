@@ -16,7 +16,10 @@ export const DoctorHeader = ({
 
   return (
     <Box component="header" className="card-header">
-      <Avatar src={getImageUrl(image, 'аватарка доктора')} />
+      <Avatar
+        src={getImageUrl(image, 'аватарка доктора')}
+        alt="фотография врача"
+      />
       <Box className="card-info">
         <Typography variant="h3" className="card-title">
           {capitilizeName(firstName, lastName)}

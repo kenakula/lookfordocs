@@ -140,7 +140,7 @@ export const SmartSearchInput = forwardRef(
                 searchStr.length ? (
                   <InputAdornment position="end">
                     <IconButton aria-label="очистить" onClick={clearInput}>
-                      <IconClose />
+                      <IconClose id="smart-search-input-clear" />
                     </IconButton>
                   </InputAdornment>
                 ) : null

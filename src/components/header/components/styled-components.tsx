@@ -169,7 +169,12 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
     '.MuiIconButton-root': {
       marginLeft: 'auto',
+      marginRight: theme.spacing(-1),
       color: theme.palette.text.primary,
+
+      [theme.breakpoints.up('md')]: {
+        marginRight: 0,
+      },
     },
   },
 
