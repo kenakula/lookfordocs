@@ -5,17 +5,6 @@ export const StyledSearchBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
 
-  '.becas': {
-    position: 'absolute',
-    right: 33,
-    top: 0,
-    display: 'block',
-    width: 86,
-    height: 100,
-    transform: 'translateY(-100%)',
-    cursor: 'default',
-  },
-
   '.input-container': {
     position: 'relative',
     display: 'flex',
@@ -64,9 +53,6 @@ export const StyledSearchBox = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.up('lmd')]: {
     position: 'relative',
-  },
-
-  [theme.breakpoints.up('lmd')]: {
     flexDirection: 'row',
     padding: theme.spacing(0, 2, 0, 0),
     minHeight: theme.spacing(10),
@@ -108,12 +94,6 @@ export const StyledSearchBox = styled(Box)(({ theme }) => ({
         paddingLeft: theme.spacing(9),
         height: '100%',
       },
-    },
-
-    '.becas': {
-      right: 190,
-      width: 154,
-      height: 179,
     },
   },
 }));

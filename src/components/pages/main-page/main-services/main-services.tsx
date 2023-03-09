@@ -20,19 +20,15 @@ export const MainServices = ({ services = [] }: Props): JSX.Element => {
           <StyledList>
             {services &&
               services.map(
-                ({
-                  id,
-                  title,
-                  description,
-                  image: { id: imageId, width, height },
-                }) => (
+                ({ id, title, description, image: { id: imageId } }) => (
                   <StyledService key={id}>
                     <Box className="image-container">
                       <Image
                         src={getImageUrl(imageId, `service-image-${id}`)}
                         alt=""
-                        width={width}
-                        height={height}
+                        fill
+                        quality={100}
+                        sizes="(max-width: 769px) 280px, 24vw"
                       />
                     </Box>
                     <Typography textAlign="center" variant="h3">

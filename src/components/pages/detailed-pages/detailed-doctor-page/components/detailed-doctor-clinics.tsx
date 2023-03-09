@@ -11,12 +11,14 @@ interface Props {
   clinics: ClinicsRef[];
   cities: ICity[];
   insurances: IInsurance[];
+  reembolso?: boolean;
 }
 
 export const DetailedDoctorClinics = ({
   clinics,
   cities,
   insurances,
+  reembolso,
 }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
 
@@ -60,9 +62,17 @@ export const DetailedDoctorClinics = ({
 
   if (!clinics.length) {
     return (
-      <Typography className="doctors-no-clinic">
-        Только частная практика
-      </Typography>
+      <>
+        <Typography className="doctors-no-clinic">
+          Только частная практика
+        </Typography>
+        {reembolso && (
+          <Typography className="doctors-reembolso">
+            Возможность получения возмещения оказанных услуг в страховой
+            компании по программе reembolso
+          </Typography>
+        )}
+      </>
     );
   }
 

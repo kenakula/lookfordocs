@@ -165,12 +165,6 @@ export const StyledImage = styled(Box)(({ theme }) => ({
   },
 
   img: {
-    display: 'block',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
     objectFit: 'cover',
   },
 
@@ -437,11 +431,6 @@ export const StyledClinicCard = styled(Box, {
     overflow: 'hidden',
 
     img: {
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      width: '100%',
-      height: '100%',
       objectFit: 'cover',
     },
   },

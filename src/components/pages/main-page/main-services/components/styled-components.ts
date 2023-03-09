@@ -46,11 +46,6 @@ export const StyledService = styled('li')(({ theme }) => ({
     marginBottom: theme.spacing(4),
 
     img: {
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      width: '100%',
-      height: '100%',
       objectFit: 'cover',
     },
   },

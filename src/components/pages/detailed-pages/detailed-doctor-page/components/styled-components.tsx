@@ -38,11 +38,20 @@ export const StyledDetailedPageLayout = styled('section')(({ theme }) => ({
     width: '100%',
   },
 
+  '.doctors-no-clinic': {
+    ...getTypography(theme, 14, 20),
+    marginBottom: theme.spacing(2),
+    color: theme.palette.primary.main,
+    fontWeight: 600,
+    textAlign: 'center',
+  },
+
   [theme.breakpoints.up('lmd')]: {
     flexDirection: 'row',
     columnGap: theme.spacing(3),
 
     '.detailed-left-column': {
+      flexShrink: 0,
       width: 'calc(65% - 12px)',
     },
 
@@ -62,6 +71,11 @@ export const StyledDetailedPageLayout = styled('section')(({ theme }) => ({
       display: 'flex',
       flexDirection: 'column',
       rowGap: theme.spacing(1),
+    },
+
+    '.doctors-no-clinic': {
+      ...getTypography(theme, 16, 20),
+      padding: theme.spacing(3, 3, 0),
     },
   },
 

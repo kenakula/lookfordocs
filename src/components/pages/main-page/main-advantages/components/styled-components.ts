@@ -71,12 +71,6 @@ export const StyledImageContainer = styled(Box)(({ theme }) => ({
   maxWidth: '100%',
 
   img: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    maxWidth: '100%',
-    width: '100%',
-    height: 'auto',
     objectFit: 'cover',
   },
 

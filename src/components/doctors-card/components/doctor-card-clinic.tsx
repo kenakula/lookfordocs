@@ -47,12 +47,7 @@ export const DoctorCardClinic = ({
     <StyledClinicCard detailedLocation={detailedLocation}>
       <Box className="clinic-top">
         <Box className="clinic-image">
-          <Image
-            width={40}
-            height={40}
-            alt={name}
-            src={getImageUrl(image, name)}
-          />
+          <Image fill alt={name} src={getImageUrl(image, name)} />
         </Box>
         <Link href={`/clinics/${id}`}>{name}</Link>
       </Box>

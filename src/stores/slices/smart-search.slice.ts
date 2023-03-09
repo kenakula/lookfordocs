@@ -62,6 +62,7 @@ export const smartSearch = createAsyncThunk<
         params: {
           filter: getDoctorsFilterString(search),
           fields: 'id,firstName,lastName,image.*,specialties.specialties_id.*',
+          sort: '-image',
         },
       }),
       axiosClient.get<AxiosResponse<IClinic[]>>('/clinics', {

@@ -41,6 +41,12 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
     '.input-container': {
       marginBottom: 0,
     },
+
+    '.becas': {
+      right: 120,
+      width: 154,
+      height: 179,
+    },
   },
 
   [theme.breakpoints.up('lg')]: {
