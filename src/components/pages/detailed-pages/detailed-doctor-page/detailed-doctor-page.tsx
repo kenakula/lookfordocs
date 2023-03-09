@@ -44,6 +44,7 @@ export const DetailedDoctorPage = ({
               clinics={data.clinics}
               cities={cities}
               insurances={insurances}
+              reembolso={data.reembolso}
             />
           </Box>
         </Box>

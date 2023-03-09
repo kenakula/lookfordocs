@@ -31,8 +31,8 @@ export const MainAdvantages = ({ advantages = [] }: Props): JSX.Element => {
                     <Image
                       src={getImageUrl(image.id, `advantage-${id}`)}
                       alt=""
-                      width={image.width}
-                      height={image.height}
+                      fill
+                      quality={100}
                     />
                   </StyledImageContainer>
                   <StyledInfoContainer>

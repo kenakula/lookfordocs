@@ -22,11 +22,11 @@ export const DoctorCardImage = ({
       <StyledImage className="image">
         <Link href={`${DOCTORS_PAGE}/${docID}`}>
           <Image
-            width={360}
-            height={500}
-            src={getImageUrl(imageId, docName, 'quality=100')}
+            fill
+            src={getImageUrl(imageId, docName)}
             alt={docName}
             priority
+            sizes="(max-width: 769px) 32.6vw, (max-width: 1129px) 23vw, 134px"
           />
         </Link>
       </StyledImage>
@@ -37,11 +37,11 @@ export const DoctorCardImage = ({
     <StyledImage className="image">
       <Box className="image-container">
         <Image
-          width={360}
-          height={500}
-          src={getImageUrl(imageId, docName, 'quality=100')}
+          fill
+          src={getImageUrl(imageId, docName)}
           alt={docName}
           priority
+          sizes="(max-width: 769px) 32.6vw, (max-width: 1129px) 23vw, 134px"
         />
       </Box>
     </StyledImage>

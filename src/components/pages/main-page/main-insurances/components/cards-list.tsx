@@ -1,4 +1,4 @@
-import { Typography, Link as MuiLink } from '@mui/material';
+import { Link as MuiLink } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -37,14 +37,12 @@ export const CardsList = ({
                 href={`${DOCTORS_PAGE}?insurance=${id}`}
                 component={Link}
               >
-                <Typography className="visually-hidden" variant="h3">
-                  {name}
-                </Typography>
                 <Image
                   src={getImageUrl(image.id, `insurance-${name}`)}
-                  width={image.width}
-                  height={image.height}
-                  alt=""
+                  fill
+                  alt={name}
+                  quality={100}
+                  sizes="(max-width: 601px) 93vw, (max-width: 1129px) 44vw, 246px"
                 />
               </MuiLink>
             </StyledCard>

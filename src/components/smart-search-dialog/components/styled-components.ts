@@ -47,6 +47,10 @@ export const StyledDialog = styled(Box)(({ theme }) => ({
     overflowY: 'auto',
     borderRadius: theme.shape.borderRadius,
     boxShadow: `0px 12px 24px ${alpha(theme.palette.text.primary, 0.04)}`,
+
+    '.MuiLinearProgress-root': {
+      marginRight: theme.spacing(3),
+    },
   },
 }));
 

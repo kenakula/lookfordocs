@@ -149,6 +149,7 @@ export const StyledFiltersBody = styled(Box)(({ theme }) => ({
 
 export const StyledFiltersBlockTop = styled(Box)(({ theme }) => ({
   display: 'flex',
+  flexWrap: 'wrap',
   alignItems: 'center',
   justifyContent: 'space-between',
   marginBottom: theme.spacing(3),
