@@ -1,9 +1,9 @@
 import { useMediaQuery } from '@mui/material';
-import { StyledInner } from './components';
 import { ButtonComponent, ContainerComponent } from '@/components';
 import { PageSection, Subtitle, Title } from '@/shared/assets';
 import { IBlockData } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
+import { StyledInner } from './components';
 
 interface Props {
   appointmentData: IBlockData | null;

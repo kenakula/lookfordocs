@@ -1,12 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import {
-  CollectionResponse,
-  getDoctorsQueryString,
-  SingletonResponse,
-} from '../assets';
-import { DoctorsFilterQuery } from '../types';
-import {
   IClinic,
   IDoctor,
   IDoctorCount,
@@ -17,6 +11,12 @@ import {
   ISpecialty,
   TriggerQueryArgs,
 } from '@/shared/types';
+import {
+  CollectionResponse,
+  getDoctorsQueryString,
+  SingletonResponse,
+} from '../assets';
+import { DoctorsFilterQuery } from '../types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 export const DOCTORS_PAGE_LIMIT = 6;

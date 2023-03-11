@@ -1,8 +1,6 @@
 import { styled, Button, ButtonProps } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-// TODO кастомизировать стили для mui компонента
-
 const StyledButton = styled(Button, {
   shouldForwardProp: prop => prop !== 'shadow',
 })<{ shadow?: boolean }>(({ theme, variant, size, shadow }) => ({
@@ -59,8 +57,8 @@ export const ButtonComponent = ({ text, shadow, ...props }: Props) => {
       className="btn"
       disableRipple
       disableFocusRipple
-      {...props}
       shadow={shadow}
+      {...props}
     >
       {text}
     </StyledButton>

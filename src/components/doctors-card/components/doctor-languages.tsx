@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
-import { StyledLanguages } from './styled-components';
 import { LanguageSlug, LanguagesRef } from '@/shared/types';
 import { IconEn, IconPort, IconRus } from '@/components/icons';
+import { StyledLanguages } from './styled-components';
 
 interface IconProps {
   slug: LanguageSlug;

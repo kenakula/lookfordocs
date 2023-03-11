@@ -1,7 +1,7 @@
-import { CardsList, StyledInner } from './components';
 import { ContainerComponent } from '@/components';
 import { PageSection, Title } from '@/shared/assets';
-import { ICountedSpecialties, ISpecialty } from '@/shared/types/specialty.type';
+import { ICountedSpecialties, ISpecialty } from '@/shared/types';
+import { CardsList, StyledInner } from './components';
 
 interface Props {
   specialties: ISpecialty[] | null;

@@ -1,6 +1,6 @@
 import { Typography, List, ListItemButton, Avatar, Box } from '@mui/material';
 import Link from 'next/link';
-import { StyledResultList } from './styled-components';
+import { closeSmartSearch, useAppDispatch, useAppSelector } from '@/stores';
 import {
   getImageUrl,
   DOCTORS_PAGE,
@@ -17,7 +17,7 @@ import {
   SmartSearchQuery,
   ILanguage,
 } from '@/shared/types';
-import { closeSmartSearch, useAppDispatch, useAppSelector } from '@/stores';
+import { StyledResultList } from './styled-components';
 
 // TODO рефактор
 

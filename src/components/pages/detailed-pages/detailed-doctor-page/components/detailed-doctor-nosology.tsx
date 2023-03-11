@@ -1,4 +1,4 @@
-import { ChipComponent } from '@/components/chip-component/chip-component';
+import { ChipComponent } from '@/components';
 import { IconFace } from '@/components/icons/icon-face';
 import { IChip, IDoctorNosology } from '@/shared/types';
 import { Box, Typography } from '@mui/material';

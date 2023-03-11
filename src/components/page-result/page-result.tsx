@@ -1,4 +1,4 @@
-import { ContainerComponent } from '../container-component/container-component';
+import { ContainerComponent } from '@/components';
 import { StyledPageResultSection } from './components';
 
 interface Props {

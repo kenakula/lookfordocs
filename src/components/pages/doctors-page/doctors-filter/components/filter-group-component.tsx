@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { Typography, Collapse, Button } from '@mui/material';
 import { Control } from 'react-hook-form';
+import { FilterFormModel } from '@/shared/types';
 import { useGetGroupFiltersCount } from '../hooks';
 import { DoctorsFilterCheckboxName, FilterCheckbox } from './filter-checkbox';
 import { StyledFilterGroup, StyledFilterGroupTop } from './styled-components';
 import { FiltersCounter } from './filters-counter';
-import { FilterFormModel } from '@/shared/types';
 
 const SHOWED_CHECKBOXES_COUNT = 5;
 const ITEM_HEIGHT = 36;

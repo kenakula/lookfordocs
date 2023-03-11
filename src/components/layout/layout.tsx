@@ -1,5 +1,4 @@
-import { Header } from '../header/header';
-import { Footer } from '../footer/footer';
+import { Header, Footer } from '@/components';
 import { ISiteSettings } from '@/shared/types';
 
 interface Props {

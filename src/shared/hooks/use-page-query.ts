@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { QueryDefinition } from '@reduxjs/toolkit/dist/query';
 import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { useRouter } from 'next/router';
-import { IPaging } from '../types';
 import { DoctorsFilterQuery } from '@/stores/types';
 import { DOCTORS_PAGE_LIMIT } from '@/stores/api';
+import { IPaging } from '../types';
 
 export const usePageQuery = <
   DataType,

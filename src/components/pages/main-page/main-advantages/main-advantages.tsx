@@ -1,5 +1,9 @@
 import Image from 'next/image';
 import { Typography } from '@mui/material';
+import { ContainerComponent } from '@/components';
+import { getImageUrl, PageSection, Title } from '@/shared/assets';
+import { IAdvantage } from '@/shared/types';
+
 import {
   StyledImageContainer,
   StyledInfoContainer,
@@ -7,9 +11,6 @@ import {
   StyledList,
   StyledListItem,
 } from './components';
-import { ContainerComponent } from '@/components';
-import { getImageUrl, PageSection, Title } from '@/shared/assets';
-import { IAdvantage } from '@/shared/types';
 
 interface Props {
   advantages: IAdvantage[] | null;

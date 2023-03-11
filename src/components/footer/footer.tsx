@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Typography } from '@mui/material';
-import { Socials } from '../socials/socials';
 import {
   StyledFooterInner,
   StyledFooterBottom,
@@ -13,6 +12,7 @@ import {
 import { ISiteSettings } from '@/shared/types';
 import { getImageUrl } from '@/shared/assets';
 import { ContainerComponent } from '@/components';
+import { Socials } from '../socials/socials';
 
 interface Props {
   siteSettings: ISiteSettings;

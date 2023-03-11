@@ -1,5 +1,5 @@
-import { Container as MuiContainer, styled, SxProps } from '@mui/material';
 import React from 'react';
+import { Container as MuiContainer, styled, SxProps } from '@mui/material';
 
 const StyledContainer = styled(MuiContainer)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {

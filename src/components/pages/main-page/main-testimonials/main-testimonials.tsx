@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { SwiperSlide } from 'swiper/react';
 import { SwiperOptions } from 'swiper/types/swiper-options';
 import { Navigation, Pagination } from 'swiper';
-import { StyledInner, TestimonialCard } from './components';
 import { PageSection, Title } from '@/shared/assets';
 import { ITestimonial } from '@/shared/types';
 import { ContainerComponent, SliderComponent } from '@/components';
+import { StyledInner, TestimonialCard } from './components';
 import 'swiper/css/bundle';
 
 interface Props {

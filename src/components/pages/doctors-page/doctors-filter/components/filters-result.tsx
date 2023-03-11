@@ -1,7 +1,7 @@
 import { CircularProgress, Typography } from '@mui/material';
-import { FilterEmptyResult, FilterResultList } from './styled-components';
 import { IDoctor } from '@/shared/types';
 import { DoctorsCard } from '@/components';
+import { FilterEmptyResult, FilterResultList } from './styled-components';
 
 interface Props {
   doctorsList: IDoctor[] | undefined;

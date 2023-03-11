@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { CollectionResponse, SingletonResponse } from '../assets';
 import {
   IMainService,
   ISpecialty,
@@ -11,6 +10,7 @@ import {
   ICountedSpecialties,
   IPromoBlockData,
 } from '@/shared/types';
+import { CollectionResponse, SingletonResponse } from '../assets';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 

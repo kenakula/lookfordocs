@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-
 import { wrapper } from '@/stores';
 import { getSiteSettings, getDocInfo } from '@/stores/api';
 import { axiosClient } from '@/stores/assets';
