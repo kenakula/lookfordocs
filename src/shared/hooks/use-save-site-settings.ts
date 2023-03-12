@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useAppDispatch, setTestimonialsLimit } from '@/stores';
 import { ISiteSettings } from '../types';
 
-export const useSaveSiteSettings = ({
-  testimonialsLimit,
-}: ISiteSettings): void => {
+export const useSaveSiteSettings = (settings: ISiteSettings | null): void => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setTestimonialsLimit(testimonialsLimit));
-  }, [dispatch, testimonialsLimit]);
+    if (settings) {
+      dispatch(setTestimonialsLimit(settings.testimonialsLimit));
+    }
+  }, [dispatch, settings]);
 };

@@ -84,7 +84,6 @@ export default function Home({
   appointmentData,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const router = useRouter();
-  const dataNotFound = !siteSettings || !pageSettings;
 
   if (router.isFallback) {
     return (
@@ -94,18 +93,14 @@ export default function Home({
     );
   }
 
-  if (dataNotFound) {
-    return (
-      <ContainerComponent>
-        <Typography textAlign="center">Not Found</Typography>
-      </ContainerComponent>
-    );
-  }
-
   return (
     <Layout siteSettings={siteSettings} isMainPage>
-      <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
-      <PageSeo pageSettings={pageSettings[0]} />
+      {pageSettings && (
+        <>
+          <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
+          <PageSeo pageSettings={pageSettings[0]} />
+        </>
+      )}
       {promoData && <MainPromo promoData={promoData} />}
       <MainAppointment appointmentData={appointmentData} />
       <MainPopular

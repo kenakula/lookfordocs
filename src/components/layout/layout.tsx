@@ -4,7 +4,7 @@ import { ISiteSettings } from '@/shared/types';
 
 interface Props {
   children: React.ReactNode;
-  siteSettings: ISiteSettings;
+  siteSettings: ISiteSettings | null;
   isMainPage?: boolean;
   isDetailedPage?: boolean;
 }
