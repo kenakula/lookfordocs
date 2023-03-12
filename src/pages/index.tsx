@@ -84,12 +84,7 @@ export default function Home({
   appointmentData,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const router = useRouter();
-  const dataNotFound =
-    !siteSettings ||
-    !pageSettings ||
-    !promoData ||
-    !insurances ||
-    !testimonials;
+  const dataNotFound = !siteSettings || !pageSettings;
 
   if (router.isFallback) {
     return (
@@ -111,16 +106,16 @@ export default function Home({
     <Layout siteSettings={siteSettings} isMainPage>
       <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
       <PageSeo pageSettings={pageSettings[0]} />
-      <MainPromo promoData={promoData} />
+      {promoData && <MainPromo promoData={promoData} />}
       <MainAppointment appointmentData={appointmentData} />
       <MainPopular
         specialties={specialties}
         countedSpecialties={countedSpecialties}
       />
       <MainServices services={services} />
-      <MainInsurances insurances={insurances} />
+      {insurances && <MainInsurances insurances={insurances} />}
       <MainAdvantages advantages={advantages} />
-      <MainTestimonials testimonials={testimonials} />
+      {testimonials && <MainTestimonials testimonials={testimonials} />}
     </Layout>
   );
 }
