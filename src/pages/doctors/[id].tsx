@@ -100,7 +100,7 @@ const DoctorPage = ({
   cities,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  const someDataFailed = !siteSettings || !doctorInfo || !cities || !insurances;
+  const someDataFailed = !siteSettings;
 
   if (router.isFallback) {
     return (
@@ -120,24 +120,30 @@ const DoctorPage = ({
 
   return (
     <Layout siteSettings={siteSettings} isDetailedPage>
-      <PageSeo
-        pageSettings={{
-          pageTitle: getSeoDoctorPageTitle(
-            doctorInfo.firstName,
-            doctorInfo.lastName,
-          ),
-          pageDescription: doctorInfo.shortText ?? '',
-        }}
-      />
-      <BreadcrumbsComponent
-        crumbs={[
-          { text: 'Врачи', link: DOCTORS_PAGE },
-          { text: capitilizeName(doctorInfo.firstName, doctorInfo.lastName) },
-        ]}
-      />
-      <h1 className="visually-hidden">
-        {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
-      </h1>
+      {doctorInfo ? (
+        <>
+          <PageSeo
+            pageSettings={{
+              pageTitle: getSeoDoctorPageTitle(
+                doctorInfo.firstName,
+                doctorInfo.lastName,
+              ),
+              pageDescription: doctorInfo.shortText ?? '',
+            }}
+          />
+          <BreadcrumbsComponent
+            crumbs={[
+              { text: 'Врачи', link: DOCTORS_PAGE },
+              {
+                text: capitilizeName(doctorInfo.firstName, doctorInfo.lastName),
+              },
+            ]}
+          />
+          <h1 className="visually-hidden">
+            {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
+          </h1>
+        </>
+      ) : null}
       {doctorInfo && cities && insurances && testimonials ? (
         <DetailedDoctorPage
           data={doctorInfo}
