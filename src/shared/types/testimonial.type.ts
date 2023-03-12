@@ -15,6 +15,7 @@ export interface ITestimonial {
   status: IStatus;
   date: string;
   type: TestimonialType;
+  rate: number;
   comment: string;
   author: string;
   image?: IImage;

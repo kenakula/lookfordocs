@@ -1,6 +1,7 @@
 export * from './doctor-global-services';
 export * from './doctor-card-clinic';
 export * from './doctor-specialties';
+export * from './doctor-card-rating';
 export * from './doctor-card-image';
 export * from './styled-components';
 export * from './doctor-languages';

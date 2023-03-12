@@ -9,6 +9,7 @@ import {
   ButtonComponent,
   ContainerComponent,
   InputComponent,
+  RatingComponent,
 } from '@/components';
 import { useForm } from 'react-hook-form';
 import { object, number, string } from 'yup';
@@ -18,9 +19,8 @@ import {
   StyledDialogHeader,
   StyledDialogBody,
   StyledRatingWrapper,
-  StyledRating,
 } from './components';
-import { IconClose, IconStar } from '@/components/icons';
+import { IconClose } from '@/components/icons';
 import { useSaveDocTestimonialMutation } from '@/stores/api';
 import { setToaster, useAppDispatch, useAppSelector } from '@/stores';
 import { TestimonialFormModel, TestimonialType } from '@/shared/types';
@@ -148,12 +148,10 @@ export const TestimonialDialog = ({
         <StyledDialogBody action="#" onSubmit={handleSubmit(onSubmit)}>
           <StyledRatingWrapper>
             <Typography variant="h4">Оценка</Typography>
-            <StyledRating
-              emptyIcon={<IconStar color="inherit" />}
-              icon={<IconStar color="inherit" />}
-              getLabelText={value => `Оценка ${value} из 5`}
-              value={watch('rate')}
-              onChange={handleRatingChange}
+            <RatingComponent
+              rate={watch('rate')}
+              handleChange={handleRatingChange}
+              interactive
             />
             {formState.errors.rate && formState.errors.rate.message ? (
               <FormHelperText>{formState.errors.rate.message}</FormHelperText>

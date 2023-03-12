@@ -19,6 +19,7 @@ import getRunningDoctorsPageQueries, {
   getDoctorsInsurances,
   getDoctorsLanguages,
   getDoctorsClinics,
+  getDoctorsTestimonials,
 } from '@/stores/api/doctors-page.api';
 
 const PAGE_SLUG = 'doctors';
@@ -36,6 +37,9 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const insurances = await store.dispatch(getDoctorsInsurances.initiate());
   const languages = await store.dispatch(getDoctorsLanguages.initiate());
   const clinics = await store.dispatch(getDoctorsClinics.initiate());
+  const docrorsTestimonials = await store.dispatch(
+    getDoctorsTestimonials.initiate(),
+  );
 
   await Promise.all([
     ...store.dispatch(getRunningGlobalQueries()),
@@ -52,17 +56,19 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
       insurances: insurances.data ?? null,
       languages: languages.data ?? null,
       clinics: clinics.data ?? null,
+      doctorsTestimonials: docrorsTestimonials.data ?? null,
     },
   };
 });
 
 const DoctorsPage = ({
+  doctorsTestimonials,
+  globalServices,
   siteSettings,
   pageSettings,
   specialties,
-  promoData,
   insurances,
-  globalServices,
+  promoData,
   languages,
   clinics,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
@@ -74,7 +80,8 @@ const DoctorsPage = ({
     !globalServices ||
     !languages ||
     !clinics ||
-    !promoData;
+    !promoData ||
+    !doctorsTestimonials;
 
   if (dataNotFound) {
     return (
@@ -99,6 +106,7 @@ const DoctorsPage = ({
           insurances={insurances}
           languages={languages}
           clinics={clinics}
+          docsTestimonials={doctorsTestimonials}
         />
       </PageResult>
     </Layout>

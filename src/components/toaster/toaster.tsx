@@ -1,8 +1,24 @@
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Snackbar, styled } from '@mui/material';
 import React from 'react';
 import { useToasterPosition, useToasterMessage } from './hooks';
 
 const HIDE_TOASTER_TIME = 6000;
+
+const StyledSnackbar = styled(Snackbar)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
+    right: theme.spacing(3),
+  },
+
+  [theme.breakpoints.up('lmd')]: {
+    right: 'auto',
+    maxWidth: 400,
+
+    '.MuiPaper-root': {
+      width: '100%',
+      maxWidth: 'none',
+    },
+  },
+}));
 
 export const Toaster = (): JSX.Element => {
   const origin = useToasterPosition();
@@ -24,7 +40,7 @@ export const Toaster = (): JSX.Element => {
   };
 
   return (
-    <Snackbar
+    <StyledSnackbar
       key={messageInfo ? messageInfo.key : undefined}
       open={open}
       autoHideDuration={HIDE_TOASTER_TIME}
@@ -34,13 +50,12 @@ export const Toaster = (): JSX.Element => {
       anchorOrigin={origin}
     >
       <Alert
-        sx={{ width: '100%' }}
         onClose={handleClose}
         severity={messageInfo?.severety}
         variant="filled"
       >
         {messageInfo?.message}
       </Alert>
-    </Snackbar>
+    </StyledSnackbar>
   );
 };

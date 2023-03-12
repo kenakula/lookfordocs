@@ -334,6 +334,27 @@ export const StyledLanguages = styled(Box)(({ theme }) => ({
   },
 }));
 
+export const StyledDoctorRating = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+
+  'a, & > span': {
+    ...getTypography(theme, 12, 16),
+    color: theme.palette.secondary.light,
+    textDecoration: 'none',
+    transition: theme.transitions.create('color'),
+  },
+
+  a: {
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+
+    '&:active': {
+      color: theme.palette.primary.dark,
+    },
+  },
+}));
+
 export const StyledClinics = styled(Box, {
   shouldForwardProp: prop => prop !== 'maxListHeight',
 })<{ maxListHeight: number }>(({ theme, maxListHeight }) => ({

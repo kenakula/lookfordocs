@@ -7,6 +7,7 @@ import {
   DetailedInfo,
   StyledDetailedPageLayout,
 } from './components';
+import { useMemo } from 'react';
 
 interface Props {
   data: IDoctor;
@@ -22,13 +23,22 @@ export const DetailedDoctorPage = ({
   testimonials,
 }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
+  const avarageRating = useMemo(() => {
+    const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
+    return sum === 0 ? 0 : sum / testimonials.length;
+  }, [testimonials]);
 
   return (
     <ContainerComponent>
       <StyledDetailedPageLayout>
         <h2 className="visually-hidden">Общая информация о враче</h2>
         <Box className="detailed-left-column">
-          <DoctorsCard data={data} detailedLocation />
+          <DoctorsCard
+            data={data}
+            detailedLocation
+            rating={avarageRating}
+            testimonialsCount={testimonials.length}
+          />
           {isTablet && <DetailedInfo data={data} testimonials={testimonials} />}
         </Box>
         <Box className="detailed-right-column">
@@ -48,7 +58,11 @@ export const DetailedDoctorPage = ({
             />
           </Box>
         </Box>
-        {!isTablet && <DetailedInfo data={data} testimonials={testimonials} />}
+        <Box sx={{ overflow: 'hidden' }}>
+          {!isTablet ? (
+            <DetailedInfo data={data} testimonials={testimonials} />
+          ) : null}
+        </Box>
       </StyledDetailedPageLayout>
     </ContainerComponent>
   );

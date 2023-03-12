@@ -1,5 +1,5 @@
 import { getTypography } from '@/shared/assets';
-import { Box, Dialog, Rating, styled } from '@mui/material';
+import { Box, Dialog, styled } from '@mui/material';
 
 export const StyledTestimonialDialog = styled(Dialog)(({ theme }) => ({
   [theme.breakpoints.up('lmd')]: {
@@ -65,32 +65,6 @@ export const StyledRatingWrapper = styled(Box)(({ theme }) => ({
     '.MuiTypography-h4': {
       ...getTypography(theme, 18, 24),
       marginBottom: theme.spacing(2),
-    },
-  },
-}));
-
-export const StyledRating = styled(Rating)(({ theme }) => ({
-  color: theme.palette.misc.light,
-  marginLeft: theme.spacing(-0.5),
-
-  label: {
-    padding: theme.spacing(0, 0.5),
-  },
-
-  '& .MuiRating-iconFilled': {
-    color: theme.palette.primary.dark,
-  },
-
-  [theme.breakpoints.up('lmd')]: {
-    marginLeft: theme.spacing(-2.1875),
-
-    svg: {
-      width: 40,
-      height: 40,
-    },
-
-    label: {
-      padding: theme.spacing(0, 2.1875),
     },
   },
 }));

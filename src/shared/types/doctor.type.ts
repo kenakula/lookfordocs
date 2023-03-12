@@ -7,6 +7,7 @@ import {
 } from './directus-api-refs';
 import { IImage } from './image.type';
 import { Perk } from './perk.type';
+import { ITestimonial } from './testimonial.type';
 
 export type DoctorEducationType =
   | 'base'
@@ -61,4 +62,11 @@ export interface IDoctor {
   reembolso?: boolean;
   nosologies?: IDoctorNosology[];
   education?: IDoctorEducation[];
+}
+
+export interface IDoctorsTestimonials {
+  doctors_id: {
+    id: number;
+  };
+  testimonials_id: ITestimonial | null;
 }

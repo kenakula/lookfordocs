@@ -48,11 +48,11 @@ export const StyledDetailedPageLayout = styled('section')(({ theme }) => ({
 
   [theme.breakpoints.up('lmd')]: {
     flexDirection: 'row',
-    columnGap: theme.spacing(3),
 
     '.detailed-left-column': {
       flexShrink: 0,
       width: 'calc(65% - 12px)',
+      marginRight: theme.spacing(3),
     },
 
     '.detailed-right-column': {

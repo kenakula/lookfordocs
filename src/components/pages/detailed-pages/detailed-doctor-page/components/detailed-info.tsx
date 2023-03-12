@@ -61,7 +61,10 @@ export const DetailedInfo = ({
         </StyledDetailInfoBlock>
       )}
 
-      <StyledDetailInfoBlock className="detailed-info-block">
+      <StyledDetailInfoBlock
+        className="detailed-info-block"
+        id="doctor-testimonials"
+      >
         <StyledDetailInfoBlockHeader className="detailed-info-header">
           <StyledDetailInfoTitle variant="h3">Отзывы</StyledDetailInfoTitle>
           {testimonials.length ? (

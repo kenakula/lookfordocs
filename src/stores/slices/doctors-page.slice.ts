@@ -45,10 +45,10 @@ export const doctorsPageSlice = createSlice({
 });
 
 export const {
-  setDoctorsSearchValue,
   clearDoctorsSearchValue,
+  setDoctorsSearchValue,
   setFiltersCount,
-  setCities,
   setInsurances,
+  setCities,
 } = doctorsPageSlice.actions;
 export const doctorsPageReducer = doctorsPageSlice.reducer;

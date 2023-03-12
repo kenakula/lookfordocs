@@ -37,7 +37,7 @@ export const doctorApi = createApi({
           filter: JSON.stringify({
             targetDoctor: { doctors_id: { _eq: docId } },
           }),
-          fields: 'id,type,author,date,comment,targetDoctor.*',
+          fields: 'id,type,author,date,rate,comment,targetDoctor.*',
           sort: '-date_created',
         },
       }),

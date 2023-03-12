@@ -6,6 +6,7 @@ export * from './smart-search-input/smart-search-input';
 export * from './testimonial-dialog/testimonial-dialog';
 export * from './button-component/button-component';
 export * from './slider-component/slider-component';
+export * from './rating-component/rating-component';
 export * from './chip-component/chip-component';
 export * from './doctors-card/doctors-card';
 export * from './page-result/page-result';
