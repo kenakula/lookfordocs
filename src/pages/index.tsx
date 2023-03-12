@@ -103,13 +103,15 @@ export default function Home({
       )}
       {promoData && <MainPromo promoData={promoData} />}
       <MainAppointment appointmentData={appointmentData} />
-      <MainPopular
-        specialties={specialties}
-        countedSpecialties={countedSpecialties}
-      />
-      <MainServices services={services} />
+      {specialties && countedSpecialties ? (
+        <MainPopular
+          specialties={specialties}
+          countedSpecialties={countedSpecialties}
+        />
+      ) : null}
+      {services && <MainServices services={services} />}
       {insurances && <MainInsurances insurances={insurances} />}
-      <MainAdvantages advantages={advantages} />
+      {advantages && <MainAdvantages advantages={advantages} />}
       {testimonials && <MainTestimonials testimonials={testimonials} />}
     </Layout>
   );

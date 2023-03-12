@@ -138,12 +138,14 @@ const DoctorPage = ({
       <h1 className="visually-hidden">
         {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
       </h1>
-      <DetailedDoctorPage
-        data={doctorInfo}
-        cities={cities}
-        insurances={insurances}
-        testimonials={testimonials}
-      />
+      {doctorInfo && cities && insurances && testimonials ? (
+        <DetailedDoctorPage
+          data={doctorInfo}
+          cities={cities}
+          insurances={insurances}
+          testimonials={testimonials}
+        />
+      ) : null}
     </Layout>
   );
 };
