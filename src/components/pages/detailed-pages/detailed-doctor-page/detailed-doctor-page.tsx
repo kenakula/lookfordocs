@@ -13,7 +13,7 @@ interface Props {
   data: IDoctor;
   cities: ICity[];
   insurances: IInsurance[];
-  testimonials: ITestimonial[];
+  testimonials?: ITestimonial[];
 }
 
 export const DetailedDoctorPage = ({
@@ -23,7 +23,12 @@ export const DetailedDoctorPage = ({
   testimonials,
 }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
+  const testimonialsCount = testimonials ? testimonials.length : undefined;
   const avarageRating = useMemo(() => {
+    if (!testimonials) {
+      return undefined;
+    }
+
     const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
     return sum === 0 ? 0 : sum / testimonials.length;
   }, [testimonials]);
@@ -37,9 +42,11 @@ export const DetailedDoctorPage = ({
             data={data}
             detailedLocation
             rating={avarageRating}
-            testimonialsCount={testimonials.length}
+            testimonialsCount={testimonialsCount}
           />
-          {isTablet && <DetailedInfo data={data} testimonials={testimonials} />}
+          {isTablet && testimonials ? (
+            <DetailedInfo data={data} testimonials={testimonials} />
+          ) : null}
         </Box>
         <Box className="detailed-right-column">
           <Box className="sticky-block">
@@ -59,7 +66,7 @@ export const DetailedDoctorPage = ({
           </Box>
         </Box>
         <Box sx={{ overflow: 'hidden' }}>
-          {!isTablet ? (
+          {!isTablet && testimonials ? (
             <DetailedInfo data={data} testimonials={testimonials} />
           ) : null}
         </Box>

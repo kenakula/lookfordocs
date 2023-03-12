@@ -4,15 +4,13 @@ import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { wrapper } from '@/stores';
-import { getSiteSettings, getDocInfo } from '@/stores/api';
+import { getSiteSettings, getDocInfo, getDocsTestimonials } from '@/stores/api';
 import { axiosClient } from '@/stores/assets';
 import getRunningGlobalQueries, {
   getGlobalCities,
   getGlobalInsurances,
 } from '@/stores/api/global.api';
-import getRunningDoctorQueries, {
-  getDocsTestimonials,
-} from '@/stores/api/doctor.api';
+import getRunningDoctorQueries from '@/stores/api/doctor.api';
 import {
   BreadcrumbsComponent,
   ContainerComponent,
@@ -102,8 +100,7 @@ const DoctorPage = ({
   cities,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  const someDataFailed =
-    !siteSettings || !doctorInfo || !cities || !insurances || !testimonials;
+  const someDataFailed = !siteSettings || !doctorInfo || !cities || !insurances;
 
   if (router.isFallback) {
     return (
