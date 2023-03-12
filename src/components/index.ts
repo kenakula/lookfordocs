@@ -3,6 +3,7 @@ export * from './pagination-component/pagination-component';
 export * from './smart-search-dialog/smart-search-dialog';
 export * from './container-component/container-component';
 export * from './smart-search-input/smart-search-input';
+export * from './testimonial-dialog/testimonial-dialog';
 export * from './button-component/button-component';
 export * from './slider-component/slider-component';
 export * from './chip-component/chip-component';

@@ -84,6 +84,12 @@ export default function Home({
   appointmentData,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const router = useRouter();
+  const dataNotFound =
+    !siteSettings ||
+    !pageSettings ||
+    !promoData ||
+    !insurances ||
+    !testimonials;
 
   if (router.isFallback) {
     return (
@@ -93,22 +99,28 @@ export default function Home({
     );
   }
 
+  if (dataNotFound) {
+    return (
+      <ContainerComponent>
+        <Typography textAlign="center">Not Found</Typography>
+      </ContainerComponent>
+    );
+  }
+
   return (
     <Layout siteSettings={siteSettings} isMainPage>
-      {pageSettings ? (
-        <h1 className="visually-hidden">{pageSettings[0].h1 ?? ''}</h1>
-      ) : null}
-      <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
-      {promoData && <MainPromo promoData={promoData} />}
+      <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
+      <PageSeo pageSettings={pageSettings[0]} />
+      <MainPromo promoData={promoData} />
       <MainAppointment appointmentData={appointmentData} />
       <MainPopular
         specialties={specialties}
         countedSpecialties={countedSpecialties}
       />
       <MainServices services={services} />
-      {insurances && <MainInsurances insurances={insurances} />}
+      <MainInsurances insurances={insurances} />
       <MainAdvantages advantages={advantages} />
-      {testimonials && <MainTestimonials testimonials={testimonials} />}
+      <MainTestimonials testimonials={testimonials} />
     </Layout>
   );
 }

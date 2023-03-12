@@ -3,6 +3,7 @@ import { wrapper } from '@/stores';
 import { getSiteSettings, getPageSettings } from '@/stores/api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
 import { ContainerComponent, Layout, PageSeo } from '@/components';
+import { Typography } from '@mui/material';
 
 const PAGE_SLUG = 'contacts';
 
@@ -26,9 +27,19 @@ const ContactsPage = ({
   siteSettings,
   pageSettings,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+  const dataNotFound = !siteSettings || !pageSettings;
+
+  if (dataNotFound) {
+    return (
+      <ContainerComponent>
+        <Typography textAlign="center">Not Found</Typography>
+      </ContainerComponent>
+    );
+  }
+
   return (
     <Layout siteSettings={siteSettings}>
-      <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
+      <PageSeo pageSettings={pageSettings[0]} />
       <ContainerComponent>
         <h1>ContactsPage</h1>
       </ContainerComponent>

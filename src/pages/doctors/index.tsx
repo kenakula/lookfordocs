@@ -1,6 +1,8 @@
+import { Typography } from '@mui/material';
 import { InferGetStaticPropsType } from 'next';
 import {
   BreadcrumbsComponent,
+  ContainerComponent,
   DoctorsFilter,
   Layout,
   PageResult,
@@ -64,24 +66,40 @@ const DoctorsPage = ({
   languages,
   clinics,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+  const dataNotFound =
+    !siteSettings ||
+    !pageSettings ||
+    !specialties ||
+    !insurances ||
+    !globalServices ||
+    !languages ||
+    !clinics ||
+    !promoData;
+
+  if (dataNotFound) {
+    return (
+      <ContainerComponent>
+        <Typography textAlign="center">Not Found</Typography>
+      </ContainerComponent>
+    );
+  }
+
   return (
     <Layout siteSettings={siteSettings}>
       {pageSettings ? (
-        <h1 className="visually-hidden">{pageSettings[0].h1 ?? ''}</h1>
+        <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
       ) : null}
-      <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
+      <PageSeo pageSettings={pageSettings[0]} />
       <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
-      {promoData && <Promo promoData={promoData} />}
+      <Promo promoData={promoData} />
       <PageResult>
-        {specialties && globalServices && insurances && languages && clinics ? (
-          <DoctorsFilter
-            specialties={specialties}
-            services={globalServices}
-            insurances={insurances}
-            languages={languages}
-            clinics={clinics}
-          />
-        ) : null}
+        <DoctorsFilter
+          specialties={specialties}
+          services={globalServices}
+          insurances={insurances}
+          languages={languages}
+          clinics={clinics}
+        />
       </PageResult>
     </Layout>
   );

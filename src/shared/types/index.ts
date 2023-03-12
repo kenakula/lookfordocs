@@ -1,5 +1,6 @@
 export * from './doctors-filter-form-model.type';
 export * from './smart-serach-query.type';
+export * from './testimonial-form-model';
 export * from './global-service.type';
 export * from './site-settings.type';
 export * from './page-settings.type';

@@ -9,6 +9,7 @@ export * from './icon-email';
 export * from './icon-menu';
 export * from './icon-face';
 export * from './icon-port';
+export * from './icon-star';
 export * from './icon-home';
 export * from './icon-rus';
 export * from './icon-en';

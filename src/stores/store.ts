@@ -13,11 +13,13 @@ import {
   toasterReducer,
   smartSearchReducer,
   doctorsPageReducer,
+  settingsReducer,
 } from './slices';
 
 export const makeStore = () =>
   configureStore({
     reducer: {
+      settings: settingsReducer,
       toaster: toasterReducer,
       smartSearch: smartSearchReducer,
       doctorsPage: doctorsPageReducer,

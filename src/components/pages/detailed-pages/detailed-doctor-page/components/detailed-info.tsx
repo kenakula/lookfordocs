@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { ButtonComponent } from '@/components';
+import { ButtonComponent, TestimonialDialog } from '@/components';
 import { IDoctor, ITestimonial } from '@/shared/types';
 import { useShowedCards } from '@/shared/hooks';
 import {
@@ -23,9 +23,10 @@ interface Props {
 }
 
 export const DetailedInfo = ({
-  data: { longText, nosologies, education },
+  data: { longText, nosologies, education, id: docId },
   testimonials,
 }: Props): JSX.Element => {
+  const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
   const [testimonialsExpanded, setTestimonialsExpanded] = useState(false);
   const { showedCards, leftCards, hasHiddenCards } =
     useShowedCards<ITestimonial>(
@@ -36,6 +37,14 @@ export const DetailedInfo = ({
 
   const handleExpandTestimonials = (): void => {
     setTestimonialsExpanded(prev => !prev);
+  };
+
+  const handleOpenTestimonialsDialog = (): void => {
+    setTestimonialDialogOpen(true);
+  };
+
+  const handleCloseTestimonialsDialog = (): void => {
+    setTestimonialDialogOpen(false);
   };
 
   return (
@@ -60,6 +69,7 @@ export const DetailedInfo = ({
               text="Оставить отзыв"
               variant="outlined"
               fullWidth
+              onClick={handleOpenTestimonialsDialog}
             />
           ) : null}
         </StyledDetailInfoBlockHeader>
@@ -90,6 +100,7 @@ export const DetailedInfo = ({
             text="Оставить отзыв"
             variant="contained"
             fullWidth
+            onClick={handleOpenTestimonialsDialog}
           />
         </Box>
       </StyledDetailInfoBlock>
@@ -119,6 +130,12 @@ export const DetailedInfo = ({
           <DetailedDoctorEducation data={education} />
         </StyledDetailInfoBlock>
       )}
+      <TestimonialDialog
+        opened={testimonialDialogOpen}
+        onClose={handleCloseTestimonialsDialog}
+        type="doctor"
+        entityId={docId}
+      />
     </StyledDetailedInfo>
   );
 };

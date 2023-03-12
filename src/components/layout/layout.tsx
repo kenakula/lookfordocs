@@ -1,9 +1,10 @@
 import { Header, Footer } from '@/components';
+import { useSaveSiteSettings } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
 
 interface Props {
   children: React.ReactNode;
-  siteSettings: ISiteSettings | null;
+  siteSettings: ISiteSettings;
   isMainPage?: boolean;
   isDetailedPage?: boolean;
 }
@@ -14,6 +15,8 @@ export const Layout = ({
   isMainPage = false,
   isDetailedPage = false,
 }: Props) => {
+  useSaveSiteSettings(siteSettings);
+
   return (
     <>
       {siteSettings && (

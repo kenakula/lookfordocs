@@ -27,7 +27,7 @@ export const globalApi = createApi({
         url: '/site_settings',
         params: {
           fields:
-            'logo.*, documents, copyrights, socials, footerLinks, navigation',
+            'logo.*, documents, copyrights, socials, footerLinks, navigation, testimonialsLimit',
         },
       }),
       transformResponse: (response: SingletonResponse<ISiteSettings>) =>
