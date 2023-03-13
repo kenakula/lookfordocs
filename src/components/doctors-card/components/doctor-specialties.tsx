@@ -1,6 +1,6 @@
-import { StyledSpecialtiesList } from './styled-components';
 import { SpecialtyRef } from '@/shared/types';
 import { capitalize } from '@/shared/assets';
+import { StyledSpecialtiesList } from './styled-components';
 
 interface Props {
   list: SpecialtyRef[];

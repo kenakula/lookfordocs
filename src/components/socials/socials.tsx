@@ -1,7 +1,7 @@
 import { IconButton, styled } from '@mui/material';
 import Link from 'next/link';
-import { IconEmail, IconWatsapp, IconTelegram } from '../icons';
 import { ISocial, SocialType } from '@/shared/types';
+import { IconEmail, IconWatsapp, IconTelegram } from '../icons';
 
 const StyledSocials = styled('ul', {
   shouldForwardProp: prop => prop !== 'dense',

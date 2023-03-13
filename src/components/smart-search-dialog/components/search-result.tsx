@@ -1,12 +1,12 @@
 import { LinearProgress, Typography } from '@mui/material';
-import { StyledSearchResult } from './styled-components';
-import { ResultList } from './result-list';
 import {
   FilterFormModel,
   ISmartSearchResult,
   SmartSearchQuery,
   SmartSearchStatus,
 } from '@/shared/types';
+import { StyledSearchResult } from './styled-components';
+import { ResultList } from './result-list';
 
 const isResultEmpty = (result: ISmartSearchResult[]): boolean => {
   const arr = result.map(item => item.list).flat();

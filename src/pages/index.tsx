@@ -95,19 +95,23 @@ export default function Home({
 
   return (
     <Layout siteSettings={siteSettings} isMainPage>
-      {pageSettings ? (
-        <h1 className="visually-hidden">{pageSettings[0].h1 ?? ''}</h1>
-      ) : null}
-      <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
+      {pageSettings && (
+        <>
+          <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
+          <PageSeo pageSettings={pageSettings[0]} />
+        </>
+      )}
       {promoData && <MainPromo promoData={promoData} />}
       <MainAppointment appointmentData={appointmentData} />
-      <MainPopular
-        specialties={specialties}
-        countedSpecialties={countedSpecialties}
-      />
-      <MainServices services={services} />
+      {specialties && countedSpecialties ? (
+        <MainPopular
+          specialties={specialties}
+          countedSpecialties={countedSpecialties}
+        />
+      ) : null}
+      {services && <MainServices services={services} />}
       {insurances && <MainInsurances insurances={insurances} />}
-      <MainAdvantages advantages={advantages} />
+      {advantages && <MainAdvantages advantages={advantages} />}
       {testimonials && <MainTestimonials testimonials={testimonials} />}
     </Layout>
   );

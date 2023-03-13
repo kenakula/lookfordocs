@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import { Control } from 'react-hook-form';
-import { FilterGroupComponent } from './filter-group-component';
 import {
   ISpecialty,
   IGlobalService,
@@ -10,6 +9,7 @@ import {
   IClinic,
 } from '@/shared/types';
 import { useAppSelector } from '@/stores';
+import { FilterGroupComponent } from './filter-group-component';
 
 interface Props {
   specialties: ISpecialty[];

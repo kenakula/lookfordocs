@@ -1,6 +1,8 @@
+import { Typography } from '@mui/material';
 import { InferGetStaticPropsType } from 'next';
 import {
   BreadcrumbsComponent,
+  ContainerComponent,
   DoctorsFilter,
   Layout,
   PageResult,
@@ -17,6 +19,7 @@ import getRunningDoctorsPageQueries, {
   getDoctorsInsurances,
   getDoctorsLanguages,
   getDoctorsClinics,
+  getDoctorsTestimonials,
 } from '@/stores/api/doctors-page.api';
 
 const PAGE_SLUG = 'doctors';
@@ -34,6 +37,9 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
   const insurances = await store.dispatch(getDoctorsInsurances.initiate());
   const languages = await store.dispatch(getDoctorsLanguages.initiate());
   const clinics = await store.dispatch(getDoctorsClinics.initiate());
+  const docrorsTestimonials = await store.dispatch(
+    getDoctorsTestimonials.initiate(),
+  );
 
   await Promise.all([
     ...store.dispatch(getRunningGlobalQueries()),
@@ -50,38 +56,58 @@ export const getStaticProps = wrapper.getStaticProps(store => async () => {
       insurances: insurances.data ?? null,
       languages: languages.data ?? null,
       clinics: clinics.data ?? null,
+      doctorsTestimonials: docrorsTestimonials.data ?? null,
     },
   };
 });
 
 const DoctorsPage = ({
+  doctorsTestimonials,
+  globalServices,
   siteSettings,
   pageSettings,
   specialties,
-  promoData,
   insurances,
-  globalServices,
+  promoData,
   languages,
   clinics,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+  const dataNotFound =
+    !siteSettings ||
+    !pageSettings ||
+    !specialties ||
+    !insurances ||
+    !globalServices ||
+    !languages ||
+    !clinics ||
+    !promoData ||
+    !doctorsTestimonials;
+
+  if (dataNotFound) {
+    return (
+      <ContainerComponent>
+        <Typography textAlign="center">Not Found</Typography>
+      </ContainerComponent>
+    );
+  }
+
   return (
     <Layout siteSettings={siteSettings}>
       {pageSettings ? (
-        <h1 className="visually-hidden">{pageSettings[0].h1 ?? ''}</h1>
+        <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
       ) : null}
-      <PageSeo pageSettings={pageSettings ? pageSettings[0] : null} />
+      <PageSeo pageSettings={pageSettings[0]} />
       <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
-      {promoData && <Promo promoData={promoData} />}
+      <Promo promoData={promoData} />
       <PageResult>
-        {specialties && globalServices && insurances && languages && clinics ? (
-          <DoctorsFilter
-            specialties={specialties}
-            services={globalServices}
-            insurances={insurances}
-            languages={languages}
-            clinics={clinics}
-          />
-        ) : null}
+        <DoctorsFilter
+          specialties={specialties}
+          services={globalServices}
+          insurances={insurances}
+          languages={languages}
+          clinics={clinics}
+          docsTestimonials={doctorsTestimonials}
+        />
       </PageResult>
     </Layout>
   );

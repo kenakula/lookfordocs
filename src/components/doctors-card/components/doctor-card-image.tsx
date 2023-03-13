@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
-import { StyledImage } from './styled-components';
 import { DOCTORS_PAGE, getImageUrl } from '@/shared/assets';
+import { StyledImage } from './styled-components';
 
 interface Props {
   isDetailedPage: boolean;

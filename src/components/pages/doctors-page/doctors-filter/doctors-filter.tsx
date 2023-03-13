@@ -25,6 +25,7 @@ import {
   FilterGroupValue,
   IClinic,
   IDoctor,
+  IDoctorsTestimonials,
   IGlobalService,
   IInsurance,
   ILanguage,
@@ -50,9 +51,11 @@ interface Props {
   insurances: IInsurance[];
   languages: ILanguage[];
   clinics: IClinic[];
+  docsTestimonials: IDoctorsTestimonials[];
 }
 
 export const DoctorsFilter = ({
+  docsTestimonials,
   specialties,
   insurances,
   languages,
@@ -310,6 +313,7 @@ export const DoctorsFilter = ({
             doctorsList={data}
             fetching={isFetching}
             error={isError}
+            doctorsTestimonials={docsTestimonials}
           />
           {data && totalItemsCount ? (
             <PaginationComponent

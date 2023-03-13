@@ -1,5 +1,5 @@
-import { Header } from '../header/header';
-import { Footer } from '../footer/footer';
+import { Header, Footer } from '@/components';
+import { useSaveSiteSettings } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
 
 interface Props {
@@ -15,6 +15,8 @@ export const Layout = ({
   isMainPage = false,
   isDetailedPage = false,
 }: Props) => {
+  useSaveSiteSettings(siteSettings);
+
   return (
     <>
       {siteSettings && (

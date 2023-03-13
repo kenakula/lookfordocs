@@ -1,10 +1,10 @@
-import { ContainerComponent } from '../container-component/container-component';
-import { ChipComponent } from '../chip-component/chip-component';
-import { ButtonComponent } from '../button-component/button-component';
-import { Becas } from '../icons';
-import { StyledChips, StyledPromoSection } from './components';
 import { Subtitle, Title } from '@/shared/assets';
 import { IPromoBlockData } from '@/shared/types';
+import { ContainerComponent } from '@/components';
+import { Becas } from '@/components/icons';
+import { ChipComponent } from '../chip-component/chip-component';
+import { ButtonComponent } from '../button-component/button-component';
+import { StyledChips, StyledPromoSection } from './components';
 
 interface Props {
   promoData: IPromoBlockData;

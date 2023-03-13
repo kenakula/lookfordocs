@@ -3,17 +3,14 @@ import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-
 import { wrapper } from '@/stores';
-import { getSiteSettings, getDocInfo } from '@/stores/api';
+import { getSiteSettings, getDocInfo, getDocsTestimonials } from '@/stores/api';
 import { axiosClient } from '@/stores/assets';
 import getRunningGlobalQueries, {
   getGlobalCities,
   getGlobalInsurances,
 } from '@/stores/api/global.api';
-import getRunningDoctorQueries, {
-  getDocsTestimonials,
-} from '@/stores/api/doctor.api';
+import getRunningDoctorQueries from '@/stores/api/doctor.api';
 import {
   BreadcrumbsComponent,
   ContainerComponent,
@@ -103,8 +100,7 @@ const DoctorPage = ({
   cities,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  const someDataFailed =
-    !siteSettings || !doctorInfo || !cities || !insurances || !testimonials;
+  const someDataFailed = !siteSettings;
 
   if (router.isFallback) {
     return (
@@ -124,30 +120,38 @@ const DoctorPage = ({
 
   return (
     <Layout siteSettings={siteSettings} isDetailedPage>
-      <PageSeo
-        pageSettings={{
-          pageTitle: getSeoDoctorPageTitle(
-            doctorInfo.firstName,
-            doctorInfo.lastName,
-          ),
-          pageDescription: doctorInfo.shortText ?? '',
-        }}
-      />
-      <BreadcrumbsComponent
-        crumbs={[
-          { text: 'Врачи', link: DOCTORS_PAGE },
-          { text: capitilizeName(doctorInfo.firstName, doctorInfo.lastName) },
-        ]}
-      />
-      <h1 className="visually-hidden">
-        {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
-      </h1>
-      <DetailedDoctorPage
-        data={doctorInfo}
-        cities={cities}
-        insurances={insurances}
-        testimonials={testimonials}
-      />
+      {doctorInfo ? (
+        <>
+          <PageSeo
+            pageSettings={{
+              pageTitle: getSeoDoctorPageTitle(
+                doctorInfo.firstName,
+                doctorInfo.lastName,
+              ),
+              pageDescription: doctorInfo.shortText ?? '',
+            }}
+          />
+          <BreadcrumbsComponent
+            crumbs={[
+              { text: 'Врачи', link: DOCTORS_PAGE },
+              {
+                text: capitilizeName(doctorInfo.firstName, doctorInfo.lastName),
+              },
+            ]}
+          />
+          <h1 className="visually-hidden">
+            {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
+          </h1>
+        </>
+      ) : null}
+      {doctorInfo && cities && insurances && testimonials ? (
+        <DetailedDoctorPage
+          data={doctorInfo}
+          cities={cities}
+          insurances={insurances}
+          testimonials={testimonials}
+        />
+      ) : null}
     </Layout>
   );
 };

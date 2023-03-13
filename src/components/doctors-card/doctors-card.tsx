@@ -20,11 +20,14 @@ import {
   StyledClinics,
   DoctorGlobalServices,
   DoctorCardImage,
+  DoctorCardRating,
 } from './components';
 
 interface Props {
   data: IDoctor;
   detailedLocation?: boolean;
+  rating?: number;
+  testimonialsCount?: number;
 }
 
 export const DoctorsCard = ({
@@ -42,6 +45,8 @@ export const DoctorsCard = ({
     reembolso,
   },
   detailedLocation = false,
+  rating,
+  testimonialsCount,
 }: Props): JSX.Element => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetCardHeight(cardRef);
@@ -55,10 +60,10 @@ export const DoctorsCard = ({
   return (
     <StyledDoctorsCard
       multipleClinics={clinics.length > 1}
-      detailedLocation={!!detailedLocation}
+      detailedLocation={detailedLocation}
     >
       <StyledCardBody
-        detailedLocation={!!detailedLocation}
+        detailedLocation={detailedLocation}
         className="doctor-card-main"
         ref={cardRef}
       >
@@ -69,9 +74,16 @@ export const DoctorsCard = ({
               docID={id}
               docName={doctorName}
               imageId={image.id}
-              isDetailedPage={!!detailedLocation}
+              isDetailedPage={detailedLocation}
             />
             <DoctorGlobalServices list={globalServices} />
+            {rating && isDesktop ? (
+              <DoctorCardRating
+                rating={rating}
+                testimonialsCount={testimonialsCount}
+                detaiedLocation={detailedLocation}
+              />
+            ) : null}
           </Box>
           {!isDesktop && (
             <StyledInfo>
@@ -83,6 +95,13 @@ export const DoctorsCard = ({
                 </Typography>
               )}
               <DoctorLanguages list={lang} />
+              {rating ? (
+                <DoctorCardRating
+                  rating={rating}
+                  testimonialsCount={testimonialsCount}
+                  detaiedLocation={detailedLocation}
+                />
+              ) : null}
             </StyledInfo>
           )}
         </DoctorCardInfo>

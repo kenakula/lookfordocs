@@ -7,12 +7,13 @@ import {
   DetailedInfo,
   StyledDetailedPageLayout,
 } from './components';
+import { useMemo } from 'react';
 
 interface Props {
   data: IDoctor;
   cities: ICity[];
   insurances: IInsurance[];
-  testimonials: ITestimonial[];
+  testimonials?: ITestimonial[];
 }
 
 export const DetailedDoctorPage = ({
@@ -22,14 +23,30 @@ export const DetailedDoctorPage = ({
   testimonials,
 }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
+  const testimonialsCount = testimonials ? testimonials.length : undefined;
+  const avarageRating = useMemo(() => {
+    if (!testimonials) {
+      return undefined;
+    }
+
+    const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
+    return sum === 0 ? 0 : sum / testimonials.length;
+  }, [testimonials]);
 
   return (
     <ContainerComponent>
       <StyledDetailedPageLayout>
         <h2 className="visually-hidden">Общая информация о враче</h2>
         <Box className="detailed-left-column">
-          <DoctorsCard data={data} detailedLocation />
-          {isTablet && <DetailedInfo data={data} testimonials={testimonials} />}
+          <DoctorsCard
+            data={data}
+            detailedLocation
+            rating={avarageRating}
+            testimonialsCount={testimonialsCount}
+          />
+          {isTablet && testimonials ? (
+            <DetailedInfo data={data} testimonials={testimonials} />
+          ) : null}
         </Box>
         <Box className="detailed-right-column">
           <Box className="sticky-block">
@@ -48,7 +65,11 @@ export const DetailedDoctorPage = ({
             />
           </Box>
         </Box>
-        {!isTablet && <DetailedInfo data={data} testimonials={testimonials} />}
+        <Box sx={{ overflow: 'hidden' }}>
+          {!isTablet && testimonials ? (
+            <DetailedInfo data={data} testimonials={testimonials} />
+          ) : null}
+        </Box>
       </StyledDetailedPageLayout>
     </ContainerComponent>
   );

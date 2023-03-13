@@ -1,10 +1,10 @@
 import { Box, Typography } from '@mui/material';
 import { StyledCard } from './styled-components';
+import { ITestimonial } from '@/shared/types';
 import { ClinicHeader } from './clinic-header';
 import { DoctorHeader } from './doctor-header';
 import { AppHeader } from './app-header';
 import { InsuranceHeader } from './insurance-header';
-import { ITestimonial } from '@/shared/types';
 
 interface Props {
   data: ITestimonial;

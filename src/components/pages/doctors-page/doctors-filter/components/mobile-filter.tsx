@@ -1,9 +1,5 @@
 import { Box, IconButton, Typography } from '@mui/material';
 import { Control } from 'react-hook-form';
-import { StyledMobileFilter } from './styled-components';
-import { FiltersList } from './filters-list';
-import { ClearFiltersButton } from './clear-filters-button';
-import { FiltersCounter } from './filters-counter';
 import { IconClose } from '@/components/icons';
 import {
   ISpecialty,
@@ -15,6 +11,10 @@ import {
 } from '@/shared/types';
 import { ButtonComponent } from '@/components/button-component/button-component';
 import { useAppSelector } from '@/stores';
+import { StyledMobileFilter } from './styled-components';
+import { FiltersList } from './filters-list';
+import { ClearFiltersButton } from './clear-filters-button';
+import { FiltersCounter } from './filters-counter';
 
 interface Props {
   open: boolean;

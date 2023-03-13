@@ -1,8 +1,8 @@
 import { Box, Button, Pagination, styled } from '@mui/material';
-import { IconArrowLeft } from '../icons';
-import { IconArrowRight } from '../icons/icon-arrow-right';
 import { DOCTORS_PAGE_LIMIT } from '@/stores/api';
 import { getTypography } from '@/shared/assets';
+import { IconArrowLeft } from '../icons';
+import { IconArrowRight } from '../icons/icon-arrow-right';
 
 const StyledPagination = styled(Box)(({ theme }) => ({
   display: 'flex',

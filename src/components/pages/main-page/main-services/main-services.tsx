@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
-import { StyledInner, StyledList, StyledService } from './components';
 import { getImageUrl, PageSection, Title } from '@/shared/assets';
-import { IMainService } from '@/shared/types/main-service.type';
-import { ContainerComponent } from '@/components/container-component/container-component';
+import { IMainService } from '@/shared/types';
+import { ContainerComponent } from '@/components';
+import { StyledInner, StyledList, StyledService } from './components';
 
 interface Props {
   services: IMainService[] | null;

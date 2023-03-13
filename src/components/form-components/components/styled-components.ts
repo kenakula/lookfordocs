@@ -1,4 +1,5 @@
-import { Checkbox, styled } from '@mui/material';
+import { Box, Checkbox, Input, styled } from '@mui/material';
+import { getTypography } from '@/shared/assets';
 
 export const CheckboxIcon = styled('span', { label: 'unchecked' })(
   ({ theme }) => ({
@@ -31,3 +32,75 @@ export const CheckboxCheckedIcon = styled(CheckboxIcon, { label: 'checked' })(
 export const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
   marginRight: theme.spacing(0.25),
 }));
+
+export const StyledInputWrapper = styled(Box)(({ theme }) => ({
+  '.MuiFormHelperText-root': {
+    color: theme.palette.error.light,
+  },
+}));
+
+export const StyledInputLabel = styled('label')(({ theme }) => ({
+  ...getTypography(theme, 16, 20),
+  display: 'block',
+  marginBottom: theme.spacing(2),
+  fontWeight: 500,
+}));
+
+export const StyledInputComponent = styled(Input, {
+  shouldForwardProp: prop => prop !== 'limit',
+})<{ limit?: number }>(({ theme, color, limit, value }) => {
+  const textLength = limit ? limit - (value as string).length : 0;
+  let counterColor = theme.palette.text.disabled;
+
+  if (textLength < 20 && textLength >= 0) {
+    counterColor = theme.palette.warning.light;
+  }
+
+  if (textLength < 0) {
+    counterColor = theme.palette.error.main;
+  }
+
+  return {
+    ...getTypography(theme, 16, 20),
+    display: 'flex',
+    padding: 0,
+    border: `1px solid ${
+      color === 'error' ? theme.palette.error.light : theme.palette.misc.light
+    }`,
+    borderRadius: theme.shape.borderRadius,
+    color: theme.palette.text.secondary,
+
+    '&:hover': {
+      '&::before': {
+        border: 'none !important',
+      },
+    },
+
+    '&::before, &::after': {
+      display: 'none',
+    },
+
+    '&::before': limit
+      ? {
+          ...getTypography(theme, 12, 16),
+          left: 'auto',
+          right: 7,
+          bottom: 3,
+          display: 'inline-block',
+          content: `"${textLength}"`,
+          border: 'none',
+          color: counterColor,
+        }
+      : {},
+
+    input: {
+      padding: theme.spacing(0, 2),
+      minHeight: 48,
+    },
+
+    textarea: {
+      padding: theme.spacing(2),
+      minHeight: 120,
+    },
+  };
+});

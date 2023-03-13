@@ -1,16 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  axiosClient,
-  AxiosResponse,
-  getClinicsFilterString,
-  getDoctorsFilterString,
-  getGlobalServicesFilterString,
-  getInsurancesFilterString,
-  getLanguagesFilterString,
-  getSpecialtiesFilterString,
-} from '../assets';
-import {
   IClinic,
   IDoctor,
   IGlobalService,
@@ -20,6 +10,16 @@ import {
   ISpecialty,
   SmartSearchStatus,
 } from '@/shared/types';
+import {
+  axiosClient,
+  AxiosResponse,
+  getClinicsFilterString,
+  getDoctorsFilterString,
+  getGlobalServicesFilterString,
+  getInsurancesFilterString,
+  getLanguagesFilterString,
+  getSpecialtiesFilterString,
+} from '../assets';
 
 type DirectusError = {
   message: string;

@@ -1,14 +1,14 @@
 import { Link as MuiLink } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ButtonComponent } from '@/components';
+import { IInsurance } from '@/shared/types/insurance.type';
+import { getImageUrl, DOCTORS_PAGE } from '@/shared/assets';
 import {
   StyledList,
   StyledCard,
   StyledButtonContainer,
 } from './styled-components';
-import { ButtonComponent } from '@/components';
-import { IInsurance } from '@/shared/types/insurance.type';
-import { getImageUrl, DOCTORS_PAGE } from '@/shared/assets';
 
 const CARD_HEIGHT = 120;
 const CARD_GAP = 12;

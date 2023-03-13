@@ -16,6 +16,7 @@ export interface ISiteSettings {
   copyrights: string;
   documents: IDocumentLink[];
   logo: IImage;
+  testimonialsLimit: number;
 }
 
 export interface INavigation {

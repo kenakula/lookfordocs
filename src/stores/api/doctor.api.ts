@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { CollectionResponse } from '../assets';
 import { IDoctor, ITestimonial } from '@/shared/types';
+import { TestimonialModel } from '@/shared/models';
+import { CollectionResponse } from '../assets';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 
@@ -36,17 +37,30 @@ export const doctorApi = createApi({
           filter: JSON.stringify({
             targetDoctor: { doctors_id: { _eq: docId } },
           }),
-          fields: 'id,type,author,date,comment,targetDoctor.*',
+          fields: 'id,type,author,date,rate,comment,targetDoctor.*',
+          sort: '-date_created',
         },
       }),
       transformResponse: (response: CollectionResponse<ITestimonial>) =>
         response.data,
     }),
+    saveDocTestimonial: builder.mutation<ITestimonial, TestimonialModel>({
+      query: data => ({
+        url: '/testimonials',
+        body: data,
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
-export const { useGetDocInfoQuery, useGetDocsTestimonialsQuery } = doctorApi;
+export const {
+  useGetDocInfoQuery,
+  useGetDocsTestimonialsQuery,
+  useSaveDocTestimonialMutation,
+} = doctorApi;
 
-export const { getDocInfo, getDocsTestimonials } = doctorApi.endpoints;
+export const { getDocInfo, getDocsTestimonials, saveDocTestimonial } =
+  doctorApi.endpoints;
 
 export default doctorApi.util.getRunningQueriesThunk;

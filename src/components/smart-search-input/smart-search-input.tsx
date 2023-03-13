@@ -18,7 +18,7 @@ import {
 import { IconSearch, IconClose } from '@/components/icons';
 import { FilterFormModel, SmartSearchQuery } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
-import { SmartSearchDialog } from '../smart-search-dialog/smart-search-dialog';
+import { SmartSearchDialog } from '@/components';
 import { StyledSearchBox, StyledSearchButton } from './components';
 
 interface Props {

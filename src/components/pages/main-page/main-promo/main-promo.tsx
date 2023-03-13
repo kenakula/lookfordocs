@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
-import { StyledPromoSection } from './components';
 import { DOCTORS_PAGE, Subtitle, Title } from '@/shared/assets';
 import { ContainerComponent, SmartSearchInput } from '@/components';
 import { Becas } from '@/components/icons';
 import { useAppSelector } from '@/stores';
 import { IPromoBlockData } from '@/shared/types';
+import { StyledPromoSection } from './components';
 
 interface Props {
   promoData: IPromoBlockData;

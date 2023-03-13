@@ -1,15 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import {
-  CollectionResponse,
-  getDoctorsQueryString,
-  SingletonResponse,
-} from '../assets';
-import { DoctorsFilterQuery } from '../types';
-import {
   IClinic,
   IDoctor,
   IDoctorCount,
+  IDoctorsTestimonials,
   IGlobalService,
   IInsurance,
   ILanguage,
@@ -17,6 +12,12 @@ import {
   ISpecialty,
   TriggerQueryArgs,
 } from '@/shared/types';
+import {
+  CollectionResponse,
+  getDoctorsQueryString,
+  SingletonResponse,
+} from '../assets';
+import { DoctorsFilterQuery } from '../types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 export const DOCTORS_PAGE_LIMIT = 6;
@@ -117,23 +118,35 @@ export const doctorsPageApi = createApi({
       transformResponse: (response: CollectionResponse<IClinic>) =>
         response.data,
     }),
+    getDoctorsTestimonials: builder.query<IDoctorsTestimonials[], void>({
+      query: () => ({
+        url: '/testimonials_doctors',
+        params: {
+          fields: 'doctors_id.id,testimonials_id.rate',
+        },
+      }),
+      transformResponse: (response: CollectionResponse<IDoctorsTestimonials>) =>
+        response.data,
+    }),
   }),
 });
 
 export const {
-  useGetDoctorsPagePromoDataQuery,
-  useLazyGetDoctorsListQuery,
   useGetDoctorsSpecialtiesListQuery,
+  useGetDoctorsPagePromoDataQuery,
+  useGetDoctorsTestimonialsQuery,
   useGetGlobalServicesListQuery,
   useGetDoctorsInsurancesQuery,
-  useGetDoctorsLanguagesQuery,
-  useGetDoctorsClinicsQuery,
   useLazyGetDoctorsCountQuery,
+  useGetDoctorsLanguagesQuery,
+  useLazyGetDoctorsListQuery,
+  useGetDoctorsClinicsQuery,
 } = doctorsPageApi;
 
 export const {
-  getDoctorsPagePromoData,
   getDoctorsSpecialtiesList,
+  getDoctorsPagePromoData,
+  getDoctorsTestimonials,
   getGlobalServicesList,
   getDoctorsInsurances,
   getDoctorsLanguages,
