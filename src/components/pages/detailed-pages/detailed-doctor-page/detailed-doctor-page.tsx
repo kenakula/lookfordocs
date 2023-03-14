@@ -1,6 +1,6 @@
 import { Box, useMediaQuery } from '@mui/material';
 import { ButtonComponent, ContainerComponent, DoctorsCard } from '@/components';
-import { ICity, IDoctor, IInsurance, ITestimonial } from '@/shared/types';
+import { ICity, IDoctor, IInsurance } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import {
   DetailedDoctorClinics,
@@ -8,21 +8,24 @@ import {
   StyledDetailedPageLayout,
 } from './components';
 import { useMemo } from 'react';
+import { useGetDocsTestimonialsQuery } from '@/stores/api';
 
 interface Props {
   data: IDoctor;
   cities: ICity[];
   insurances: IInsurance[];
-  testimonials?: ITestimonial[];
 }
 
 export const DetailedDoctorPage = ({
   data,
   cities,
   insurances,
-  testimonials,
 }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
+  const { data: testimonials } = useGetDocsTestimonialsQuery(
+    data.id.toString(),
+  );
+
   const testimonialsCount = testimonials ? testimonials.length : undefined;
   const avarageRating = useMemo(() => {
     if (!testimonials) {
@@ -44,7 +47,7 @@ export const DetailedDoctorPage = ({
             rating={avarageRating}
             testimonialsCount={testimonialsCount}
           />
-          {isTablet && testimonials ? (
+          {isTablet ? (
             <DetailedInfo data={data} testimonials={testimonials} />
           ) : null}
         </Box>
@@ -66,7 +69,7 @@ export const DetailedDoctorPage = ({
           </Box>
         </Box>
         <Box sx={{ overflow: 'hidden' }}>
-          {!isTablet && testimonials ? (
+          {!isTablet ? (
             <DetailedInfo data={data} testimonials={testimonials} />
           ) : null}
         </Box>

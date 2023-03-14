@@ -26,7 +26,7 @@ export const DoctorCardRating = ({
   if (!detaiedLocation) {
     return (
       <StyledDoctorRating>
-        <RatingComponent rate={rating} precision={0.5} size="small" showValue />
+        <RatingComponent rate={rating} size="small" showValue />
         {testimonialsCount ? (
           <Typography variant="caption">{ratingText}</Typography>
         ) : null}
@@ -36,7 +36,7 @@ export const DoctorCardRating = ({
 
   return (
     <StyledDoctorRating>
-      <RatingComponent rate={rating} precision={0.5} size="small" showValue />
+      <RatingComponent rate={rating} size="small" showValue />
       {testimonialsCount ? (
         <Link href="#doctor-testimonials">{ratingText}</Link>
       ) : null}

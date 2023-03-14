@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { wrapper } from '@/stores';
-import { getSiteSettings, getDocInfo, getDocsTestimonials } from '@/stores/api';
+import { getSiteSettings, getDocInfo } from '@/stores/api';
 import { axiosClient } from '@/stores/assets';
 import getRunningGlobalQueries, {
   getGlobalCities,
@@ -15,7 +15,9 @@ import {
   BreadcrumbsComponent,
   ContainerComponent,
   DetailedDoctorPage,
+  DetailedDoctorSkeleton,
   Layout,
+  LayoutSkeleton,
   PageSeo,
 } from '@/components';
 import {
@@ -66,9 +68,6 @@ export const getStaticProps: GetStaticProps<DoctorPageProps, PageParams> =
     const cities = await store.dispatch(getGlobalCities.initiate());
     const insurances = await store.dispatch(getGlobalInsurances.initiate());
     const doctorInfo = await store.dispatch(getDocInfo.initiate(docId));
-    const testimonials = await store.dispatch(
-      getDocsTestimonials.initiate(docId),
-    );
 
     await Promise.all([
       ...store.dispatch(getRunningGlobalQueries()),
@@ -87,13 +86,11 @@ export const getStaticProps: GetStaticProps<DoctorPageProps, PageParams> =
         doctorInfo: doctorInfo.data ?? null,
         cities: cities.data ?? null,
         insurances: insurances.data ?? null,
-        testimonials: testimonials.data ?? null,
       },
     };
   });
 
 const DoctorPage = ({
-  testimonials,
   siteSettings,
   doctorInfo,
   insurances,
@@ -104,9 +101,9 @@ const DoctorPage = ({
 
   if (router.isFallback) {
     return (
-      <ContainerComponent>
-        <Typography textAlign="center">Loading...</Typography>
-      </ContainerComponent>
+      <LayoutSkeleton>
+        <DetailedDoctorSkeleton />
+      </LayoutSkeleton>
     );
   }
 
@@ -144,12 +141,11 @@ const DoctorPage = ({
           </h1>
         </>
       ) : null}
-      {doctorInfo && cities && insurances && testimonials ? (
+      {doctorInfo && cities && insurances ? (
         <DetailedDoctorPage
           data={doctorInfo}
           cities={cities}
           insurances={insurances}
-          testimonials={testimonials}
         />
       ) : null}
     </Layout>

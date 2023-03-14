@@ -352,6 +352,12 @@ export const StyledDoctorRating = styled(Box)(({ theme }) => ({
     '&:active': {
       color: theme.palette.primary.dark,
     },
+
+    '&:focus-visible': {
+      outline: 'none',
+      textDecoration: 'underline',
+      color: theme.palette.primary.main,
+    },
   },
 }));
 
@@ -438,6 +444,11 @@ export const StyledClinicCard = styled(Box, {
 
       '&:active': {
         color: theme.palette.primary.dark,
+      },
+
+      '&:focus-visible': {
+        color: theme.palette.primary.main,
+        outline: 'none',
       },
     },
   },

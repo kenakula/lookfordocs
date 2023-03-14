@@ -22,3 +22,4 @@ export * from './header/header';
 export * from './footer/footer';
 export * from './layout/layout';
 export * from './promo/promo';
+export * from './cupboard';

@@ -26,6 +26,7 @@ interface Props<T extends FieldValues> {
 
 export const InputComponent = <T extends FieldValues>({
   errorMessage,
+  placeholoder,
   formControl,
   className,
   multiline,
@@ -56,6 +57,7 @@ export const InputComponent = <T extends FieldValues>({
             limit={limit}
             className={multiline ? 'input-component-multiline' : undefined}
             disabled={disabled}
+            placeholder={placeholoder}
           />
           {error && errorMessage ? (
             <FormHelperText>{errorMessage}</FormHelperText>

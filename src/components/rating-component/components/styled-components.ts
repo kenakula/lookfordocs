@@ -3,10 +3,12 @@ import { Box, Rating, styled } from '@mui/material';
 
 export const StyledRatingWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
+  alignItems: 'center',
   columnGap: theme.spacing(1.5),
 
-  '& > span': {
+  '.rating-number': {
     ...getTypography(theme, 12, 16),
+    marginTop: 2,
     color: theme.palette.primary.dark,
     fontWeight: 600,
   },
@@ -24,6 +26,10 @@ export const StyledRating = styled(Rating)(({ theme, size }) => {
   return {
     color: theme.palette.misc.light,
     marginLeft: theme.spacing(-iconPadding),
+
+    '&.Mui-focusVisible .MuiRating-iconActive': {
+      outline: `1px solid ${theme.palette.primary.light}`,
+    },
 
     svg: {
       width: iconSize,

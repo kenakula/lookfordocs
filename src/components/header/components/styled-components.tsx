@@ -27,6 +27,23 @@ export const StyledHeader = styled(AppBar, {
     },
     '.logo': {
       marginRight: 'auto',
+      transition: theme.transitions.create('opacity'),
+    },
+    [theme.breakpoints.up('lmd')]: {
+      '.logo': {
+        '&:hover': {
+          opacity: 0.7,
+        },
+
+        '&:active': {
+          opacity: 0.5,
+        },
+
+        '&:focus-visible': {
+          outline: 'none',
+          opacity: 0.7,
+        },
+      },
     },
     [theme.breakpoints.up('lg')]: {
       '.MuiToolbar-root': {

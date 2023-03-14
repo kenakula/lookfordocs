@@ -13,7 +13,7 @@ interface Props {
 
 export const RatingComponent = ({
   rate,
-  precision,
+  precision = 0.1,
   interactive = false,
   showValue = false,
   handleChange,
@@ -43,7 +43,9 @@ export const RatingComponent = ({
         size={size}
         readOnly
       />
-      {showValue ? <span>{rate.toFixed(1)}</span> : null}
+      {showValue ? (
+        <span className="rating-number">{rate.toFixed(1)}</span>
+      ) : null}
     </StyledRatingWrapper>
   );
 };

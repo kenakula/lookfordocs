@@ -1,25 +1,21 @@
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
-import { ButtonComponent, TestimonialDialog } from '@/components';
+import { TestimonialDialog } from '@/components';
 import { IDoctor, ITestimonial } from '@/shared/types';
-import { useShowedCards } from '@/shared/hooks';
 import {
   StyledDetailedInfo,
   StyledDetailInfoTitle,
   StyledDetailLongText,
   StyledDetailInfoBlock,
   StyledDetailInfoBlockHeader,
-  StyledDetailedTestimonialList,
 } from './styled-components';
-import { DetailedTestimonialCard } from './detailed-testimonial-card';
 import { DetailedDoctorNosology } from './detailed-doctor-nosology';
 import { DetailedDoctorEducation } from './detailed-doctor-education';
-
-const SHOWED_TESTIMONIALS_COUNT = 4;
+import { DetialedDoctorTestimonials } from './detailed-doctor-testimonials';
+import { Skeleton } from '@mui/material';
 
 interface Props {
   data: IDoctor;
-  testimonials: ITestimonial[];
+  testimonials?: ITestimonial[];
 }
 
 export const DetailedInfo = ({
@@ -27,17 +23,6 @@ export const DetailedInfo = ({
   testimonials,
 }: Props): JSX.Element => {
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
-  const [testimonialsExpanded, setTestimonialsExpanded] = useState(false);
-  const { showedCards, leftCards, hasHiddenCards } =
-    useShowedCards<ITestimonial>(
-      testimonials,
-      testimonialsExpanded,
-      SHOWED_TESTIMONIALS_COUNT,
-    );
-
-  const handleExpandTestimonials = (): void => {
-    setTestimonialsExpanded(prev => !prev);
-  };
 
   const handleOpenTestimonialsDialog = (): void => {
     setTestimonialDialogOpen(true);
@@ -61,52 +46,14 @@ export const DetailedInfo = ({
         </StyledDetailInfoBlock>
       )}
 
-      <StyledDetailInfoBlock
-        className="detailed-info-block"
-        id="doctor-testimonials"
-      >
-        <StyledDetailInfoBlockHeader className="detailed-info-header">
-          <StyledDetailInfoTitle variant="h3">Отзывы</StyledDetailInfoTitle>
-          {testimonials.length ? (
-            <ButtonComponent
-              text="Оставить отзыв"
-              variant="outlined"
-              fullWidth
-              onClick={handleOpenTestimonialsDialog}
-            />
-          ) : null}
-        </StyledDetailInfoBlockHeader>
-
-        {testimonials.length ? (
-          <StyledDetailedTestimonialList>
-            {showedCards.map(item => (
-              <DetailedTestimonialCard key={item.id} data={item} />
-            ))}
-          </StyledDetailedTestimonialList>
-        ) : (
-          <Typography className="detailed-info-empty">
-            Пока нет отзывов
-          </Typography>
-        )}
-        <Box className="detailed-testimonials-buttons">
-          {hasHiddenCards && (
-            <ButtonComponent
-              text={
-                testimonialsExpanded ? 'Скрыть' : `Показать ещё (${leftCards})`
-              }
-              variant="outlined"
-              fullWidth
-              onClick={handleExpandTestimonials}
-            />
-          )}
-          <ButtonComponent
-            text="Оставить отзыв"
-            variant="contained"
-            fullWidth
-            onClick={handleOpenTestimonialsDialog}
-          />
-        </Box>
-      </StyledDetailInfoBlock>
+      {testimonials ? (
+        <DetialedDoctorTestimonials
+          testimonials={testimonials}
+          openDialog={handleOpenTestimonialsDialog}
+        />
+      ) : (
+        <Skeleton height={300} />
+      )}
 
       {nosologies && (
         <StyledDetailInfoBlock className="detailed-info-block">

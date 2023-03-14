@@ -302,13 +302,13 @@ export const DoctorsFilter = ({
         />
         <Box className="filters-result">
           {isLoading && <FilterResultSkeleton />}
-          {data && totalItemsCount && (
+          {data && totalItemsCount ? (
             <Box className="filters-sort">
               <Typography className="filters-total">
                 Найдено врачей: {totalItemsCount}
               </Typography>
             </Box>
-          )}
+          ) : null}
           <FiltersResult
             doctorsList={data}
             fetching={isFetching}

@@ -197,8 +197,10 @@ export const StyledDetailedTestimonial = styled('li')(({ theme }) => ({
     display: 'flex',
     marginBottom: theme.spacing(2),
 
-    span: {
+    '& > span': {
       ...getTypography(theme, 16, 20),
+      marginRight: 'auto',
+      paddingRight: theme.spacing(2),
     },
   },
 
