@@ -14,23 +14,26 @@ export const Promo = ({ promoData }: Props): JSX.Element => {
   return (
     <StyledPromoSection component="section">
       <ContainerComponent>
-        <Title
-          className="title"
-          variant="h2"
-          dangerouslySetInnerHTML={{ __html: promoData.title }}
-        />
-        <Subtitle className="subtitle" variant="body1">
-          {promoData.subtitle}
-        </Subtitle>
-        {promoData.chips ? (
-          <StyledChips className="chips">
-            {promoData.chips.map(chip => (
-              <li key={chip.text}>
-                <ChipComponent data={chip} />
-              </li>
-            ))}
-          </StyledChips>
-        ) : null}
+        <div className="promo-info">
+          <Title
+            className="title"
+            variant="h2"
+            dangerouslySetInnerHTML={{ __html: promoData.title }}
+          />
+          <Subtitle className="subtitle" variant="body1">
+            {promoData.subtitle}
+          </Subtitle>
+          {promoData.chips ? (
+            <StyledChips className="chips">
+              {promoData.chips.map(chip => (
+                <li key={chip.text}>
+                  <ChipComponent data={chip} />
+                </li>
+              ))}
+            </StyledChips>
+          ) : null}
+        </div>
+
         <ButtonComponent
           className="promo-button"
           type="button"

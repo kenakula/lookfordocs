@@ -30,14 +30,16 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
   return (
     <StyledPromoSection component="section" className="main-promo">
       <ContainerComponent>
-        <Title
-          className="title"
-          variant="h2"
-          dangerouslySetInnerHTML={{ __html: promoData.title }}
-        />
-        <Subtitle className="subtitle" variant="body1">
-          {promoData.subtitle}
-        </Subtitle>
+        <div className="promo-info">
+          <Title
+            className="title"
+            variant="h2"
+            dangerouslySetInnerHTML={{ __html: promoData.title }}
+          />
+          <Subtitle className="subtitle" variant="body1">
+            {promoData.subtitle}
+          </Subtitle>
+        </div>
         <SmartSearchInput
           placeholder="Введите врача, специальность или клинику"
           mobilePlaceholder="Врач, специальнось, клиника"
