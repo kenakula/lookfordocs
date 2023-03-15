@@ -10,12 +10,13 @@ export const clinicApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: DIRECTUS_ITEMS_URL,
   }),
+  refetchOnMountOrArgChange: 100,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
     }
   },
-  tagTypes: [],
+  tagTypes: ['clinicApi'],
   endpoints: builder => ({
     getClinicInfo: builder.query<IClinic, string>({
       query: (clinicId: string) => ({

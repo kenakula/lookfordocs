@@ -22,19 +22,18 @@ import { DoctorsFilterQuery } from '../types';
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 export const DOCTORS_PAGE_LIMIT = 6;
 
-// TODO трансформировать ответы без рефов чтобы было
-
 export const doctorsPageApi = createApi({
   reducerPath: 'doctorsPageApi',
   baseQuery: fetchBaseQuery({
     baseUrl: DIRECTUS_ITEMS_URL,
   }),
+  refetchOnMountOrArgChange: 100,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
     }
   },
-  tagTypes: [],
+  tagTypes: ['doctorsPageApi'],
   endpoints: builder => ({
     getDoctorsPagePromoData: builder.query<IPromoBlockData, void>({
       query: () => ({

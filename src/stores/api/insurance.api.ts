@@ -10,12 +10,13 @@ export const insuranceApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: DIRECTUS_ITEMS_URL,
   }),
+  refetchOnMountOrArgChange: 100,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
     }
   },
-  tagTypes: [],
+  tagTypes: ['insuranceApi'],
   endpoints: builder => ({
     getInsuranceInfo: builder.query<IInsurance, string>({
       query: (insuranceId: string) => ({

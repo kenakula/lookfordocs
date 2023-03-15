@@ -16,7 +16,8 @@ export const doctorApi = createApi({
       return action.payload[reducerPath];
     }
   },
-  tagTypes: [],
+  refetchOnMountOrArgChange: 100,
+  tagTypes: ['doctorApi'],
   endpoints: builder => ({
     getDocInfo: builder.query<IDoctor, string>({
       query: (docId: string) => ({

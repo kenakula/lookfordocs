@@ -19,12 +19,13 @@ export const mainPageApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: DIRECTUS_ITEMS_URL,
   }),
+  refetchOnMountOrArgChange: 100,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
     }
   },
-  tagTypes: [],
+  tagTypes: ['mainPageQueries'],
   endpoints: builder => ({
     getMainPagePromoData: builder.query<IPromoBlockData, void>({
       query: () => ({

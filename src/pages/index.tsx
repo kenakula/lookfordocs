@@ -1,18 +1,6 @@
 import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import { InferGetStaticPropsType } from 'next';
-import {
-  ContainerComponent,
-  Layout,
-  MainAdvantages,
-  MainAppointment,
-  MainInsurances,
-  MainPopular,
-  MainPromo,
-  MainServices,
-  MainTestimonials,
-  PageSeo,
-} from '@/components';
 import { wrapper } from '@/stores';
 import {
   getInsurances,
@@ -26,6 +14,18 @@ import {
   getAppointmentData,
   getCountedSpecialties,
 } from '@/stores/api';
+import {
+  ContainerComponent,
+  Layout,
+  MainAdvantages,
+  MainAppointment,
+  MainInsurances,
+  MainPopular,
+  MainPromo,
+  MainServices,
+  MainTestimonials,
+  PageSeo,
+} from '@/components';
 import getRunningMainPageQueries from '@/stores/api/main-page.api';
 import getRunningGlobalQueries from '@/stores/api/global.api';
 
