@@ -1,19 +1,19 @@
+import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
-import { InferGetStaticPropsType } from 'next';
-import { wrapper } from '@/stores';
+import { GetStaticProps } from 'next';
 import {
-  getInsurances,
-  getPopularSpecialtiesList,
-  getServicesList,
-  getSiteSettings,
-  getAdvantages,
-  getTestimonials,
-  getMainPagePromoData,
-  getPageSettings,
-  getAppointmentData,
   getCountedSpecialties,
-} from '@/stores/api';
+  getMainAdvantages,
+  getMainInsurances,
+  getMainPageAppointmentData,
+  getMainPagePromoData,
+  getMainServices,
+  getMainTestimonials,
+  getPageSettings,
+  getPopularSpecialties,
+  getSiteSettings,
+} from '@/api';
 import {
   ContainerComponent,
   Layout,
@@ -26,64 +26,109 @@ import {
   MainTestimonials,
   PageSeo,
 } from '@/components';
-import getRunningMainPageQueries from '@/stores/api/main-page.api';
-import getRunningGlobalQueries from '@/stores/api/global.api';
 
 const PAGE_SLUG = 'main';
 
-export const getStaticProps = wrapper.getStaticProps(store => async () => {
-  const siteSettings = await store.dispatch(getSiteSettings.initiate());
-  const promoData = await store.dispatch(getMainPagePromoData.initiate());
-  const appointmentData = await store.dispatch(getAppointmentData.initiate());
-  const services = await store.dispatch(getServicesList.initiate());
-  const specialties = await store.dispatch(
-    getPopularSpecialtiesList.initiate(),
-  );
-  const countedSpecialties = await store.dispatch(
-    getCountedSpecialties.initiate(),
-  );
-  const insurances = await store.dispatch(getInsurances.initiate());
-  const advantages = await store.dispatch(getAdvantages.initiate());
-  const testimonials = await store.dispatch(getTestimonials.initiate());
+export const getStaticProps: GetStaticProps = async () => {
+  const queryClient = new QueryClient();
 
-  const pageSettings = await store.dispatch(
-    getPageSettings.initiate(PAGE_SLUG),
+  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
+  await queryClient.prefetchQuery(['pageSettings', PAGE_SLUG], () =>
+    getPageSettings(PAGE_SLUG),
   );
-
-  await Promise.all([
-    ...store.dispatch(getRunningMainPageQueries()),
-    ...store.dispatch(getRunningGlobalQueries()),
-  ]);
+  await queryClient.prefetchQuery(['mainPromo'], getMainPagePromoData);
+  await queryClient.prefetchQuery(
+    ['mainAppointment'],
+    getMainPageAppointmentData,
+  );
+  await queryClient.prefetchQuery(
+    ['popularSpecialties'],
+    getPopularSpecialties,
+  );
+  await queryClient.prefetchQuery(
+    ['countedSpecialties'],
+    getCountedSpecialties,
+  );
+  await queryClient.prefetchQuery(['mainServices'], getMainServices);
+  await queryClient.prefetchQuery(['mainInsurances'], getMainInsurances);
+  await queryClient.prefetchQuery(['mainAdvantages'], getMainAdvantages);
+  await queryClient.prefetchQuery(['mainTestimonials'], getMainTestimonials);
 
   return {
     props: {
-      promoData: promoData.data ?? null,
-      services: services.data ?? null,
-      specialties: specialties.data ?? null,
-      countedSpecialties: countedSpecialties.data ?? null,
-      insurances: insurances.data ?? null,
-      siteSettings: siteSettings.data ?? null,
-      advantages: advantages.data ?? null,
-      testimonials: testimonials.data ?? null,
-      appointmentData: appointmentData.data ?? null,
-      pageSettings: pageSettings.data ?? null,
+      dehydratedState: dehydrate(queryClient),
     },
   };
-});
+};
 
-export default function Home({
-  services,
-  specialties,
-  countedSpecialties,
-  siteSettings,
-  advantages,
-  testimonials,
-  promoData,
-  pageSettings,
-  insurances,
-  appointmentData,
-}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
+export default function Home(): JSX.Element {
   const router = useRouter();
+
+  const [
+    { data: siteSettings },
+    { data: pageSettings },
+    { data: promoData },
+    { data: appointmentData },
+    { data: popularSpecialties },
+    { data: countedSpecialties },
+    { data: services },
+    { data: insurances },
+    { data: advantages },
+    { data: testimonials },
+  ] = useQueries({
+    queries: [
+      {
+        queryKey: ['siteSettings'],
+        queryFn: getSiteSettings,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['pageSettings', PAGE_SLUG],
+        queryFn: () => getPageSettings(PAGE_SLUG),
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['mainPromo'],
+        queryFn: getMainPagePromoData,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['mainAppointment'],
+        queryFn: getMainPageAppointmentData,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['popularSpecialties'],
+        queryFn: getPopularSpecialties,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['countedSpecialties'],
+        queryFn: getCountedSpecialties,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['mainServices'],
+        queryFn: getMainServices,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['mainInsurances'],
+        queryFn: getMainInsurances,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['mainAdvantages'],
+        queryFn: getMainAdvantages,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['mainTestimonials'],
+        queryFn: getMainTestimonials,
+        staleTime: Infinity,
+      },
+    ],
+  });
 
   if (router.isFallback) {
     return (
@@ -93,26 +138,36 @@ export default function Home({
     );
   }
 
+  if (siteSettings) {
+    return (
+      <Layout siteSettings={siteSettings} isMainPage>
+        {pageSettings && (
+          <>
+            <h1 className="visually-hidden">{pageSettings.h1}</h1>
+            <PageSeo pageSettings={pageSettings} />
+          </>
+        )}
+        {promoData && <MainPromo promoData={promoData} />}
+        {appointmentData && (
+          <MainAppointment appointmentData={appointmentData} />
+        )}
+        {popularSpecialties && countedSpecialties ? (
+          <MainPopular
+            specialties={popularSpecialties}
+            countedSpecialties={countedSpecialties}
+          />
+        ) : null}
+        {services && <MainServices services={services} />}
+        {insurances && <MainInsurances insurances={insurances} />}
+        {advantages && <MainAdvantages advantages={advantages} />}
+        {testimonials && <MainTestimonials testimonials={testimonials} />}
+      </Layout>
+    );
+  }
+
   return (
-    <Layout siteSettings={siteSettings} isMainPage>
-      {pageSettings && (
-        <>
-          <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
-          <PageSeo pageSettings={pageSettings[0]} />
-        </>
-      )}
-      {promoData && <MainPromo promoData={promoData} />}
-      <MainAppointment appointmentData={appointmentData} />
-      {specialties && countedSpecialties ? (
-        <MainPopular
-          specialties={specialties}
-          countedSpecialties={countedSpecialties}
-        />
-      ) : null}
-      {services && <MainServices services={services} />}
-      {insurances && <MainInsurances insurances={insurances} />}
-      {advantages && <MainAdvantages advantages={advantages} />}
-      {testimonials && <MainTestimonials testimonials={testimonials} />}
-    </Layout>
+    <ContainerComponent>
+      <h1>MainPage</h1>
+    </ContainerComponent>
   );
 }

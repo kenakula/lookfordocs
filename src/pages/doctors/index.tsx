@@ -1,5 +1,17 @@
+import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { Typography } from '@mui/material';
-import { InferGetStaticPropsType } from 'next';
+import { GetStaticProps } from 'next';
+import {
+  getDoctorsClinics,
+  getDoctorsInsurances,
+  getDoctorsPagePromoData,
+  getDoctorsSpecialties,
+  getDoctorsTestimonials,
+  getGlobalServices,
+  getLanguages,
+  getPageSettings,
+  getSiteSettings,
+} from '@/api';
 import {
   BreadcrumbsComponent,
   ContainerComponent,
@@ -9,107 +21,142 @@ import {
   PageSeo,
   Promo,
 } from '@/components';
-import { wrapper } from '@/stores';
-import { getSiteSettings, getPageSettings } from '@/stores/api';
-import getRunningGlobalQueries from '@/stores/api/global.api';
-import getRunningDoctorsPageQueries, {
-  getDoctorsSpecialtiesList,
-  getGlobalServicesList,
-  getDoctorsPagePromoData,
-  getDoctorsInsurances,
-  getDoctorsLanguages,
-  getDoctorsClinics,
-  getDoctorsTestimonials,
-} from '@/stores/api/doctors-page.api';
 
 const PAGE_SLUG = 'doctors';
 
-export const getStaticProps = wrapper.getStaticProps(store => async () => {
-  const siteSettings = await store.dispatch(getSiteSettings.initiate());
-  const pageSettings = await store.dispatch(
-    getPageSettings.initiate(PAGE_SLUG),
-  );
-  const promoData = await store.dispatch(getDoctorsPagePromoData.initiate());
-  const specialties = await store.dispatch(
-    getDoctorsSpecialtiesList.initiate(),
-  );
-  const globalServices = await store.dispatch(getGlobalServicesList.initiate());
-  const insurances = await store.dispatch(getDoctorsInsurances.initiate());
-  const languages = await store.dispatch(getDoctorsLanguages.initiate());
-  const clinics = await store.dispatch(getDoctorsClinics.initiate());
-  const docrorsTestimonials = await store.dispatch(
-    getDoctorsTestimonials.initiate(),
+export const getStaticProps: GetStaticProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
+  await queryClient.prefetchQuery(['pageSettings', PAGE_SLUG], () =>
+    getPageSettings(PAGE_SLUG),
   );
 
-  await Promise.all([
-    ...store.dispatch(getRunningGlobalQueries()),
-    ...store.dispatch(getRunningDoctorsPageQueries()),
-  ]);
+  await queryClient.prefetchQuery(
+    ['doctorsPagePromo'],
+    getDoctorsPagePromoData,
+  );
+  await queryClient.prefetchQuery(
+    ['doctorsSpecialties'],
+    getDoctorsSpecialties,
+  );
+  await queryClient.prefetchQuery(['globalServices'], getGlobalServices);
+  await queryClient.prefetchQuery(['doctorsInsurances'], getDoctorsInsurances);
+  await queryClient.prefetchQuery(['languages'], getLanguages);
+  await queryClient.prefetchQuery(['doctorsClinics'], getDoctorsClinics);
+  await queryClient.prefetchQuery(
+    ['doctorsTestimonials'],
+    getDoctorsTestimonials,
+  );
 
   return {
     props: {
-      siteSettings: siteSettings.data ?? null,
-      pageSettings: pageSettings.data ?? null,
-      promoData: promoData.data ?? null,
-      specialties: specialties.data ?? null,
-      globalServices: globalServices.data ?? null,
-      insurances: insurances.data ?? null,
-      languages: languages.data ?? null,
-      clinics: clinics.data ?? null,
-      doctorsTestimonials: docrorsTestimonials.data ?? null,
+      dehydratedState: dehydrate(queryClient),
     },
   };
-});
+};
 
-const DoctorsPage = ({
-  doctorsTestimonials,
-  globalServices,
-  siteSettings,
-  pageSettings,
-  specialties,
-  insurances,
-  promoData,
-  languages,
-  clinics,
-}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
-  const dataNotFound =
-    !siteSettings ||
-    !pageSettings ||
-    !specialties ||
-    !insurances ||
-    !globalServices ||
-    !languages ||
-    !clinics ||
-    !promoData ||
-    !doctorsTestimonials;
+const DoctorsPage = (): JSX.Element => {
+  const [
+    { data: siteSettings },
+    { data: pageSettings },
+    { data: promoData },
+    { data: specialties },
+    { data: globalServices },
+    { data: insurances },
+    { data: languages },
+    { data: clinics },
+    { data: doctorsTestimonials },
+  ] = useQueries({
+    queries: [
+      {
+        queryKey: ['siteSettings'],
+        queryFn: getSiteSettings,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['pageSettings', PAGE_SLUG],
+        queryFn: () => getPageSettings(PAGE_SLUG),
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['doctorsPagePromo'],
+        queryFn: getDoctorsPagePromoData,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['doctorsSpecialties'],
+        queryFn: getDoctorsSpecialties,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['globalServices'],
+        queryFn: getGlobalServices,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['doctorsInsurances'],
+        queryFn: getDoctorsInsurances,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['languages'],
+        queryFn: getLanguages,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['doctorsClinics'],
+        queryFn: getDoctorsClinics,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['doctorsTestimonials'],
+        queryFn: getDoctorsTestimonials,
+        staleTime: Infinity,
+      },
+    ],
+  });
 
-  if (dataNotFound) {
+  const hasData =
+    specialties &&
+    globalServices &&
+    insurances &&
+    languages &&
+    clinics &&
+    doctorsTestimonials;
+
+  if (siteSettings) {
     return (
-      <ContainerComponent>
-        <Typography textAlign="center">Not Found</Typography>
-      </ContainerComponent>
+      <Layout siteSettings={siteSettings}>
+        {pageSettings ? (
+          <>
+            <h1 className="visually-hidden">{pageSettings.h1}</h1>
+            <PageSeo pageSettings={pageSettings} />
+          </>
+        ) : null}
+
+        <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
+        {promoData && <Promo promoData={promoData} />}
+        {hasData ? (
+          <PageResult>
+            <DoctorsFilter
+              specialties={specialties}
+              services={globalServices}
+              insurances={insurances}
+              languages={languages}
+              clinics={clinics}
+              docsTestimonials={doctorsTestimonials}
+            />
+          </PageResult>
+        ) : null}
+      </Layout>
     );
   }
 
   return (
-    <Layout siteSettings={siteSettings}>
-      {pageSettings ? (
-        <h1 className="visually-hidden">{pageSettings[0].h1}</h1>
-      ) : null}
-      <PageSeo pageSettings={pageSettings[0]} />
-      <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
-      <Promo promoData={promoData} />
-      <PageResult>
-        <DoctorsFilter
-          specialties={specialties}
-          services={globalServices}
-          insurances={insurances}
-          languages={languages}
-          clinics={clinics}
-          docsTestimonials={doctorsTestimonials}
-        />
-      </PageResult>
-    </Layout>
+    <ContainerComponent>
+      <Typography textAlign="center">Not Found</Typography>
+    </ContainerComponent>
   );
 };
 

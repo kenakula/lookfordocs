@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { IDoctor, ITestimonial } from '@/shared/types';
+import { ITestimonial } from '@/shared/types';
 import { TestimonialModel } from '@/shared/models';
 import { CollectionResponse } from '../assets';
 
@@ -19,18 +19,6 @@ export const doctorApi = createApi({
   refetchOnMountOrArgChange: 100,
   tagTypes: ['doctorApi'],
   endpoints: builder => ({
-    getDocInfo: builder.query<IDoctor, string>({
-      query: (docId: string) => ({
-        url: '/doctors',
-        params: {
-          filter: JSON.stringify({ id: { _eq: docId } }),
-          fields:
-            'id,firstName,lastName,shortText,longText,perks,services,reembolso,nosologies,education,image.*,gender,specialties.specialties_id.*,lang.languages_id.*,insurances.insurances_id.*,clinics.clinics_id.*,globalServices.globalServices_id.*',
-        },
-      }),
-      transformResponse: (response: CollectionResponse<IDoctor>) =>
-        response.data[0],
-    }),
     getDocsTestimonials: builder.query<ITestimonial[], string>({
       query: (docId: string) => ({
         url: '/testimonials',
@@ -55,13 +43,9 @@ export const doctorApi = createApi({
   }),
 });
 
-export const {
-  useGetDocInfoQuery,
-  useGetDocsTestimonialsQuery,
-  useSaveDocTestimonialMutation,
-} = doctorApi;
+export const { useGetDocsTestimonialsQuery, useSaveDocTestimonialMutation } =
+  doctorApi;
 
-export const { getDocInfo, getDocsTestimonials, saveDocTestimonial } =
-  doctorApi.endpoints;
+export const { getDocsTestimonials, saveDocTestimonial } = doctorApi.endpoints;
 
 export default doctorApi.util.getRunningQueriesThunk;

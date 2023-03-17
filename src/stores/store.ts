@@ -5,7 +5,6 @@ import {
   doctorApi,
   globalApi,
   mainPageApi,
-  clinicApi,
   insuranceApi,
   doctorsPageApi,
 } from './api';
@@ -26,7 +25,6 @@ export const makeStore = () =>
       [mainPageApi.reducerPath]: mainPageApi.reducer,
       [globalApi.reducerPath]: globalApi.reducer,
       [doctorApi.reducerPath]: doctorApi.reducer,
-      [clinicApi.reducerPath]: clinicApi.reducer,
       [insuranceApi.reducerPath]: insuranceApi.reducer,
       [doctorsPageApi.reducerPath]: doctorsPageApi.reducer,
     },
@@ -35,7 +33,6 @@ export const makeStore = () =>
         mainPageApi.middleware,
         globalApi.middleware,
         doctorApi.middleware,
-        clinicApi.middleware,
         insuranceApi.middleware,
         doctorsPageApi.middleware,
       ]),
