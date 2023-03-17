@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { IDoctorCount, TriggerQueryArgs } from '@/shared/types';
+import { IDoctor, IDoctorCount, TriggerQueryArgs } from '@/shared/types';
 import { CollectionResponse, getDoctorsQueryString } from '../assets';
 import { DoctorsFilterQuery } from '../types';
 
@@ -20,6 +20,22 @@ export const doctorsPageApi = createApi({
   },
   tagTypes: ['doctorsPageApi'],
   endpoints: builder => ({
+    getDoctorsList: builder.query<
+      IDoctor[],
+      TriggerQueryArgs<DoctorsFilterQuery>
+    >({
+      query: ({ filter, page, limit }) => ({
+        url: '/doctors?fields=*.*,specialties.specialties_id.*,clinics.clinics_id.*,insurances.insurances_id.*,lang.languages_id.*,globalServices.globalServices_id.*&fields=clinics.clinics_id.cities.cities_id.*.*&fields=clinics.clinics_id.insurances.insurances_id.*.*',
+        params: {
+          filter: getDoctorsQueryString(filter),
+          sort: '-image',
+          page,
+          limit,
+        },
+      }),
+      transformResponse: (response: CollectionResponse<IDoctor>) =>
+        response.data,
+    }),
     getDoctorsCount: builder.query<
       IDoctorCount,
       TriggerQueryArgs<DoctorsFilterQuery>
@@ -37,6 +53,9 @@ export const doctorsPageApi = createApi({
   }),
 });
 
-export const { useLazyGetDoctorsCountQuery } = doctorsPageApi;
+export const { useLazyGetDoctorsCountQuery, useLazyGetDoctorsListQuery } =
+  doctorsPageApi;
 
 export const { getDoctorsCount } = doctorsPageApi.endpoints;
+
+export default doctorsPageApi.util.getRunningQueriesThunk;
