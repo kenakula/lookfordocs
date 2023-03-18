@@ -55,7 +55,7 @@ export const DoctorsFilter = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
-  const { getDoctorsCount, totalItemsCount } = usePaginationQuery<
+  const { getItemsCount, totalItemsCount } = usePaginationQuery<
     DoctorsFilterQuery,
     typeof useLazyGetDoctorsCountQuery
   >(useLazyGetDoctorsCountQuery);
@@ -74,7 +74,7 @@ export const DoctorsFilter = ({
     isLoading,
     isError,
   } = useBuildQuery({
-    getDoctorsCount,
+    getItemsCount,
     specialties,
     insurances,
     languages,

@@ -14,7 +14,7 @@ export const usePaginationQuery = <
   lazyCountQuery: LazyQueryType,
 ): {
   totalItemsCount: number | null;
-  getDoctorsCount: (queryObj: QueryType) => void;
+  getItemsCount: (queryObj: QueryType) => void;
 } => {
   const router = useRouter();
   const [triggerQuery, { data }] = lazyCountQuery();
@@ -28,12 +28,12 @@ export const usePaginationQuery = <
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady, triggerQuery]);
 
-  const getDoctorsCount = (queryObj: QueryType): void => {
+  const getItemsCount = (queryObj: QueryType): void => {
     triggerQuery({ filter: queryObj });
   };
 
   return {
     totalItemsCount: data && data.count ? data.count.id : null,
-    getDoctorsCount,
+    getItemsCount,
   };
 };

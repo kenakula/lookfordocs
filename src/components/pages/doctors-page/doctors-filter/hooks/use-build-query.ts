@@ -44,7 +44,7 @@ interface HookValue {
 }
 
 interface HookProps {
-  getDoctorsCount: (queryObj: DoctorsFilterQuery) => void;
+  getItemsCount: (queryObj: DoctorsFilterQuery) => void;
   services: IGlobalService[];
   specialties: ISpecialty[];
   insurances: IInsurance[];
@@ -53,7 +53,7 @@ interface HookProps {
 }
 
 export const useBuildQuery = ({
-  getDoctorsCount,
+  getItemsCount,
   specialties,
   insurances,
   languages,
@@ -171,7 +171,7 @@ export const useBuildQuery = ({
       page: pageNumber ?? 1,
       limit: DOCTORS_PAGE_LIMIT,
     });
-    getDoctorsCount(queryObj);
+    getItemsCount(queryObj);
 
     router.push(
       {

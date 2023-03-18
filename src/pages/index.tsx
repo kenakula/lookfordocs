@@ -138,15 +138,11 @@ export default function Home(): JSX.Element {
     );
   }
 
-  if (siteSettings) {
+  if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings} isMainPage>
-        {pageSettings && (
-          <>
-            <h1 className="visually-hidden">{pageSettings.h1}</h1>
-            <PageSeo pageSettings={pageSettings} />
-          </>
-        )}
+        <h1 className="visually-hidden">{pageSettings.h1}</h1>
+        <PageSeo pageSettings={pageSettings} />
         {promoData && <MainPromo promoData={promoData} />}
         {appointmentData && (
           <MainAppointment appointmentData={appointmentData} />

@@ -1,49 +1,68 @@
-import { InferGetStaticPropsType } from 'next';
-import { wrapper } from '@/stores';
-import { getSiteSettings, getPageSettings } from '@/stores/api';
-import getRunningGlobalQueries from '@/stores/api/global.api';
-import { ContainerComponent, Layout, PageSeo } from '@/components';
+import { useRouter } from 'next/router';
+import { GetStaticProps } from 'next';
 import { Typography } from '@mui/material';
+import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
+import { getPageSettings, getSiteSettings } from '@/api';
+import { ContainerComponent, Layout, PageSeo } from '@/components';
 
 const PAGE_SLUG = 'contacts';
 
-export const getStaticProps = wrapper.getStaticProps(store => async () => {
-  const siteSettings = await store.dispatch(getSiteSettings.initiate());
-  const pageSettings = await store.dispatch(
-    getPageSettings.initiate(PAGE_SLUG),
-  );
+export const getStaticProps: GetStaticProps = async () => {
+  const queryClient = new QueryClient();
 
-  await Promise.all(store.dispatch(getRunningGlobalQueries()));
+  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
+  await queryClient.prefetchQuery(['pageSettings', PAGE_SLUG], () =>
+    getPageSettings(PAGE_SLUG),
+  );
 
   return {
     props: {
-      siteSettings: siteSettings.data ?? null,
-      pageSettings: pageSettings.data ?? null,
+      dehydratedState: dehydrate(queryClient),
     },
   };
-});
+};
 
-const ContactsPage = ({
-  siteSettings,
-  pageSettings,
-}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
-  const dataNotFound = !siteSettings || !pageSettings;
+const ContactsPage = (): JSX.Element => {
+  const router = useRouter();
 
-  if (dataNotFound) {
+  const [{ data: siteSettings }, { data: pageSettings }] = useQueries({
+    queries: [
+      {
+        queryKey: ['siteSettings'],
+        queryFn: getSiteSettings,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['pageSettings', PAGE_SLUG],
+        queryFn: () => getPageSettings(PAGE_SLUG),
+        staleTime: Infinity,
+      },
+    ],
+  });
+
+  if (router.isFallback) {
     return (
       <ContainerComponent>
-        <Typography textAlign="center">Not Found</Typography>
+        <Typography textAlign="center">Loading...</Typography>
       </ContainerComponent>
     );
   }
 
+  if (siteSettings && pageSettings) {
+    return (
+      <Layout siteSettings={siteSettings}>
+        <PageSeo pageSettings={pageSettings} />
+        <ContainerComponent>
+          <h1>ContactsPage</h1>
+        </ContainerComponent>
+      </Layout>
+    );
+  }
+
   return (
-    <Layout siteSettings={siteSettings}>
-      <PageSeo pageSettings={pageSettings[0]} />
-      <ContainerComponent>
-        <h1>ContactsPage</h1>
-      </ContainerComponent>
-    </Layout>
+    <ContainerComponent>
+      <Typography textAlign="center">Not Found</Typography>
+    </ContainerComponent>
   );
 };
 
