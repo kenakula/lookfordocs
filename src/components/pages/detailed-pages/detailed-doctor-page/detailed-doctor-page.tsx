@@ -8,7 +8,8 @@ import {
   StyledDetailedPageLayout,
 } from './components';
 import { useMemo } from 'react';
-import { useGetDocsTestimonialsQuery } from '@/stores/api';
+import { useQuery } from '@tanstack/react-query';
+import { getDocTestimonials } from '@/api';
 
 interface Props {
   data: IDoctor;
@@ -22,9 +23,13 @@ export const DetailedDoctorPage = ({
   insurances,
 }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
-  const { data: testimonials } = useGetDocsTestimonialsQuery(
-    data.id.toString(),
-  );
+  const docId = data.id.toString();
+  const { data: testimonials } = useQuery({
+    queryKey: ['docTestimonials', docId],
+    queryFn: () => getDocTestimonials(docId),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const testimonialsCount = testimonials ? testimonials.length : undefined;
   const avarageRating = useMemo(() => {

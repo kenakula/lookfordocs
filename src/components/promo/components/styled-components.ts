@@ -6,16 +6,16 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   padding: theme.spacing(4, 0, 8),
 
+  '.promo-info': {
+    marginBottom: theme.spacing(4),
+  },
+
   '.title': {
     marginBottom: theme.spacing(1.5),
   },
 
   '.subtitle': {
     marginBottom: theme.spacing(2),
-  },
-
-  '.chips': {
-    marginBottom: theme.spacing(4),
   },
 
   '.becas': {
@@ -71,6 +71,10 @@ export const StyledChips = styled('ul')(({ theme }) => ({
   padding: theme.spacing(0, 13, 0, 0),
   columnGap: theme.spacing(1.5),
   rowGap: theme.spacing(1.5),
+
+  [theme.breakpoints.up('md')]: {
+    padding: 0,
+  },
 
   [theme.breakpoints.up('lmd')]: {
     paddingRight: '50%',

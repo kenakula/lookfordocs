@@ -1,16 +1,21 @@
+import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
-import { AxiosResponse } from 'axios';
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import { wrapper } from '@/stores';
-import { getSiteSettings, getDocInfo } from '@/stores/api';
-import { axiosClient } from '@/stores/assets';
-import getRunningGlobalQueries, {
-  getGlobalCities,
-  getGlobalInsurances,
-} from '@/stores/api/global.api';
-import getRunningDoctorQueries from '@/stores/api/doctor.api';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import {
+  getCities,
+  getDoctorInfo,
+  getDoctorsIds,
+  getInsurances,
+  getSiteSettings,
+} from '@/api';
+import {
+  capitilizeName,
+  DOCTORS_PAGE,
+  getSeoDoctorPageH1,
+  getSeoDoctorPageTitle,
+} from '@/shared/assets';
 import {
   BreadcrumbsComponent,
   ContainerComponent,
@@ -20,84 +25,73 @@ import {
   LayoutSkeleton,
   PageSeo,
 } from '@/components';
-import {
-  ICity,
-  IDoctor,
-  IInsurance,
-  ISiteSettings,
-  ITestimonial,
-} from '@/shared/types';
-import {
-  capitilizeName,
-  DOCTORS_PAGE,
-  getSeoDoctorPageH1,
-  getSeoDoctorPageTitle,
-} from '@/shared/assets';
 
 interface PageParams extends ParsedUrlQuery {
   id: string;
 }
 
-interface DoctorPageProps {
-  siteSettings?: ISiteSettings;
-  doctorInfo?: IDoctor;
-  cities?: ICity[];
-  insurances?: IInsurance[];
-  testimonials?: ITestimonial[];
-  notFound?: boolean;
-}
-
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await axiosClient.get<AxiosResponse<IDoctor[]>>('/doctors', {
-    params: { fields: 'id' },
-  });
+  const response = await getDoctorsIds();
 
   return {
-    paths: response.data.data.map(doc => ({
+    paths: response.map(doc => ({
       params: { id: doc.id.toString() },
     })),
     fallback: true,
   };
 };
 
-export const getStaticProps: GetStaticProps<DoctorPageProps, PageParams> =
-  wrapper.getStaticProps(store => async ({ params }) => {
-    const docId = (params as PageParams).id;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const queryClient = new QueryClient();
+  const docId = (params as PageParams).id;
 
-    const siteSettings = await store.dispatch(getSiteSettings.initiate());
-    const cities = await store.dispatch(getGlobalCities.initiate());
-    const insurances = await store.dispatch(getGlobalInsurances.initiate());
-    const doctorInfo = await store.dispatch(getDocInfo.initiate(docId));
+  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
+  await queryClient.prefetchQuery(['cities'], getCities);
+  await queryClient.prefetchQuery(['insurances'], getInsurances);
+  await queryClient.prefetchQuery(['doctorInfo', docId], () =>
+    getDoctorInfo(docId),
+  );
 
-    await Promise.all([
-      ...store.dispatch(getRunningGlobalQueries()),
-      ...store.dispatch(getRunningDoctorQueries()),
-    ]);
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
-    if (!doctorInfo) {
-      return {
-        notFound: true,
-      };
-    }
-
-    return {
-      props: {
-        siteSettings: siteSettings.data ?? null,
-        doctorInfo: doctorInfo.data ?? null,
-        cities: cities.data ?? null,
-        insurances: insurances.data ?? null,
-      },
-    };
-  });
-
-const DoctorPage = ({
-  siteSettings,
-  doctorInfo,
-  insurances,
-  cities,
-}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+const DoctorPage = (): JSX.Element => {
   const router = useRouter();
-  const someDataFailed = !siteSettings;
+  const docId = typeof router.query?.id === 'string' ? router.query.id : '';
+
+  const [
+    { data: siteSettings },
+    { data: doctorInfo },
+    { data: cities },
+    { data: insurances },
+  ] = useQueries({
+    queries: [
+      {
+        queryKey: ['siteSettings'],
+        queryFn: getSiteSettings,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['doctorInfo', docId],
+        queryFn: () => getDoctorInfo(docId),
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['cities'],
+        queryFn: getCities,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['insurances'],
+        queryFn: getInsurances,
+        staleTime: Infinity,
+      },
+    ],
+  });
 
   if (router.isFallback) {
     return (
@@ -107,48 +101,52 @@ const DoctorPage = ({
     );
   }
 
-  if (someDataFailed) {
+  if (siteSettings) {
     return (
-      <ContainerComponent>
-        <Typography textAlign="center">Not Found</Typography>
-      </ContainerComponent>
+      <Layout siteSettings={siteSettings} isDetailedPage>
+        {doctorInfo ? (
+          <>
+            <PageSeo
+              pageSettings={{
+                pageTitle: getSeoDoctorPageTitle(
+                  doctorInfo.firstName,
+                  doctorInfo.lastName,
+                ),
+                pageDescription: doctorInfo.shortText ?? '',
+              }}
+            />
+            <BreadcrumbsComponent
+              crumbs={[
+                { text: 'Врачи', link: DOCTORS_PAGE },
+                {
+                  text: capitilizeName(
+                    doctorInfo.firstName,
+                    doctorInfo.lastName,
+                  ),
+                },
+              ]}
+            />
+            <h1 className="visually-hidden">
+              {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
+            </h1>
+          </>
+        ) : null}
+        {doctorInfo && cities && insurances ? (
+          <DetailedDoctorPage
+            data={doctorInfo}
+            cities={cities}
+            insurances={insurances}
+          />
+        ) : null}
+      </Layout>
     );
   }
 
   return (
-    <Layout siteSettings={siteSettings} isDetailedPage>
-      {doctorInfo ? (
-        <>
-          <PageSeo
-            pageSettings={{
-              pageTitle: getSeoDoctorPageTitle(
-                doctorInfo.firstName,
-                doctorInfo.lastName,
-              ),
-              pageDescription: doctorInfo.shortText ?? '',
-            }}
-          />
-          <BreadcrumbsComponent
-            crumbs={[
-              { text: 'Врачи', link: DOCTORS_PAGE },
-              {
-                text: capitilizeName(doctorInfo.firstName, doctorInfo.lastName),
-              },
-            ]}
-          />
-          <h1 className="visually-hidden">
-            {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
-          </h1>
-        </>
-      ) : null}
-      {doctorInfo && cities && insurances ? (
-        <DetailedDoctorPage
-          data={doctorInfo}
-          cities={cities}
-          insurances={insurances}
-        />
-      ) : null}
-    </Layout>
+    <ContainerComponent>
+      <Typography textAlign="center">Not Found</Typography>
+      <p>{JSON.stringify(doctorInfo)}</p>
+    </ContainerComponent>
   );
 };
 

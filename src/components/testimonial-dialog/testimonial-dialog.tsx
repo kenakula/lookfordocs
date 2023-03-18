@@ -21,11 +21,12 @@ import {
   StyledRatingWrapper,
 } from './components';
 import { IconClose } from '@/components/icons';
-import { useSaveDocTestimonialMutation } from '@/stores/api';
 import { setToaster, useAppDispatch, useAppSelector } from '@/stores';
 import { TestimonialFormModel, TestimonialType } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { TestimonialModel } from '@/shared/models';
+import { useMutation } from '@tanstack/react-query';
+import { axiosClient } from '@/stores/assets';
 
 interface Props {
   opened: boolean;
@@ -44,7 +45,10 @@ export const TestimonialDialog = ({
   const dispatch = useAppDispatch();
   const { testimonialsLimit } = useAppSelector(state => state.settings);
 
-  const [saveTestimonial, { isLoading }] = useSaveDocTestimonialMutation();
+  const { isLoading, mutateAsync: saveTestimonial } = useMutation({
+    mutationFn: (data: TestimonialModel) =>
+      axiosClient.post('testimonials', data),
+  });
 
   const formSchema = useMemo(
     () =>
@@ -110,7 +114,7 @@ export const TestimonialDialog = ({
     }
 
     try {
-      await saveTestimonial(testimonialData).unwrap();
+      await saveTestimonial(testimonialData);
       onClose();
       reset();
       dispatch(
