@@ -32,7 +32,7 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
       <ContainerComponent>
         <div className="promo-info">
           <Title
-            className="title"
+            className="title title--main"
             variant="h2"
             dangerouslySetInnerHTML={{ __html: promoData.title }}
           />

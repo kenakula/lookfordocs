@@ -18,8 +18,8 @@ export const getDoctorsIds = async () =>
 
 export const getDoctorsPagePromoData = async () =>
   axiosClient
-    .get<AxiosResponse<IPromoBlockData>>('promo', {
-      params: { fields: 'id,title,subtitle' },
+    .get<AxiosResponse<IPromoBlockData>>('doctors_promo', {
+      params: { fields: 'id,title,subtitle,chips' },
     })
     .then(res => res.data.data);
 

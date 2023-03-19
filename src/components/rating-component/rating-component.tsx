@@ -9,6 +9,7 @@ interface Props {
   handleChange?: (event: React.SyntheticEvent, value: number | null) => void;
   size?: RatingProps['size'];
   showValue?: boolean;
+  className?: string;
 }
 
 export const RatingComponent = ({
@@ -18,6 +19,7 @@ export const RatingComponent = ({
   showValue = false,
   handleChange,
   size = 'medium',
+  className,
 }: Props): JSX.Element => {
   if (interactive && handleChange) {
     return (
@@ -28,6 +30,7 @@ export const RatingComponent = ({
         value={rate}
         size={size}
         onChange={handleChange}
+        className={className}
       />
     );
   }
@@ -42,6 +45,7 @@ export const RatingComponent = ({
         precision={precision}
         size={size}
         readOnly
+        className={className}
       />
       {showValue ? (
         <span className="rating-number">{rate.toFixed(1)}</span>

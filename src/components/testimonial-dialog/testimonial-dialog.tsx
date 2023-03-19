@@ -10,6 +10,7 @@ import {
   ContainerComponent,
   InputComponent,
   RatingComponent,
+  UserAvatar,
 } from '@/components';
 import { useForm } from 'react-hook-form';
 import { object, number, string } from 'yup';
@@ -22,7 +23,7 @@ import {
 } from './components';
 import { IconClose } from '@/components/icons';
 import { setToaster, useAppDispatch, useAppSelector } from '@/stores';
-import { TestimonialFormModel, TestimonialType } from '@/shared/types';
+import { IImage, TestimonialFormModel, TestimonialType } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { TestimonialModel } from '@/shared/models';
 import { useMutation } from '@tanstack/react-query';
@@ -33,13 +34,17 @@ interface Props {
   onClose: () => void;
   type: TestimonialType;
   entityId: number;
+  entityName: string;
+  entityImage: IImage;
 }
 
 export const TestimonialDialog = ({
-  opened,
-  onClose,
-  type,
+  entityImage,
+  entityName,
   entityId,
+  onClose,
+  opened,
+  type,
 }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
   const dispatch = useAppDispatch();
@@ -141,15 +146,36 @@ export const TestimonialDialog = ({
       onClose={onClose}
       fullScreen={!isTablet}
       fullWidth
+      keepMounted
     >
       <ContainerComponent>
         <StyledDialogHeader>
-          <Typography variant="h3">Оставить отзыв о приеме</Typography>
+          <UserAvatar
+            image={entityImage}
+            name={entityName}
+            variant={'rounded'}
+          />
+          <Typography variant="h3">{entityName}</Typography>
           <IconButton onClick={onClose}>
             <IconClose id="testimonial-dialog" />
           </IconButton>
         </StyledDialogHeader>
         <StyledDialogBody action="#" onSubmit={handleSubmit(onSubmit)}>
+          <InputComponent
+            className="testimonial-dialog-field"
+            formControl={control}
+            id="testimonial-name"
+            name="name"
+            type="text"
+            fullwidth
+            label="Ваше имя"
+            placeholoder="Введите ваше имя"
+            disabled={isLoading}
+            error={!!formState.errors.name}
+            errorMessage={
+              formState.errors.name ? formState.errors.name.message : undefined
+            }
+          />
           <StyledRatingWrapper>
             <Typography variant="h4">Оценка</Typography>
             <RatingComponent
@@ -161,20 +187,6 @@ export const TestimonialDialog = ({
               <FormHelperText>{formState.errors.rate.message}</FormHelperText>
             ) : null}
           </StyledRatingWrapper>
-          <InputComponent
-            className="testimonial-dialog-field"
-            formControl={control}
-            id="testimonial-name"
-            name="name"
-            type="text"
-            fullwidth
-            label="Ваше имя"
-            disabled={isLoading}
-            error={!!formState.errors.name}
-            errorMessage={
-              formState.errors.name ? formState.errors.name.message : undefined
-            }
-          />
           <InputComponent
             className="testimonial-dialog-field"
             formControl={control}

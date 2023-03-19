@@ -44,6 +44,10 @@ export const StyledInputLabel = styled('label')(({ theme }) => ({
   display: 'block',
   marginBottom: theme.spacing(2),
   fontWeight: 500,
+
+  [theme.breakpoints.up('lmd')]: {
+    ...getTypography(theme, 18, 24),
+  },
 }));
 
 export const StyledInputComponent = styled(Input, {
@@ -101,6 +105,12 @@ export const StyledInputComponent = styled(Input, {
     textarea: {
       padding: theme.spacing(2),
       minHeight: 120,
+    },
+
+    [theme.breakpoints.up('lmd')]: {
+      input: {
+        minHeight: 56,
+      },
     },
   };
 });

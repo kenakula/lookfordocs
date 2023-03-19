@@ -11,6 +11,10 @@ export const StyledDialog = styled(Box)(({ theme }) => ({
   height: '100vh',
   backgroundColor: theme.palette.background.default,
 
+  '.MuiLinearProgress-root': {
+    marginRight: 0,
+  },
+
   '.input-container': {
     position: 'relative',
     display: 'flex',
@@ -100,7 +104,7 @@ export const StyledSearchResult = styled(Box)(({ theme }) => ({
 export const StyledResultList = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2.5),
   padding: theme.spacing(3),
-  marginRight: theme.spacing(4),
+  marginRight: theme.spacing(1),
   borderBottom: `1px solid ${theme.palette.misc.light}`,
 
   '&:last-child': {
@@ -150,5 +154,9 @@ export const StyledResultList = styled(Box)(({ theme }) => ({
       ...getTypography(theme, 14, 17),
       color: theme.palette.text.secondary,
     },
+  },
+
+  [theme.breakpoints.up('md')]: {
+    marginRight: theme.spacing(2),
   },
 }));

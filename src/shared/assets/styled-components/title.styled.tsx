@@ -25,11 +25,16 @@ export const Title = styled(Typography, {
   },
 
   [theme.breakpoints.up('lg')]: {
-    fontSize: theme.typography.pxToRem(minor ? 32 : 48),
-    lineHeight: theme.typography.pxToRem(minor ? 40 : 58),
+    fontSize: theme.typography.pxToRem(minor ? 32 : 44),
+    lineHeight: theme.typography.pxToRem(minor ? 40 : 54),
 
     '.highlighted': {
       padding: theme.spacing(0, 1),
+    },
+
+    '&.title--main': {
+      fontSize: theme.typography.pxToRem(minor ? 32 : 48),
+      lineHeight: theme.typography.pxToRem(minor ? 40 : 58),
     },
   },
 }));

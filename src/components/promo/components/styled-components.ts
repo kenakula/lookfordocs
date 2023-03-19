@@ -50,14 +50,22 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
     '.promo-button': {
       width: 'auto',
     },
+
+    '.promo-info': {
+      paddingRight: '42%',
+    },
   },
 
   [theme.breakpoints.up('lg')]: {
     position: 'relative',
-    padding: theme.spacing(11, 0, 12.5),
+    padding: theme.spacing(7.5, 0, 8.5),
 
     '.subtitle': {
       marginBottom: theme.spacing(4),
+    },
+
+    '.promo-info': {
+      paddingRight: '30%',
     },
   },
 }));
@@ -68,15 +76,7 @@ export const StyledChips = styled('ul')(({ theme }) => ({
   flexWrap: 'wrap',
   listStyle: 'none',
   margin: 0,
-  padding: theme.spacing(0, 13, 0, 0),
+  padding: 0,
   columnGap: theme.spacing(1.5),
   rowGap: theme.spacing(1.5),
-
-  [theme.breakpoints.up('md')]: {
-    padding: 0,
-  },
-
-  [theme.breakpoints.up('lmd')]: {
-    paddingRight: '50%',
-  },
 }));

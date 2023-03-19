@@ -76,14 +76,14 @@ export const DoctorsCard = ({
               imageId={image.id}
               isDetailedPage={detailedLocation}
             />
-            <DoctorGlobalServices list={globalServices} />
-            {rating && isDesktop ? (
+            {rating ? (
               <DoctorCardRating
                 rating={rating}
                 testimonialsCount={testimonialsCount}
                 detaiedLocation={detailedLocation}
               />
             ) : null}
+            {isDesktop && <DoctorGlobalServices list={globalServices} />}
           </Box>
           {!isDesktop && (
             <StyledInfo>
@@ -95,13 +95,7 @@ export const DoctorsCard = ({
                 </Typography>
               )}
               <DoctorLanguages list={lang} />
-              {rating ? (
-                <DoctorCardRating
-                  rating={rating}
-                  testimonialsCount={testimonialsCount}
-                  detaiedLocation={detailedLocation}
-                />
-              ) : null}
+              <DoctorGlobalServices list={globalServices} />
             </StyledInfo>
           )}
         </DoctorCardInfo>

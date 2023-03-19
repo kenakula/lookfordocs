@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { Skeleton } from '@mui/material';
 import { TestimonialDialog } from '@/components';
 import { IDoctor, ITestimonial } from '@/shared/types';
+import { capitilizeName } from '@/shared/assets';
 import {
   StyledDetailedInfo,
   StyledDetailInfoTitle,
@@ -11,7 +13,6 @@ import {
 import { DetailedDoctorNosology } from './detailed-doctor-nosology';
 import { DetailedDoctorEducation } from './detailed-doctor-education';
 import { DetialedDoctorTestimonials } from './detailed-doctor-testimonials';
-import { Skeleton } from '@mui/material';
 
 interface Props {
   data: IDoctor;
@@ -19,7 +20,15 @@ interface Props {
 }
 
 export const DetailedInfo = ({
-  data: { longText, nosologies, education, id: docId },
+  data: {
+    longText,
+    nosologies,
+    education,
+    id: docId,
+    firstName,
+    lastName,
+    image,
+  },
   testimonials,
 }: Props): JSX.Element => {
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
@@ -85,6 +94,8 @@ export const DetailedInfo = ({
         onClose={handleCloseTestimonialsDialog}
         type="doctor"
         entityId={docId}
+        entityName={capitilizeName(firstName, lastName)}
+        entityImage={image}
       />
     </StyledDetailedInfo>
   );
