@@ -13,6 +13,12 @@ export const StyledBreadcrumbs = styled(Box)(({ theme }) => ({
     '&:active': {
       color: alpha(theme.palette.primary.main, 0.5),
     },
+
+    '&:focus-visible': {
+      color: theme.palette.primary.main,
+      textDecoration: 'underline',
+      outline: 'none',
+    },
   },
 
   '.MuiTypography-body1': {

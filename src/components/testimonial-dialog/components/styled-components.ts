@@ -2,6 +2,10 @@ import { getTypography } from '@/shared/assets';
 import { Box, Dialog, styled } from '@mui/material';
 
 export const StyledTestimonialDialog = styled(Dialog)(({ theme }) => ({
+  '.MuiContainer-root': {
+    padding: theme.spacing(2.5, 2),
+  },
+
   [theme.breakpoints.up('lmd')]: {
     '.MuiContainer-root': {
       padding: 0,
@@ -17,8 +21,12 @@ export const StyledTestimonialDialog = styled(Dialog)(({ theme }) => ({
 export const StyledDialogHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  marginBottom: theme.spacing(1),
-  padding: theme.spacing(1.5, 0),
+  marginBottom: theme.spacing(3),
+
+  '.MuiAvatar-root': {
+    marginRight: theme.spacing(1.5),
+    borderRadius: 8,
+  },
 
   '.MuiTypography-h3': {
     ...getTypography(theme, 20, 23),
@@ -27,6 +35,7 @@ export const StyledDialogHeader = styled(Box)(({ theme }) => ({
   },
 
   '.MuiButtonBase-root': {
+    alignSelf: 'flex-start',
     marginRight: theme.spacing(-1),
   },
 

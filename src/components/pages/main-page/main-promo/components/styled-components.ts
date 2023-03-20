@@ -6,12 +6,12 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4, 0, 8),
   backgroundColor: theme.palette.misc.main,
 
-  '.title': {
-    marginBottom: theme.spacing(1.5),
+  '.promo-info': {
+    marginBottom: theme.spacing(13.75),
   },
 
-  '.subtitle': {
-    marginBottom: theme.spacing(13.75),
+  '.title': {
+    marginBottom: theme.spacing(1.5),
   },
 
   '.becas': {
@@ -35,6 +35,10 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
       width: 103,
       height: 120,
     },
+
+    '.promo-info': {
+      paddingRight: '30%',
+    },
   },
 
   [theme.breakpoints.up('lmd')]: {
@@ -47,19 +51,23 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
       width: 154,
       height: 179,
     },
+
+    '.promo-info': {
+      paddingRight: '40%',
+    },
   },
 
   [theme.breakpoints.up('lg')]: {
     padding: theme.spacing(17.5, 0, 12.5),
 
-    '.subtitle': {
-      marginBottom: theme.spacing(7.75),
-    },
-
     '.becas': {
       right: 190,
       width: 154,
       height: 179,
+    },
+
+    '.promo-info': {
+      marginBottom: theme.spacing(7.75),
     },
   },
 }));

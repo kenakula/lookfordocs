@@ -200,7 +200,7 @@ export const StyledInfo = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledGlobalServices = styled(Box)(({ theme }) => ({
-  paddingTop: theme.spacing(1.5),
+  paddingTop: theme.spacing(1),
 
   ul: {
     margin: 0,
@@ -208,15 +208,15 @@ export const StyledGlobalServices = styled(Box)(({ theme }) => ({
     listStyle: 'none',
     display: 'flex',
     flexWrap: 'wrap',
-    columnGap: theme.spacing(1),
-    rowGap: theme.spacing(1),
+    columnGap: theme.spacing(0.75),
+    rowGap: theme.spacing(0.75),
   },
 
   li: {
     display: 'flex',
     flexShrink: 0,
-    width: 24,
-    height: 24,
+    width: 28,
+    height: 28,
     borderRadius: '50%',
     backgroundColor: theme.palette.misc.main,
     cursor: 'pointer',
@@ -238,8 +238,7 @@ export const StyledGlobalServices = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledText = styled(Typography)(({ theme }) => ({
-  ...getTypography(theme, 12, 16),
-  marginBottom: theme.spacing(1.5),
+  ...getTypography(theme, 14, 20),
   color: theme.palette.text.secondary,
   display: '-webkit-box',
   WebkitLineClamp: '4',
@@ -335,10 +334,10 @@ export const StyledLanguages = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledDoctorRating = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(2),
+  marginTop: theme.spacing(1),
 
   'a, & > span': {
-    ...getTypography(theme, 12, 16),
+    ...getTypography(theme, 14, 20),
     color: theme.palette.secondary.light,
     textDecoration: 'none',
     transition: theme.transitions.create('color'),
@@ -351,6 +350,16 @@ export const StyledDoctorRating = styled(Box)(({ theme }) => ({
 
     '&:active': {
       color: theme.palette.primary.dark,
+    },
+
+    '&:focus-visible': {
+      outline: 'none',
+      textDecoration: 'underline',
+      color: theme.palette.primary.main,
+    },
+
+    [theme.breakpoints.up('lmd')]: {
+      ...getTypography(theme, 16, 20),
     },
   },
 }));
@@ -366,7 +375,7 @@ export const StyledClinics = styled(Box, {
   },
 
   '.doctors-reembolso': {
-    ...getTypography(theme, 12, 16),
+    ...getTypography(theme, 14, 20),
     marginTop: theme.spacing(1),
     color: theme.palette.text.secondary,
   },
@@ -404,7 +413,6 @@ export const StyledClinics = styled(Box, {
     },
 
     '.doctors-reembolso': {
-      ...getTypography(theme, 12, 16),
       padding: theme.spacing(0, 3),
     },
   },
@@ -438,6 +446,11 @@ export const StyledClinicCard = styled(Box, {
 
       '&:active': {
         color: theme.palette.primary.dark,
+      },
+
+      '&:focus-visible': {
+        color: theme.palette.primary.main,
+        outline: 'none',
       },
     },
   },

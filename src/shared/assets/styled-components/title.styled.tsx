@@ -13,21 +13,26 @@ export const Title = styled(Typography, {
     padding: theme.spacing(0, 0.5),
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.primary.light,
-    fontSize: theme.typography.pxToRem(minor ? 20 : 28),
-    lineHeight: theme.typography.pxToRem(minor ? 26 : 32),
-    fontWeight: 600,
 
     '&:last-of-type': {
       marginRight: 0,
     },
   },
 
+  [theme.breakpoints.up('lmd')]: {
+    fontSize: theme.typography.pxToRem(minor ? 24 : 34),
+    lineHeight: theme.typography.pxToRem(minor ? 28 : 36),
+  },
+
   [theme.breakpoints.up('lg')]: {
-    fontSize: theme.typography.pxToRem(minor ? 32 : 48),
-    lineHeight: theme.typography.pxToRem(minor ? 40 : 58),
+    fontSize: theme.typography.pxToRem(minor ? 32 : 44),
+    lineHeight: theme.typography.pxToRem(minor ? 40 : 54),
 
     '.highlighted': {
       padding: theme.spacing(0, 1),
+    },
+
+    '&.title--main': {
       fontSize: theme.typography.pxToRem(minor ? 32 : 48),
       lineHeight: theme.typography.pxToRem(minor ? 40 : 58),
     },

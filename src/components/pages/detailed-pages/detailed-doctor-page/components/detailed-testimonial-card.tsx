@@ -1,3 +1,4 @@
+import { RatingComponent } from '@/components/rating-component/rating-component';
 import { ITestimonial } from '@/shared/types';
 import { Box, Typography } from '@mui/material';
 import { StyledDetailedTestimonial } from './styled-components';
@@ -7,7 +8,7 @@ interface Props {
 }
 
 export const DetailedTestimonialCard = ({
-  data: { comment, author, date },
+  data: { comment, author, date, rate },
 }: Props): JSX.Element => {
   const cardDate = new Date(date).toLocaleDateString('ru-RU');
   const dateTimeString = new Date(date).toISOString();
@@ -16,6 +17,7 @@ export const DetailedTestimonialCard = ({
     <StyledDetailedTestimonial className="testimonial-card">
       <Box className="testimonial-card-header">
         <Typography variant="caption">{author}</Typography>
+        <RatingComponent size="small" rate={rate} showValue />
       </Box>
       <Box className="testimonial-card-body">
         <Typography variant="caption">Комментарий</Typography>

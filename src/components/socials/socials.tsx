@@ -18,6 +18,10 @@ const StyledSocials = styled('ul', {
     '&:last-child': {
       marginRight: 0,
     },
+
+    '&:focus-visible': {
+      outline: `4px solid ${theme.palette.primary.light}`,
+    },
   },
 
   svg: {
@@ -48,7 +52,7 @@ export const Socials = ({ dense, socials }: Props): JSX.Element => {
     <StyledSocials dense={dense}>
       {socials.map(({ label, link, type }) => (
         <li key={label}>
-          <IconButton component={Link} href={link}>
+          <IconButton component={Link} href={link} disableFocusRipple>
             <span className="visually-hidden">{label}</span>
             {getSocialIcon(type)}
           </IconButton>
