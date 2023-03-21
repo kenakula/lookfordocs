@@ -19,6 +19,7 @@ import { StyledDrawer, StyledSocials } from './styled-components';
 
 interface Props {
   closeDrawer: () => void;
+  openAppointmentForm: () => void;
   openState: boolean;
   navigation: INavigation[];
   socials: ISocial[];
@@ -27,12 +28,13 @@ interface Props {
 }
 
 export const DrawerComponent = ({
+  openAppointmentForm,
   closeDrawer,
-  openState,
   navigation,
+  copyrights,
+  openState,
   socials,
   logo,
-  copyrights,
 }: Props): JSX.Element => {
   const router = useRouter();
 
@@ -65,8 +67,7 @@ export const DrawerComponent = ({
                 <ListItemButton
                   disableRipple
                   disableTouchRipple
-                  component={Link}
-                  href={`/${url}`}
+                  onClick={openAppointmentForm}
                 >
                   {name}
                 </ListItemButton>

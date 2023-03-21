@@ -1,4 +1,11 @@
-import { Box, Checkbox, Input, styled } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  Input,
+  Radio,
+  styled,
+} from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
 export const CheckboxIcon = styled('span', { label: 'unchecked' })(
@@ -33,9 +40,68 @@ export const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
   marginRight: theme.spacing(0.25),
 }));
 
+export const StyledRadioWrapper = styled(FormControl)(({ theme }) => ({
+  '.MuiFormLabel-root': {
+    ...getTypography(theme, 16, 20),
+    marginBottom: theme.spacing(1.5),
+    fontWeight: 500,
+    color: theme.palette.text.primary,
+
+    '&.Mui-focused': {
+      color: theme.palette.text.primary,
+    },
+  },
+}));
+
+export const StyledRadioButton = styled(Radio)(({ theme }) => ({
+  marginBottom: theme.spacing(0.5),
+  paddingTop: 0,
+  paddingBottom: 0,
+
+  svg: {
+    color: theme.palette.secondary.light,
+  },
+}));
+
 export const StyledInputWrapper = styled(Box)(({ theme }) => ({
+  position: 'relative',
+
   '.MuiFormHelperText-root': {
+    position: 'absolute',
+    bottom: -22,
+    left: 0,
     color: theme.palette.error.light,
+  },
+
+  '.phone-input .invalid-number-message': {
+    display: 'none',
+  },
+
+  '.form-control.phone-input__input': {
+    paddingLeft: 60,
+    width: '100%',
+    minHeight: 48,
+    color: theme.palette.text.secondary,
+    borderColor: theme.palette.misc.light,
+    borderRadius: theme.shape.borderRadius,
+
+    '&.invalid-number': {
+      borderColor: theme.palette.error.main,
+      backgroundColor: 'transparent',
+    },
+  },
+
+  '.flag-dropdown.phone-input__btn': {
+    borderColor: theme.palette.misc.light,
+
+    '.selected-flag': {
+      width: 50,
+      borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
+
+      '.flag': {
+        left: 15,
+      },
+    },
   },
 }));
 
@@ -51,66 +117,71 @@ export const StyledInputLabel = styled('label')(({ theme }) => ({
 }));
 
 export const StyledInputComponent = styled(Input, {
-  shouldForwardProp: prop => prop !== 'limit',
-})<{ limit?: number }>(({ theme, color, limit, value }) => {
-  const textLength = limit ? limit - (value as string).length : 0;
-  let counterColor = theme.palette.text.disabled;
+  shouldForwardProp: prop => !['limit', 'minHeight'].includes(prop.toString()),
+})<{ limit?: number; minHeight?: number }>(
+  ({ theme, color, limit, value, minHeight }) => {
+    const textLength = limit ? limit - (value as string).length : 0;
+    let counterColor = theme.palette.text.disabled;
 
-  if (textLength < 20 && textLength >= 0) {
-    counterColor = theme.palette.warning.light;
-  }
+    if (textLength < 20 && textLength >= 0) {
+      counterColor = theme.palette.warning.light;
+    }
 
-  if (textLength < 0) {
-    counterColor = theme.palette.error.main;
-  }
+    if (textLength < 0) {
+      counterColor = theme.palette.error.main;
+    }
 
-  return {
-    ...getTypography(theme, 16, 20),
-    display: 'flex',
-    padding: 0,
-    border: `1px solid ${
-      color === 'error' ? theme.palette.error.light : theme.palette.misc.light
-    }`,
-    borderRadius: theme.shape.borderRadius,
-    color: theme.palette.text.secondary,
+    return {
+      ...getTypography(theme, 16, 20),
+      display: 'flex',
+      padding: 0,
+      border: `1px solid ${
+        color === 'error' ? theme.palette.error.light : theme.palette.misc.light
+      }`,
+      borderRadius: theme.shape.borderRadius,
+      color: theme.palette.text.secondary,
+      // TODO унифицировать тени
+      // boxShadow: '0px 4px 16px rgba(7, 20, 48, 0.04)',
 
-    '&:hover': {
-      '&::before': {
-        border: 'none !important',
+      '&:hover': {
+        '&::before': {
+          border: 'none !important',
+        },
       },
-    },
 
-    '&::before, &::after': {
-      display: 'none',
-    },
+      '&::before, &::after': {
+        display: 'none',
+      },
 
-    '&::before': limit
-      ? {
-          ...getTypography(theme, 12, 16),
-          left: 'auto',
-          right: 7,
-          bottom: 3,
-          display: 'inline-block',
-          content: `"${textLength}"`,
-          border: 'none',
-          color: counterColor,
-        }
-      : {},
+      '&::before': limit
+        ? {
+            ...getTypography(theme, 12, 16),
+            left: 'auto',
+            right: 7,
+            bottom: 3,
+            display: 'inline-block',
+            content: `"${textLength}"`,
+            border: 'none',
+            color: counterColor,
+          }
+        : {},
 
-    input: {
-      padding: theme.spacing(0, 2),
-      minHeight: 48,
-    },
-
-    textarea: {
-      padding: theme.spacing(2),
-      minHeight: 120,
-    },
-
-    [theme.breakpoints.up('lmd')]: {
       input: {
-        minHeight: 56,
+        padding: theme.spacing(0, 2),
+        minHeight: 48,
       },
-    },
-  };
-});
+
+      textarea: {
+        padding: theme.spacing(2),
+        minHeight: minHeight ?? 120,
+        boxSizing: 'border-box',
+      },
+
+      [theme.breakpoints.up('lmd')]: {
+        input: {
+          minHeight: 56,
+        },
+      },
+    };
+  },
+);

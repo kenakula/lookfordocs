@@ -1,4 +1,4 @@
-import { Header, Footer } from '@/components';
+import { Header, Footer, AppointmentDialog } from '@/components';
 import { useSaveSiteSettings } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
 
@@ -27,6 +27,7 @@ export const Layout = ({
         />
       )}
       <main>{children}</main>
+      <AppointmentDialog />
       {siteSettings && <Footer siteSettings={siteSettings} />}
     </>
   );

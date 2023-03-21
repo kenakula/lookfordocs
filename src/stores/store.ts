@@ -1,5 +1,4 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { createWrapper } from 'next-redux-wrapper';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { doctorsPageApi } from './api';
 import {
@@ -8,6 +7,7 @@ import {
   doctorsPageReducer,
   settingsReducer,
 } from './slices';
+import { appointmentReducer } from './slices/appointment.slice';
 
 export const makeStore = () =>
   configureStore({
@@ -16,6 +16,7 @@ export const makeStore = () =>
       toaster: toasterReducer,
       smartSearch: smartSearchReducer,
       doctorsPage: doctorsPageReducer,
+      appointment: appointmentReducer,
       [doctorsPageApi.reducerPath]: doctorsPageApi.reducer,
     },
     middleware: getDefaultMiddleware =>
@@ -34,5 +35,3 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-export const wrapper = createWrapper<typeof store>(makeStore, { debug: false });
