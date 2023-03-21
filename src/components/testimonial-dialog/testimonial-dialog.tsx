@@ -1,26 +1,21 @@
 import { useMemo } from 'react';
-import { FormHelperText, IconButton, Typography } from '@mui/material';
+import { FormHelperText, Typography } from '@mui/material';
 import {
   ButtonComponent,
   DialogComponent,
   InputComponent,
   RatingComponent,
-  UserAvatar,
 } from '@/components';
 import { useForm } from 'react-hook-form';
 import { object, number, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  StyledDialogHeader,
-  StyledDialogBody,
-  StyledRatingWrapper,
-} from './components';
-import { IconClose } from '@/components/icons';
 import { setToaster, useAppDispatch, useAppSelector } from '@/stores';
 import { IImage, TestimonialFormModel, TestimonialType } from '@/shared/types';
 import { TestimonialModel } from '@/shared/models';
 import { useMutation } from '@tanstack/react-query';
 import { axiosClient } from '@/stores/assets';
+import { getImageUrl } from '@/shared/assets';
+import { StyledDialogBody, StyledRatingWrapper } from './components';
 
 interface Props {
   opened: boolean;
@@ -133,14 +128,12 @@ export const TestimonialDialog = ({
   };
 
   return (
-    <DialogComponent openState={opened} onClose={onClose}>
-      <StyledDialogHeader>
-        <UserAvatar image={entityImage} name={entityName} variant={'rounded'} />
-        <Typography variant="h3">{entityName}</Typography>
-        <IconButton onClick={onClose}>
-          <IconClose id="testimonial-dialog" />
-        </IconButton>
-      </StyledDialogHeader>
+    <DialogComponent
+      openState={opened}
+      onClose={onClose}
+      title={entityName}
+      imageUrl={getImageUrl(entityImage, entityName)}
+    >
       <StyledDialogBody action="#" onSubmit={handleSubmit(onSubmit)}>
         <InputComponent
           className="testimonial-dialog-field"

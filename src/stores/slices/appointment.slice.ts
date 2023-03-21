@@ -1,16 +1,14 @@
-import { IClinic, IDoctor } from '@/shared/types';
+import { IAppointment } from '@/shared/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AppointmentState {
   dialogOpen: boolean;
-  targetDoctor: IDoctor | null;
-  targetClinic: IClinic | null;
+  target: IAppointment | null;
 }
 
 const initialState: AppointmentState = {
   dialogOpen: false,
-  targetDoctor: null,
-  targetClinic: null,
+  target: null,
 };
 
 export const appointmentSlice = createSlice({
@@ -19,24 +17,18 @@ export const appointmentSlice = createSlice({
   reducers: {
     openAppointmentDialog: (
       state,
-      {
-        payload: { doctor, clinic },
-      }: PayloadAction<{ doctor?: IDoctor; clinic?: IClinic }>,
+      { payload }: PayloadAction<IAppointment | undefined>,
     ) => {
       state.dialogOpen = true;
 
-      if (doctor) {
-        state.targetDoctor = doctor;
-      }
-
-      if (clinic) {
-        state.targetClinic = clinic;
+      if (payload) {
+        state.target = payload;
+      } else {
+        state.target = null;
       }
     },
     closeAppointmentDialog: state => {
       state.dialogOpen = false;
-      state.targetClinic = null;
-      state.targetDoctor = null;
     },
   },
 });

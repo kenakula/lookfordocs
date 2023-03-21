@@ -10,6 +10,8 @@ import {
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getDocTestimonials } from '@/api';
+import { openAppointmentDialog, useAppDispatch } from '@/stores';
+import { capitilizeName } from '@/shared/assets';
 
 interface Props {
   data: IDoctor;
@@ -30,6 +32,23 @@ export const DetailedDoctorPage = ({
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
+  const dispatch = useAppDispatch();
+
+  const doctorName = useMemo(
+    () => capitilizeName(data.firstName, data.lastName),
+    [data.firstName, data.lastName],
+  );
+
+  const openRequestForm = () => {
+    dispatch(
+      openAppointmentDialog({
+        name: doctorName,
+        id: data.id,
+        image: data.image,
+        type: 'doctor',
+      }),
+    );
+  };
 
   const testimonialsCount = testimonials ? testimonials.length : undefined;
   const avarageRating = useMemo(() => {
@@ -64,6 +83,7 @@ export const DetailedDoctorPage = ({
               fullWidth
               variant="contained"
               size="large"
+              onClick={openRequestForm}
             />
             <DetailedDoctorClinics
               clinics={data.clinics}

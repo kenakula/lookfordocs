@@ -8,6 +8,7 @@ export * from './main-service.type';
 export * from './directus-api-refs';
 export * from './smart-search.type';
 export * from './testimonial.type';
+export * from './appointment.type';
 export * from './scroll-position';
 export * from './block-data.type';
 export * from './breadcrumb.type';

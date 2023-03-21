@@ -22,6 +22,7 @@ import {
   DoctorCardImage,
   DoctorCardRating,
 } from './components';
+import { openAppointmentDialog, useAppDispatch } from '@/stores';
 
 interface Props {
   data: IDoctor;
@@ -51,11 +52,18 @@ export const DoctorsCard = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetCardHeight(cardRef);
   const isDesktop = useMediaQuery(Breakpoints.Desktop);
+  const dispatch = useAppDispatch();
 
   const doctorName = useMemo(
     () => capitilizeName(firstName, lastName),
     [firstName, lastName],
   );
+
+  const openRequestForm = () => {
+    dispatch(
+      openAppointmentDialog({ name: doctorName, id, image, type: 'doctor' }),
+    );
+  };
 
   return (
     <StyledDoctorsCard
@@ -128,6 +136,7 @@ export const DoctorsCard = ({
               variant={detailedLocation ? 'contained' : 'outlined'}
               size={detailedLocation ? 'large' : 'medium'}
               shadow={!detailedLocation}
+              onClick={openRequestForm}
             />
           )}
         </Box>

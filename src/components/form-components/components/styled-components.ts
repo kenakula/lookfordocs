@@ -78,7 +78,7 @@ export const StyledInputWrapper = styled(Box)(({ theme }) => ({
   },
 
   '.form-control.phone-input__input': {
-    paddingLeft: 60,
+    paddingLeft: 82,
     width: '100%',
     minHeight: 48,
     color: theme.palette.text.secondary,
@@ -93,13 +93,40 @@ export const StyledInputWrapper = styled(Box)(({ theme }) => ({
 
   '.flag-dropdown.phone-input__btn': {
     borderColor: theme.palette.misc.light,
+    backgroundColor: theme.palette.misc.dark,
+
+    '&.open': {
+      '.selected-flag': {
+        backgroundColor: 'transparent',
+      },
+    },
 
     '.selected-flag': {
-      width: 50,
+      width: 70,
       borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
 
+      '&:hover, &:focus': {
+        backgroundColor: 'transparent',
+      },
+
       '.flag': {
-        left: 15,
+        position: 'relative',
+        left: 11,
+        transform: 'scale(1.3)',
+      },
+
+      '.arrow': {
+        position: 'absolute',
+        width: 11,
+        height: 11,
+        right: -10,
+        top: 1,
+        border: 'none',
+        backgroundImage:
+          'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNiAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzg5MF80MTQzKSI+CjxwYXRoIGQ9Ik0xMy4zMzQgNS4yODU0Nkw3Ljc3ODQzIDEwLjA0NzQiIHN0cm9rZT0iIzg0OEI5OCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTcuNzc3MzQgMTAuMDQ3NEwyLjIyMTc5IDUuMjg1NDYiIHN0cm9rZT0iIzg0OEI5OCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF84OTBfNDE0MyI+CjxyZWN0IHdpZHRoPSIxMy43MTQzIiBoZWlnaHQ9IjE2IiBmaWxsPSJ3aGl0ZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTYgMC4xNDI1NzgpIHJvdGF0ZSg5MCkiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4K)',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       },
     },
   },

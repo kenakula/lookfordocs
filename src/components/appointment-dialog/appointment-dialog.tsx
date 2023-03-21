@@ -9,20 +9,22 @@ import {
   RadioComponent,
 } from '@/components';
 import { closeAppointmentDialog, setToaster } from '@/stores/slices';
-import { StyledForm } from './components';
 import { RequestFormModel } from '@/shared/models';
 import { axiosClient } from '@/stores/assets';
+import { getImageUrl } from '@/shared/assets';
+import { StyledForm } from './components';
 import { formSchema } from './assets';
+import { useCommentBuilder } from './hooks';
 
 export const AppointmentDialog = (): JSX.Element => {
-  const { dialogOpen } = useAppSelector(state => state.appointment);
+  const { dialogOpen, target } = useAppSelector(state => state.appointment);
   const dispatch = useAppDispatch();
   const { isLoading, mutateAsync: sendRequest } = useMutation({
     mutationFn: (data: RequestFormModel) => axiosClient.post('requests', data),
   });
 
-  const { handleSubmit, control, formState, reset } = useForm<RequestFormModel>(
-    {
+  const { handleSubmit, control, formState, reset, setValue } =
+    useForm<RequestFormModel>({
       defaultValues: {
         name: '',
         email: '',
@@ -31,12 +33,13 @@ export const AppointmentDialog = (): JSX.Element => {
         comment: '',
       },
       resolver: yupResolver(formSchema),
-    },
-  );
+    });
+
+  useCommentBuilder(target, setValue);
 
   const onSubmit = async (data: RequestFormModel) => {
     try {
-      await sendRequest(data);
+      await sendRequest({ ...data, type: target?.type });
       reset();
       dispatch(closeAppointmentDialog());
       dispatch(
@@ -65,7 +68,8 @@ export const AppointmentDialog = (): JSX.Element => {
     <DialogComponent
       openState={dialogOpen}
       onClose={closeDialog}
-      title="Заполните данные"
+      title={target ? target.name : 'Заполните данные'}
+      imageUrl={target ? getImageUrl(target.image, target.name) : undefined}
     >
       <StyledForm
         className="appointment-form"
