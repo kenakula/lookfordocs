@@ -15,7 +15,7 @@ import {
 import { DoctorsFilterQuery } from '@/stores/types';
 import { DOCTORS_PAGE_LIMIT, useLazyGetDoctorsListQuery } from '@/stores/api';
 import {
-  FilterFormModel,
+  DoctorsFilterFormModel,
   FilterGroupValue,
   IClinic,
   IDoctor,
@@ -24,16 +24,15 @@ import {
   ILanguage,
   ISpecialty,
 } from '@/shared/types';
-import { DOCTORS_PAGE } from '@/shared/assets';
+import { DOCTORS_PAGE, getFilterValues } from '@/shared/assets';
 import { usePageQuery } from '@/shared/hooks';
-import { getFilterValues } from '../assets';
 
 interface HookValue {
   runQueryBuilder: (nameString?: string, pageNumber?: number) => void;
-  setFormValue: UseFormSetValue<FilterFormModel>;
-  resetFormValue: UseFormReset<FilterFormModel>;
+  setFormValue: UseFormSetValue<DoctorsFilterFormModel>;
+  resetFormValue: UseFormReset<DoctorsFilterFormModel>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formControl: Control<FilterFormModel, any>;
+  formControl: Control<DoctorsFilterFormModel, any>;
   doctorsList: IDoctor[] | undefined;
   query: DoctorsFilterQuery;
   searchString: string;
@@ -70,15 +69,16 @@ export const useBuildQuery = ({
       DoctorsFilterQuery,
       typeof useLazyGetDoctorsListQuery
     >(useLazyGetDoctorsListQuery);
-  const { control, getValues, setValue, reset } = useForm<FilterFormModel>({
-    defaultValues: {
-      specialties: [],
-      services: [],
-      insurances: [],
-      languages: [],
-      clinics: [],
-    },
-  });
+  const { control, getValues, setValue, reset } =
+    useForm<DoctorsFilterFormModel>({
+      defaultValues: {
+        specialties: [],
+        services: [],
+        insurances: [],
+        languages: [],
+        clinics: [],
+      },
+    });
 
   useEffect(() => {
     if (query.specialty) {

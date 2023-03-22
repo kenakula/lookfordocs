@@ -1,8 +1,7 @@
 import { LinearProgress, Typography } from '@mui/material';
 import {
-  FilterFormModel,
+  ISmartSearchQuery,
   ISmartSearchResult,
-  SmartSearchQuery,
   SmartSearchStatus,
 } from '@/shared/types';
 import { StyledSearchResult } from './styled-components';
@@ -23,9 +22,7 @@ interface Props {
   result: ISmartSearchResult[];
   errorMessage: string;
   searchStr: string;
-  handleChooseOptionCb?: (
-    customQuery: SmartSearchQuery<FilterFormModel>,
-  ) => void;
+  handleChooseOptionCb?: (customQuery: ISmartSearchQuery) => void;
 }
 
 export const SearchResult = ({

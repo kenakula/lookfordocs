@@ -1,10 +1,19 @@
-import { CitiesRef, InsurancesRef } from './directus-api-refs';
+import { IContact } from './contact.type';
+import {
+  CitiesRef,
+  DoctorRef,
+  GlobalServicesRef,
+  InsurancesRef,
+  LanguagesRef,
+  SpecialtyRef,
+} from './directus-api-refs';
 import { IImage } from './image.type';
+import { IMetro } from './metro.type';
+import { ITestimonial } from './testimonial.type';
 
-export interface IMetro {
-  color: string;
-  name: string;
-  slug: string;
+export interface IWorkTimes {
+  days: string;
+  hours: string;
 }
 
 export interface IClinic {
@@ -21,4 +30,18 @@ export interface IClinic {
   cities: CitiesRef[];
   metro: IMetro[];
   insurances: InsurancesRef[];
+  contacts: IContact[];
+  globalServices: GlobalServicesRef[];
+  doctors: DoctorRef[];
+  description: string;
+  specialties: SpecialtyRef[];
+  lang: LanguagesRef[];
+  workTimes: IWorkTimes[];
+}
+
+export interface IClinicsTestimonials {
+  clinics_id: {
+    id: number;
+  };
+  testimonials_id: ITestimonial | null;
 }

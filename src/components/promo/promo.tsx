@@ -1,9 +1,12 @@
+import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { Subtitle, Title } from '@/shared/assets';
 import { IPromoBlockData } from '@/shared/types';
-import { ContainerComponent } from '@/components';
+import {
+  ButtonComponent,
+  ChipComponent,
+  ContainerComponent,
+} from '@/components';
 import { Becas } from '@/components/icons';
-import { ChipComponent } from '../chip-component/chip-component';
-import { ButtonComponent } from '../button-component/button-component';
 import { StyledChips, StyledPromoSection } from './components';
 
 interface Props {
@@ -11,6 +14,12 @@ interface Props {
 }
 
 export const Promo = ({ promoData }: Props): JSX.Element => {
+  const dispatch = useAppDispatch();
+
+  const openRequestDialog = () => {
+    dispatch(openAppointmentDialog());
+  };
+
   return (
     <StyledPromoSection component="section">
       <ContainerComponent>
@@ -42,6 +51,7 @@ export const Promo = ({ promoData }: Props): JSX.Element => {
           size="large"
           fullWidth
           text="Записаться к врачу"
+          onClick={openRequestDialog}
         />
         <Becas className="becas" />
       </ContainerComponent>

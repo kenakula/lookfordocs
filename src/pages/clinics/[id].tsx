@@ -2,24 +2,19 @@ import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
-import { AxiosResponse } from 'axios';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { getClinicInfo, getSiteSettings } from '@/api';
-import { axiosClient } from '@/stores/assets';
+import { getClinicInfo, getClinicsIds, getSiteSettings } from '@/api';
 import { ContainerComponent, Layout, PageSeo } from '@/components';
-import { IClinic } from '@/shared/types';
 
 interface PageParams extends ParsedUrlQuery {
   id: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await axiosClient.get<AxiosResponse<IClinic[]>>('/clinics', {
-    params: { fields: 'id' },
-  });
+  const response = await getClinicsIds();
 
   return {
-    paths: response.data.data.map(clinic => ({
+    paths: response.map(clinic => ({
       params: { id: clinic.id.toString() },
     })),
     fallback: true,

@@ -1,6 +1,4 @@
-export * from './filter-result-skeleton';
 export * from './filter-group-component';
-export * from './clear-filters-button';
 export * from './styled-components';
 export * from './filters-counter';
 export * from './filter-checkbox';

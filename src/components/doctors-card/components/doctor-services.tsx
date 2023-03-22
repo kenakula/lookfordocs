@@ -1,8 +1,8 @@
 import { getPriceString } from '@/shared/assets';
-import { IDoctorService } from '@/shared/types';
+import { IService } from '@/shared/types';
 
 interface Props {
-  list: IDoctorService[];
+  list: IService[];
 }
 
 export const DoctorServices = ({ list }: Props): JSX.Element => {

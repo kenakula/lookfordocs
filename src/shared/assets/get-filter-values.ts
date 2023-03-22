@@ -1,7 +1,9 @@
+import { FilterGroupValue } from '../types';
+
 export const getFilterValues = <T extends { id: number }>(
   arr: T[],
   query?: string,
-): (string | undefined)[] => {
+): FilterGroupValue => {
   if (!query) {
     return Array(arr.length).fill(undefined);
   }

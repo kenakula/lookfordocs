@@ -1,6 +1,6 @@
-export type FilterGroupValue = (string | undefined)[];
+import { FilterGroupValue } from './filter-group-value.type';
 
-export interface FilterFormModel {
+export interface DoctorsFilterFormModel {
   specialties: FilterGroupValue;
   services: FilterGroupValue;
   insurances: FilterGroupValue;
