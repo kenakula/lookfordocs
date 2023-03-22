@@ -182,7 +182,7 @@ export const ClinicsFilter = ({
           {clinicsList && totalItemsCount ? (
             <div className="filters-sort">
               <Typography className="filters-total">
-                Найдено врачей: {totalItemsCount}
+                Найдено клиник: {totalItemsCount}
               </Typography>
             </div>
           ) : null}

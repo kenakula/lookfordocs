@@ -10,6 +10,8 @@ import {
 } from './slices';
 import { appointmentReducer } from './slices/appointment.slice';
 
+// TODO перенести апи с слайсы
+
 export const makeStore = () =>
   configureStore({
     reducer: {

@@ -9,12 +9,9 @@ import {
 } from './directus-api-refs';
 import { IImage } from './image.type';
 import { IMetro } from './metro.type';
+import { IService } from './service.type';
 import { ITestimonial } from './testimonial.type';
-
-export interface IWorkTimes {
-  days: string;
-  hours: string;
-}
+import { IWorkTime } from './work-time.type';
 
 export interface IClinic {
   id: number;
@@ -25,6 +22,7 @@ export interface IClinic {
   user_updated: string;
   date_updated?: Date;
   name: string;
+  subtitle: string;
   image: IImage;
   address: string;
   cities: CitiesRef[];
@@ -36,7 +34,8 @@ export interface IClinic {
   description: string;
   specialties: SpecialtyRef[];
   lang: LanguagesRef[];
-  workTimes: IWorkTimes[];
+  workTime: IWorkTime[];
+  services: IService[];
 }
 
 export interface IClinicsTestimonials {

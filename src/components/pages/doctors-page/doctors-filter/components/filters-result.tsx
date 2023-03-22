@@ -1,6 +1,6 @@
 import { CircularProgress, Typography } from '@mui/material';
 import { IDoctor, IDoctorsTestimonials } from '@/shared/types';
-import { DoctorsCard } from '@/components';
+import { DoctorCard } from '@/components';
 import { FilterEmptyResult, FilterResultList } from './styled-components';
 import { useCallback } from 'react';
 
@@ -54,7 +54,7 @@ export const FiltersResult = ({
       <FilterResultList>
         {doctorsList.map(item => (
           <li key={item.id}>
-            <DoctorsCard
+            <DoctorCard
               data={item}
               rating={getRate(item.id).rate}
               testimonialsCount={getRate(item.id).count}

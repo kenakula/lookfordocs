@@ -1,13 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { IClinic, IItemsCount, TriggerQueryArgs } from '@/shared/types';
-import { CollectionResponse, getDoctorsQueryString } from '../assets';
+import { CollectionResponse, getClinicsQueryString } from '../assets';
 import { ClinicsFilterQuery } from '../types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
 export const CLINICS_PAGE_LIMIT = 6;
-
-// TODO заменить функцию фильтра
 
 export const clinicsPageApi = createApi({
   reducerPath: 'clinicsPageApi',
@@ -27,10 +25,18 @@ export const clinicsPageApi = createApi({
       TriggerQueryArgs<ClinicsFilterQuery>
     >({
       query: ({ filter, page, limit }) => ({
-        url: '/clinics?fields=*.*,specialties.specialties_id.*,insurances.insurances_id.*,lang.languages_id.*,globalServices.globalServices_id.*',
+        url: '/clinics',
         params: {
-          filter: getDoctorsQueryString(filter),
+          filter: getClinicsQueryString(filter),
           sort: '-image',
+          fields: `
+            *.*,
+            specialties.specialties_id.*,
+            insurances.insurances_id.*,
+            lang.languages_id.*,
+            globalServices.globalServices_id.*,
+            cities.cities_id.*
+          `,
           page,
           limit,
         },
@@ -45,7 +51,7 @@ export const clinicsPageApi = createApi({
       query: ({ filter }) => ({
         url: '/clinics',
         params: {
-          filter: getDoctorsQueryString(filter),
+          filter: getClinicsQueryString(filter),
           'aggregate[count]': 'id',
         },
       }),

@@ -1,4 +1,4 @@
-import { DoctorsFilterQuery } from '../types';
+import { ClinicsFilterQuery, DoctorsFilterQuery } from '../types';
 
 export const getDoctorsFilterString = (search: string): string => `
   {
@@ -211,6 +211,132 @@ export const getDoctorsQueryString = (query: DoctorsFilterQuery): string => {
     specialtyString,
     insuranceString,
     clinicsString,
+    langString,
+    serviceString,
+  ]
+    .filter(str => Boolean(str.length))
+    .join(',');
+
+  return `
+    {
+      "_and": [
+        ${string}
+      ]
+    }
+  `;
+};
+
+export const getClinicsQueryString = (query: ClinicsFilterQuery): string => {
+  const nameString = query.name
+    ? `
+        {
+          "name": {
+            "_contains": "${query.name}"
+          }
+        }
+      `
+    : '';
+
+  const specialtyArr = query.specialty ? query.specialty.split(',') : [];
+  const specialtyString = specialtyArr.length
+    ? `
+        {
+          "_or": [
+            ${specialtyArr.map(
+              spec =>
+                `
+                  {
+                    "specialties": {
+                      "specialties_id": {
+                        "id": {
+                          "_eq": "${spec}"
+                        }
+                      }
+                    }
+                  }
+                `,
+            )}
+          ]
+        }
+      `
+    : '';
+
+  const insuranceArr = query.insurance ? query.insurance.split(',') : [];
+  const insuranceString = insuranceArr.length
+    ? `
+        {
+          "_or": [
+            ${insuranceArr.map(
+              ins =>
+                `
+                  {
+                    "insurances": {
+                      "insurances_id": {
+                        "id": {
+                          "_eq": "${ins}"
+                        }
+                      }
+                    }
+                  }
+                `,
+            )}
+          ]
+        }
+      `
+    : '';
+
+  const serviceArr = query.service ? query.service.split(',') : [];
+  const serviceString = serviceArr.length
+    ? `
+        {
+          "_or": [
+            ${serviceArr.map(
+              service =>
+                `
+                  {
+                    "globalServices": {
+                      "globalServices_id": {
+                        "id": {
+                          "_eq": "${service}"
+                        }
+                      }
+                    }
+                  }
+                `,
+            )}
+          ]
+        }
+      `
+    : '';
+
+  const langArr = query.lang ? query.lang.split(',') : [];
+  const langString = langArr.length
+    ? `
+        {
+          "_or": [
+            ${langArr.map(
+              lang =>
+                `
+                  {
+                    "lang": {
+                      "languages_id": {
+                        "id": {
+                          "_eq": "${lang}"
+                        }
+                      }
+                    }
+                  }
+                `,
+            )}
+          ]
+        }
+      `
+    : '';
+
+  const string = [
+    nameString,
+    specialtyString,
+    insuranceString,
     langString,
     serviceString,
   ]

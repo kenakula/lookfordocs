@@ -1,7 +1,8 @@
+import { useCallback } from 'react';
 import { CircularProgress, Typography } from '@mui/material';
 import { IClinic, IClinicsTestimonials } from '@/shared/types';
+import { ClinicCard } from '@/components';
 import { FilterEmptyResult, FilterResultList } from './styled-components';
-import { useCallback } from 'react';
 
 interface Props {
   clinicsList: IClinic[] | undefined;
@@ -53,8 +54,11 @@ export const FiltersResult = ({
       <FilterResultList>
         {clinicsList.map(item => (
           <li key={item.id}>
-            <p>{item.name}</p>
-            <p>{getRate(item.id).rate}</p>
+            <ClinicCard
+              data={item}
+              rating={getRate(item.id).rate}
+              testimonialsCount={getRate(item.id).count}
+            />
           </li>
         ))}
         {fetching && (
@@ -68,7 +72,7 @@ export const FiltersResult = ({
 
   return (
     <FilterEmptyResult textAlign="center" variant="body1">
-      По вашему запросу не найдено докторов. Попробуйте ослабить фильтры.
+      По вашему запросу не найдено клиник. Попробуйте ослабить фильтры.
     </FilterEmptyResult>
   );
 };

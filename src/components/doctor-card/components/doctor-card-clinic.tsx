@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCallback } from 'react';
 import { Box, Typography } from '@mui/material';
-import { capitalize, getImageUrl } from '@/shared/assets';
+import { capitalize, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
 import { CitiesRef, IClinic } from '@/shared/types';
 import { StyledClinicCard } from './styled-components';
 import { DoctorCardInsurances } from './doctor-card-insurances';
@@ -49,7 +49,7 @@ export const DoctorCardClinic = ({
         <Box className="clinic-image">
           <Image fill alt={name} src={getImageUrl(image, name)} />
         </Box>
-        <Link href={`/clinics/${id}`}>{name}</Link>
+        <Link href={`${CLINICS_PAGE}/${id}`}>{name}</Link>
       </Box>
       <Typography variant="body2" className="clinic-address">
         {getClinicAddress(address, citiesList[0])}

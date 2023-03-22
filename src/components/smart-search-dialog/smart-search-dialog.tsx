@@ -23,8 +23,6 @@ import { Breakpoints } from '@/shared/enums';
 import { SearchResult, StyledDialog, StyledDialogHeader } from './components';
 import { useCloseOnMainPageTablet, useFullscreenMode } from './hooks';
 
-// TODO убрать клиники для результатов на странице клиник
-
 interface Props {
   handleSubmitCb: (name?: string) => void;
   placeholder: string;

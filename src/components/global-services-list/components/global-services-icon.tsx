@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
-import { GlobalServicesRef, GlobalServiceType } from '@/shared/types';
+import { TooltipComponent } from '@/shared/assets';
+import { Breakpoints } from '@/shared/enums';
+import { GlobalServiceType } from '@/shared/types';
 import {
   IconHome,
   IconOnline,
   IconReceipt,
   IconFace,
 } from '@/components/icons';
-import { TooltipComponent } from '@/shared/assets';
-import { Breakpoints } from '@/shared/enums';
-import { StyledGlobalServices } from './styled-components';
 
 interface IconProps {
   name: string;
   type: GlobalServiceType;
 }
 
-const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
+export const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
   const [openedTooltips, setOpenedTooltips] = useState<string[]>([]);
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
 
@@ -108,24 +107,4 @@ const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
         </li>
       );
   }
-};
-
-interface Props {
-  list: GlobalServicesRef[];
-}
-
-export const DoctorGlobalServices = ({ list }: Props): JSX.Element | null => {
-  if (!list.length) {
-    return null;
-  }
-
-  return (
-    <StyledGlobalServices>
-      <ul>
-        {list.map(({ globalServices_id: { id, name, type } }) => (
-          <GlobalServiceIcon key={id} name={name} type={type} />
-        ))}
-      </ul>
-    </StyledGlobalServices>
-  );
 };

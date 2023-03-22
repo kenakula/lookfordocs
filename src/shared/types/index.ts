@@ -18,6 +18,7 @@ export * from './breadcrumb.type';
 export * from './specialty.type';
 export * from './insurance.type';
 export * from './advantage.type';
+export * from './work-time.type';
 export * from './language.type';
 export * from './contact.type';
 export * from './toaster.type';

@@ -1,11 +1,18 @@
 import { useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { Box, Typography, useMediaQuery } from '@mui/material';
-import { ButtonComponent } from '@/components';
+import { openAppointmentDialog, useAppDispatch } from '@/stores';
+import {
+  ButtonComponent,
+  CardImage,
+  GlobalServicesList,
+  LanguagesList,
+  ServicesList,
+} from '@/components';
 import { IDoctor } from '@/shared/types';
 import { capitilizeName, DOCTORS_PAGE } from '@/shared/assets';
 import { Breakpoints } from '@/shared/enums';
-import { useGetCardHeight } from './hooks';
+import { useGetElementHeight } from '@/shared/hooks';
 import {
   DoctorSpecialties,
   StyledDoctorsCard,
@@ -13,16 +20,11 @@ import {
   StyledInfo,
   StyledText,
   StyleSevices,
-  DoctorLanguages,
   DoctorCardInfo,
-  DoctorServices,
   DoctorClinics,
   StyledClinics,
-  DoctorGlobalServices,
-  DoctorCardImage,
   DoctorCardRating,
 } from './components';
-import { openAppointmentDialog, useAppDispatch } from '@/stores';
 
 interface Props {
   data: IDoctor;
@@ -31,7 +33,7 @@ interface Props {
   testimonialsCount?: number;
 }
 
-export const DoctorsCard = ({
+export const DoctorCard = ({
   data: {
     firstName,
     lastName,
@@ -50,7 +52,7 @@ export const DoctorsCard = ({
   testimonialsCount,
 }: Props): JSX.Element => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const { height: cardHeight } = useGetCardHeight(cardRef);
+  const { height: cardHeight } = useGetElementHeight(cardRef);
   const isDesktop = useMediaQuery(Breakpoints.Desktop);
   const dispatch = useAppDispatch();
 
@@ -78,10 +80,10 @@ export const DoctorsCard = ({
         {!isDesktop && <DoctorSpecialties list={specialties} />}
         <DoctorCardInfo className="doctor-card-info">
           <Box className="mobile-image-container">
-            <DoctorCardImage
-              docID={id}
-              docName={doctorName}
+            <CardImage
+              name={doctorName}
               imageId={image.id}
+              url={`${DOCTORS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
             {rating ? (
@@ -91,7 +93,7 @@ export const DoctorsCard = ({
                 detaiedLocation={detailedLocation}
               />
             ) : null}
-            {isDesktop && <DoctorGlobalServices list={globalServices} />}
+            {isDesktop && <GlobalServicesList list={globalServices} />}
           </Box>
           {!isDesktop && (
             <StyledInfo>
@@ -102,8 +104,8 @@ export const DoctorsCard = ({
                   <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
                 </Typography>
               )}
-              <DoctorLanguages list={lang} />
-              <DoctorGlobalServices list={globalServices} />
+              <LanguagesList list={lang} />
+              <GlobalServicesList list={globalServices} />
             </StyledInfo>
           )}
         </DoctorCardInfo>
@@ -118,7 +120,7 @@ export const DoctorsCard = ({
                   <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
                 </Typography>
               )}
-              <DoctorLanguages list={lang} />
+              <LanguagesList list={lang} />
             </StyledInfo>
           )}
           <StyledText className="doctor-card-text" sx={{ mt: 2, mb: 2 }}>
@@ -126,7 +128,7 @@ export const DoctorsCard = ({
           </StyledText>
           {services && (
             <StyleSevices>
-              <DoctorServices list={services} />
+              <ServicesList list={services} />
             </StyleSevices>
           )}
           {!detailedLocation && (

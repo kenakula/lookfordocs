@@ -9,7 +9,7 @@ import {
 import {
   searchFieldClear,
   searchFieldInput,
-  setFiltersCount,
+  setDoctorsFiltersCount,
   useAppDispatch,
 } from '@/stores';
 import { DoctorsFilterQuery } from '@/stores/types';
@@ -119,7 +119,7 @@ export const useBuildQuery = ({
       return sum + curr.length;
     }, 0);
 
-    dispatch(setFiltersCount(count));
+    dispatch(setDoctorsFiltersCount(count));
   }, [getValues, dispatch]);
 
   const fetchCallback = (nameString?: string, pageNumber?: number): void => {

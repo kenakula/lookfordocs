@@ -61,17 +61,18 @@ export const StyledFiltersBody = styled('div')(({ theme }) => ({
     },
 
     '.filters-result': {
-      width: '73%',
+      flexGrow: 1,
+      minWidth: '66%',
     },
 
     '.filters-block': {
-      flexGrow: 1,
+      minWidth: 210,
     },
   },
 
   [theme.breakpoints.up('lg')]: {
-    '.filters-result': {
-      width: '90%',
+    '.filters-block': {
+      minWidth: 250,
     },
   },
 }));
