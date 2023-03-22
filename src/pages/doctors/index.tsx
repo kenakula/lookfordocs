@@ -3,14 +3,14 @@ import { Typography } from '@mui/material';
 import { GetStaticProps } from 'next';
 import {
   getDoctorsClinics,
-  getDoctorsInsurances,
   getDoctorsPagePromoData,
-  getDoctorsSpecialties,
-  getDoctorsTestimonials,
+  getDoctorsTestimonialsRates,
   getGlobalServices,
+  getInsurances,
   getLanguages,
   getPageSettings,
   getSiteSettings,
+  getSpecialties,
 } from '@/api';
 import {
   BreadcrumbsComponent,
@@ -36,17 +36,14 @@ export const getStaticProps: GetStaticProps = async () => {
     ['doctorsPagePromo'],
     getDoctorsPagePromoData,
   );
-  await queryClient.prefetchQuery(
-    ['doctorsSpecialties'],
-    getDoctorsSpecialties,
-  );
+  await queryClient.prefetchQuery(['specialties'], getSpecialties);
   await queryClient.prefetchQuery(['globalServices'], getGlobalServices);
-  await queryClient.prefetchQuery(['doctorsInsurances'], getDoctorsInsurances);
+  await queryClient.prefetchQuery(['insurances'], getInsurances);
   await queryClient.prefetchQuery(['languages'], getLanguages);
   await queryClient.prefetchQuery(['doctorsClinics'], getDoctorsClinics);
   await queryClient.prefetchQuery(
-    ['doctorsTestimonials'],
-    getDoctorsTestimonials,
+    ['doctorsTestimonialsRates'],
+    getDoctorsTestimonialsRates,
   );
 
   return {
@@ -85,8 +82,8 @@ const DoctorsPage = (): JSX.Element => {
         staleTime: Infinity,
       },
       {
-        queryKey: ['doctorsSpecialties'],
-        queryFn: getDoctorsSpecialties,
+        queryKey: ['specialties'],
+        queryFn: getSpecialties,
         staleTime: Infinity,
       },
       {
@@ -95,8 +92,8 @@ const DoctorsPage = (): JSX.Element => {
         staleTime: Infinity,
       },
       {
-        queryKey: ['doctorsInsurances'],
-        queryFn: getDoctorsInsurances,
+        queryKey: ['insurances'],
+        queryFn: getInsurances,
         staleTime: Infinity,
       },
       {
@@ -110,8 +107,8 @@ const DoctorsPage = (): JSX.Element => {
         staleTime: Infinity,
       },
       {
-        queryKey: ['doctorsTestimonials'],
-        queryFn: getDoctorsTestimonials,
+        queryKey: ['doctorsTestimonialsRates'],
+        queryFn: getDoctorsTestimonialsRates,
         staleTime: Infinity,
       },
     ],
@@ -125,15 +122,11 @@ const DoctorsPage = (): JSX.Element => {
     clinics &&
     doctorsTestimonials;
 
-  if (siteSettings) {
+  if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings}>
-        {pageSettings ? (
-          <>
-            <h1 className="visually-hidden">{pageSettings.h1}</h1>
-            <PageSeo pageSettings={pageSettings} />
-          </>
-        ) : null}
+        <h1 className="visually-hidden">{pageSettings.h1}</h1>
+        <PageSeo pageSettings={pageSettings} />
 
         <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
         {promoData && <Promo promoData={promoData} />}

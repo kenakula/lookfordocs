@@ -7,14 +7,14 @@ import {
   IGlobalService,
   IInsurance,
   ILanguage,
-  FilterFormModel,
+  DoctorsFilterFormModel,
   IClinic,
 } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
+import { ClearFiltersButton } from '@/components';
 import { FiltersList } from './filters-list';
 import { MobileFilter } from './mobile-filter';
 import { StyledFiltersBlockTop } from './styled-components';
-import { ClearFiltersButton } from './clear-filters-button';
 
 interface Props {
   specialties: ISpecialty[];
@@ -26,7 +26,7 @@ interface Props {
   setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
   buildQueryString: (name?: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<FilterFormModel, any>;
+  control: Control<DoctorsFilterFormModel, any>;
   resetFilters: () => void;
 }
 
@@ -44,7 +44,7 @@ export const FiltersBlock = ({
 }: Props): JSX.Element => {
   const [expandedBlocks, setExpandedBlocks] = useState<string[]>([]);
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
-  const { filtersCount } = useAppSelector(state => state.doctorsPage);
+  const { filtersCount } = useAppSelector(state => state.clinicsPage);
 
   const handleCloseMobileFilter = (): void => {
     setMobileFilterOpen(false);

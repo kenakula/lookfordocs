@@ -1,9 +1,26 @@
 import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { GetStaticProps } from 'next';
 import { Typography } from '@mui/material';
-import { getSiteSettings, getPageSettings } from '@/api';
-import { ContainerComponent, Layout, PageSeo } from '@/components';
 import { useRouter } from 'next/router';
+import {
+  getSiteSettings,
+  getPageSettings,
+  getGlobalServices,
+  getLanguages,
+  getClinicsPagePromoData,
+  getSpecialties,
+  getInsurances,
+  getClinicsTestimonialsRates,
+} from '@/api';
+import {
+  BreadcrumbsComponent,
+  ClinicsFilter,
+  ContainerComponent,
+  Layout,
+  PageResult,
+  PageSeo,
+  Promo,
+} from '@/components';
 
 const PAGE_SLUG = 'clinics';
 
@@ -13,6 +30,19 @@ export const getStaticProps: GetStaticProps = async () => {
   await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
   await queryClient.prefetchQuery(['pageSettings', PAGE_SLUG], () =>
     getPageSettings(PAGE_SLUG),
+  );
+
+  await queryClient.prefetchQuery(['globalServices'], getGlobalServices);
+  await queryClient.prefetchQuery(['languages'], getLanguages);
+  await queryClient.prefetchQuery(
+    ['clinicsPagePromo'],
+    getClinicsPagePromoData,
+  );
+  await queryClient.prefetchQuery(['specialties'], getSpecialties);
+  await queryClient.prefetchQuery(['insurances'], getInsurances);
+  await queryClient.prefetchQuery(
+    ['clinicsTestimonialsRates'],
+    getClinicsTestimonialsRates,
   );
 
   return {
@@ -25,7 +55,16 @@ export const getStaticProps: GetStaticProps = async () => {
 const ClinicsPage = (): JSX.Element => {
   const router = useRouter();
 
-  const [{ data: siteSettings }, { data: pageSettings }] = useQueries({
+  const [
+    { data: siteSettings },
+    { data: pageSettings },
+    { data: globalServices },
+    { data: languages },
+    { data: promoData },
+    { data: specialties },
+    { data: insurances },
+    { data: clinicsTestimonials },
+  ] = useQueries({
     queries: [
       {
         queryKey: ['siteSettings'],
@@ -35,6 +74,36 @@ const ClinicsPage = (): JSX.Element => {
       {
         queryKey: ['pageSettings', PAGE_SLUG],
         queryFn: () => getPageSettings(PAGE_SLUG),
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['globalServices'],
+        queryFn: getGlobalServices,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['languages'],
+        queryFn: getLanguages,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['clinicsPagePromo'],
+        queryFn: getClinicsPagePromoData,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['specialties'],
+        queryFn: getSpecialties,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['insurances'],
+        queryFn: getInsurances,
+        staleTime: Infinity,
+      },
+      {
+        queryKey: ['clinicsTestimonialsRates'],
+        queryFn: getClinicsTestimonialsRates,
         staleTime: Infinity,
       },
     ],
@@ -48,13 +117,32 @@ const ClinicsPage = (): JSX.Element => {
     );
   }
 
+  const hasData =
+    globalServices &&
+    languages &&
+    specialties &&
+    insurances &&
+    clinicsTestimonials;
+
   if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings}>
+        <h1 className="visually-hidden">{pageSettings.h1}</h1>
         <PageSeo pageSettings={pageSettings} />
-        <ContainerComponent>
-          <h1>ClinicsPage</h1>
-        </ContainerComponent>
+
+        <BreadcrumbsComponent crumbs={[{ text: 'Клиники' }]} />
+        {promoData && <Promo promoData={promoData} />}
+        <PageResult>
+          {hasData && (
+            <ClinicsFilter
+              services={globalServices}
+              languages={languages}
+              specialties={specialties}
+              insurances={insurances}
+              clinicsTestimonials={clinicsTestimonials}
+            />
+          )}
+        </PageResult>
       </Layout>
     );
   }

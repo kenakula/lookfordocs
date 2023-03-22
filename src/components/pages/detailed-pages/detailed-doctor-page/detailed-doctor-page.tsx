@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from '@mui/material';
-import { ButtonComponent, ContainerComponent, DoctorsCard } from '@/components';
+import { ButtonComponent, ContainerComponent, DoctorCard } from '@/components';
 import { ICity, IDoctor, IInsurance } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import {
@@ -65,7 +65,7 @@ export const DetailedDoctorPage = ({
       <StyledDetailedPageLayout>
         <h2 className="visually-hidden">Общая информация о враче</h2>
         <Box className="detailed-left-column">
-          <DoctorsCard
+          <DoctorCard
             data={data}
             detailedLocation
             rating={avarageRating}

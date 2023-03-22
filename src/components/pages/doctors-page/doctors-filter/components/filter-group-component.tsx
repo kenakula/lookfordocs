@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 import { Typography, Collapse, Button } from '@mui/material';
 import { Control } from 'react-hook-form';
-import { FilterFormModel } from '@/shared/types';
-import { useGetGroupFiltersCount } from '../hooks';
+import { DoctorsFilterFormModel } from '@/shared/types';
+
+import { getGroupFiltersCount } from '@/shared/assets';
 import { DoctorsFilterCheckboxName, FilterCheckbox } from './filter-checkbox';
 import { StyledFilterGroup, StyledFilterGroupTop } from './styled-components';
 import { FiltersCounter } from './filters-counter';
@@ -21,7 +22,7 @@ interface Props<T> {
   id: string;
   expandedBlocks: string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formControl: Control<FilterFormModel, any>;
+  formControl: Control<DoctorsFilterFormModel, any>;
   handleExpandGroup: (id: string) => void;
   list: T[];
   name: string;
@@ -37,7 +38,7 @@ export const FilterGroupComponent = <T extends IList>({
   name,
 }: Props<T>): JSX.Element => {
   const needToExpand = list.length > SHOWED_CHECKBOXES_COUNT;
-  const checkedCount = useGetGroupFiltersCount(formControl._formValues[name]);
+  const checkedCount = getGroupFiltersCount(formControl._formValues[name]);
 
   const getItemName = useCallback((item: IList): string => {
     if (item.name) {

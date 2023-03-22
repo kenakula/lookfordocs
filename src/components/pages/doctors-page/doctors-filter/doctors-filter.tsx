@@ -1,34 +1,34 @@
 import { useRef, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import {
-  ButtonComponent,
-  PaginationComponent,
-  SmartSearchInput,
-} from '@/components';
+
 import { useLazyGetDoctorsCountQuery } from '@/stores/api';
 import { searchFieldClear, useAppDispatch, useAppSelector } from '@/stores';
 import {
-  FilterFormModel,
   IClinic,
   IDoctorsTestimonials,
   IGlobalService,
   IInsurance,
   ILanguage,
+  ISmartSearchQuery,
   ISpecialty,
-  SmartSearchQuery,
 } from '@/shared/types';
 import { DoctorsFilterQuery } from '@/stores/types';
 import { usePaginationQuery } from '@/shared/hooks';
 import {
+  ButtonComponent,
   FilterResultSkeleton,
+  PaginationComponent,
+  SmartSearchInput,
+} from '@/components';
+import {
   FiltersBlock,
   FiltersCounter,
   FiltersResult,
   StyledFiltersBody,
   StyledFiltersTop,
 } from './components';
-import { getFilterValues } from './assets';
 import { useBuildQuery } from './hooks';
+import { getFilterValues } from '@/shared/assets';
 
 interface Props {
   specialties: ISpecialty[];
@@ -105,7 +105,7 @@ export const DoctorsFilter = ({
   const handleChooseResultOption = ({
     name,
     value,
-  }: SmartSearchQuery<FilterFormModel>): void => {
+  }: ISmartSearchQuery): void => {
     switch (name) {
       case 'specialties':
         setFormValue(name, getFilterValues(specialties, value));

@@ -5,7 +5,7 @@ import {
   IGlobalService,
   IInsurance,
   ILanguage,
-  FilterFormModel,
+  DoctorsFilterFormModel,
   IClinic,
 } from '@/shared/types';
 import { useAppSelector } from '@/stores';
@@ -19,7 +19,7 @@ interface Props {
   clinics: IClinic[];
   handleChange: (name?: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formControl: Control<FilterFormModel, any>;
+  formControl: Control<DoctorsFilterFormModel, any>;
   expandedBlocks: string[];
   handleExpandGroup: (id: string) => void;
 }

@@ -13,20 +13,15 @@ import {
   IDoctor,
   IInsurance,
   IGlobalService,
-  FilterFormModel,
-  SmartSearchQuery,
   ILanguage,
+  ISmartSearchQuery,
 } from '@/shared/types';
 import { StyledResultList } from './styled-components';
-
-// TODO рефактор
 
 interface Props {
   result: ISmartSearchResult;
   search: string;
-  handleChooseOptionCb?: (
-    customQuery: SmartSearchQuery<FilterFormModel>,
-  ) => void;
+  handleChooseOptionCb?: (customQuery: ISmartSearchQuery) => void;
 }
 
 export const ResultList = ({

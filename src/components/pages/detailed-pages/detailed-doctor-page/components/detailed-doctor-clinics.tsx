@@ -3,7 +3,7 @@ import { Box, Typography, useMediaQuery } from '@mui/material';
 import { SwiperSlide } from 'swiper/react';
 import { SwiperOptions, Navigation, Pagination } from 'swiper';
 import { SliderComponent } from '@/components';
-import { DoctorCardClinic } from '@/components/doctors-card/components';
+import { DoctorCardClinic } from '@/components/doctor-card/components';
 import { ClinicsRef, ICity, IClinic, IInsurance } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 

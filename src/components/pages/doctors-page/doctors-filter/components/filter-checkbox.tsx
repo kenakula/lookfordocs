@@ -1,7 +1,7 @@
 import { FormControlLabel } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
 import { CheckboxComponent } from '@/components';
-import { FilterFormModel } from '@/shared/types';
+import { DoctorsFilterFormModel } from '@/shared/types';
 
 export type DoctorsFilterCheckboxName =
   | 'specialties'
@@ -14,7 +14,7 @@ export type DoctorsFilterCheckboxName =
   | `languages.${number}`;
 
 interface Props {
-  formControl: Control<FilterFormModel>;
+  formControl: Control<DoctorsFilterFormModel>;
   name: DoctorsFilterCheckboxName;
   value: string;
   label: string;

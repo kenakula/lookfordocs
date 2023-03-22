@@ -16,7 +16,7 @@ import {
   useAppSelector,
 } from '@/stores';
 import { IconSearch, IconClose } from '@/components/icons';
-import { FilterFormModel, SmartSearchQuery } from '@/shared/types';
+import { ISmartSearchQuery } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { SmartSearchDialog } from '@/components';
 import { StyledSearchBox, StyledSearchButton } from './components';
@@ -24,9 +24,7 @@ import { StyledSearchBox, StyledSearchButton } from './components';
 interface Props {
   placeholder: string;
   handleSubmitCb: (name?: string) => void;
-  handleChooseOptionCb?: (
-    customQuery: SmartSearchQuery<FilterFormModel>,
-  ) => void;
+  handleChooseOptionCb?: (customQuery: ISmartSearchQuery) => void;
   imageRenderer?: () => JSX.Element;
   clearInputCb?: () => void;
   mobilePlaceholder?: string;

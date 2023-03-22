@@ -28,7 +28,7 @@ export const doctorsPageSlice = createSlice({
     clearDoctorsSearchValue: state => {
       state.searshString = '';
     },
-    setFiltersCount: (state, { payload }: PayloadAction<number>) => {
+    setDoctorsFiltersCount: (state, { payload }: PayloadAction<number>) => {
       state.filtersCount = payload;
     },
     setCities: (state, { payload }: PayloadAction<ICity[] | null>) => {
@@ -47,7 +47,7 @@ export const doctorsPageSlice = createSlice({
 export const {
   clearDoctorsSearchValue,
   setDoctorsSearchValue,
-  setFiltersCount,
+  setDoctorsFiltersCount,
   setInsurances,
   setCities,
 } = doctorsPageSlice.actions;
