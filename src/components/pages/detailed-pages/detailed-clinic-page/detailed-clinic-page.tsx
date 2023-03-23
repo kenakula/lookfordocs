@@ -17,7 +17,7 @@ interface Props {
 export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
   const clinicId = data.id.toString();
-  const { data: testimonials } = useQuery({
+  const { data: testimonials, isLoading: testimonialsLoading } = useQuery({
     queryKey: ['clinicTestimonials', clinicId],
     queryFn: () => getClinicTestimonials(clinicId),
     staleTime: Infinity,
@@ -59,7 +59,11 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
             testimonialsCount={testimonialsCount}
           />
           {isTablet ? (
-            <DetailedInfo data={data} testimonials={testimonials} />
+            <DetailedInfo
+              data={data}
+              testimonials={testimonials}
+              testimonialsLoading={testimonialsLoading}
+            />
           ) : null}
         </div>
         <div className="detailed-right-column">
@@ -81,7 +85,11 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
         </div>
         <Box>
           {!isTablet ? (
-            <DetailedInfo data={data} testimonials={testimonials} />
+            <DetailedInfo
+              data={data}
+              testimonials={testimonials}
+              testimonialsLoading={testimonialsLoading}
+            />
           ) : null}
         </Box>
       </DetailedPageLayout>

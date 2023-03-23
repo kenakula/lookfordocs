@@ -8,12 +8,12 @@ import { StyledTestimonialList, TestimonialCard } from './components';
 const SHOWED_TESTIMONIALS_COUNT = 4;
 
 interface Props {
-  testimonials: ITestimonial[];
+  testimonials?: ITestimonial[];
   openTestimonialDialog: () => void;
 }
 
 export const TestimonialsList = ({
-  testimonials,
+  testimonials = [],
   openTestimonialDialog,
 }: Props): JSX.Element => {
   const [testimonialsExpanded, setTestimonialsExpanded] = useState(false);
@@ -28,19 +28,19 @@ export const TestimonialsList = ({
     setTestimonialsExpanded(prev => !prev);
   };
 
-  if (!testimonials.length) {
-    return (
-      <Typography className="testimonials-empty">Пока нет отзывов</Typography>
-    );
-  }
-
   return (
     <div className="testimonials-list">
-      <StyledTestimonialList>
-        {showedCards.map(item => (
-          <TestimonialCard key={item.id} data={item} />
-        ))}
-      </StyledTestimonialList>
+      {testimonials.length ? (
+        <StyledTestimonialList>
+          {showedCards.map(item => (
+            <TestimonialCard key={item.id} data={item} />
+          ))}
+        </StyledTestimonialList>
+      ) : (
+        <Typography sx={{ mb: 4 }} className="testimonials-empty">
+          Пока нет отзывов
+        </Typography>
+      )}
       <Box className="testimonials-buttons">
         {hasHiddenCards && (
           <ButtonComponent

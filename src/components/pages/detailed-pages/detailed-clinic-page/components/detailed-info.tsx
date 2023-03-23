@@ -25,11 +25,13 @@ import { getClinicDoctors } from '@/api';
 interface Props {
   data: IClinic;
   testimonials?: ITestimonial[];
+  testimonialsLoading: boolean;
 }
 
 export const DetailedInfo = ({
   data: { longText, id: clinicId, image, name, cities },
   testimonials,
+  testimonialsLoading,
 }: Props): JSX.Element => {
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
@@ -122,7 +124,7 @@ export const DetailedInfo = ({
         />
       </StyledDetailInfoBlock>
 
-      {testimonials ? (
+      {!testimonialsLoading ? (
         <StyledDetailInfoBlock
           className="detailed-info-block"
           id="clinic-testimonials"
