@@ -44,7 +44,7 @@ export const FiltersBlock = ({
 }: Props): JSX.Element => {
   const [expandedBlocks, setExpandedBlocks] = useState<string[]>([]);
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
-  const { filtersCount } = useAppSelector(state => state.clinicsPage);
+  const { filtersCount } = useAppSelector(state => state.doctorsPage);
 
   const handleCloseMobileFilter = (): void => {
     setMobileFilterOpen(false);

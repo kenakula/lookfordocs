@@ -10,7 +10,12 @@ import { useForm } from 'react-hook-form';
 import { object, number, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { setToaster, useAppDispatch, useAppSelector } from '@/stores';
-import { IImage, TestimonialFormModel, TestimonialType } from '@/shared/types';
+import {
+  CitiesRef,
+  IImage,
+  TestimonialFormModel,
+  TestimonialType,
+} from '@/shared/types';
 import { TestimonialModel } from '@/shared/models';
 import { useMutation } from '@tanstack/react-query';
 import { axiosClient } from '@/stores/assets';
@@ -24,6 +29,7 @@ interface Props {
   entityId: number;
   entityName: string;
   entityImage: IImage;
+  city?: CitiesRef;
 }
 
 export const TestimonialDialog = ({
@@ -33,6 +39,7 @@ export const TestimonialDialog = ({
   onClose,
   opened,
   type,
+  city,
 }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const { testimonialsLimit } = useAppSelector(state => state.settings);
@@ -97,8 +104,9 @@ export const TestimonialDialog = ({
       testimonialData.targetDoctor = [{ doctors_id: entityId }];
     }
 
-    if (type === 'clinic') {
+    if (type === 'clinic' && city) {
       testimonialData.targetClinic = [{ clinics_id: entityId }];
+      testimonialData.city = [{ cities_id: city.cities_id.id }];
     }
 
     if (type === 'insurance') {

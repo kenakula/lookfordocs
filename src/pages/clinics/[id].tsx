@@ -1,10 +1,23 @@
 import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
-import { Typography } from '@mui/material';
+import { capitalize } from '@mui/material';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { getClinicInfo, getClinicsIds, getSiteSettings } from '@/api';
-import { ContainerComponent, Layout, PageSeo } from '@/components';
+import {
+  BreadcrumbsComponent,
+  ContainerComponent,
+  DetailedClinicPage,
+  DetailedClinicSkeleton,
+  Layout,
+  LayoutSkeleton,
+  PageSeo,
+} from '@/components';
+import {
+  CLINICS_PAGE,
+  getSeoClinicPageH1,
+  getSeoClinicPageTitle,
+} from '@/shared/assets';
 
 interface PageParams extends ParsedUrlQuery {
   id: string;
@@ -58,9 +71,9 @@ const ClinicPage = (): JSX.Element => {
 
   if (router.isFallback) {
     return (
-      <ContainerComponent>
-        <Typography textAlign="center">Loading...</Typography>
-      </ContainerComponent>
+      <LayoutSkeleton>
+        <DetailedClinicSkeleton />
+      </LayoutSkeleton>
     );
   }
 
@@ -69,17 +82,22 @@ const ClinicPage = (): JSX.Element => {
       <Layout siteSettings={siteSettings}>
         <PageSeo
           pageSettings={{
-            pageTitle: clinicInfo.name,
-            pageDescription: 'Описание клиники',
+            pageTitle: getSeoClinicPageTitle(clinicInfo.name),
+            pageDescription: clinicInfo.description,
             pageKeywords: 'keywords',
             slug: 'clinic',
-            h1: 'Page title',
           }}
         />
-        <ContainerComponent>
-          <h1>ClinicPage</h1>
-          <h2>{clinicInfo.name}</h2>
-        </ContainerComponent>
+        <BreadcrumbsComponent
+          crumbs={[
+            { text: 'Клиники', link: CLINICS_PAGE },
+            { text: capitalize(clinicInfo.name) },
+          ]}
+        />
+        <h1 className="visually-hidden">
+          {getSeoClinicPageH1(clinicInfo.name)}
+        </h1>
+        <DetailedClinicPage data={clinicInfo} />
       </Layout>
     );
   }

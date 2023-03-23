@@ -8,7 +8,6 @@ export interface AxiosResponse<T> {
 
 export const axiosClient = axios.create({
   baseURL: DIRECTUS_ITEMS_URL,
-  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -1,10 +1,13 @@
-import { Box, Button, Pagination, styled } from '@mui/material';
-import { DOCTORS_PAGE_LIMIT } from '@/stores/api';
+import { Button, Pagination, styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 import { IconArrowLeft } from '../icons';
 import { IconArrowRight } from '../icons/icon-arrow-right';
 
-const StyledPagination = styled(Box)(({ theme }) => ({
+type PaginationVariant = 'default' | 'light';
+
+const StyledPagination = styled('div', {
+  shouldForwardProp: prop => prop !== 'variant',
+})<{ variant: PaginationVariant }>(({ theme, variant }) => ({
   display: 'flex',
   paddingTop: theme.spacing(3),
 
@@ -56,7 +59,10 @@ const StyledPagination = styled(Box)(({ theme }) => ({
     },
 
     '&.Mui-selected': {
-      backgroundColor: theme.palette.background.default,
+      backgroundColor:
+        variant === 'default'
+          ? theme.palette.background.default
+          : theme.palette.misc.light,
     },
 
     '.MuiTouchRipple-root': {
@@ -69,14 +75,18 @@ interface Props {
   setPage: (value: number) => void;
   page: number;
   total: number;
+  limit: number;
+  variant?: PaginationVariant;
 }
 
 export const PaginationComponent = ({
   setPage,
   page,
   total,
+  limit,
+  variant = 'default',
 }: Props): JSX.Element | null => {
-  const totalPages = Math.ceil(total / DOCTORS_PAGE_LIMIT);
+  const totalPages = Math.ceil(total / limit);
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
@@ -94,7 +104,7 @@ export const PaginationComponent = ({
   }
 
   return (
-    <StyledPagination className="pagination">
+    <StyledPagination className="pagination" variant={variant}>
       <Button
         variant="text"
         disableRipple

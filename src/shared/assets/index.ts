@@ -5,6 +5,7 @@ export * from './styled-components';
 export * from './get-filter-values';
 export * from './get-typography';
 export * from './get-image-url';
+export * from './query-limits';
 export * from './string-utils';
 export * from './price-utils';
 export * from './is-browser';

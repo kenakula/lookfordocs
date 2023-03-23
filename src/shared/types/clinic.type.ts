@@ -34,8 +34,10 @@ export interface IClinic {
   description: string;
   specialties: SpecialtyRef[];
   lang: LanguagesRef[];
-  workTime: IWorkTime[];
+  worktime: IWorkTime[];
   services: IService[];
+  longText: string;
+  reembolso: boolean;
 }
 
 export interface IClinicsTestimonials {

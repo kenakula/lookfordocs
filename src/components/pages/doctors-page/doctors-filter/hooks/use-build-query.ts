@@ -13,7 +13,7 @@ import {
   useAppDispatch,
 } from '@/stores';
 import { DoctorsFilterQuery } from '@/stores/types';
-import { DOCTORS_PAGE_LIMIT, useLazyGetDoctorsListQuery } from '@/stores/api';
+import { useLazyGetDoctorsListQuery } from '@/stores/api';
 import {
   DoctorsFilterFormModel,
   FilterGroupValue,
@@ -24,7 +24,11 @@ import {
   ILanguage,
   ISpecialty,
 } from '@/shared/types';
-import { DOCTORS_PAGE, getFilterValues } from '@/shared/assets';
+import {
+  DOCTORS_PAGE,
+  DOCTORS_PAGE_LIMIT,
+  getFilterValues,
+} from '@/shared/assets';
 import { usePageQuery } from '@/shared/hooks';
 
 interface HookValue {
@@ -68,7 +72,7 @@ export const useBuildQuery = ({
       IDoctor,
       DoctorsFilterQuery,
       typeof useLazyGetDoctorsListQuery
-    >(useLazyGetDoctorsListQuery);
+    >(useLazyGetDoctorsListQuery, DOCTORS_PAGE_LIMIT);
   const { control, getValues, setValue, reset } =
     useForm<DoctorsFilterFormModel>({
       defaultValues: {

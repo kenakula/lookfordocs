@@ -1,27 +1,24 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
-import { capitalize, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
+import { capitalize, CLINICS_PAGE } from '@/shared/assets';
 import { Breakpoints } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
-import { CitiesRef, IClinic } from '@/shared/types';
+import { IClinic } from '@/shared/types';
 import {
   GlobalServicesList,
   CardImage,
   LanguagesList,
   ServicesList,
   ButtonComponent,
-  WorkTime,
 } from '@/components';
 import {
+  ClinicCardAside,
   ClinicCardInfo,
-  ClinicCardInsurances,
   ClinicCardRating,
   StyledCardBody,
   StyledCardSubtitle,
-  StyledClinicCard,
   StyledClinics,
   StyledClinicsCard,
   StyledInfo,
@@ -36,7 +33,12 @@ interface Props {
 }
 
 export const ClinicCard = ({
-  data: {
+  data,
+  rating,
+  detailedLocation = false,
+  testimonialsCount,
+}: Props): JSX.Element => {
+  const {
     id,
     name,
     image,
@@ -45,16 +47,7 @@ export const ClinicCard = ({
     lang,
     description,
     services,
-    cities,
-    address,
-    metro,
-    insurances,
-    workTime,
-  },
-  rating,
-  detailedLocation = false,
-  testimonialsCount,
-}: Props): JSX.Element => {
+  } = data;
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
   const isDesktop = useMediaQuery(Breakpoints.Desktop);
@@ -62,32 +55,19 @@ export const ClinicCard = ({
 
   const clinicName = useMemo(() => `Клиника: "${capitalize(name)}"`, [name]);
 
-  const getClinicAddress = useCallback(
-    (addressStr?: string, city?: CitiesRef): string => {
-      if (city && addressStr) {
-        return `г. ${capitalize(city.cities_id.name)}, ${addressStr}`;
-      }
-
-      if (city && !address) {
-        return `г. ${capitalize(city.cities_id.name)}`;
-      }
-
-      if (addressStr && !city) {
-        return addressStr;
-      }
-
-      return '';
-    },
-    [address],
-  );
-
   const openRequestForm = () => {
     dispatch(openAppointmentDialog({ name, id, image, type: 'clinic' }));
   };
 
   return (
-    <StyledClinicsCard className="clinics-card" detailedLocation={false}>
-      <StyledCardBody detailedLocation={false} className="clinic-card-main">
+    <StyledClinicsCard
+      className="clinics-card"
+      detailedLocation={detailedLocation}
+    >
+      <StyledCardBody
+        detailedLocation={detailedLocation}
+        className="clinic-card-main"
+      >
         {!isDesktop && <StyledCardSubtitle>{subtitle}</StyledCardSubtitle>}
         <ClinicCardInfo className="clinic-card-info">
           <div className="mobile-image-container">
@@ -104,7 +84,9 @@ export const ClinicCard = ({
                 detaiedLocation={detailedLocation}
               />
             ) : null}
-            {isDesktop && <GlobalServicesList list={globalServices} />}
+            {isDesktop && globalServices ? (
+              <GlobalServicesList list={globalServices} />
+            ) : null}
           </div>
           {!isDesktop && (
             <StyledInfo>
@@ -116,7 +98,7 @@ export const ClinicCard = ({
                 </Typography>
               )}
               {lang && lang.length ? <LanguagesList list={lang} /> : null}
-              <GlobalServicesList list={globalServices} />
+              {globalServices && <GlobalServicesList list={globalServices} />}
             </StyledInfo>
           )}
         </ClinicCardInfo>
@@ -134,7 +116,7 @@ export const ClinicCard = ({
               {lang && lang.length ? <LanguagesList list={lang} /> : null}
             </StyledInfo>
           )}
-          <StyledText className="clinic-card-text" sx={{ mt: 2, mb: 2 }}>
+          <StyledText className="clinic-card-text" sx={{ my: 2 }}>
             {description}
           </StyledText>
           {services && (
@@ -159,36 +141,7 @@ export const ClinicCard = ({
           maxListHeight={cardHeight}
           className="clinic-card-clinics"
         >
-          <StyledClinicCard detailedLocation={detailedLocation}>
-            <div className="clinic-top">
-              <div className="clinic-image">
-                <Image fill alt={name} src={getImageUrl(image, name)} />
-              </div>
-              {detailedLocation ? (
-                <Typography>{clinicName}</Typography>
-              ) : (
-                <Link href={`/clinics/${id}`}>{clinicName}</Link>
-              )}
-            </div>
-            <Typography variant="body2" className="clinic-address">
-              {getClinicAddress(address, cities[0])}
-            </Typography>
-            {metro && (
-              <Box className="clinic-metro" component="ul">
-                {metro.map(item => (
-                  <Box component="li" key={item.slug}>
-                    <Typography
-                      variant="caption"
-                      sx={{ backgroundColor: item.color }}
-                    />
-                    {item.name}
-                  </Box>
-                ))}
-              </Box>
-            )}
-            {workTime && <WorkTime data={workTime} />}
-            {insurances && <ClinicCardInsurances list={insurances} />}
-          </StyledClinicCard>
+          <ClinicCardAside data={data} clinicName={clinicName} />
         </StyledClinics>
       )}
     </StyledClinicsCard>

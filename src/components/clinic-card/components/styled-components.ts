@@ -247,6 +247,7 @@ export const StyledClinicCard = styled('div', {
 
   '.clinic-metro': {
     ...getTypography(theme, 12, 16),
+    marginBottom: theme.spacing(1),
 
     color: theme.palette.text.secondary,
     padding: 0,
@@ -285,6 +286,12 @@ export const StyledClinicCard = styled('div', {
       color: theme.palette.text.secondary,
       border: `1px solid ${theme.palette.misc.light}`,
     },
+  },
+
+  '.clinics-reembolso': {
+    ...getTypography(theme, 14, 20),
+    marginTop: theme.spacing(2),
+    color: theme.palette.text.secondary,
   },
 
   [theme.breakpoints.up('lg')]: {

@@ -4,7 +4,6 @@ import { QueryDefinition } from '@reduxjs/toolkit/dist/query';
 import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { useRouter } from 'next/router';
 import { DoctorsFilterQuery } from '@/stores/types';
-import { DOCTORS_PAGE_LIMIT } from '@/stores/api';
 import { IPaging } from '../types';
 
 export const usePageQuery = <
@@ -15,6 +14,7 @@ export const usePageQuery = <
   >,
 >(
   lazyQuery: LazyQueryType,
+  pageLimit: number,
 ): {
   data: DataType[] | undefined;
   isLoading: boolean;
@@ -32,7 +32,7 @@ export const usePageQuery = <
       const queryObj = router.query as QueryType;
       setQuery(queryObj);
 
-      triggerQuery({ filter: queryObj, page: 1, limit: DOCTORS_PAGE_LIMIT });
+      triggerQuery({ filter: queryObj, page: 1, limit: pageLimit });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady, triggerQuery]);

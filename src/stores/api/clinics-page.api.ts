@@ -5,7 +5,6 @@ import { CollectionResponse, getClinicsQueryString } from '../assets';
 import { ClinicsFilterQuery } from '../types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
-export const CLINICS_PAGE_LIMIT = 6;
 
 export const clinicsPageApi = createApi({
   reducerPath: 'clinicsPageApi',

@@ -7,6 +7,7 @@ export * from './container-component/container-component';
 export * from './smart-search-input/smart-search-input';
 export * from './testimonial-dialog/testimonial-dialog';
 export * from './appointment-dialog/appointment-dialog';
+export * from './testimonials-list/testimonials-list';
 export * from './button-component/button-component';
 export * from './slider-component/slider-component';
 export * from './rating-component/rating-component';

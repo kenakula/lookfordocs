@@ -47,7 +47,7 @@ export const ClinicCardRating = ({
       />
       {testimonialsCount ? (
         <Link
-          href="#doctor-testimonials"
+          href="#clinic-testimonials"
           onClick={e => {
             e.preventDefault();
             scrollToElement();

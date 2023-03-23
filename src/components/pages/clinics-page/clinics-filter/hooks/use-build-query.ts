@@ -13,7 +13,7 @@ import {
   useAppDispatch,
 } from '@/stores';
 import { ClinicsFilterQuery } from '@/stores/types';
-import { CLINICS_PAGE_LIMIT, useLazyGetClinicsListQuery } from '@/stores/api';
+import { useLazyGetClinicsListQuery } from '@/stores/api';
 import {
   ClinicsFilterFormModel,
   FilterGroupValue,
@@ -23,7 +23,11 @@ import {
   ILanguage,
   ISpecialty,
 } from '@/shared/types';
-import { CLINICS_PAGE, getFilterValues } from '@/shared/assets';
+import {
+  CLINICS_PAGE,
+  CLINICS_PAGE_LIMIT,
+  getFilterValues,
+} from '@/shared/assets';
 import { usePageQuery } from '@/shared/hooks';
 
 interface HookValue {
@@ -65,7 +69,7 @@ export const useBuildQuery = ({
       IClinic,
       ClinicsFilterQuery,
       typeof useLazyGetClinicsListQuery
-    >(useLazyGetClinicsListQuery);
+    >(useLazyGetClinicsListQuery, CLINICS_PAGE_LIMIT);
   const { control, getValues, setValue, reset } =
     useForm<ClinicsFilterFormModel>({
       defaultValues: {

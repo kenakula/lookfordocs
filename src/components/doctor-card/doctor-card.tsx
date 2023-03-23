@@ -10,7 +10,7 @@ import {
   ServicesList,
 } from '@/components';
 import { IDoctor } from '@/shared/types';
-import { capitilizeName, DOCTORS_PAGE } from '@/shared/assets';
+import { capitalizeName, DOCTORS_PAGE } from '@/shared/assets';
 import { Breakpoints } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
 import {
@@ -31,6 +31,7 @@ interface Props {
   detailedLocation?: boolean;
   rating?: number;
   testimonialsCount?: number;
+  shadowed?: boolean;
 }
 
 export const DoctorCard = ({
@@ -48,6 +49,7 @@ export const DoctorCard = ({
     reembolso,
   },
   detailedLocation = false,
+  shadowed = false,
   rating,
   testimonialsCount,
 }: Props): JSX.Element => {
@@ -57,7 +59,7 @@ export const DoctorCard = ({
   const dispatch = useAppDispatch();
 
   const doctorName = useMemo(
-    () => capitilizeName(firstName, lastName),
+    () => capitalizeName(firstName, lastName),
     [firstName, lastName],
   );
 
@@ -71,6 +73,8 @@ export const DoctorCard = ({
     <StyledDoctorsCard
       multipleClinics={clinics.length > 1}
       detailedLocation={detailedLocation}
+      shadowed={shadowed}
+      className="doctor-card"
     >
       <StyledCardBody
         detailedLocation={detailedLocation}

@@ -16,7 +16,7 @@ import {
   ISmartSearchQuery,
 } from '@/shared/types';
 import { usePaginationQuery } from '@/shared/hooks';
-import { getFilterValues } from '@/shared/assets';
+import { CLINICS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
 import {
   ButtonComponent,
   SmartSearchInput,
@@ -197,6 +197,7 @@ export const ClinicsFilter = ({
               setPage={setPage}
               page={pagingValue}
               total={totalItemsCount}
+              limit={CLINICS_PAGE_LIMIT}
             />
           ) : null}
         </div>

@@ -9,4 +9,6 @@ export interface TestimonialModel {
   targetDoctor?: { doctors_id: number }[];
   targetClinic?: { clinics_id: number }[];
   targetInsurance?: { insurances_id: number }[];
+  city?: { cities_id: number }[];
+  specialty?: { specialties_id: number }[];
 }

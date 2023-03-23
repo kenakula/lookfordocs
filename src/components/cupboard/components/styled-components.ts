@@ -50,6 +50,26 @@ export const StyledDetailedDoctorSkeleton = styled('div')(({ theme }) => ({
   },
 }));
 
+export const StyledDetailedClinicSkeleton = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: theme.spacing(2, 0),
+
+  '.clinic-card-skeleton': {
+    display: 'flex',
+    columnGap: theme.spacing(3),
+    padding: theme.spacing(2, 0),
+  },
+
+  '.clinic-image-skeleton': {
+    width: '40%',
+  },
+
+  '.clinic-info-skeleton': {
+    flexGrow: 1,
+  },
+}));
+
 export const StyledFilterSkeleton = styled('div')(({ theme }) => ({
   width: '100%',
 

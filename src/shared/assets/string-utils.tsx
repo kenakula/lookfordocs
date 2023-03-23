@@ -1,7 +1,7 @@
 export const capitalize = (str: string): string =>
   str[0].toUpperCase() + str.slice(1);
 
-export const capitilizeName = (firstName: string, lastName?: string): string =>
+export const capitalizeName = (firstName: string, lastName?: string): string =>
   [firstName, lastName]
     .filter(name => Boolean(name))
     .map(name => {

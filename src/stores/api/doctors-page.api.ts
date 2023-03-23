@@ -5,7 +5,6 @@ import { CollectionResponse, getDoctorsQueryString } from '../assets';
 import { DoctorsFilterQuery } from '../types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
-export const DOCTORS_PAGE_LIMIT = 6;
 
 export const doctorsPageApi = createApi({
   reducerPath: 'doctorsPageApi',

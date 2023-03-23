@@ -3,12 +3,15 @@ import { getTypography } from '@/shared/assets';
 
 export const StyledDoctorsCard = styled(Box, {
   shouldForwardProp: prop =>
-    !['multipleClinics', 'detailedLocation'].includes(prop.toString()),
-})<{ multipleClinics: boolean; detailedLocation: boolean }>(
-  ({ theme, multipleClinics, detailedLocation }) => ({
+    !['multipleClinics', 'detailedLocation', 'shadowed'].includes(
+      prop.toString(),
+    ),
+})<{ multipleClinics: boolean; detailedLocation: boolean; shadowed: boolean }>(
+  ({ theme, multipleClinics, detailedLocation, shadowed }) => ({
     padding: detailedLocation ? 0 : theme.spacing(2),
     backgroundColor: theme.palette.background.default,
     borderRadius: theme.shape.borderRadius,
+    boxShadow: shadowed ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',
 
     '.swiper': {
       margin: theme.spacing(0, -2),

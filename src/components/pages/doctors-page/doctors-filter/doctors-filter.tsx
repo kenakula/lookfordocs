@@ -28,7 +28,7 @@ import {
   StyledFiltersTop,
 } from './components';
 import { useBuildQuery } from './hooks';
-import { getFilterValues } from '@/shared/assets';
+import { DOCTORS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
 
 interface Props {
   specialties: ISpecialty[];
@@ -202,6 +202,7 @@ export const DoctorsFilter = ({
               setPage={setPage}
               page={pagingValue}
               total={totalItemsCount}
+              limit={DOCTORS_PAGE_LIMIT}
             />
           ) : null}
         </Box>

@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getDocTestimonials } from '@/api';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
-import { capitilizeName } from '@/shared/assets';
+import { capitalizeName } from '@/shared/assets';
 
 interface Props {
   data: IDoctor;
@@ -35,7 +35,7 @@ export const DetailedDoctorPage = ({
   const dispatch = useAppDispatch();
 
   const doctorName = useMemo(
-    () => capitilizeName(data.firstName, data.lastName),
+    () => capitalizeName(data.firstName, data.lastName),
     [data.firstName, data.lastName],
   );
 
@@ -59,6 +59,8 @@ export const DetailedDoctorPage = ({
     const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
     return sum === 0 ? 0 : sum / testimonials.length;
   }, [testimonials]);
+
+  // TODO заменрить лейаут на компонент из ассетсов и список отзывов
 
   return (
     <ContainerComponent>
