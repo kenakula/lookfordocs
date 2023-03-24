@@ -14,9 +14,10 @@ import {
   setUseCustomQuery,
   useAppDispatch,
   useAppSelector,
+  setSmartSearchLocation,
 } from '@/stores';
 import { IconSearch, IconClose } from '@/components/icons';
-import { ISmartSearchQuery } from '@/shared/types';
+import { ISmartSearchQuery, SmartSearchLocation } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { SmartSearchDialog } from '@/components';
 import { StyledSearchBox, StyledSearchButton } from './components';
@@ -30,17 +31,19 @@ interface Props {
   mobilePlaceholder?: string;
   hideButtonOnMobile?: boolean;
   useCustomQuery?: boolean;
+  location: SmartSearchLocation;
 }
 
 export const SmartSearchInput = forwardRef(
   (
     {
+      location,
       placeholder,
-      imageRenderer,
       clearInputCb,
+      imageRenderer,
       handleSubmitCb,
-      handleChooseOptionCb,
       mobilePlaceholder,
+      handleChooseOptionCb,
       hideButtonOnMobile = false,
       useCustomQuery = false,
     }: Props,
@@ -54,9 +57,16 @@ export const SmartSearchInput = forwardRef(
     const mobileInputPlaceholder = mobilePlaceholder ?? placeholder;
 
     useEffect(() => {
+      dispatch(setSmartSearchLocation(location));
+
+      return () => {
+        dispatch(searchFieldClear());
+      };
+    }, [dispatch, location]);
+
+    useEffect(() => {
       dispatch(setUseCustomQuery(useCustomQuery));
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [dispatch, useCustomQuery]);
 
     const onInputChange = (
       e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,

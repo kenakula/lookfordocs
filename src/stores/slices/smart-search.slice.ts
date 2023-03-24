@@ -8,6 +8,7 @@ import {
   ILanguage,
   ISmartSearchResult,
   ISpecialty,
+  SmartSearchLocation,
   SmartSearchStatus,
 } from '@/shared/types';
 import {
@@ -32,6 +33,7 @@ interface SmartSearchState {
   errorMessage: string;
   result: ISmartSearchResult[];
   useCustomQuery: boolean;
+  smartSearchLocation: SmartSearchLocation;
 }
 
 const initialState: SmartSearchState = {
@@ -41,6 +43,7 @@ const initialState: SmartSearchState = {
   errorMessage: '',
   result: [],
   useCustomQuery: false,
+  smartSearchLocation: 'none',
 };
 
 export const smartSearch = createAsyncThunk<
@@ -157,6 +160,12 @@ export const smartSearchSlice = createSlice({
     setUseCustomQuery: (state, { payload }: PayloadAction<boolean>) => {
       state.useCustomQuery = payload;
     },
+    setSmartSearchLocation: (
+      state,
+      { payload }: PayloadAction<SmartSearchLocation>,
+    ) => {
+      state.smartSearchLocation = payload;
+    },
   },
   extraReducers: builder => {
     builder
@@ -185,5 +194,6 @@ export const {
   searchFieldInput,
   searchFieldClear,
   setUseCustomQuery,
+  setSmartSearchLocation,
 } = smartSearchSlice.actions;
 export const smartSearchReducer = smartSearchSlice.reducer;

@@ -138,6 +138,7 @@ export const ClinicsFilter = ({
       <StyledFiltersTop className="filter-top" ref={topBlockRef}>
         <SmartSearchInput
           placeholder="Введите врача, специальность или клинику"
+          location="clinics"
           mobilePlaceholder="Врач, специальнось, клиника"
           handleSubmitCb={handleSmartSearchSubmit}
           handleChooseOptionCb={handleChooseResultOption}
