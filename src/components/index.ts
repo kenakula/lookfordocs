@@ -16,6 +16,7 @@ export * from './filters-counter/filters-counter';
 export * from './chip-component/chip-component';
 export * from './languages-list/languages-list';
 export * from './services-list/services-list';
+export * from './scroll-to-top/scroll-to-top';
 export * from './doctor-card/doctor-card';
 export * from './clinic-card/clinic-card';
 export * from './page-result/page-result';

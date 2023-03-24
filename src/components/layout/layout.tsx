@@ -1,6 +1,6 @@
-import { Header, Footer, AppointmentDialog } from '@/components';
 import { useSaveSiteSettings } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
+import { Header, Footer, AppointmentDialog, ScrollToTop } from '@/components';
 
 interface Props {
   children: React.ReactNode;
@@ -26,7 +26,10 @@ export const Layout = ({
           isDetailedPage={isDetailedPage}
         />
       )}
-      <main>{children}</main>
+      <main>
+        {children}
+        <ScrollToTop />
+      </main>
       <AppointmentDialog />
       {siteSettings && <Footer siteSettings={siteSettings} />}
     </>

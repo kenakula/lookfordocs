@@ -23,7 +23,11 @@ export const Promo = ({ promoData }: Props): JSX.Element => {
   return (
     <StyledPromoSection component="section">
       <ContainerComponent>
-        <div className="promo-info">
+        <div
+          className={`promo-info ${
+            !promoData.chips || !promoData.chips.length ? 'padded' : ''
+          }`}
+        >
           <Title
             className="title"
             variant="h2"

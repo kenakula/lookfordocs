@@ -4,6 +4,8 @@ import { Rubik } from '@next/font/google';
 import { createTheme, Theme, ThemeProvider } from '@mui/material/styles';
 import { LOCAL_STORAGE_THEME_KEY } from '@/shared/assets';
 
+// TODO misc light & misc dark перепутаны
+
 declare module '@mui/material/styles' {
   interface Palette {
     alt: { beje: string; lightBlue: string };
