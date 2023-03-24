@@ -7,6 +7,7 @@ import {
 } from './directus-api-refs';
 import { IImage } from './image.type';
 import { Perk } from './perk.type';
+import { IService } from './service.type';
 import { ITestimonial } from './testimonial.type';
 
 export type DoctorEducationType =
@@ -15,17 +16,6 @@ export type DoctorEducationType =
   | 'ordinator'
   | 'training'
   | 'retrainig';
-
-export interface IDoctorCount {
-  count: { id: number };
-}
-
-export interface IDoctorService {
-  name: string;
-  value: string;
-  price: string;
-  priceFrom: boolean;
-}
 
 export interface IDoctorNosology {
   group: string;
@@ -57,7 +47,7 @@ export interface IDoctor {
   insurances: InsurancesRef[];
   lang: LanguagesRef[];
   clinics: ClinicsRef[];
-  services: IDoctorService[];
+  services: IService[];
   globalServices: GlobalServicesRef[];
   reembolso?: boolean;
   nosologies?: IDoctorNosology[];

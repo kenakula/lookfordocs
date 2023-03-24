@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from '@mui/material';
-import { ButtonComponent, ContainerComponent, DoctorsCard } from '@/components';
+import { ButtonComponent, ContainerComponent, DoctorCard } from '@/components';
 import { ICity, IDoctor, IInsurance } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import {
@@ -10,6 +10,8 @@ import {
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getDocTestimonials } from '@/api';
+import { openAppointmentDialog, useAppDispatch } from '@/stores';
+import { capitalizeName } from '@/shared/assets';
 
 interface Props {
   data: IDoctor;
@@ -30,6 +32,23 @@ export const DetailedDoctorPage = ({
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
+  const dispatch = useAppDispatch();
+
+  const doctorName = useMemo(
+    () => capitalizeName(data.firstName, data.lastName),
+    [data.firstName, data.lastName],
+  );
+
+  const openRequestForm = () => {
+    dispatch(
+      openAppointmentDialog({
+        name: doctorName,
+        id: data.id,
+        image: data.image,
+        type: 'doctor',
+      }),
+    );
+  };
 
   const testimonialsCount = testimonials ? testimonials.length : undefined;
   const avarageRating = useMemo(() => {
@@ -41,12 +60,14 @@ export const DetailedDoctorPage = ({
     return sum === 0 ? 0 : sum / testimonials.length;
   }, [testimonials]);
 
+  // TODO заменрить лейаут на компонент из ассетсов и список отзывов
+
   return (
     <ContainerComponent>
       <StyledDetailedPageLayout>
         <h2 className="visually-hidden">Общая информация о враче</h2>
         <Box className="detailed-left-column">
-          <DoctorsCard
+          <DoctorCard
             data={data}
             detailedLocation
             rating={avarageRating}
@@ -64,6 +85,7 @@ export const DetailedDoctorPage = ({
               fullWidth
               variant="contained"
               size="large"
+              onClick={openRequestForm}
             />
             <DetailedDoctorClinics
               clinics={data.clinics}

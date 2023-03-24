@@ -8,6 +8,10 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
 
   '.promo-info': {
     marginBottom: theme.spacing(4),
+
+    '&.padded': {
+      paddingBottom: theme.spacing(2),
+    },
   },
 
   '.title': {
@@ -53,6 +57,10 @@ export const StyledPromoSection = styled(Box)(({ theme }) => ({
 
     '.promo-info': {
       paddingRight: '42%',
+
+      '&.padded': {
+        paddingBottom: 0,
+      },
     },
   },
 

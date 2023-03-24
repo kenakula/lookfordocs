@@ -1,5 +1,7 @@
 import { FormHelperText, SxProps } from '@mui/material';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import {
   StyledInputComponent,
   StyledInputLabel,
@@ -9,12 +11,12 @@ import {
 interface Props<T extends FieldValues> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formControl: Control<T, any>;
-  type: 'text' | 'email' | 'password';
+  type: 'text' | 'email' | 'password' | 'tel';
   name: Path<T>;
   id: string;
   style?: SxProps;
   label?: string;
-  multiline?: number;
+  multiline?: boolean;
   placeholoder?: string;
   fullwidth?: boolean;
   error?: boolean;
@@ -22,6 +24,7 @@ interface Props<T extends FieldValues> {
   className?: string;
   disabled?: boolean;
   limit?: number;
+  minHeight?: number;
 }
 
 export const InputComponent = <T extends FieldValues>({
@@ -29,7 +32,8 @@ export const InputComponent = <T extends FieldValues>({
   placeholoder,
   formControl,
   className,
-  multiline,
+  multiline = false,
+  minHeight,
   fullwidth,
   disabled,
   limit,
@@ -40,6 +44,40 @@ export const InputComponent = <T extends FieldValues>({
   name,
   id,
 }: Props<T>): JSX.Element => {
+  if (type === 'tel') {
+    return (
+      <Controller
+        control={formControl}
+        name={name}
+        render={({ field }) => (
+          <StyledInputWrapper sx={style} className={className}>
+            {label && <StyledInputLabel htmlFor={id}>{label}</StyledInputLabel>}
+            <PhoneInput
+              country={'pt'}
+              {...field}
+              preferredCountries={['ru', 'pt']}
+              placeholder={placeholoder}
+              containerClass="phone-input"
+              inputClass="phone-input__input"
+              buttonClass="phone-input__btn"
+              dropdownClass="phone-input__dropdown"
+              defaultErrorMessage="Введите валидный номер телефона"
+              onChange={(value, country, event, formattedValue) =>
+                field.onChange(formattedValue)
+              }
+              isValid={() => {
+                return error && errorMessage ? errorMessage : true;
+              }}
+            />
+            {error && errorMessage ? (
+              <FormHelperText>{errorMessage}</FormHelperText>
+            ) : null}
+          </StyledInputWrapper>
+        )}
+      />
+    );
+  }
+
   return (
     <Controller
       control={formControl}
@@ -53,11 +91,12 @@ export const InputComponent = <T extends FieldValues>({
             type={type}
             color={!!error ? 'error' : undefined}
             fullWidth={fullwidth}
-            multiline={!!multiline}
+            multiline={multiline}
             limit={limit}
             className={multiline ? 'input-component-multiline' : undefined}
             disabled={disabled}
             placeholder={placeholoder}
+            minHeight={minHeight}
           />
           {error && errorMessage ? (
             <FormHelperText>{errorMessage}</FormHelperText>

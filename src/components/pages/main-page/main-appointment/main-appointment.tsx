@@ -4,6 +4,7 @@ import { PageSection, Subtitle, Title } from '@/shared/assets';
 import { IBlockData } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { StyledInner } from './components';
+import { openAppointmentDialog, useAppDispatch } from '@/stores';
 
 interface Props {
   appointmentData: IBlockData | null;
@@ -11,6 +12,11 @@ interface Props {
 
 export const MainAppointment = ({ appointmentData }: Props): JSX.Element => {
   const matches = useMediaQuery(Breakpoints.Desktop);
+  const dispatch = useAppDispatch();
+
+  const openAppointmentForm = () => {
+    dispatch(openAppointmentDialog());
+  };
 
   const getMobileTitle = (): string => {
     if (!appointmentData) {
@@ -45,6 +51,7 @@ export const MainAppointment = ({ appointmentData }: Props): JSX.Element => {
             variant="outlined"
             fullWidth
             text="Записаться"
+            onClick={openAppointmentForm}
           />
         </StyledInner>
       </ContainerComponent>

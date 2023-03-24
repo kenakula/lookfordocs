@@ -6,6 +6,7 @@ import { ILanguage } from './language.type';
 import { ISpecialty } from './specialty.type';
 
 export type SmartSearchStatus = 'pending' | 'success' | 'error' | 'idle';
+export type SmartSearchLocation = 'clinics' | 'doctors' | 'home' | 'none';
 
 export interface ISmartSearchResult {
   type:

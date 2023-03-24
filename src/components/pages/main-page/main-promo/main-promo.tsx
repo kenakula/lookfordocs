@@ -46,6 +46,7 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
           imageRenderer={renderIcon}
           ref={inputRef}
           handleSubmitCb={handleSubmit}
+          location="home"
         />
       </ContainerComponent>
     </StyledPromoSection>

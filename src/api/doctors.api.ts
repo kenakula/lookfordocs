@@ -3,9 +3,7 @@ import {
   IClinic,
   IDoctor,
   IDoctorsTestimonials,
-  IInsurance,
   IPromoBlockData,
-  ISpecialty,
   ITestimonial,
 } from '@/shared/types';
 
@@ -23,25 +21,6 @@ export const getDoctorsPagePromoData = async () =>
     })
     .then(res => res.data.data);
 
-export const getDoctorsSpecialties = async () =>
-  axiosClient
-    .get<AxiosResponse<ISpecialty[]>>('specialties', {
-      params: {
-        sort: '-popular',
-      },
-    })
-    .then(res => res.data.data);
-
-export const getDoctorsInsurances = async () =>
-  axiosClient
-    .get<AxiosResponse<IInsurance[]>>('insurances', {
-      params: {
-        fields: 'id, name, image.*',
-        sort: 'sort',
-      },
-    })
-    .then(res => res.data.data);
-
 export const getDoctorsClinics = async () =>
   axiosClient
     .get<AxiosResponse<IClinic[]>>('clinics', {
@@ -51,7 +30,7 @@ export const getDoctorsClinics = async () =>
     })
     .then(res => res.data.data);
 
-export const getDoctorsTestimonials = async () =>
+export const getDoctorsTestimonialsRates = async () =>
   axiosClient
     .get<AxiosResponse<IDoctorsTestimonials[]>>('testimonials_doctors', {
       params: {

@@ -13,20 +13,18 @@ import {
   IDoctor,
   IInsurance,
   IGlobalService,
-  FilterFormModel,
-  SmartSearchQuery,
   ILanguage,
+  ISmartSearchQuery,
 } from '@/shared/types';
 import { StyledResultList } from './styled-components';
+import { ClinicsItem } from './clinics-item';
 
 // TODO рефактор
 
 interface Props {
   result: ISmartSearchResult;
   search: string;
-  handleChooseOptionCb?: (
-    customQuery: SmartSearchQuery<FilterFormModel>,
-  ) => void;
+  handleChooseOptionCb?: (customQuery: ISmartSearchQuery) => void;
 }
 
 export const ResultList = ({
@@ -35,7 +33,9 @@ export const ResultList = ({
   handleChooseOptionCb,
 }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { useCustomQuery } = useAppSelector(state => state.smartSearch);
+  const { useCustomQuery, smartSearchLocation } = useAppSelector(
+    state => state.smartSearch,
+  );
 
   const closeSearchBox = (): void => {
     dispatch(closeSmartSearch({ clear: true }));
@@ -115,42 +115,17 @@ export const ResultList = ({
         <StyledResultList>
           <Typography variant="h3">Клиники</Typography>
           <List>
-            {list.map(item => {
-              const { id, name, image, address } = item as IClinic;
-
-              return (
-                <ListItemButton
-                  key={`clinic-${id}`}
-                  className="complex-item"
-                  component={Link}
-                  href={`${DOCTORS_PAGE}?clinic=${id}`}
-                  onClick={e => {
-                    if (useCustomQuery && handleChooseOptionCb) {
-                      e.preventDefault();
-                      handleChooseOptionCb({
-                        name: 'clinics',
-                        value: id.toString(),
-                      });
-                      closeSearchBox();
-                    } else {
-                      closeSearchBox();
-                    }
-                  }}
-                >
-                  <Avatar
-                    sx={{ width: 40, height: 40 }}
-                    variant="rounded"
-                    src={getImageUrl(image.id, name, 'width=80&height=80')}
-                  />
-                  <Box className="complex-item-info">
-                    <Typography>
-                      {getHighlightedLetters(name, search)}
-                    </Typography>
-                    <Typography variant="caption">{address}</Typography>
-                  </Box>
-                </ListItemButton>
-              );
-            })}
+            {list.map(item => (
+              <ClinicsItem
+                key={item.id}
+                data={item as IClinic}
+                location={smartSearchLocation}
+                useCustomQuery={useCustomQuery}
+                handleChooseOptionCb={handleChooseOptionCb}
+                closeSearchBox={closeSearchBox}
+                searchString={search}
+              />
+            ))}
           </List>
         </StyledResultList>
       );

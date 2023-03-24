@@ -1,13 +1,16 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { createWrapper } from 'next-redux-wrapper';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { doctorsPageApi } from './api';
+import { clinicsPageApi, doctorsPageApi } from './api';
 import {
   toasterReducer,
   smartSearchReducer,
   doctorsPageReducer,
   settingsReducer,
+  clinicsPageReducer,
 } from './slices';
+import { appointmentReducer } from './slices/appointment.slice';
+
+// TODO перенести апи с слайсы
 
 export const makeStore = () =>
   configureStore({
@@ -16,10 +19,16 @@ export const makeStore = () =>
       toaster: toasterReducer,
       smartSearch: smartSearchReducer,
       doctorsPage: doctorsPageReducer,
+      appointment: appointmentReducer,
+      clinicsPage: clinicsPageReducer,
       [doctorsPageApi.reducerPath]: doctorsPageApi.reducer,
+      [clinicsPageApi.reducerPath]: clinicsPageApi.reducer,
     },
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware().concat([doctorsPageApi.middleware]),
+      getDefaultMiddleware().concat([
+        doctorsPageApi.middleware,
+        clinicsPageApi.middleware,
+      ]),
   });
 
 export const store = makeStore();
@@ -34,5 +43,3 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-export const wrapper = createWrapper<typeof store>(makeStore, { debug: false });

@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { IDoctor, IDoctorCount, TriggerQueryArgs } from '@/shared/types';
+import { IDoctor, IItemsCount, TriggerQueryArgs } from '@/shared/types';
 import { CollectionResponse, getDoctorsQueryString } from '../assets';
 import { DoctorsFilterQuery } from '../types';
 
 const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
-export const DOCTORS_PAGE_LIMIT = 6;
 
 export const doctorsPageApi = createApi({
   reducerPath: 'doctorsPageApi',
@@ -37,7 +36,7 @@ export const doctorsPageApi = createApi({
         response.data,
     }),
     getDoctorsCount: builder.query<
-      IDoctorCount,
+      IItemsCount,
       TriggerQueryArgs<DoctorsFilterQuery>
     >({
       query: ({ filter }) => ({
@@ -47,7 +46,7 @@ export const doctorsPageApi = createApi({
           'aggregate[count]': 'id',
         },
       }),
-      transformResponse: (response: CollectionResponse<IDoctorCount>) =>
+      transformResponse: (response: CollectionResponse<IItemsCount>) =>
         response.data[0],
     }),
   }),

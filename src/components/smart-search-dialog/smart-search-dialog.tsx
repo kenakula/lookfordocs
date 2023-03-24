@@ -18,7 +18,7 @@ import {
   useAppSelector,
 } from '@/stores';
 import { useDebounce } from '@/shared/hooks';
-import { SmartSearchQuery, FilterFormModel } from '@/shared/types';
+import { ISmartSearchQuery } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { SearchResult, StyledDialog, StyledDialogHeader } from './components';
 import { useCloseOnMainPageTablet, useFullscreenMode } from './hooks';
@@ -26,9 +26,7 @@ import { useCloseOnMainPageTablet, useFullscreenMode } from './hooks';
 interface Props {
   handleSubmitCb: (name?: string) => void;
   placeholder: string;
-  handleChooseOptionCb?: (
-    customQuery: SmartSearchQuery<FilterFormModel>,
-  ) => void;
+  handleChooseOptionCb?: (customQuery: ISmartSearchQuery) => void;
   clearInputCb?: () => void;
 }
 

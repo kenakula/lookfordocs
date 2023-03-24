@@ -5,6 +5,7 @@ import {
   ILanguage,
   IPageSettings,
   ISiteSettings,
+  ISpecialty,
 } from '@/shared/types';
 import { axiosClient } from '@/stores/assets';
 import { AxiosResponse } from 'axios';
@@ -45,5 +46,19 @@ export const getCities = async () =>
 
 export const getInsurances = async () =>
   axiosClient
-    .get<AxiosResponse<IInsurance[]>>('insurances')
+    .get<AxiosResponse<IInsurance[]>>('insurances', {
+      params: {
+        fields: 'id, name, image.*',
+        sort: 'sort',
+      },
+    })
+    .then(res => res.data.data);
+
+export const getSpecialties = async () =>
+  axiosClient
+    .get<AxiosResponse<ISpecialty[]>>('specialties', {
+      params: {
+        sort: '-popular',
+      },
+    })
     .then(res => res.data.data);

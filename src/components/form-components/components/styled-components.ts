@@ -1,4 +1,11 @@
-import { Box, Checkbox, Input, styled } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  Input,
+  Radio,
+  styled,
+} from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
 export const CheckboxIcon = styled('span', { label: 'unchecked' })(
@@ -33,9 +40,95 @@ export const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
   marginRight: theme.spacing(0.25),
 }));
 
+export const StyledRadioWrapper = styled(FormControl)(({ theme }) => ({
+  '.MuiFormLabel-root': {
+    ...getTypography(theme, 16, 20),
+    marginBottom: theme.spacing(1.5),
+    fontWeight: 500,
+    color: theme.palette.text.primary,
+
+    '&.Mui-focused': {
+      color: theme.palette.text.primary,
+    },
+  },
+}));
+
+export const StyledRadioButton = styled(Radio)(({ theme }) => ({
+  marginBottom: theme.spacing(0.5),
+  paddingTop: 0,
+  paddingBottom: 0,
+
+  svg: {
+    color: theme.palette.secondary.light,
+  },
+}));
+
 export const StyledInputWrapper = styled(Box)(({ theme }) => ({
+  position: 'relative',
+
   '.MuiFormHelperText-root': {
+    position: 'absolute',
+    bottom: -22,
+    left: 0,
     color: theme.palette.error.light,
+  },
+
+  '.phone-input .invalid-number-message': {
+    display: 'none',
+  },
+
+  '.form-control.phone-input__input': {
+    paddingLeft: 82,
+    width: '100%',
+    minHeight: 48,
+    color: theme.palette.text.secondary,
+    borderColor: theme.palette.misc.light,
+    borderRadius: theme.shape.borderRadius,
+
+    '&.invalid-number': {
+      borderColor: theme.palette.error.main,
+      backgroundColor: 'transparent',
+    },
+  },
+
+  '.flag-dropdown.phone-input__btn': {
+    borderColor: theme.palette.misc.light,
+    backgroundColor: theme.palette.misc.dark,
+
+    '&.open': {
+      '.selected-flag': {
+        backgroundColor: 'transparent',
+      },
+    },
+
+    '.selected-flag': {
+      width: 70,
+      borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
+
+      '&:hover, &:focus': {
+        backgroundColor: 'transparent',
+      },
+
+      '.flag': {
+        position: 'relative',
+        left: 11,
+        transform: 'scale(1.3)',
+      },
+
+      '.arrow': {
+        position: 'absolute',
+        width: 11,
+        height: 11,
+        right: -10,
+        top: 1,
+        border: 'none',
+        backgroundImage:
+          'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNiAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzg5MF80MTQzKSI+CjxwYXRoIGQ9Ik0xMy4zMzQgNS4yODU0Nkw3Ljc3ODQzIDEwLjA0NzQiIHN0cm9rZT0iIzg0OEI5OCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTcuNzc3MzQgMTAuMDQ3NEwyLjIyMTc5IDUuMjg1NDYiIHN0cm9rZT0iIzg0OEI5OCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF84OTBfNDE0MyI+CjxyZWN0IHdpZHRoPSIxMy43MTQzIiBoZWlnaHQ9IjE2IiBmaWxsPSJ3aGl0ZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTYgMC4xNDI1NzgpIHJvdGF0ZSg5MCkiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4K)',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      },
+    },
   },
 }));
 
@@ -51,66 +144,71 @@ export const StyledInputLabel = styled('label')(({ theme }) => ({
 }));
 
 export const StyledInputComponent = styled(Input, {
-  shouldForwardProp: prop => prop !== 'limit',
-})<{ limit?: number }>(({ theme, color, limit, value }) => {
-  const textLength = limit ? limit - (value as string).length : 0;
-  let counterColor = theme.palette.text.disabled;
+  shouldForwardProp: prop => !['limit', 'minHeight'].includes(prop.toString()),
+})<{ limit?: number; minHeight?: number }>(
+  ({ theme, color, limit, value, minHeight }) => {
+    const textLength = limit ? limit - (value as string).length : 0;
+    let counterColor = theme.palette.text.disabled;
 
-  if (textLength < 20 && textLength >= 0) {
-    counterColor = theme.palette.warning.light;
-  }
+    if (textLength < 20 && textLength >= 0) {
+      counterColor = theme.palette.warning.light;
+    }
 
-  if (textLength < 0) {
-    counterColor = theme.palette.error.main;
-  }
+    if (textLength < 0) {
+      counterColor = theme.palette.error.main;
+    }
 
-  return {
-    ...getTypography(theme, 16, 20),
-    display: 'flex',
-    padding: 0,
-    border: `1px solid ${
-      color === 'error' ? theme.palette.error.light : theme.palette.misc.light
-    }`,
-    borderRadius: theme.shape.borderRadius,
-    color: theme.palette.text.secondary,
+    return {
+      ...getTypography(theme, 16, 20),
+      display: 'flex',
+      padding: 0,
+      border: `1px solid ${
+        color === 'error' ? theme.palette.error.light : theme.palette.misc.light
+      }`,
+      borderRadius: theme.shape.borderRadius,
+      color: theme.palette.text.secondary,
+      // TODO унифицировать тени
+      // boxShadow: '0px 4px 16px rgba(7, 20, 48, 0.04)',
 
-    '&:hover': {
-      '&::before': {
-        border: 'none !important',
+      '&:hover': {
+        '&::before': {
+          border: 'none !important',
+        },
       },
-    },
 
-    '&::before, &::after': {
-      display: 'none',
-    },
+      '&::before, &::after': {
+        display: 'none',
+      },
 
-    '&::before': limit
-      ? {
-          ...getTypography(theme, 12, 16),
-          left: 'auto',
-          right: 7,
-          bottom: 3,
-          display: 'inline-block',
-          content: `"${textLength}"`,
-          border: 'none',
-          color: counterColor,
-        }
-      : {},
+      '&::before': limit
+        ? {
+            ...getTypography(theme, 12, 16),
+            left: 'auto',
+            right: 7,
+            bottom: 3,
+            display: 'inline-block',
+            content: `"${textLength}"`,
+            border: 'none',
+            color: counterColor,
+          }
+        : {},
 
-    input: {
-      padding: theme.spacing(0, 2),
-      minHeight: 48,
-    },
-
-    textarea: {
-      padding: theme.spacing(2),
-      minHeight: 120,
-    },
-
-    [theme.breakpoints.up('lmd')]: {
       input: {
-        minHeight: 56,
+        padding: theme.spacing(0, 2),
+        minHeight: 48,
       },
-    },
-  };
-});
+
+      textarea: {
+        padding: theme.spacing(2),
+        minHeight: minHeight ?? 120,
+        boxSizing: 'border-box',
+      },
+
+      [theme.breakpoints.up('lmd')]: {
+        input: {
+          minHeight: 56,
+        },
+      },
+    };
+  },
+);

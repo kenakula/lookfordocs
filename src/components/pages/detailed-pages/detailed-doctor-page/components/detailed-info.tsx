@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Skeleton } from '@mui/material';
 import { TestimonialDialog } from '@/components';
 import { IDoctor, ITestimonial } from '@/shared/types';
-import { capitilizeName } from '@/shared/assets';
+import { capitalizeName } from '@/shared/assets';
 import {
   StyledDetailedInfo,
   StyledDetailInfoTitle,
@@ -94,7 +94,7 @@ export const DetailedInfo = ({
         onClose={handleCloseTestimonialsDialog}
         type="doctor"
         entityId={docId}
-        entityName={capitilizeName(firstName, lastName)}
+        entityName={capitalizeName(firstName, lastName)}
         entityImage={image}
       />
     </StyledDetailedInfo>

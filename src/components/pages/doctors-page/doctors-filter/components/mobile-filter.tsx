@@ -1,19 +1,18 @@
 import { Box, IconButton, Typography } from '@mui/material';
 import { Control } from 'react-hook-form';
-import { IconClose } from '@/components/icons';
+import { useAppSelector } from '@/stores';
 import {
   ISpecialty,
   IGlobalService,
   IInsurance,
   ILanguage,
-  FilterFormModel,
+  DoctorsFilterFormModel,
   IClinic,
 } from '@/shared/types';
-import { ButtonComponent } from '@/components/button-component/button-component';
-import { useAppSelector } from '@/stores';
+import { ClearFiltersButton, ButtonComponent } from '@/components';
+import { IconClose } from '@/components/icons';
 import { StyledMobileFilter } from './styled-components';
 import { FiltersList } from './filters-list';
-import { ClearFiltersButton } from './clear-filters-button';
 import { FiltersCounter } from './filters-counter';
 
 interface Props {
@@ -28,7 +27,7 @@ interface Props {
   expandedBlocks: string[];
   handleExpandGroup: (id: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formControl: Control<FilterFormModel, any>;
+  formControl: Control<DoctorsFilterFormModel, any>;
   resetFilters: () => void;
 }
 

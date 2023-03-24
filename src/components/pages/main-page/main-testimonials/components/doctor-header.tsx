@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from '@mui/material';
-import { capitalize, capitilizeName, getImageUrl } from '@/shared/assets';
+import { capitalize, capitalizeName, getImageUrl } from '@/shared/assets';
 import { IDoctor, SpecialtyRef } from '@/shared/types';
 
 interface Props {
@@ -22,7 +22,7 @@ export const DoctorHeader = ({
       />
       <Box className="card-info">
         <Typography variant="h3" className="card-title">
-          {capitilizeName(firstName, lastName)}
+          {capitalizeName(firstName, lastName)}
         </Typography>
         <Typography variant="body1" className="card-subtitle">
           {getSpecialtiesName()}

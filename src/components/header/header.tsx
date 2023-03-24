@@ -11,7 +11,11 @@ import Image from 'next/image';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { openSmartSearch, useAppDispatch } from '@/stores';
+import {
+  openAppointmentDialog,
+  openSmartSearch,
+  useAppDispatch,
+} from '@/stores';
 import { ContainerComponent } from '@/components';
 import { IconMenu, IconSearch } from '@/components/icons';
 import { useScroll } from '@/shared/hooks';
@@ -39,7 +43,7 @@ export const Header = ({
   isMainPage,
   isDetailedPage,
 }: Props): JSX.Element => {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const position = useScroll(200);
   const [pageScrolled, setPageScrolled] = useState<boolean>(false);
   const trigger = useScrollTrigger();
@@ -63,6 +67,11 @@ export const Header = ({
     } else {
       dispatch(openSmartSearch());
     }
+  };
+
+  const openAppointmentForm = () => {
+    setMobileOpen(false);
+    dispatch(openAppointmentDialog());
   };
 
   const openDrawer = (): void => {
@@ -92,7 +101,11 @@ export const Header = ({
                   {navigation.map(({ name, url, isAccent }) =>
                     isAccent ? (
                       <ListItem key={name}>
-                        <ListItemButton disableRipple disableTouchRipple>
+                        <ListItemButton
+                          disableRipple
+                          disableTouchRipple
+                          onClick={openAppointmentForm}
+                        >
                           {name}
                         </ListItemButton>
                       </ListItem>
@@ -142,6 +155,7 @@ export const Header = ({
         socials={socials}
         copyrights={copyrights}
         logo={logo}
+        openAppointmentForm={openAppointmentForm}
       />
       <HiddenToolbar />
     </>

@@ -3,12 +3,12 @@ import { QueryDefinition } from '@reduxjs/toolkit/dist/query';
 import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { IDoctorCount } from '../types';
+import { IItemsCount } from '../types';
 
 export const usePaginationQuery = <
   QueryType,
   LazyQueryType extends UseLazyQuery<
-    QueryDefinition<any, any, any, IDoctorCount, any>
+    QueryDefinition<any, any, any, IItemsCount, any>
   >,
 >(
   lazyCountQuery: LazyQueryType,

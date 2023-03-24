@@ -9,13 +9,13 @@ import {
 import {
   searchFieldClear,
   searchFieldInput,
-  setFiltersCount,
+  setDoctorsFiltersCount,
   useAppDispatch,
 } from '@/stores';
 import { DoctorsFilterQuery } from '@/stores/types';
-import { DOCTORS_PAGE_LIMIT, useLazyGetDoctorsListQuery } from '@/stores/api';
+import { useLazyGetDoctorsListQuery } from '@/stores/api';
 import {
-  FilterFormModel,
+  DoctorsFilterFormModel,
   FilterGroupValue,
   IClinic,
   IDoctor,
@@ -24,16 +24,19 @@ import {
   ILanguage,
   ISpecialty,
 } from '@/shared/types';
-import { DOCTORS_PAGE } from '@/shared/assets';
+import {
+  DOCTORS_PAGE,
+  DOCTORS_PAGE_LIMIT,
+  getFilterValues,
+} from '@/shared/assets';
 import { usePageQuery } from '@/shared/hooks';
-import { getFilterValues } from '../assets';
 
 interface HookValue {
   runQueryBuilder: (nameString?: string, pageNumber?: number) => void;
-  setFormValue: UseFormSetValue<FilterFormModel>;
-  resetFormValue: UseFormReset<FilterFormModel>;
+  setFormValue: UseFormSetValue<DoctorsFilterFormModel>;
+  resetFormValue: UseFormReset<DoctorsFilterFormModel>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formControl: Control<FilterFormModel, any>;
+  formControl: Control<DoctorsFilterFormModel, any>;
   doctorsList: IDoctor[] | undefined;
   query: DoctorsFilterQuery;
   searchString: string;
@@ -69,16 +72,17 @@ export const useBuildQuery = ({
       IDoctor,
       DoctorsFilterQuery,
       typeof useLazyGetDoctorsListQuery
-    >(useLazyGetDoctorsListQuery);
-  const { control, getValues, setValue, reset } = useForm<FilterFormModel>({
-    defaultValues: {
-      specialties: [],
-      services: [],
-      insurances: [],
-      languages: [],
-      clinics: [],
-    },
-  });
+    >(useLazyGetDoctorsListQuery, DOCTORS_PAGE_LIMIT);
+  const { control, getValues, setValue, reset } =
+    useForm<DoctorsFilterFormModel>({
+      defaultValues: {
+        specialties: [],
+        services: [],
+        insurances: [],
+        languages: [],
+        clinics: [],
+      },
+    });
 
   useEffect(() => {
     if (query.specialty) {
@@ -119,7 +123,7 @@ export const useBuildQuery = ({
       return sum + curr.length;
     }, 0);
 
-    dispatch(setFiltersCount(count));
+    dispatch(setDoctorsFiltersCount(count));
   }, [getValues, dispatch]);
 
   const fetchCallback = (nameString?: string, pageNumber?: number): void => {

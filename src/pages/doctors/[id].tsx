@@ -1,7 +1,6 @@
 import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
-import { Typography } from '@mui/material';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import {
   getCities,
@@ -11,7 +10,7 @@ import {
   getSiteSettings,
 } from '@/api';
 import {
-  capitilizeName,
+  capitalizeName,
   DOCTORS_PAGE,
   getSeoDoctorPageH1,
   getSeoDoctorPageTitle,
@@ -101,37 +100,30 @@ const DoctorPage = (): JSX.Element => {
     );
   }
 
-  if (siteSettings) {
+  if (siteSettings && doctorInfo) {
     return (
       <Layout siteSettings={siteSettings} isDetailedPage>
-        {doctorInfo ? (
-          <>
-            <PageSeo
-              pageSettings={{
-                pageTitle: getSeoDoctorPageTitle(
-                  doctorInfo.firstName,
-                  doctorInfo.lastName,
-                ),
-                pageDescription: doctorInfo.shortText ?? '',
-              }}
-            />
-            <BreadcrumbsComponent
-              crumbs={[
-                { text: 'Врачи', link: DOCTORS_PAGE },
-                {
-                  text: capitilizeName(
-                    doctorInfo.firstName,
-                    doctorInfo.lastName,
-                  ),
-                },
-              ]}
-            />
-            <h1 className="visually-hidden">
-              {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
-            </h1>
-          </>
-        ) : null}
-        {doctorInfo && cities && insurances ? (
+        <PageSeo
+          pageSettings={{
+            pageTitle: getSeoDoctorPageTitle(
+              doctorInfo.firstName,
+              doctorInfo.lastName,
+            ),
+            pageDescription: doctorInfo.shortText ?? '',
+          }}
+        />
+        <BreadcrumbsComponent
+          crumbs={[
+            { text: 'Врачи', link: DOCTORS_PAGE },
+            {
+              text: capitalizeName(doctorInfo.firstName, doctorInfo.lastName),
+            },
+          ]}
+        />
+        <h1 className="visually-hidden">
+          {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
+        </h1>
+        {cities && insurances ? (
           <DetailedDoctorPage
             data={doctorInfo}
             cities={cities}
@@ -144,8 +136,7 @@ const DoctorPage = (): JSX.Element => {
 
   return (
     <ContainerComponent>
-      <Typography textAlign="center">Not Found</Typography>
-      <p>{JSON.stringify(doctorInfo)}</p>
+      <h1>Doctor Page not found</h1>
     </ContainerComponent>
   );
 };

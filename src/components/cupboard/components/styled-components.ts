@@ -1,6 +1,6 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 
-export const StyledLayoutSkeleton = styled(Box)(({ theme }) => ({
+export const StyledLayoutSkeleton = styled('div')(({ theme }) => ({
   flexGrow: 1,
   display: 'flex',
   flexDirection: 'column',
@@ -30,7 +30,7 @@ export const StyledLayoutSkeleton = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledDetailedDoctorSkeleton = styled(Box)(({ theme }) => ({
+export const StyledDetailedDoctorSkeleton = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   padding: theme.spacing(2, 0),
@@ -47,5 +47,38 @@ export const StyledDetailedDoctorSkeleton = styled(Box)(({ theme }) => ({
 
   '.user-info-skeleton': {
     flexGrow: 1,
+  },
+}));
+
+export const StyledDetailedClinicSkeleton = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: theme.spacing(2, 0),
+
+  '.clinic-card-skeleton': {
+    display: 'flex',
+    columnGap: theme.spacing(3),
+    padding: theme.spacing(2, 0),
+  },
+
+  '.clinic-image-skeleton': {
+    width: '40%',
+  },
+
+  '.clinic-info-skeleton': {
+    flexGrow: 1,
+  },
+}));
+
+export const StyledFilterSkeleton = styled('div')(({ theme }) => ({
+  width: '100%',
+
+  '.MuiSkeleton-root': {
+    width: '100%',
+    transform: 'none',
+  },
+
+  '& + .MuiSkeleton-root': {
+    marginTop: theme.spacing(1),
   },
 }));
