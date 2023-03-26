@@ -1,6 +1,5 @@
 import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { Typography } from '@mui/material';
 import { GetStaticProps } from 'next';
 import {
   getCountedSpecialties,
@@ -15,8 +14,8 @@ import {
   getSiteSettings,
 } from '@/api';
 import {
-  ContainerComponent,
   Layout,
+  ListPageSkeleton,
   MainAdvantages,
   MainAppointment,
   MainInsurances,
@@ -131,11 +130,7 @@ export default function Home(): JSX.Element {
   });
 
   if (router.isFallback) {
-    return (
-      <ContainerComponent>
-        <Typography textAlign="center">Loading...</Typography>
-      </ContainerComponent>
-    );
+    return <ListPageSkeleton />;
   }
 
   if (siteSettings && pageSettings) {
@@ -161,9 +156,5 @@ export default function Home(): JSX.Element {
     );
   }
 
-  return (
-    <ContainerComponent>
-      <h1>MainPage</h1>
-    </ContainerComponent>
-  );
+  return <ListPageSkeleton />;
 }

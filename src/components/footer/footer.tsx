@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { Box, Typography } from '@mui/material';
 import {
   StyledFooterInner,
@@ -8,6 +7,7 @@ import {
   StyledFooterInfo,
   StyledFooterList,
   StyledFooterTop,
+  FooterLink,
 } from './components';
 import { ISiteSettings } from '@/shared/types';
 import { getImageUrl } from '@/shared/assets';
@@ -38,19 +38,25 @@ export const Footer = ({
               </Box>
             </StyledFooterInfo>
             <StyledFooterList>
-              {footerLinks.map(({ name, url }) => (
-                <li key={name}>
-                  <Link href={url}>{name}</Link>
-                </li>
+              {footerLinks.map(({ name, url, developing }) => (
+                <FooterLink
+                  key={name}
+                  url={url}
+                  developing={developing}
+                  text={name}
+                />
               ))}
             </StyledFooterList>
           </StyledFooterTop>
           <StyledFooterBottom>
             <StyledFooterDocuments>
-              {documents.map(({ name, url }) => (
-                <li key={name}>
-                  <Link href={url}>{name}</Link>
-                </li>
+              {documents.map(({ name, url, developing }) => (
+                <FooterLink
+                  key={name}
+                  url={url}
+                  developing={developing}
+                  text={name}
+                />
               ))}
             </StyledFooterDocuments>
             <Typography className="copyrights" variant="caption">

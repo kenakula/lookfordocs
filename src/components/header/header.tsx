@@ -25,6 +25,7 @@ import { getImageUrl, HOME_PAGE } from '@/shared/assets';
 import {
   DrawerComponent,
   HiddenToolbar,
+  PageLink,
   StyledHeader,
   StyledNav,
   StyledSearchButton,
@@ -98,7 +99,7 @@ export const Header = ({
               </Link>
               <StyledNav component="nav" isMainPage={isMainPage}>
                 <List>
-                  {navigation.map(({ name, url, isAccent }) =>
+                  {navigation.map(({ name, url, isAccent, developing }) =>
                     isAccent ? (
                       <ListItem key={name}>
                         <ListItemButton
@@ -110,17 +111,16 @@ export const Header = ({
                         </ListItemButton>
                       </ListItem>
                     ) : (
-                      <ListItem key={name}>
-                        <Link
-                          className={`nav-link ${getActiveStateClassName(
-                            url,
-                            router.pathname,
-                          )}`}
-                          href={`/${url}`}
-                        >
-                          {name}
-                        </Link>
-                      </ListItem>
+                      <PageLink
+                        key={name}
+                        className={`nav-link ${getActiveStateClassName(
+                          url,
+                          router.pathname,
+                        )}`}
+                        url={url}
+                        text={name}
+                        developing={developing}
+                      />
                     ),
                   )}
                 </List>

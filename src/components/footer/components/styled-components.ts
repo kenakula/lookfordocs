@@ -10,7 +10,7 @@ export const StyledFooterInner = styled(Box)(({ theme }) => ({
   },
 
   [theme.breakpoints.up('lg')]: {
-    paddingTop: theme.spacing(8.8),
+    padding: theme.spacing(8.8, 0, 8),
 
     '.copyrights': {
       order: -1,
@@ -53,6 +53,12 @@ export const StyledFooterList = styled('ul')(({ theme }) => ({
     color: theme.palette.text.primary,
     textDecoration: 'none',
     transition: theme.transitions.create('color'),
+
+    '&.disabled': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: 0.2,
+    },
 
     '&:hover': {
       color: theme.palette.primary.main,
@@ -97,6 +103,12 @@ export const StyledFooterDocuments = styled('ul')(({ theme }) => ({
     color: theme.palette.text.primary,
     textDecoration: 'none',
     transition: theme.transitions.create('color'),
+
+    '&.disabled': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: 0.2,
+    },
 
     '&:hover': {
       color: theme.palette.primary.main,

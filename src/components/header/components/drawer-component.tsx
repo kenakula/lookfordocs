@@ -7,7 +7,6 @@ import {
   ListItemButton,
   IconButton,
 } from '@mui/material';
-import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 import { ContainerComponent, Socials } from '@/components';
@@ -16,6 +15,7 @@ import { IImage, INavigation, ISocial } from '@/shared/types';
 import { getImageUrl } from '@/shared/assets';
 import { getActiveStateClassName } from '../assets';
 import { StyledDrawer, StyledSocials } from './styled-components';
+import { PageLink } from './page-link';
 
 interface Props {
   closeDrawer: () => void;
@@ -61,7 +61,7 @@ export const DrawerComponent = ({
           </IconButton>
         </ContainerComponent>
         <List>
-          {navigation.map(({ name, url, isAccent }) =>
+          {navigation.map(({ name, url, isAccent, developing }) =>
             isAccent ? (
               <ListItem key={name}>
                 <ListItemButton
@@ -73,17 +73,16 @@ export const DrawerComponent = ({
                 </ListItemButton>
               </ListItem>
             ) : (
-              <ListItem key={name}>
-                <Link
-                  className={`nav-link ${getActiveStateClassName(
-                    url,
-                    router.pathname,
-                  )}`}
-                  href={`/${url}`}
-                >
-                  {name}
-                </Link>
-              </ListItem>
+              <PageLink
+                key={name}
+                className={`nav-link ${getActiveStateClassName(
+                  url,
+                  router.pathname,
+                )}`}
+                url={url}
+                text={name}
+                developing={developing}
+              />
             ),
           )}
         </List>

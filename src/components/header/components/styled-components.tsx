@@ -117,6 +117,12 @@ export const StyledNav = styled(Box, {
     whiteSpace: 'nowrap',
     transition: theme.transitions.create('color'),
 
+    '&.disabled': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: 0.2,
+    },
+
     '&.active': {
       position: 'relative',
       pointerEvents: 'none',
@@ -226,6 +232,12 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
     whiteSpace: 'nowrap',
     fontSize: 16,
     transition: theme.transitions.create('color'),
+
+    '&.disabled': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: 0.2,
+    },
 
     '&.active': {
       position: 'relative',

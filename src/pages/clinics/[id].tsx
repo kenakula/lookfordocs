@@ -6,7 +6,6 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { getClinicInfo, getClinicsIds, getSiteSettings } from '@/api';
 import {
   BreadcrumbsComponent,
-  ContainerComponent,
   DetailedClinicPage,
   DetailedClinicSkeleton,
   Layout,
@@ -103,9 +102,9 @@ const ClinicPage = (): JSX.Element => {
   }
 
   return (
-    <ContainerComponent>
-      <h1>ClinicPage not found</h1>
-    </ContainerComponent>
+    <LayoutSkeleton>
+      <DetailedClinicSkeleton />
+    </LayoutSkeleton>
   );
 };
 

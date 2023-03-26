@@ -1,5 +1,4 @@
 import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
-import { Typography } from '@mui/material';
 import { GetStaticProps } from 'next';
 import {
   getDoctorsClinics,
@@ -14,13 +13,14 @@ import {
 } from '@/api';
 import {
   BreadcrumbsComponent,
-  ContainerComponent,
   DoctorsFilter,
   Layout,
+  ListPageSkeleton,
   PageResult,
   PageSeo,
   Promo,
 } from '@/components';
+import { useRouter } from 'next/router';
 
 const PAGE_SLUG = 'doctors';
 
@@ -54,6 +54,8 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const DoctorsPage = (): JSX.Element => {
+  const router = useRouter();
+
   const [
     { data: siteSettings },
     { data: pageSettings },
@@ -122,6 +124,10 @@ const DoctorsPage = (): JSX.Element => {
     clinics &&
     doctorsTestimonials;
 
+  if (router.isFallback) {
+    return <ListPageSkeleton />;
+  }
+
   if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings}>
@@ -146,11 +152,7 @@ const DoctorsPage = (): JSX.Element => {
     );
   }
 
-  return (
-    <ContainerComponent>
-      <Typography textAlign="center">Not Found</Typography>
-    </ContainerComponent>
-  );
+  return <ListPageSkeleton />;
 };
 
 export default DoctorsPage;

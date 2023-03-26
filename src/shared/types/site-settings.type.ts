@@ -23,11 +23,13 @@ export interface INavigation {
   name: string;
   url: string;
   isAccent: boolean;
+  developing?: boolean;
 }
 
 export interface IFooterLink {
   name: string;
   url: string;
+  developing?: boolean;
 }
 
 export interface ISocial {
@@ -39,4 +41,5 @@ export interface ISocial {
 export interface IDocumentLink {
   name: string;
   url: string;
+  developing?: boolean;
 }
