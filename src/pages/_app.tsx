@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Hydrate,
   QueryClient,
@@ -6,13 +7,13 @@ import {
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
+import { GoogleAnalytics } from 'nextjs-google-analytics';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { ThemeStoreProvider } from '@/stores/theme-store-provider';
 import { createEmotionCache } from '@/shared/assets';
 import { store } from '@/stores';
 import { Toaster } from '@/components';
 import '../styles/global.css';
-import { useState } from 'react';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -80,6 +81,7 @@ export default function MyApp(props: MyAppProps) {
                     content="/mstile-150x150.png"
                   />
                 </Head>
+                <GoogleAnalytics trackPageViews />
                 <Component {...pageProps} />
                 <Toaster />
               </>

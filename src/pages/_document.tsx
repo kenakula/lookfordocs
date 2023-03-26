@@ -8,7 +8,7 @@ import { rubik } from '@/stores/theme-store-provider';
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en" className={rubik.className}>
+      <Html lang="ru" className={rubik.className}>
         <Head>
           {/* PWA primary color */}
           <meta name="emotion-insertion-point" content="" />
