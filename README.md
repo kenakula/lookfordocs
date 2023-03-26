@@ -25,6 +25,8 @@ npm run lint
 ├── public
 │   └── favicon.ico
 ├── src
+|   ├── api
+│   │   ├── doctors.api.ts
 │   ├── components
 │   │   ├── button-component
 │   │   ├── container
