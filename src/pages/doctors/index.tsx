@@ -132,7 +132,7 @@ const DoctorsPage = (): JSX.Element => {
     return (
       <Layout siteSettings={siteSettings}>
         <h1 className="visually-hidden">{pageSettings.h1}</h1>
-        <PageSeo pageSettings={pageSettings} />
+        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
 
         <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
         {promoData && <Promo promoData={promoData} />}

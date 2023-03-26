@@ -17,13 +17,14 @@ export interface ISiteSettings {
   documents: IDocumentLink[];
   logo: IImage;
   testimonialsLimit: number;
+  siteUrl: string;
+  constructionImage: IImage;
 }
 
 export interface INavigation {
   name: string;
   url: string;
   isAccent: boolean;
-  developing?: boolean;
 }
 
 export interface IFooterLink {

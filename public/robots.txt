@@ -1,0 +1,7 @@
+User-agent: *
+Disallow:
+Disallow: /privacy-policy
+Disallow: /telemed
+Disallow: /partners
+Disallow: /contacts
+Sitemap: /sitemap.xml

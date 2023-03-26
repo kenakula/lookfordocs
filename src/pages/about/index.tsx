@@ -1,16 +1,16 @@
-import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
+import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { getPageSettings, getSiteSettings } from '@/api';
 import {
-  ContainerComponent,
   Layout,
   ListPageSkeleton,
   PageSeo,
+  UnderConstructionPage,
 } from '@/components';
 import { Title } from '@/shared/assets';
 
-const PAGE_SLUG = 'privacy-policy';
+const PAGE_SLUG = 'about';
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default function Home(): JSX.Element {
+const AboutPage = (): JSX.Element => {
   const router = useRouter();
 
   const [{ data: siteSettings }, { data: pageSettings }] = useQueries({
@@ -51,21 +51,18 @@ export default function Home(): JSX.Element {
 
   if (siteSettings && pageSettings) {
     return (
-      <Layout siteSettings={siteSettings} isMainPage>
+      <Layout siteSettings={siteSettings}>
         <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
-        <main>
-          {pageSettings.content && (
-            <ContainerComponent style={{ mt: 4 }}>
-              <Title variant="h1">{pageSettings.h1}</Title>
-              <section
-                dangerouslySetInnerHTML={{ __html: pageSettings.content }}
-              />
-            </ContainerComponent>
-          )}
-        </main>
+        <UnderConstructionPage image={siteSettings.constructionImage}>
+          <Title variant="h2" textAlign="center">
+            О нашем <span className="highlighted">проекте</span>
+          </Title>
+        </UnderConstructionPage>
       </Layout>
     );
   }
 
   return <ListPageSkeleton />;
-}
+};
+
+export default AboutPage;

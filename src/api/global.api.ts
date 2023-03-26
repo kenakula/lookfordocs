@@ -14,8 +14,7 @@ export const getSiteSettings = async (): Promise<ISiteSettings> =>
   axiosClient
     .get<AxiosResponse<ISiteSettings>>('/site_settings', {
       params: {
-        fields:
-          'logo.*, documents, copyrights, socials, footerLinks, navigation, testimonialsLimit',
+        fields: '*.*',
       },
     })
     .then(res => res.data.data);
@@ -23,7 +22,10 @@ export const getSiteSettings = async (): Promise<ISiteSettings> =>
 export const getPageSettings = async (slug: string): Promise<IPageSettings> =>
   axiosClient
     .get<AxiosResponse<IPageSettings[]>>('/pages', {
-      params: { filter: JSON.stringify({ slug: { _eq: slug } }) },
+      params: {
+        filter: JSON.stringify({ slug: { _eq: slug } }),
+        fields: '*.*',
+      },
     })
     .then(res => res.data.data[0]);
 

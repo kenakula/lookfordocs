@@ -15,7 +15,7 @@ import { IImage, INavigation, ISocial } from '@/shared/types';
 import { getImageUrl } from '@/shared/assets';
 import { getActiveStateClassName } from '../assets';
 import { StyledDrawer, StyledSocials } from './styled-components';
-import { PageLink } from './page-link';
+import Link from 'next/link';
 
 interface Props {
   closeDrawer: () => void;
@@ -61,7 +61,7 @@ export const DrawerComponent = ({
           </IconButton>
         </ContainerComponent>
         <List>
-          {navigation.map(({ name, url, isAccent, developing }) =>
+          {navigation.map(({ name, url, isAccent }) =>
             isAccent ? (
               <ListItem key={name}>
                 <ListItemButton
@@ -73,16 +73,17 @@ export const DrawerComponent = ({
                 </ListItemButton>
               </ListItem>
             ) : (
-              <PageLink
-                key={name}
-                className={`nav-link ${getActiveStateClassName(
-                  url,
-                  router.pathname,
-                )}`}
-                url={url}
-                text={name}
-                developing={developing}
-              />
+              <ListItem key={name}>
+                <Link
+                  className={`nav-link ${getActiveStateClassName(
+                    url,
+                    router.pathname,
+                  )}`}
+                  href={url}
+                >
+                  {name}
+                </Link>
+              </ListItem>
             ),
           )}
         </List>

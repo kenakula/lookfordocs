@@ -27,6 +27,8 @@ export const StyledFooterTop = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.up('lmd')]: {
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -35,6 +37,7 @@ export const StyledFooterInfo = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.up('lmd')]: {
     marginRight: 'auto',
+    marginBottom: 0,
   },
 }));
 

@@ -38,25 +38,15 @@ export const Footer = ({
               </Box>
             </StyledFooterInfo>
             <StyledFooterList>
-              {footerLinks.map(({ name, url, developing }) => (
-                <FooterLink
-                  key={name}
-                  url={url}
-                  developing={developing}
-                  text={name}
-                />
+              {footerLinks.map(({ name, url }) => (
+                <FooterLink key={name} url={url} text={name} />
               ))}
             </StyledFooterList>
           </StyledFooterTop>
           <StyledFooterBottom>
             <StyledFooterDocuments>
-              {documents.map(({ name, url, developing }) => (
-                <FooterLink
-                  key={name}
-                  url={url}
-                  developing={developing}
-                  text={name}
-                />
+              {documents.map(({ name, url }) => (
+                <FooterLink key={name} url={url} text={name} />
               ))}
             </StyledFooterDocuments>
             <Typography className="copyrights" variant="caption">

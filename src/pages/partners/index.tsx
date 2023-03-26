@@ -1,9 +1,14 @@
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
-import { Typography } from '@mui/material';
 import { QueryClient, dehydrate, useQueries } from '@tanstack/react-query';
 import { getSiteSettings, getPageSettings } from '@/api';
-import { ContainerComponent, Layout, PageSeo } from '@/components';
+import {
+  Layout,
+  ListPageSkeleton,
+  PageSeo,
+  UnderConstructionPage,
+} from '@/components';
+import { Title } from '@/shared/assets';
 
 const PAGE_SLUG = 'partners';
 
@@ -41,29 +46,24 @@ const PartnersPage = (): JSX.Element => {
   });
 
   if (router.isFallback) {
-    return (
-      <ContainerComponent>
-        <Typography textAlign="center">Loading...</Typography>
-      </ContainerComponent>
-    );
+    return <ListPageSkeleton />;
   }
 
   if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings}>
-        <PageSeo pageSettings={pageSettings} />
-        <ContainerComponent>
-          <h1>PartnersPage</h1>
-        </ContainerComponent>
+        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
+        <UnderConstructionPage image={siteSettings.constructionImage}>
+          <Title variant="h2" textAlign="center">
+            <span className="highlighted">Докторам</span> и{' '}
+            <span className="highlighted">Клиникам</span>
+          </Title>
+        </UnderConstructionPage>
       </Layout>
     );
   }
 
-  return (
-    <ContainerComponent>
-      <Typography textAlign="center">Not Found</Typography>
-    </ContainerComponent>
-  );
+  return <ListPageSkeleton />;
 };
 
 export default PartnersPage;

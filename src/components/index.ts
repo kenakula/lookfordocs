@@ -1,3 +1,4 @@
+export * from './pages/under-construction-page/under-construction-page';
 export * from './breadcrumbs-component/breadcrumbs-component';
 export * from './pagination-component/pagination-component';
 export * from './clear-filters-button/clear-filters-button';

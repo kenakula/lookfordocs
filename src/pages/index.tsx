@@ -137,7 +137,7 @@ export default function Home(): JSX.Element {
     return (
       <Layout siteSettings={siteSettings} isMainPage>
         <h1 className="visually-hidden">{pageSettings.h1}</h1>
-        <PageSeo pageSettings={pageSettings} />
+        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
         {promoData && <MainPromo promoData={promoData} />}
         {appointmentData && (
           <MainAppointment appointmentData={appointmentData} />

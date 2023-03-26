@@ -83,9 +83,12 @@ const ClinicPage = (): JSX.Element => {
           pageSettings={{
             pageTitle: getSeoClinicPageTitle(clinicInfo.name),
             pageDescription: clinicInfo.description,
-            pageKeywords: 'keywords',
+            pageKeywords:
+              'клиника, португалия, врачи, запись на прием, адрес клиники, метро рядом',
             slug: 'clinic',
+            socialImage: clinicInfo.image,
           }}
+          siteUrl={siteSettings.siteUrl}
         />
         <BreadcrumbsComponent
           crumbs={[

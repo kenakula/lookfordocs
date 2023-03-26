@@ -108,8 +108,12 @@ const DoctorPage = (): JSX.Element => {
               doctorInfo.firstName,
               doctorInfo.lastName,
             ),
+            socialImage: doctorInfo.image,
             pageDescription: doctorInfo.shortText ?? '',
+            pageKeywords:
+              'врач, записаться на прием, описание врача, специальности врача, что лечит врач, вызвать врача на дом',
           }}
+          siteUrl={siteSettings.siteUrl}
         />
         <BreadcrumbsComponent
           crumbs={[

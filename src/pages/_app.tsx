@@ -63,23 +63,6 @@ export default function MyApp(props: MyAppProps) {
                   />
                   <meta name="msapplication-TileColor" content="#da532c" />
                   <meta name="theme-color" content="#ffffff" />
-                  {/* og */}
-                  <meta property="og:type" content="website" />
-                  <meta
-                    property="og:url"
-                    content="https://goodoc-git-dev-kenakula.vercel.app/"
-                  />
-                  <meta property="og:image" content="/mstile-150x150.png" />
-                  {/* twitter */}
-                  <meta property="twitter:card" content="summary_large_image" />
-                  <meta
-                    property="twitter:url"
-                    content="https://goodoc-git-dev-kenakula.vercel.app/"
-                  />
-                  <meta
-                    property="twitter:image"
-                    content="/mstile-150x150.png"
-                  />
                 </Head>
                 <GoogleAnalytics trackPageViews />
                 <Component {...pageProps} />
