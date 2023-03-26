@@ -82,18 +82,23 @@ export const StyledInputWrapper = styled(Box)(({ theme }) => ({
     width: '100%',
     minHeight: 48,
     color: theme.palette.text.secondary,
-    borderColor: theme.palette.misc.light,
+    borderColor: theme.palette.misc.dark,
     borderRadius: theme.shape.borderRadius,
+    boxShadow: '0px 4px 16px rgba(7, 20, 48, 0.04)',
 
     '&.invalid-number': {
       borderColor: theme.palette.error.main,
       backgroundColor: 'transparent',
     },
+
+    [theme.breakpoints.up('lmd')]: {
+      minHeight: 56,
+    },
   },
 
   '.flag-dropdown.phone-input__btn': {
-    borderColor: theme.palette.misc.light,
-    backgroundColor: theme.palette.misc.dark,
+    borderColor: theme.palette.misc.dark,
+    backgroundColor: theme.palette.misc.light,
 
     '&.open': {
       '.selected-flag': {
@@ -163,12 +168,11 @@ export const StyledInputComponent = styled(Input, {
       display: 'flex',
       padding: 0,
       border: `1px solid ${
-        color === 'error' ? theme.palette.error.light : theme.palette.misc.light
+        color === 'error' ? theme.palette.error.light : theme.palette.misc.dark
       }`,
       borderRadius: theme.shape.borderRadius,
       color: theme.palette.text.secondary,
-      // TODO унифицировать тени
-      // boxShadow: '0px 4px 16px rgba(7, 20, 48, 0.04)',
+      boxShadow: '0px 4px 16px rgba(7, 20, 48, 0.04)',
 
       '&:hover': {
         '&::before': {

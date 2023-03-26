@@ -89,7 +89,7 @@ export const StyledSearchResult = styled(Box)(({ theme }) => ({
 
   '&::-webkit-scrollbar-thumb': {
     borderRadius: 23,
-    backgroundColor: theme.palette.misc.light,
+    backgroundColor: theme.palette.misc.dark,
   },
 
   '.search-hint': {
@@ -105,7 +105,7 @@ export const StyledResultList = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2.5),
   padding: theme.spacing(3),
   marginRight: theme.spacing(1),
-  borderBottom: `1px solid ${theme.palette.misc.light}`,
+  borderBottom: `1px solid ${theme.palette.misc.dark}`,
 
   '&:last-child': {
     margin: 0,

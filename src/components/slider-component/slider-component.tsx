@@ -40,7 +40,7 @@ const StyledSliderWrapper = styled(Box)(({ theme }) => ({
     },
 
     '&:active': {
-      backgroundColor: theme.palette.misc.dark,
+      backgroundColor: theme.palette.misc.light,
     },
 
     '&:focus-visible': {

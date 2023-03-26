@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Skeleton } from '@mui/material';
 import { TestimonialDialog } from '@/components';
 import { IDoctor, ITestimonial } from '@/shared/types';
-import { capitalizeName } from '@/shared/assets';
 import {
+  capitalizeName,
   StyledDetailedInfo,
-  StyledDetailInfoTitle,
-  StyledDetailLongText,
   StyledDetailInfoBlock,
   StyledDetailInfoBlockHeader,
-} from './styled-components';
+  StyledDetailInfoTitle,
+  StyledDetailLongText,
+} from '@/shared/assets';
 import { DetailedDoctorNosology } from './detailed-doctor-nosology';
 import { DetailedDoctorEducation } from './detailed-doctor-education';
 import { DetialedDoctorTestimonials } from './detailed-doctor-testimonials';

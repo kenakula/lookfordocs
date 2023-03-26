@@ -187,7 +187,7 @@ export const StyledDetailedTestimonialList = styled('ul')(({ theme }) => ({
 
 export const StyledDetailedTestimonial = styled('li')(({ theme }) => ({
   padding: theme.spacing(2, 0),
-  borderBottom: `1px solid ${theme.palette.misc.light}`,
+  borderBottom: `1px solid ${theme.palette.misc.dark}`,
 
   '&:last-child': {
     borderBottom: 'none',

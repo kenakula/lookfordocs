@@ -62,7 +62,7 @@ const StyledPagination = styled('div', {
       backgroundColor:
         variant === 'default'
           ? theme.palette.background.default
-          : theme.palette.misc.light,
+          : theme.palette.misc.dark,
     },
 
     '.MuiTouchRipple-root': {

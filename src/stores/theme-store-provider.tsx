@@ -4,8 +4,6 @@ import { Rubik } from '@next/font/google';
 import { createTheme, Theme, ThemeProvider } from '@mui/material/styles';
 import { LOCAL_STORAGE_THEME_KEY } from '@/shared/assets';
 
-// TODO misc light & misc dark перепутаны
-
 declare module '@mui/material/styles' {
   interface Palette {
     alt: { beje: string; lightBlue: string };
@@ -98,8 +96,8 @@ export const ThemeStoreProvider = ({ children }: Props): JSX.Element => {
           },
           misc: {
             main: '#F0FBFB',
-            light: '#DDE3EF',
-            dark: '#F6F8FB',
+            light: '#F6F8FB',
+            dark: '#DDE3EF',
           },
         },
       }),

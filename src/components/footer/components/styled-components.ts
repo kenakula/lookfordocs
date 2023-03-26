@@ -135,7 +135,7 @@ export const StyledFooterDocuments = styled('ul')(({ theme }) => ({
 
 export const StyledFooterBottom = styled(Box)(({ theme }) => ({
   paddingTop: theme.spacing(5),
-  borderTop: `1px solid ${theme.palette.misc.light}`,
+  borderTop: `1px solid ${theme.palette.misc.dark}`,
 
   [theme.breakpoints.up('lg')]: {
     display: 'flex',

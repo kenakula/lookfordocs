@@ -28,7 +28,7 @@ export const StyledRating = styled(Rating)(({ theme, size }) => {
   }
 
   return {
-    color: theme.palette.misc.light,
+    color: theme.palette.misc.dark,
     marginLeft: theme.spacing(-iconPadding),
 
     '&.Mui-focusVisible .MuiRating-iconActive': {

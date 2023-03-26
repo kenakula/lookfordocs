@@ -64,11 +64,11 @@ export const StyledCard = styled('li', {
     height: '100%',
     border: '1px solid transparent',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.misc.dark,
+    backgroundColor: theme.palette.misc.light,
     transition: theme.transitions.create('border-color'),
 
     '&:hover': {
-      borderColor: theme.palette.misc.light,
+      borderColor: theme.palette.misc.dark,
     },
     '&:active': {
       borderColor: theme.palette.text.disabled,

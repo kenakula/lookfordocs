@@ -56,7 +56,7 @@ export const StyledCard = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     marginBottom: theme.spacing(2.5),
     paddingBottom: theme.spacing(2.5),
-    borderBottom: `1px solid ${theme.palette.misc.light}`,
+    borderBottom: `1px solid ${theme.palette.misc.dark}`,
   },
 
   '.card-info': {
