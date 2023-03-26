@@ -1,7 +1,7 @@
 import { getTypography } from '@/shared/assets';
-import { Box, Rating, styled } from '@mui/material';
+import { Rating, styled } from '@mui/material';
 
-export const StyledRatingWrapper = styled(Box)(({ theme }) => ({
+export const StyledRatingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   columnGap: theme.spacing(1.5),

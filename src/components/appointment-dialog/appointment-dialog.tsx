@@ -2,6 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from '@/stores';
+import { axiosClient } from '@/stores/assets';
+import { getImageUrl } from '@/shared/assets';
 import {
   ButtonComponent,
   DialogComponent,
@@ -10,9 +12,7 @@ import {
 } from '@/components';
 import { closeAppointmentDialog, setToaster } from '@/stores/slices';
 import { RequestFormModel } from '@/shared/models';
-import { axiosClient } from '@/stores/assets';
-import { getImageUrl } from '@/shared/assets';
-import { StyledForm } from './components';
+import { StyledAppointmentForm } from './components';
 import { formSchema } from './assets';
 import { useCommentBuilder } from './hooks';
 
@@ -71,7 +71,7 @@ export const AppointmentDialog = (): JSX.Element => {
       title={target ? target.name : 'Заполните данные'}
       imageUrl={target ? getImageUrl(target.image, target.name) : undefined}
     >
-      <StyledForm
+      <StyledAppointmentForm
         className="appointment-form"
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -167,7 +167,7 @@ export const AppointmentDialog = (): JSX.Element => {
           type="submit"
           disabled={isLoading}
         />
-      </StyledForm>
+      </StyledAppointmentForm>
     </DialogComponent>
   );
 };

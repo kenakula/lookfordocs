@@ -1,7 +1,7 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledInner = styled(Box)(({ theme }) => ({
+export const StyledInner = styled('div')(({ theme }) => ({
   '.title': {
     marginBottom: theme.spacing(6),
   },
@@ -40,7 +40,7 @@ export const StyledListItem = styled('li')(({ theme }) => ({
   },
 }));
 
-export const StyledInfoContainer = styled(Box)(({ theme }) => ({
+export const StyledInfoContainer = styled('div')(({ theme }) => ({
   '.MuiTypography-h3': {
     marginBottom: theme.spacing(1.5),
   },
@@ -64,7 +64,7 @@ export const StyledInfoContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledImageContainer = styled(Box)(({ theme }) => ({
+export const StyledImageContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   marginBottom: theme.spacing(4),
   paddingBottom: '41.76%',

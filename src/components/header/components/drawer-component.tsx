@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import {
-  Box,
   Typography,
   List,
   ListItem,
@@ -12,8 +11,7 @@ import React from 'react';
 import { ContainerComponent, Socials } from '@/components';
 import { IconClose } from '@/components/icons';
 import { IImage, INavigation, ISocial } from '@/shared/types';
-import { getImageUrl } from '@/shared/assets';
-import { getActiveStateClassName } from '../assets';
+import { getActiveStateClassName, getImageUrl } from '@/shared/assets';
 import { StyledDrawer, StyledSocials } from './styled-components';
 import Link from 'next/link';
 
@@ -39,7 +37,7 @@ export const DrawerComponent = ({
   const router = useRouter();
 
   return (
-    <Box component="nav">
+    <nav>
       <StyledDrawer
         variant="temporary"
         open={openState}
@@ -79,7 +77,7 @@ export const DrawerComponent = ({
                     url,
                     router.pathname,
                   )}`}
-                  href={url}
+                  href={`/${url}`}
                 >
                   {name}
                 </Link>
@@ -94,6 +92,6 @@ export const DrawerComponent = ({
           {copyrights}
         </Typography>
       </StyledDrawer>
-    </Box>
+    </nav>
   );
 };

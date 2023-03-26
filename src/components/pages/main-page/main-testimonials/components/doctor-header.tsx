@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import { capitalize, capitalizeName, getImageUrl } from '@/shared/assets';
 import { IDoctor, SpecialtyRef } from '@/shared/types';
 
@@ -15,19 +15,19 @@ export const DoctorHeader = ({
     specialty.map(item => capitalize(item.specialties_id.title)).join(', ');
 
   return (
-    <Box component="header" className="card-header">
+    <header className="card-header">
       <Avatar
         src={getImageUrl(image, 'аватарка доктора')}
         alt="фотография врача"
       />
-      <Box className="card-info">
+      <div className="card-info">
         <Typography variant="h3" className="card-title">
           {capitalizeName(firstName, lastName)}
         </Typography>
         <Typography variant="body1" className="card-subtitle">
           {getSpecialtiesName()}
         </Typography>
-      </Box>
-    </Box>
+      </div>
+    </header>
   );
 };

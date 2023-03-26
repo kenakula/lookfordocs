@@ -1,7 +1,7 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledInner = styled(Box)(({ theme }) => ({
+export const StyledInner = styled('div')(({ theme }) => ({
   '.title': {
     marginBottom: theme.spacing(5),
 

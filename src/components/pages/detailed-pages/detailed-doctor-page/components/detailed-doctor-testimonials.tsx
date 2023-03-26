@@ -4,12 +4,12 @@ import { ButtonComponent } from '@/components';
 import { ITestimonial } from '@/shared/types';
 import { useShowedCards } from '@/shared/hooks';
 import { DetailedTestimonialCard } from './detailed-testimonial-card';
+import { StyledDetailedTestimonialList } from './styled-components';
 import {
   StyledDetailInfoBlock,
   StyledDetailInfoBlockHeader,
   StyledDetailInfoTitle,
-  StyledDetailedTestimonialList,
-} from './styled-components';
+} from '@/shared/assets';
 
 const SHOWED_TESTIMONIALS_COUNT = 4;
 

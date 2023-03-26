@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { StyledCard } from './styled-components';
 import { ITestimonial } from '@/shared/types';
 import { ClinicHeader } from './clinic-header';
@@ -60,10 +60,10 @@ export const TestimonialCard = ({
     <StyledCard>
       {renderHeader()}
       <Typography className="card-text">{comment}</Typography>
-      <Box className="card-footer">
+      <div className="card-footer">
         <Typography variant="body1">{author}</Typography>
         <time dateTime={dateTimeString}>{cardDate}</time>
-      </Box>
+      </div>
     </StyledCard>
   );
 };

@@ -1,11 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  FormControl,
-  Input,
-  Radio,
-  styled,
-} from '@mui/material';
+import { Checkbox, FormControl, Input, Radio, styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
 export const CheckboxIcon = styled('span', { label: 'unchecked' })(
@@ -63,7 +56,7 @@ export const StyledRadioButton = styled(Radio)(({ theme }) => ({
   },
 }));
 
-export const StyledInputWrapper = styled(Box)(({ theme }) => ({
+export const StyledInputWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
 
   '.MuiFormHelperText-root': {

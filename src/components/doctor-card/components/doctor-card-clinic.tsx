@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCallback } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { capitalize, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
 import { CitiesRef, IClinic } from '@/shared/types';
 import { StyledClinicCard } from './styled-components';
@@ -45,27 +45,27 @@ export const DoctorCardClinic = ({
 
   return (
     <StyledClinicCard detailedLocation={detailedLocation}>
-      <Box className="clinic-top">
-        <Box className="clinic-image">
+      <div className="clinic-top">
+        <div className="clinic-image">
           <Image fill alt={name} src={getImageUrl(image, name)} />
-        </Box>
+        </div>
         <Link href={`${CLINICS_PAGE}/${id}`}>{name}</Link>
-      </Box>
+      </div>
       <Typography variant="body2" className="clinic-address">
         {getClinicAddress(address, citiesList[0])}
       </Typography>
       {metro && (
-        <Box className="clinic-metro" component="ul">
+        <ul className="clinic-metro">
           {metro.map(item => (
-            <Box component="li" key={item.slug}>
+            <li key={item.slug}>
               <Typography
                 variant="caption"
                 sx={{ backgroundColor: item.color }}
               />
               {item.name}
-            </Box>
+            </li>
           ))}
-        </Box>
+        </ul>
       )}
       {insurancesList && <DoctorCardInsurances list={insurancesList} />}
     </StyledClinicCard>

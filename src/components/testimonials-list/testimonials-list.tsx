@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Typography, Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import { ButtonComponent } from '@/components';
 import { ITestimonial } from '@/shared/types';
 import { useShowedCards } from '@/shared/hooks';
@@ -41,7 +41,7 @@ export const TestimonialsList = ({
           Пока нет отзывов
         </Typography>
       )}
-      <Box className="testimonials-buttons">
+      <div className="testimonials-buttons">
         {hasHiddenCards && (
           <ButtonComponent
             text={
@@ -58,7 +58,7 @@ export const TestimonialsList = ({
           fullWidth
           onClick={openTestimonialDialog}
         />
-      </Box>
+      </div>
     </div>
   );
 };

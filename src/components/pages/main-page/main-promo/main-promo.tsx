@@ -28,7 +28,7 @@ export const MainPromo = ({ promoData }: Props): JSX.Element => {
   const renderIcon = (): JSX.Element => <Becas className="becas" />;
 
   return (
-    <StyledPromoSection component="section" className="main-promo">
+    <StyledPromoSection className="main-promo">
       <ContainerComponent>
         <div className="promo-info">
           <Title

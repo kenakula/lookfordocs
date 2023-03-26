@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Box, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { getClinicTestimonials } from '@/api';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { ButtonComponent, ClinicCard, ContainerComponent } from '@/components';
@@ -83,7 +83,7 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
             />
           </div>
         </div>
-        <Box>
+        <div>
           {!isTablet ? (
             <DetailedInfo
               data={data}
@@ -91,7 +91,7 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
               testimonialsLoading={testimonialsLoading}
             />
           ) : null}
-        </Box>
+        </div>
       </DetailedPageLayout>
     </ContainerComponent>
   );

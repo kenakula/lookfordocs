@@ -1,7 +1,6 @@
 import {
   alpha,
   AppBar,
-  Box,
   Drawer,
   IconButton,
   styled,
@@ -64,7 +63,7 @@ export const HiddenToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-export const StyledNav = styled(Box, {
+export const StyledNav = styled('nav', {
   shouldForwardProp: prop => prop !== 'isMainPage',
 })<{ isMainPage: boolean }>(({ theme, isMainPage }) => ({
   ...theme.typography,
@@ -282,7 +281,7 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   },
 }));
 
-export const StyledSocials = styled(Box)(({ theme }) => ({
+export const StyledSocials = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   margin: theme.spacing(4, 0, 'auto', 0),
 }));

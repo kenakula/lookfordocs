@@ -21,7 +21,11 @@ import { IconMenu, IconSearch } from '@/components/icons';
 import { useScroll } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
-import { getImageUrl, HOME_PAGE } from '@/shared/assets';
+import {
+  getActiveStateClassName,
+  getImageUrl,
+  HOME_PAGE,
+} from '@/shared/assets';
 import {
   DrawerComponent,
   HiddenToolbar,
@@ -30,7 +34,6 @@ import {
   StyledSearchButton,
   StyledToggler,
 } from './components';
-import { getActiveStateClassName } from './assets';
 
 interface Props {
   siteSettings: ISiteSettings;
@@ -96,7 +99,7 @@ export const Header = ({
                   alt="логотип сайта"
                 />
               </Link>
-              <StyledNav component="nav" isMainPage={isMainPage}>
+              <StyledNav isMainPage={isMainPage}>
                 <List>
                   {navigation.map(({ name, url, isAccent }) =>
                     isAccent ? (
@@ -116,7 +119,7 @@ export const Header = ({
                             url,
                             router.pathname,
                           )}`}
-                          href={url}
+                          href={`/${url}`}
                         >
                           {name}
                         </Link>

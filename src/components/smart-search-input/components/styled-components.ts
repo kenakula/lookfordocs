@@ -1,6 +1,6 @@
-import { Box, alpha, Button, styled } from '@mui/material';
+import { alpha, Button, styled } from '@mui/material';
 
-export const StyledSearchBox = styled(Box)(({ theme }) => ({
+export const StyledSearchBox = styled('div')(({ theme }) => ({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',

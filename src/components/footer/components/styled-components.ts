@@ -1,7 +1,7 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledFooterInner = styled(Box)(({ theme }) => ({
+export const StyledFooterInner = styled('div')(({ theme }) => ({
   padding: theme.spacing(6, 0, 2.5),
 
   '.copyrights': {
@@ -20,7 +20,7 @@ export const StyledFooterInner = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledFooterTop = styled(Box)(({ theme }) => ({
+export const StyledFooterTop = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -32,7 +32,7 @@ export const StyledFooterTop = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledFooterInfo = styled(Box)(({ theme }) => ({
+export const StyledFooterInfo = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(4),
 
   [theme.breakpoints.up('lmd')]: {
@@ -43,7 +43,7 @@ export const StyledFooterInfo = styled(Box)(({ theme }) => ({
 
 export const StyledFooterList = styled('ul')(({ theme }) => ({
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
+  gridTemplateColumns: '1fr',
   rowGap: theme.spacing(4),
   columnGap: theme.spacing(2),
   width: '100%',
@@ -57,10 +57,10 @@ export const StyledFooterList = styled('ul')(({ theme }) => ({
     textDecoration: 'none',
     transition: theme.transitions.create('color'),
 
-    '&.disabled': {
+    '&.active': {
       pointerEvents: 'none',
       cursor: 'default',
-      opacity: 0.2,
+      opacity: 0.5,
     },
 
     '&:hover': {
@@ -136,7 +136,7 @@ export const StyledFooterDocuments = styled('ul')(({ theme }) => ({
   },
 }));
 
-export const StyledFooterBottom = styled(Box)(({ theme }) => ({
+export const StyledFooterBottom = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(5),
   borderTop: `1px solid ${theme.palette.misc.dark}`,
 

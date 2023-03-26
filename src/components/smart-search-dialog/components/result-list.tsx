@@ -1,4 +1,4 @@
-import { Typography, List, ListItemButton, Avatar, Box } from '@mui/material';
+import { Typography, List, ListItemButton, Avatar } from '@mui/material';
 import Link from 'next/link';
 import { closeSmartSearch, useAppDispatch, useAppSelector } from '@/stores';
 import {
@@ -151,7 +151,7 @@ export const ResultList = ({
                     variant="circular"
                     src={getImageUrl(image.id, firstName, 'width=80&height=80')}
                   />
-                  <Box className="complex-item-info">
+                  <div className="complex-item-info">
                     <Typography>
                       {getHighlightedLetters(
                         `${firstName} ${lastName ?? ''}`,
@@ -163,7 +163,7 @@ export const ResultList = ({
                         .map(spec => spec.specialties_id.title)
                         .join(', ')}
                     </Typography>
-                  </Box>
+                  </div>
                 </ListItemButton>
               );
             })}
@@ -202,11 +202,11 @@ export const ResultList = ({
                     variant="rounded"
                     src={getImageUrl(image.id, name, 'width=80&height=80')}
                   />
-                  <Box className="complex-item-info">
+                  <div className="complex-item-info">
                     <Typography>
                       {getHighlightedLetters(name, search)}
                     </Typography>
-                  </Box>
+                  </div>
                 </ListItemButton>
               );
             })}

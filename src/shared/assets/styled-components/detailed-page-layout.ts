@@ -149,6 +149,32 @@ export const StyledDetailInfoBlock = styled('div')(({ theme }) => ({
     },
   },
 
+  '.doctor-education-timeline': {
+    '.MuiTimelineItem-root::before': {
+      display: 'none',
+    },
+
+    '.MuiTimelineContent-root': {
+      paddingTop: 0,
+      paddingBottom: theme.spacing(3),
+      transform: 'translateY(-5px)',
+    },
+
+    '.MuiTimelineDot-root': {
+      margin: 0,
+      padding: 0,
+      width: 7,
+      height: 7,
+      border: 'none',
+      backgroundColor: theme.palette.text.primary,
+    },
+
+    '.MuiTimelineConnector-root': {
+      width: 1,
+      backgroundColor: theme.palette.text.primary,
+    },
+  },
+
   '.add-more-btn': {
     [theme.breakpoints.up('lmd')]: {
       width: '100%',

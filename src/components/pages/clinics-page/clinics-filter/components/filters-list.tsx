@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { Control } from 'react-hook-form';
 import { useAppSelector } from '@/stores';
 import {
@@ -35,11 +34,7 @@ export const FiltersList = ({
   const { searchStr } = useAppSelector(state => state.smartSearch);
 
   return (
-    <Box
-      component="form"
-      className="filter-form"
-      onChange={() => handleChange(searchStr)}
-    >
+    <form className="filter-form" onChange={() => handleChange(searchStr)}>
       <FilterGroupComponent<ISpecialty>
         title="Специальность"
         formControl={formControl}
@@ -76,6 +71,6 @@ export const FiltersList = ({
         list={languages}
         name="languages"
       />
-    </Box>
+    </form>
   );
 };

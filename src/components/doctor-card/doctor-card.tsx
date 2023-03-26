@@ -83,7 +83,7 @@ export const DoctorCard = ({
       >
         {!isDesktop && <DoctorSpecialties list={specialties} />}
         <DoctorCardInfo className="doctor-card-info">
-          <Box className="mobile-image-container">
+          <div className="mobile-image-container">
             <CardImage
               name={doctorName}
               imageId={image.id}
@@ -98,7 +98,7 @@ export const DoctorCard = ({
               />
             ) : null}
             {isDesktop && <GlobalServicesList list={globalServices} />}
-          </Box>
+          </div>
           {!isDesktop && (
             <StyledInfo>
               {detailedLocation ? (

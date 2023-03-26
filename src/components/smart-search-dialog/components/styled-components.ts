@@ -1,7 +1,7 @@
-import { alpha, Box, styled } from '@mui/material';
+import { alpha, styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledDialog = styled(Box)(({ theme }) => ({
+export const StyledDialog = styled('div')(({ theme }) => ({
   position: 'fixed',
   zIndex: theme.zIndex.appBar,
   left: 0,
@@ -58,7 +58,7 @@ export const StyledDialog = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledDialogHeader = styled(Box)(({ theme }) => ({
+export const StyledDialogHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -74,7 +74,7 @@ export const StyledDialogHeader = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledSearchResult = styled(Box)(({ theme }) => ({
+export const StyledSearchResult = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(3),
   maxHeight: 320,
   overflowY: 'auto',
@@ -101,7 +101,7 @@ export const StyledSearchResult = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledResultList = styled(Box)(({ theme }) => ({
+export const StyledResultList = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(2.5),
   padding: theme.spacing(3),
   marginRight: theme.spacing(1),

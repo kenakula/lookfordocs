@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import { useLazyGetDoctorsCountQuery } from '@/stores/api';
 import { searchFieldClear, useAppDispatch, useAppSelector } from '@/stores';
@@ -138,7 +138,7 @@ export const DoctorsFilter = ({
   };
 
   return (
-    <Box className="doctors-filter">
+    <div className="doctors-filter">
       <StyledFiltersTop className="filter-top" ref={topBlockRef}>
         <SmartSearchInput
           placeholder="Введите врача, специальность или клинику"
@@ -183,14 +183,14 @@ export const DoctorsFilter = ({
           languages={languages}
           clinics={clinics}
         />
-        <Box className="filters-result">
+        <div className="filters-result">
           {isLoading && <FilterResultSkeleton />}
           {doctorsList && totalItemsCount ? (
-            <Box className="filters-sort">
+            <div className="filters-sort">
               <Typography className="filters-total">
                 Найдено врачей: {totalItemsCount}
               </Typography>
-            </Box>
+            </div>
           ) : null}
           <FiltersResult
             doctorsList={doctorsList}
@@ -206,8 +206,8 @@ export const DoctorsFilter = ({
               limit={DOCTORS_PAGE_LIMIT}
             />
           ) : null}
-        </Box>
+        </div>
       </StyledFiltersBody>
-    </Box>
+    </div>
   );
 };
