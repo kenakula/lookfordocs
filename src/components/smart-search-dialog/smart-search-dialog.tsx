@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import {
-  Box,
   Fade,
   IconButton,
   Input,
@@ -87,7 +86,7 @@ export const SmartSearchDialog = ({
                 <IconClose id="smart-search-close" />
               </IconButton>
             </StyledDialogHeader>
-            <Box className="input-container">
+            <div className="input-container">
               <IconSearch />
               <form action="#" onSubmit={onSearchFormSubmit}>
                 <Input
@@ -107,10 +106,10 @@ export const SmartSearchDialog = ({
                   }
                 />
               </form>
-            </Box>
+            </div>
           </>
         )}
-        <Box className="dialog-body">
+        <div className="dialog-body">
           <SearchResult
             searchStatus={searchStatus}
             result={result}
@@ -118,7 +117,7 @@ export const SmartSearchDialog = ({
             searchStr={searchStr}
             handleChooseOptionCb={handleChooseOptionCb}
           />
-        </Box>
+        </div>
       </StyledDialog>
     </Fade>
   );

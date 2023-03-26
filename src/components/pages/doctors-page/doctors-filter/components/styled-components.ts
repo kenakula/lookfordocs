@@ -1,14 +1,7 @@
-import {
-  alpha,
-  Box,
-  Dialog,
-  FormGroup,
-  styled,
-  Typography,
-} from '@mui/material';
+import { alpha, Dialog, FormGroup, styled, Typography } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledFiltersTop = styled(Box)(({ theme }) => ({
+export const StyledFiltersTop = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(3),
 
   '.filter-toggler': {
@@ -31,7 +24,7 @@ export const StyledFiltersTop = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledFiltersBody = styled(Box)(({ theme }) => ({
+export const StyledFiltersBody = styled('div')(({ theme }) => ({
   '.MuiTypography-h2': {
     ...getTypography(theme, 20, 26),
     fontWeight: 600,
@@ -84,7 +77,7 @@ export const StyledFiltersBody = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledFiltersBlockTop = styled(Box)(({ theme }) => ({
+export const StyledFiltersBlockTop = styled('div')(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',
@@ -144,7 +137,7 @@ export const StyledFilterGroup = styled(FormGroup)(({ theme }) => ({
   },
 }));
 
-export const StyledFilterGroupTop = styled(Box)(({ theme }) => ({
+export const StyledFilterGroupTop = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   marginBottom: theme.spacing(1),

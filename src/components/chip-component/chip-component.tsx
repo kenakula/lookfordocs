@@ -17,7 +17,7 @@ const StyledChip = styled('span', {
     variant === 'contained' ? theme.palette.misc.main : 'transparent',
   borderRadius: variant === 'contained' ? theme.shape.borderRadius * 2 : 48,
   border:
-    variant === 'outlined' ? `1px solid ${theme.palette.misc.light}` : 'none',
+    variant === 'outlined' ? `1px solid ${theme.palette.misc.dark}` : 'none',
 
   [theme.breakpoints.up('md')]: {
     ...getTypography(theme, 16, 20),

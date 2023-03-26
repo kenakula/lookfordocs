@@ -22,7 +22,7 @@ export const DetailedDoctorEducation = ({ data }: Props): JSX.Element => {
   return (
     <Timeline className="doctor-education-timeline">
       {data.map(({ year, typeString, specialty, text }, index) => (
-        <TimelineItem key={`${year}-${index}`}>
+        <TimelineItem key={`${year}-${index}`} className="timeline-item">
           <TimelineSeparator>
             <TimelineDot />
             {index < data.length - 1 && <TimelineConnector />}

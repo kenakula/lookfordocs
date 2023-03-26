@@ -1,7 +1,7 @@
 import { getTypography } from '@/shared/assets';
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 
-export const StyledDialogHeader = styled(Box)(({ theme }) => ({
+export const StyledDialogHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   marginBottom: theme.spacing(3),
@@ -41,7 +41,7 @@ export const StyledDialogBody = styled('form')(({ theme }) => ({
   },
 }));
 
-export const StyledRatingWrapper = styled(Box)(({ theme }) => ({
+export const StyledRatingWrapper = styled('div')(({ theme }) => ({
   '.MuiTypography-h4': {
     ...getTypography(theme, 16, 20),
     marginBottom: theme.spacing(2),

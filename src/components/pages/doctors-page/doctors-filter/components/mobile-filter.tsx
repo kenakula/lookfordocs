@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { Control } from 'react-hook-form';
 import { useAppSelector } from '@/stores';
 import {
@@ -49,7 +49,7 @@ export const MobileFilter = ({
 
   return (
     <StyledMobileFilter fullScreen open={open} onClose={setClosed} keepMounted>
-      <Box component="header">
+      <header>
         <Typography variant="h2">Фильтры</Typography>
         {filtersCount > 0 && (
           <>
@@ -65,8 +65,8 @@ export const MobileFilter = ({
         >
           <IconClose id="filter" color="inherit" />
         </IconButton>
-      </Box>
-      <Box className="filters-box">
+      </header>
+      <div className="filters-box">
         <FiltersList
           specialties={specialties}
           services={services}
@@ -78,8 +78,8 @@ export const MobileFilter = ({
           expandedBlocks={expandedBlocks}
           handleExpandGroup={handleExpandGroup}
         />
-      </Box>
-      <Box component="footer">
+      </div>
+      <footer>
         <ButtonComponent
           variant="contained"
           text="Применить"
@@ -88,7 +88,7 @@ export const MobileFilter = ({
           disableRipple
           onClick={setClosed}
         />
-      </Box>
+      </footer>
     </StyledMobileFilter>
   );
 };

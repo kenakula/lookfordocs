@@ -1,6 +1,6 @@
-import { alpha, Box, styled } from '@mui/material';
+import { alpha, styled } from '@mui/material';
 
-export const StyledBreadcrumbs = styled(Box)(({ theme }) => ({
+export const StyledBreadcrumbs = styled('div')(({ theme }) => ({
   '.breadcrumb-link': {
     color: theme.palette.text.disabled,
     textDecoration: 'none',

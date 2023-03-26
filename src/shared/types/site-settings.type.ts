@@ -17,6 +17,8 @@ export interface ISiteSettings {
   documents: IDocumentLink[];
   logo: IImage;
   testimonialsLimit: number;
+  siteUrl: string;
+  constructionImage: IImage;
 }
 
 export interface INavigation {
@@ -28,6 +30,7 @@ export interface INavigation {
 export interface IFooterLink {
   name: string;
   url: string;
+  developing?: boolean;
 }
 
 export interface ISocial {
@@ -39,4 +42,5 @@ export interface ISocial {
 export interface IDocumentLink {
   name: string;
   url: string;
+  developing?: boolean;
 }

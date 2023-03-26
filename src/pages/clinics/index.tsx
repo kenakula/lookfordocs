@@ -1,6 +1,5 @@
 import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { GetStaticProps } from 'next';
-import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
   getSiteSettings,
@@ -15,8 +14,8 @@ import {
 import {
   BreadcrumbsComponent,
   ClinicsFilter,
-  ContainerComponent,
   Layout,
+  ListPageSkeleton,
   PageResult,
   PageSeo,
   Promo,
@@ -110,11 +109,7 @@ const ClinicsPage = (): JSX.Element => {
   });
 
   if (router.isFallback) {
-    return (
-      <ContainerComponent>
-        <Typography textAlign="center">Loading...</Typography>
-      </ContainerComponent>
-    );
+    return <ListPageSkeleton />;
   }
 
   const hasData =
@@ -128,7 +123,7 @@ const ClinicsPage = (): JSX.Element => {
     return (
       <Layout siteSettings={siteSettings}>
         <h1 className="visually-hidden">{pageSettings.h1}</h1>
-        <PageSeo pageSettings={pageSettings} />
+        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
 
         <BreadcrumbsComponent crumbs={[{ text: 'Клиники' }]} />
         {promoData && <Promo promoData={promoData} />}
@@ -147,11 +142,7 @@ const ClinicsPage = (): JSX.Element => {
     );
   }
 
-  return (
-    <ContainerComponent>
-      <Typography textAlign="center">Not Found</Typography>
-    </ContainerComponent>
-  );
+  return <ListPageSkeleton />;
 };
 
 export default ClinicsPage;

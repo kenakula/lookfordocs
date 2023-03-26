@@ -21,7 +21,7 @@ export const Promo = ({ promoData }: Props): JSX.Element => {
   };
 
   return (
-    <StyledPromoSection component="section">
+    <StyledPromoSection>
       <ContainerComponent>
         <div
           className={`promo-info ${

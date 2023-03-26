@@ -1,9 +1,14 @@
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
-import { Typography } from '@mui/material';
 import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { getPageSettings, getSiteSettings } from '@/api';
-import { ContainerComponent, Layout, PageSeo } from '@/components';
+import {
+  Layout,
+  ListPageSkeleton,
+  PageSeo,
+  UnderConstructionPage,
+} from '@/components';
+import { Title } from '@/shared/assets';
 
 const PAGE_SLUG = 'contacts';
 
@@ -41,29 +46,23 @@ const ContactsPage = (): JSX.Element => {
   });
 
   if (router.isFallback) {
-    return (
-      <ContainerComponent>
-        <Typography textAlign="center">Loading...</Typography>
-      </ContainerComponent>
-    );
+    return <ListPageSkeleton />;
   }
 
   if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings}>
-        <PageSeo pageSettings={pageSettings} />
-        <ContainerComponent>
-          <h1>ContactsPage</h1>
-        </ContainerComponent>
+        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
+        <UnderConstructionPage image={siteSettings.constructionImage}>
+          <Title variant="h2" textAlign="center">
+            Наши <span className="highlighted">контакты</span>
+          </Title>
+        </UnderConstructionPage>
       </Layout>
     );
   }
 
-  return (
-    <ContainerComponent>
-      <Typography textAlign="center">Not Found</Typography>
-    </ContainerComponent>
-  );
+  return <ListPageSkeleton />;
 };
 
 export default ContactsPage;

@@ -6,7 +6,6 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { getClinicInfo, getClinicsIds, getSiteSettings } from '@/api';
 import {
   BreadcrumbsComponent,
-  ContainerComponent,
   DetailedClinicPage,
   DetailedClinicSkeleton,
   Layout,
@@ -84,9 +83,12 @@ const ClinicPage = (): JSX.Element => {
           pageSettings={{
             pageTitle: getSeoClinicPageTitle(clinicInfo.name),
             pageDescription: clinicInfo.description,
-            pageKeywords: 'keywords',
+            pageKeywords:
+              'клиника, португалия, врачи, запись на прием, адрес клиники, метро рядом',
             slug: 'clinic',
+            socialImage: clinicInfo.image,
           }}
+          siteUrl={siteSettings.siteUrl}
         />
         <BreadcrumbsComponent
           crumbs={[
@@ -103,9 +105,9 @@ const ClinicPage = (): JSX.Element => {
   }
 
   return (
-    <ContainerComponent>
-      <h1>ClinicPage not found</h1>
-    </ContainerComponent>
+    <LayoutSkeleton>
+      <DetailedClinicSkeleton />
+    </LayoutSkeleton>
   );
 };
 

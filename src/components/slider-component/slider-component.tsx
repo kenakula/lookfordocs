@@ -1,10 +1,10 @@
-import { Box, IconButton, styled } from '@mui/material';
+import { IconButton, styled } from '@mui/material';
 import { SwiperOptions } from 'swiper';
 import { Swiper } from 'swiper/react';
 import { IconArrowLeft } from '../icons';
 import { IconArrowRight } from '../icons/icon-arrow-right';
 
-const StyledSliderWrapper = styled(Box)(({ theme }) => ({
+const StyledSliderWrapper = styled('div')(({ theme }) => ({
   '.swiper-wrapper': {
     listStyle: 'none',
     margin: 0,
@@ -40,7 +40,7 @@ const StyledSliderWrapper = styled(Box)(({ theme }) => ({
     },
 
     '&:active': {
-      backgroundColor: theme.palette.misc.dark,
+      backgroundColor: theme.palette.misc.light,
     },
 
     '&:focus-visible': {
@@ -92,7 +92,7 @@ export const SliderComponent = ({ options, children }: Props): JSX.Element => {
       <Swiper wrapperTag="ul" {...options}>
         {children}
       </Swiper>
-      <Box className="slider-buttons">
+      <div className="slider-buttons">
         <IconButton
           className="button-prev slider-button"
           disableFocusRipple
@@ -107,7 +107,7 @@ export const SliderComponent = ({ options, children }: Props): JSX.Element => {
         >
           <IconArrowRight />
         </IconButton>
-      </Box>
+      </div>
     </StyledSliderWrapper>
   );
 };

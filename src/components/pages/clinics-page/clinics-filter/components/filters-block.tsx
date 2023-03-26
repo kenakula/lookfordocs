@@ -1,6 +1,6 @@
 import { Control } from 'react-hook-form';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Typography, useMediaQuery } from '@mui/material';
 import { useAppSelector } from '@/stores';
 import {
   ISpecialty,
@@ -59,7 +59,7 @@ export const FiltersBlock = ({
 
   if (isTablet) {
     return (
-      <Box className="filters-block">
+      <div className="filters-block">
         <StyledFiltersBlockTop>
           <Typography variant="h2">Фильтры</Typography>
           {filtersCount > 0 ? (
@@ -76,7 +76,7 @@ export const FiltersBlock = ({
           expandedBlocks={expandedBlocks}
           handleExpandGroup={handleExpandGroup}
         />
-      </Box>
+      </div>
     );
   }
 

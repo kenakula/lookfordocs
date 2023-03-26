@@ -1,6 +1,6 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 
-export const StyledPromoSection = styled(Box)(({ theme }) => ({
+export const StyledPromoSection = styled('section')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   padding: theme.spacing(4, 0, 8),

@@ -10,18 +10,19 @@ const StyledFab = styled(Fab)(({ theme }) => ({
   width: 40,
   height: 40,
   color: theme.palette.text.secondary,
-  backgroundColor: theme.palette.misc.dark,
-  border: `1px solid ${theme.palette.misc.light}`,
+  backgroundColor: theme.palette.misc.light,
+  border: `1px solid ${theme.palette.misc.dark}`,
   boxShadow: '0px 4px 16px rgba(7, 20, 48, 0.04)',
+  zIndex: theme.zIndex.appBar,
 
   '&:hover': {
     color: theme.palette.text.primary,
-    backgroundColor: theme.palette.misc.dark,
+    backgroundColor: theme.palette.misc.light,
   },
 
   '&:active': {
     boxShadow: '0px 8px 16px rgba(7, 20, 48, 0.04)',
-    backgroundColor: theme.palette.misc.dark,
+    backgroundColor: theme.palette.misc.light,
   },
 
   '&:focus-visible': {

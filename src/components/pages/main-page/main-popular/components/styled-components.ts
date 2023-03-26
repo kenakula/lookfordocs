@@ -1,6 +1,6 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 
-export const StyledInner = styled(Box)(({ theme }) => ({
+export const StyledInner = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   margin: theme.spacing(0, -2),
@@ -38,7 +38,7 @@ export const StyledList = styled('ul', {
   },
 }));
 
-export const StyledButtonContainer = styled(Box)(({ theme }) => ({
+export const StyledButtonContainer = styled('div')(({ theme }) => ({
   marginTop: theme.spacing(3),
   padding: theme.spacing(0, 2),
 }));
@@ -64,11 +64,11 @@ export const StyledCard = styled('li', {
     height: '100%',
     border: '1px solid transparent',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.misc.dark,
+    backgroundColor: theme.palette.misc.light,
     transition: theme.transitions.create('border-color'),
 
     '&:hover': {
-      borderColor: theme.palette.misc.light,
+      borderColor: theme.palette.misc.dark,
     },
     '&:active': {
       borderColor: theme.palette.text.disabled,

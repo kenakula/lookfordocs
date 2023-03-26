@@ -17,7 +17,6 @@ import {
 } from '@/shared/assets';
 import {
   BreadcrumbsComponent,
-  ContainerComponent,
   DetailedDoctorPage,
   DetailedDoctorSkeleton,
   Layout,
@@ -109,8 +108,12 @@ const DoctorPage = (): JSX.Element => {
               doctorInfo.firstName,
               doctorInfo.lastName,
             ),
+            socialImage: doctorInfo.image,
             pageDescription: doctorInfo.shortText ?? '',
+            pageKeywords:
+              'врач, записаться на прием, описание врача, специальности врача, что лечит врач, вызвать врача на дом',
           }}
+          siteUrl={siteSettings.siteUrl}
         />
         <BreadcrumbsComponent
           crumbs={[
@@ -135,9 +138,9 @@ const DoctorPage = (): JSX.Element => {
   }
 
   return (
-    <ContainerComponent>
-      <h1>Doctor Page not found</h1>
-    </ContainerComponent>
+    <LayoutSkeleton>
+      <DetailedDoctorSkeleton />
+    </LayoutSkeleton>
   );
 };
 

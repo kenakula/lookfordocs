@@ -176,7 +176,7 @@ export const StyledClinics = styled('div', {
 
   [theme.breakpoints.up('lg')]: {
     width: '32.21%',
-    borderLeft: `1px solid ${theme.palette.misc.light}`,
+    borderLeft: `1px solid ${theme.palette.misc.dark}`,
     flexShrink: 0,
     paddingRight: 4,
     paddingTop: 2,
@@ -195,7 +195,7 @@ export const StyledClinicCard = styled('div', {
   flexDirection: 'column',
   padding: theme.spacing(2),
   width: '100%',
-  backgroundColor: theme.palette.misc.dark,
+  backgroundColor: theme.palette.misc.light,
   borderRadius: theme.shape.borderRadius,
 
   '.clinic-top': {
@@ -284,7 +284,7 @@ export const StyledClinicCard = styled('div', {
       ...getTypography(theme, 14, 18),
       backgroundColor: 'transparent',
       color: theme.palette.text.secondary,
-      border: `1px solid ${theme.palette.misc.light}`,
+      border: `1px solid ${theme.palette.misc.dark}`,
     },
   },
 
@@ -296,11 +296,13 @@ export const StyledClinicCard = styled('div', {
 
   [theme.breakpoints.up('lg')]: {
     padding: theme.spacing(3),
-    backgroundColor: detailedLocation ? theme.palette.misc.dark : 'transparent',
+    backgroundColor: detailedLocation
+      ? theme.palette.misc.light
+      : 'transparent',
     borderRadius: detailedLocation ? theme.shape.borderRadius : 0,
     borderBottom: detailedLocation
       ? 'none'
-      : `1px solid ${theme.palette.misc.light}`,
+      : `1px solid ${theme.palette.misc.dark}`,
 
     '&:last-child': {
       borderBottom: 'none',

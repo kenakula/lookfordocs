@@ -73,7 +73,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
       },
       '&::-webkit-scrollbar-thumb': {
         borderRadius: 23,
-        backgroundColor: theme.palette.misc.light,
+        backgroundColor: theme.palette.misc.dark,
       },
     },
 

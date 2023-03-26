@@ -1,7 +1,7 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledInner = styled(Box)(({ theme }) => ({
+export const StyledInner = styled('div')(({ theme }) => ({
   position: 'relative',
   paddingBottom: theme.spacing(3),
 
@@ -41,7 +41,7 @@ export const StyledInner = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledCard = styled(Box)(({ theme }) => ({
+export const StyledCard = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   padding: theme.spacing(3, 3, 2.5),
@@ -56,7 +56,7 @@ export const StyledCard = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     marginBottom: theme.spacing(2.5),
     paddingBottom: theme.spacing(2.5),
-    borderBottom: `1px solid ${theme.palette.misc.light}`,
+    borderBottom: `1px solid ${theme.palette.misc.dark}`,
   },
 
   '.card-info': {

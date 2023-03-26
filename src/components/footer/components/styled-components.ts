@@ -1,7 +1,7 @@
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledFooterInner = styled(Box)(({ theme }) => ({
+export const StyledFooterInner = styled('div')(({ theme }) => ({
   padding: theme.spacing(6, 0, 2.5),
 
   '.copyrights': {
@@ -10,7 +10,7 @@ export const StyledFooterInner = styled(Box)(({ theme }) => ({
   },
 
   [theme.breakpoints.up('lg')]: {
-    paddingTop: theme.spacing(8.8),
+    padding: theme.spacing(8.8, 0, 8),
 
     '.copyrights': {
       order: -1,
@@ -20,27 +20,30 @@ export const StyledFooterInner = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledFooterTop = styled(Box)(({ theme }) => ({
+export const StyledFooterTop = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
 
   [theme.breakpoints.up('lmd')]: {
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: theme.spacing(2),
   },
 }));
 
-export const StyledFooterInfo = styled(Box)(({ theme }) => ({
+export const StyledFooterInfo = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(4),
 
   [theme.breakpoints.up('lmd')]: {
     marginRight: 'auto',
+    marginBottom: 0,
   },
 }));
 
 export const StyledFooterList = styled('ul')(({ theme }) => ({
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
+  gridTemplateColumns: '1fr',
   rowGap: theme.spacing(4),
   columnGap: theme.spacing(2),
   width: '100%',
@@ -53,6 +56,12 @@ export const StyledFooterList = styled('ul')(({ theme }) => ({
     color: theme.palette.text.primary,
     textDecoration: 'none',
     transition: theme.transitions.create('color'),
+
+    '&.active': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: 0.5,
+    },
 
     '&:hover': {
       color: theme.palette.primary.main,
@@ -98,6 +107,12 @@ export const StyledFooterDocuments = styled('ul')(({ theme }) => ({
     textDecoration: 'none',
     transition: theme.transitions.create('color'),
 
+    '&.disabled': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: 0.2,
+    },
+
     '&:hover': {
       color: theme.palette.primary.main,
     },
@@ -121,9 +136,9 @@ export const StyledFooterDocuments = styled('ul')(({ theme }) => ({
   },
 }));
 
-export const StyledFooterBottom = styled(Box)(({ theme }) => ({
+export const StyledFooterBottom = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(5),
-  borderTop: `1px solid ${theme.palette.misc.light}`,
+  borderTop: `1px solid ${theme.palette.misc.dark}`,
 
   [theme.breakpoints.up('lg')]: {
     display: 'flex',

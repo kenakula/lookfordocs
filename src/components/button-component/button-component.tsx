@@ -6,8 +6,7 @@ const StyledButton = styled(Button, {
 })<{ shadow?: boolean }>(({ theme, variant, size, shadow }) => ({
   ...getTypography(theme, 16, 20),
   minHeight: size === 'large' ? 56 : 48,
-  borderColor:
-    variant === 'outlined' ? theme.palette.misc.light : 'transparent',
+  borderColor: variant === 'outlined' ? theme.palette.misc.dark : 'transparent',
   backgroundColor:
     variant === 'contained' ? theme.palette.secondary.light : 'transparent',
   boxShadow: shadow ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',

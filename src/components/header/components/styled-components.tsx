@@ -1,7 +1,6 @@
 import {
   alpha,
   AppBar,
-  Box,
   Drawer,
   IconButton,
   styled,
@@ -64,7 +63,7 @@ export const HiddenToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-export const StyledNav = styled(Box, {
+export const StyledNav = styled('nav', {
   shouldForwardProp: prop => prop !== 'isMainPage',
 })<{ isMainPage: boolean }>(({ theme, isMainPage }) => ({
   ...theme.typography,
@@ -94,10 +93,10 @@ export const StyledNav = styled(Box, {
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     border: isMainPage
       ? '1px solid transparent'
-      : `1px solid ${theme.palette.misc.light}`,
+      : `1px solid ${theme.palette.misc.dark}`,
     boxSizing: 'border-box',
     '&:hover': {
-      borderColor: theme.palette.misc.light,
+      borderColor: theme.palette.misc.dark,
       boxShadow: `0px 8px 16px ${alpha(theme.palette.text.primary, 0.08)}`,
       backgroundColor: theme.palette.background.default,
     },
@@ -116,6 +115,12 @@ export const StyledNav = styled(Box, {
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     transition: theme.transitions.create('color'),
+
+    '&.disabled': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: 0.2,
+    },
 
     '&.active': {
       position: 'relative',
@@ -206,7 +211,7 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '.MuiListItemButton-root': {
     justifyContent: 'center',
     minHeight: 48,
-    border: `1px solid ${theme.palette.misc.light}`,
+    border: `1px solid ${theme.palette.misc.dark}`,
     fontSize: theme.typography.pxToRem(16),
     lineHeight: theme.typography.pxToRem(20),
     fontWeight: 600,
@@ -226,6 +231,12 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
     whiteSpace: 'nowrap',
     fontSize: 16,
     transition: theme.transitions.create('color'),
+
+    '&.disabled': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: 0.2,
+    },
 
     '&.active': {
       position: 'relative',
@@ -270,7 +281,7 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   },
 }));
 
-export const StyledSocials = styled(Box)(({ theme }) => ({
+export const StyledSocials = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   margin: theme.spacing(4, 0, 'auto', 0),
 }));

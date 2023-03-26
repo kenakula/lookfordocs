@@ -1,4 +1,4 @@
-import { alpha, Box, styled } from '@mui/material';
+import { alpha, styled, Box } from '@mui/material';
 
 export const StyledInner = styled(Box)(({ theme }) => ({
   '.title': {
@@ -31,7 +31,7 @@ export const StyledList = styled('ul', {
   },
 }));
 
-export const StyledButtonContainer = styled(Box)(({ theme }) => ({
+export const StyledButtonContainer = styled('div')(({ theme }) => ({
   marginTop: theme.spacing(3),
 
   [theme.breakpoints.up('md')]: {

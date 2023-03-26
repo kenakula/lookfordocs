@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, Box, useMediaQuery } from '@mui/material';
+import { Avatar, useMediaQuery } from '@mui/material';
 import {
   capitalize,
   getAvatarLetters,
@@ -31,9 +31,9 @@ export const DoctorCardInsurances = ({ list }: Props): JSX.Element => {
   };
 
   return (
-    <Box className="clinic-insurances" component="ul">
+    <ul className="clinic-insurances">
       {list.map(({ insurances_id: { id, name } }) => (
-        <Box component="li" key={id}>
+        <li key={id}>
           <TooltipComponent
             title={capitalize(name)}
             placement="top"
@@ -46,8 +46,8 @@ export const DoctorCardInsurances = ({ list }: Props): JSX.Element => {
               {getAvatarLetters(name)}
             </Avatar>
           </TooltipComponent>
-        </Box>
+        </li>
       ))}
-    </Box>
+    </ul>
   );
 };

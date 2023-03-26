@@ -21,7 +21,7 @@ const StyledAvatar = styled(Avatar, {
   width: 56,
   height: 56,
   color: textColor ?? theme.palette.text.primary,
-  backgroundColor: theme.palette.misc.dark,
+  backgroundColor: theme.palette.misc.light,
   fontWeight: theme.typography.fontWeightMedium,
 }));
 

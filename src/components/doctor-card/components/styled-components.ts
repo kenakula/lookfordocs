@@ -1,7 +1,7 @@
-import { Box, styled, Typography } from '@mui/material';
+import { styled, Typography } from '@mui/material';
 import { getTypography } from '@/shared/assets';
 
-export const StyledDoctorsCard = styled(Box, {
+export const StyledDoctorsCard = styled('div', {
   shouldForwardProp: prop =>
     !['multipleClinics', 'detailedLocation', 'shadowed'].includes(
       prop.toString(),
@@ -116,7 +116,7 @@ export const StyledSpecialtiesList = styled('ul')(({ theme }) => ({
   },
 }));
 
-export const StyledCardBody = styled(Box, {
+export const StyledCardBody = styled('div', {
   shouldForwardProp: prop => prop !== 'detailedLocation',
 })<{ detailedLocation: boolean }>(({ theme, detailedLocation }) => ({
   marginBottom: detailedLocation ? 0 : theme.spacing(2),
@@ -133,7 +133,7 @@ export const StyledCardBody = styled(Box, {
   },
 }));
 
-export const DoctorCardInfo = styled(Box)(({ theme }) => ({
+export const DoctorCardInfo = styled('div')(({ theme }) => ({
   display: 'flex',
   columnGap: theme.spacing(2.25),
   marginBottom: theme.spacing(1.5),
@@ -155,28 +155,7 @@ export const DoctorCardInfo = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledImage = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'flex-start',
-
-  'a, .image-container': {
-    position: 'relative',
-    paddingBottom: '136.66%',
-    width: '100%',
-    borderRadius: theme.shape.borderRadius,
-    overflow: 'hidden',
-  },
-
-  img: {
-    objectFit: 'cover',
-  },
-
-  [theme.breakpoints.up('lg')]: {
-    width: '100%',
-  },
-}));
-
-export const StyledInfo = styled(Box)(({ theme }) => ({
+export const StyledInfo = styled('div')(({ theme }) => ({
   flexGrow: 1,
 
   '.MuiTypography-h3': {
@@ -202,44 +181,6 @@ export const StyledInfo = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledGlobalServices = styled(Box)(({ theme }) => ({
-  paddingTop: theme.spacing(1),
-
-  ul: {
-    margin: 0,
-    padding: 0,
-    listStyle: 'none',
-    display: 'flex',
-    flexWrap: 'wrap',
-    columnGap: theme.spacing(0.75),
-    rowGap: theme.spacing(0.75),
-  },
-
-  li: {
-    display: 'flex',
-    flexShrink: 0,
-    width: 28,
-    height: 28,
-    borderRadius: '50%',
-    backgroundColor: theme.palette.misc.main,
-    cursor: 'pointer',
-
-    span: {
-      display: 'flex',
-      width: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-
-    svg: {
-      fill: 'transparent',
-      width: 14,
-      height: 14,
-      pointerEvents: 'none',
-    },
-  },
-}));
-
 export const StyledText = styled(Typography)(({ theme }) => ({
   ...getTypography(theme, 14, 20),
   color: theme.palette.text.secondary,
@@ -249,7 +190,7 @@ export const StyledText = styled(Typography)(({ theme }) => ({
   overflow: 'hidden',
 }));
 
-export const StyleSevices = styled(Box)(({ theme }) => ({
+export const StyleSevices = styled('div')(({ theme }) => ({
   '.services-list': {
     margin: theme.spacing(0, 0, 2, 0),
   },
@@ -280,63 +221,7 @@ export const StyleSevices = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledLanguages = styled(Box)(({ theme }) => ({
-  '.MuiTypography-caption': {
-    ...getTypography(theme, 12, 16),
-    color: theme.palette.text.secondary,
-    marginBottom: theme.spacing(0.5),
-  },
-
-  ul: {
-    listStyle: 'none',
-    margin: 0,
-    padding: 0,
-  },
-
-  li: {
-    ...getTypography(theme, 12, 16),
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.palette.text.secondary,
-    marginBottom: theme.spacing(0.5),
-
-    '&:last-child': {
-      marginBottom: 0,
-    },
-
-    '.icon': {
-      display: 'inline-flex',
-      alignItems: 'center',
-      marginRight: 6,
-
-      svg: {
-        width: 14,
-        height: 16,
-      },
-    },
-  },
-
-  [theme.breakpoints.up('lg')]: {
-    display: 'flex',
-    alignItems: 'center',
-
-    '.MuiTypography-caption': {
-      margin: theme.spacing(0, 1.5, 0, 0),
-    },
-
-    ul: {
-      display: 'flex',
-      alignItems: 'center',
-      columnGap: theme.spacing(1.5),
-    },
-
-    li: {
-      marginBottom: 0,
-    },
-  },
-}));
-
-export const StyledDoctorRating = styled(Box)(({ theme }) => ({
+export const StyledDoctorRating = styled('div')(({ theme }) => ({
   marginTop: theme.spacing(1),
 
   'a, & > span': {
@@ -367,7 +252,7 @@ export const StyledDoctorRating = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledClinics = styled(Box, {
+export const StyledClinics = styled('div', {
   shouldForwardProp: prop => prop !== 'maxListHeight',
 })<{ maxListHeight: number }>(({ theme, maxListHeight }) => ({
   '.doctors-no-clinic': {
@@ -385,7 +270,7 @@ export const StyledClinics = styled(Box, {
 
   [theme.breakpoints.up('lg')]: {
     width: '32.21%',
-    borderLeft: `1px solid ${theme.palette.misc.light}`,
+    borderLeft: `1px solid ${theme.palette.misc.dark}`,
     flexShrink: 0,
     paddingRight: 4,
     paddingTop: 2,
@@ -405,7 +290,7 @@ export const StyledClinics = styled(Box, {
 
       '&::-webkit-scrollbar-thumb': {
         borderRadius: 23,
-        backgroundColor: theme.palette.misc.light,
+        backgroundColor: theme.palette.misc.dark,
       },
     },
 
@@ -421,14 +306,14 @@ export const StyledClinics = styled(Box, {
   },
 }));
 
-export const StyledClinicCard = styled(Box, {
+export const StyledClinicCard = styled('div', {
   shouldForwardProp: prop => prop !== 'detailedLocation',
 })<{ detailedLocation: boolean }>(({ theme, detailedLocation }) => ({
   display: 'flex',
   flexDirection: 'column',
   padding: theme.spacing(2),
   width: '100%',
-  backgroundColor: theme.palette.misc.dark,
+  backgroundColor: theme.palette.misc.light,
   borderRadius: theme.shape.borderRadius,
 
   '.clinic-top': {
@@ -516,17 +401,19 @@ export const StyledClinicCard = styled(Box, {
       ...getTypography(theme, 14, 18),
       backgroundColor: 'transparent',
       color: theme.palette.text.secondary,
-      border: `1px solid ${theme.palette.misc.light}`,
+      border: `1px solid ${theme.palette.misc.dark}`,
     },
   },
 
   [theme.breakpoints.up('lg')]: {
     padding: theme.spacing(3),
-    backgroundColor: detailedLocation ? theme.palette.misc.dark : 'transparent',
+    backgroundColor: detailedLocation
+      ? theme.palette.misc.light
+      : 'transparent',
     borderRadius: detailedLocation ? theme.shape.borderRadius : 0,
     borderBottom: detailedLocation
       ? 'none'
-      : `1px solid ${theme.palette.misc.light}`,
+      : `1px solid ${theme.palette.misc.dark}`,
 
     '&:last-child': {
       borderBottom: 'none',

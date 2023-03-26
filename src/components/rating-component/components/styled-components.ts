@@ -1,7 +1,7 @@
 import { getTypography } from '@/shared/assets';
-import { Box, Rating, styled } from '@mui/material';
+import { Rating, styled } from '@mui/material';
 
-export const StyledRatingWrapper = styled(Box)(({ theme }) => ({
+export const StyledRatingWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   columnGap: theme.spacing(1.5),
@@ -28,7 +28,7 @@ export const StyledRating = styled(Rating)(({ theme, size }) => {
   }
 
   return {
-    color: theme.palette.misc.light,
+    color: theme.palette.misc.dark,
     marginLeft: theme.spacing(-iconPadding),
 
     '&.Mui-focusVisible .MuiRating-iconActive': {

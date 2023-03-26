@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Avatar, Box, ListItemButton, Typography } from '@mui/material';
+import { Avatar, ListItemButton, Typography } from '@mui/material';
 import {
   CLINICS_PAGE,
   DOCTORS_PAGE,
@@ -54,10 +54,10 @@ export const ClinicsItem = ({
           variant="rounded"
           src={getImageUrl(image.id, name, 'width=80&height=80')}
         />
-        <Box className="complex-item-info">
+        <div className="complex-item-info">
           <Typography>{getHighlightedLetters(name, searchString)}</Typography>
           <Typography variant="caption">{address}</Typography>
-        </Box>
+        </div>
       </ListItemButton>
     );
   }
@@ -74,10 +74,10 @@ export const ClinicsItem = ({
         variant="rounded"
         src={getImageUrl(image.id, name, 'width=80&height=80')}
       />
-      <Box className="complex-item-info">
+      <div className="complex-item-info">
         <Typography>{getHighlightedLetters(name, searchString)}</Typography>
         <Typography variant="caption">{address}</Typography>
-      </Box>
+      </div>
     </ListItemButton>
   );
 };

@@ -2,16 +2,12 @@ import { Box, useMediaQuery } from '@mui/material';
 import { ButtonComponent, ContainerComponent, DoctorCard } from '@/components';
 import { ICity, IDoctor, IInsurance } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
-import {
-  DetailedDoctorClinics,
-  DetailedInfo,
-  StyledDetailedPageLayout,
-} from './components';
+import { DetailedDoctorClinics, DetailedInfo } from './components';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getDocTestimonials } from '@/api';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
-import { capitalizeName } from '@/shared/assets';
+import { capitalizeName, DetailedPageLayout } from '@/shared/assets';
 
 interface Props {
   data: IDoctor;
@@ -60,11 +56,9 @@ export const DetailedDoctorPage = ({
     return sum === 0 ? 0 : sum / testimonials.length;
   }, [testimonials]);
 
-  // TODO заменрить лейаут на компонент из ассетсов и список отзывов
-
   return (
     <ContainerComponent>
-      <StyledDetailedPageLayout>
+      <DetailedPageLayout>
         <h2 className="visually-hidden">Общая информация о враче</h2>
         <Box className="detailed-left-column">
           <DoctorCard
@@ -100,7 +94,7 @@ export const DetailedDoctorPage = ({
             <DetailedInfo data={data} testimonials={testimonials} />
           ) : null}
         </Box>
-      </StyledDetailedPageLayout>
+      </DetailedPageLayout>
     </ContainerComponent>
   );
 };

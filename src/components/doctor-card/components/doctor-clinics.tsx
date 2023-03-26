@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Typography, useMediaQuery } from '@mui/material';
 import { SwiperSlide } from 'swiper/react';
 import { SwiperOptions, Navigation, Pagination } from 'swiper';
 import { ClinicsRef } from '@/shared/types';
@@ -41,11 +41,11 @@ export const DoctorClinics = ({ list }: Props): JSX.Element => {
 
   if (isDesktop) {
     return (
-      <Box className="clinics-wrapper">
+      <div className="clinics-wrapper">
         {list.map(({ clinics_id }) => (
           <DoctorCardClinic key={clinics_id.id} clinic={clinics_id} />
         ))}
-      </Box>
+      </div>
     );
   }
 
