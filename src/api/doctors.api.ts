@@ -49,7 +49,6 @@ export const getDoctorInfo = async (docId: string) =>
             lastName,
             shortText,
             longText,
-            perks,
             services,
             reembolso,
             nosologies,

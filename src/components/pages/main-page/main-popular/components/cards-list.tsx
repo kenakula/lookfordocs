@@ -77,7 +77,7 @@ export const CardsList = ({
           ))}
         </StyledList>
       </Collapse>
-      {!matches && (
+      {!matches && specialties.length > 4 ? (
         <StyledButtonContainer>
           <ButtonComponent
             fullWidth
@@ -86,7 +86,7 @@ export const CardsList = ({
             text={expanded ? 'Скрыть' : 'Показать все'}
           />
         </StyledButtonContainer>
-      )}
+      ) : null}
     </>
   );
 };

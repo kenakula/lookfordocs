@@ -9,8 +9,8 @@ export const StyledGlobalServices = styled('div')(({ theme }) => ({
     listStyle: 'none',
     display: 'flex',
     flexWrap: 'wrap',
-    columnGap: theme.spacing(0.75),
-    rowGap: theme.spacing(0.75),
+    columnGap: theme.spacing(0.7),
+    rowGap: theme.spacing(0.7),
   },
 
   li: {

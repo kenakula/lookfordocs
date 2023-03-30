@@ -29,6 +29,5 @@ export * from './clinic.type';
 export * from './paging.type';
 export * from './image.type';
 export * from './metro.type';
-export * from './perk.type';
 export * from './city.type';
 export * from './chip.type';
