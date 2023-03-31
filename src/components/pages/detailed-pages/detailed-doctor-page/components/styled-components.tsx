@@ -118,6 +118,7 @@ export const StyledDoctorEducationItem = styled('div')(({ theme }) => ({
     ...getTypography(theme, 16, 20),
     fontWeight: 500,
     color: theme.palette.text.disabled,
+    minWidth: 37,
   },
 
   '.doctor-education-text': {

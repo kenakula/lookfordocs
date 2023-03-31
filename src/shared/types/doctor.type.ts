@@ -6,7 +6,6 @@ import {
   GlobalServicesRef,
 } from './directus-api-refs';
 import { IImage } from './image.type';
-import { Perk } from './perk.type';
 import { IService } from './service.type';
 import { ITestimonial } from './testimonial.type';
 
@@ -41,7 +40,6 @@ export interface IDoctor {
   gender: string;
   shortText?: string;
   longText?: string;
-  perks: Perk[];
   image: IImage;
   specialties: SpecialtyRef[];
   insurances: InsurancesRef[];
