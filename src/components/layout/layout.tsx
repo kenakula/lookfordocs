@@ -1,6 +1,6 @@
 import { useSaveSiteSettings } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
-import { Header, Footer, AppointmentDialog, ScrollToTop } from '@/components';
+import { Header, Footer, AppointmentDialog } from '@/components';
 
 interface Props {
   children: React.ReactNode;
@@ -28,7 +28,8 @@ export const Layout = ({
       )}
       <main>
         {children}
-        <ScrollToTop />
+        {/* TODO fix warning */}
+        {/* <ScrollToTop /> */}
       </main>
       <AppointmentDialog />
       {siteSettings && <Footer siteSettings={siteSettings} />}

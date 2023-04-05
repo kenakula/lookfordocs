@@ -1,7 +1,5 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import { QueryClient, dehydrate, useQueries } from '@tanstack/react-query';
-import { getSiteSettings, getPageSettings } from '@/api';
 import {
   Layout,
   ListPageSkeleton,
@@ -9,41 +7,53 @@ import {
   UnderConstructionPage,
 } from '@/components';
 import { Title } from '@/shared/assets';
+import { axiosClient } from '@/stores/assets';
+import {
+  StrapiSingleton,
+  ISiteSettings,
+  StrapiCollection,
+  IPageSettings,
+} from '@/shared/types';
 
 const PAGE_SLUG = 'telemed';
 
-export const getStaticProps: GetStaticProps = async () => {
-  const queryClient = new QueryClient();
+interface Props {
+  siteSettings: ISiteSettings;
+  pageSettings: IPageSettings;
+}
 
-  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
-  await queryClient.prefetchQuery(['pageSettings', PAGE_SLUG], () =>
-    getPageSettings(PAGE_SLUG),
-  );
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const siteSettings = await axiosClient
+    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
+      params: { populate: '*' },
+    })
+    .then(res => res.data.data);
+  const pageSettings = await axiosClient
+    .get<StrapiCollection<IPageSettings>>('pages', {
+      params: {
+        filters: {
+          slug: {
+            $eq: PAGE_SLUG,
+          },
+        },
+        populate: '*',
+      },
+    })
+    .then(res => res.data);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      siteSettings,
+      pageSettings: pageSettings.data[0],
     },
   };
 };
 
-const TelemedPage = (): JSX.Element => {
+const TelemedPage = ({
+  siteSettings,
+  pageSettings,
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-
-  const [{ data: siteSettings }, { data: pageSettings }] = useQueries({
-    queries: [
-      {
-        queryKey: ['siteSettings'],
-        queryFn: getSiteSettings,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['pageSettings', PAGE_SLUG],
-        queryFn: () => getPageSettings(PAGE_SLUG),
-        staleTime: Infinity,
-      },
-    ],
-  });
 
   if (router.isFallback) {
     return <ListPageSkeleton />;

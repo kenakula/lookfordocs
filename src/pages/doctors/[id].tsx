@@ -1,32 +1,13 @@
-import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
-import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import {
-  getCities,
-  getDoctorInfo,
-  getDoctorsIds,
-  getInsurances,
-  getSiteSettings,
-} from '@/api';
-import {
-  capitalizeName,
-  DOCTORS_PAGE,
-  getSeoDoctorPageH1,
-  getSeoDoctorPageTitle,
-} from '@/shared/assets';
-import {
-  BreadcrumbsComponent,
-  DetailedDoctorPage,
-  DetailedDoctorSkeleton,
-  Layout,
-  LayoutSkeleton,
-  PageSeo,
-} from '@/components';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { getDoctorsIds } from '@/api';
+import { DetailedDoctorSkeleton, Layout, LayoutSkeleton } from '@/components';
+import { ISiteSettings, StrapiSingleton } from '@/shared/types';
+import { axiosClient } from '@/stores/assets';
 
-interface PageParams extends ParsedUrlQuery {
-  id: string;
-}
+// interface PageParams extends ParsedUrlQuery {
+//   id: string;
+// }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await getDoctorsIds();
@@ -39,57 +20,32 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const queryClient = new QueryClient();
-  const docId = (params as PageParams).id;
+interface Props {
+  siteSettings: ISiteSettings;
+}
 
-  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
-  await queryClient.prefetchQuery(['cities'], getCities);
-  await queryClient.prefetchQuery(['insurances'], getInsurances);
-  await queryClient.prefetchQuery(['doctorInfo', docId], () =>
-    getDoctorInfo(docId),
-  );
+export const getStaticProps: GetStaticProps = async () => {
+  // const queryClient = new QueryClient();
+  // const docId = (params as PageParams).id;
+
+  const siteSettings = await axiosClient
+    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
+      params: { populate: '*' },
+    })
+    .then(res => res.data.data);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      siteSettings,
     },
   };
 };
 
-const DoctorPage = (): JSX.Element => {
+const DoctorPage = ({
+  siteSettings,
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  const docId = typeof router.query?.id === 'string' ? router.query.id : '';
-
-  const [
-    { data: siteSettings },
-    { data: doctorInfo },
-    { data: cities },
-    { data: insurances },
-  ] = useQueries({
-    queries: [
-      {
-        queryKey: ['siteSettings'],
-        queryFn: getSiteSettings,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['doctorInfo', docId],
-        queryFn: () => getDoctorInfo(docId),
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['cities'],
-        queryFn: getCities,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['insurances'],
-        queryFn: getInsurances,
-        staleTime: Infinity,
-      },
-    ],
-  });
+  // const docId = typeof router.query?.id === 'string' ? router.query.id : '';
 
   if (router.isFallback) {
     return (
@@ -99,10 +55,10 @@ const DoctorPage = (): JSX.Element => {
     );
   }
 
-  if (siteSettings && doctorInfo) {
+  if (siteSettings) {
     return (
       <Layout siteSettings={siteSettings} isDetailedPage>
-        <PageSeo
+        {/* <PageSeo
           pageSettings={{
             pageTitle: getSeoDoctorPageTitle(
               doctorInfo.firstName,
@@ -114,8 +70,8 @@ const DoctorPage = (): JSX.Element => {
               'врач, записаться на прием, описание врача, специальности врача, что лечит врач, вызвать врача на дом',
           }}
           siteUrl={siteSettings.siteUrl}
-        />
-        <BreadcrumbsComponent
+        /> */}
+        {/* <BreadcrumbsComponent
           crumbs={[
             { text: 'Врачи', link: DOCTORS_PAGE },
             {
@@ -132,7 +88,7 @@ const DoctorPage = (): JSX.Element => {
             cities={cities}
             insurances={insurances}
           />
-        ) : null}
+        ) : null} */}
       </Layout>
     );
   }

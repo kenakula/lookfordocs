@@ -10,3 +10,13 @@ export interface IMainPageData extends StrapiEditionsInfo {
   services: IMainPageService[];
   advantages: IMainAdvantage[];
 }
+
+export interface IDoctorsPageData extends StrapiEditionsInfo {
+  id: number;
+  promo: IPromoBlockData;
+}
+
+export interface IClinicsPageData extends StrapiEditionsInfo {
+  id: number;
+  promo: IPromoBlockData;
+}

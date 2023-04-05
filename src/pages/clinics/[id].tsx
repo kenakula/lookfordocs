@@ -1,26 +1,13 @@
-import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
-import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
-import { capitalize } from '@mui/material';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { getClinicInfo, getClinicsIds, getSiteSettings } from '@/api';
-import {
-  BreadcrumbsComponent,
-  DetailedClinicPage,
-  DetailedClinicSkeleton,
-  Layout,
-  LayoutSkeleton,
-  PageSeo,
-} from '@/components';
-import {
-  CLINICS_PAGE,
-  getSeoClinicPageH1,
-  getSeoClinicPageTitle,
-} from '@/shared/assets';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { getClinicsIds } from '@/api';
+import { DetailedClinicSkeleton, Layout, LayoutSkeleton } from '@/components';
+import { ISiteSettings, StrapiSingleton } from '@/shared/types';
+import { axiosClient } from '@/stores/assets';
 
-interface PageParams extends ParsedUrlQuery {
-  id: string;
-}
+// interface PageParams extends ParsedUrlQuery {
+//   id: string;
+// }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await getClinicsIds();
@@ -33,40 +20,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const clinicId = (params as PageParams).id;
-  const queryClient = new QueryClient();
+interface Props {
+  siteSettings: ISiteSettings;
+}
 
-  await queryClient.prefetchQuery(['fetchClinic', clinicId], () =>
-    getClinicInfo(clinicId),
-  );
-  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  // const clinicId = (params as PageParams).id;
+  const siteSettings = await axiosClient
+    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
+      params: { populate: '*' },
+    })
+    .then(res => res.data.data);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      siteSettings,
     },
   };
 };
 
-const ClinicPage = (): JSX.Element => {
+const ClinicPage = ({
+  siteSettings,
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  const clinicId = typeof router.query?.id === 'string' ? router.query.id : '';
-
-  const [{ data: siteSettings }, { data: clinicInfo }] = useQueries({
-    queries: [
-      {
-        queryKey: ['siteSettings'],
-        queryFn: getSiteSettings,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['fetchClinic', clinicId],
-        queryFn: () => getClinicInfo(clinicId),
-        staleTime: Infinity,
-      },
-    ],
-  });
+  // const clinicId = typeof router.query?.id === 'string' ? router.query.id : '';
 
   if (router.isFallback) {
     return (
@@ -76,10 +53,10 @@ const ClinicPage = (): JSX.Element => {
     );
   }
 
-  if (clinicInfo && siteSettings) {
+  if (siteSettings) {
     return (
       <Layout siteSettings={siteSettings}>
-        <PageSeo
+        {/* <PageSeo
           pageSettings={{
             pageTitle: getSeoClinicPageTitle(clinicInfo.name),
             pageDescription: clinicInfo.description,
@@ -89,8 +66,8 @@ const ClinicPage = (): JSX.Element => {
             socialImage: clinicInfo.image,
           }}
           siteUrl={siteSettings.siteUrl}
-        />
-        <BreadcrumbsComponent
+        /> */}
+        {/* <BreadcrumbsComponent
           crumbs={[
             { text: 'Клиники', link: CLINICS_PAGE },
             { text: capitalize(clinicInfo.name) },
@@ -99,7 +76,7 @@ const ClinicPage = (): JSX.Element => {
         <h1 className="visually-hidden">
           {getSeoClinicPageH1(clinicInfo.name)}
         </h1>
-        <DetailedClinicPage data={clinicInfo} />
+        <DetailedClinicPage data={clinicInfo} /> */}
       </Layout>
     );
   }

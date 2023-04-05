@@ -1,6 +1,7 @@
 import { Avatar, Typography } from '@mui/material';
-import { capitalize, capitalizeName, getImageThumb } from '@/shared/assets';
+import { capitalize, capitalizeName, getImageUrl } from '@/shared/assets';
 import { IDoctor } from '@/shared/types';
+import { ImageSize } from '@/shared/enums';
 
 interface Props {
   doctor: IDoctor;
@@ -14,7 +15,10 @@ export const DoctorHeader = ({
 
   return (
     <header className="card-header">
-      <Avatar src={getImageThumb(image)} alt="фотография врача" />
+      <Avatar
+        src={getImageUrl(image, ImageSize.Thumb)}
+        alt="фотография врача"
+      />
       <div className="card-info">
         <Typography variant="h3" className="card-title">
           {capitalizeName(fullName)}

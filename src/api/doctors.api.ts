@@ -1,4 +1,4 @@
-import { axiosClient, AxiosResponse } from '@/stores/assets';
+import { axiosClient } from '@/stores/assets';
 import {
   IClinic,
   IDoctor,
