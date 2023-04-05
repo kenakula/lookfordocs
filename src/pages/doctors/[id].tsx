@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import { getDoctorsIds } from '@/api';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { DetailedDoctorSkeleton, Layout, LayoutSkeleton } from '@/components';
 import { ISiteSettings, StrapiSingleton } from '@/shared/types';
 import { axiosClient } from '@/stores/assets';
@@ -9,22 +8,22 @@ import { axiosClient } from '@/stores/assets';
 //   id: string;
 // }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await getDoctorsIds();
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const response = await getDoctorsIds();
 
-  return {
-    paths: response.map(doc => ({
-      params: { id: doc.id.toString() },
-    })),
-    fallback: true,
-  };
-};
+//   return {
+//     paths: response.map(doc => ({
+//       params: { id: doc.id.toString() },
+//     })),
+//     fallback: true,
+//   };
+// };
 
 interface Props {
   siteSettings: ISiteSettings;
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
   // const queryClient = new QueryClient();
   // const docId = (params as PageParams).id;
 
