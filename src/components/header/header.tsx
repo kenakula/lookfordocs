@@ -93,7 +93,7 @@ export const Header = ({
             <Toolbar>
               <Link href={HOME_PAGE} className="logo">
                 <Image
-                  src={getImageUrl(logo.id, 'logo')}
+                  src={getImageUrl(logo)}
                   width="113"
                   height="21"
                   alt="логотип сайта"
@@ -119,7 +119,7 @@ export const Header = ({
                             url,
                             router.pathname,
                           )}`}
-                          href={`/${url}`}
+                          href={url}
                         >
                           {name}
                         </Link>

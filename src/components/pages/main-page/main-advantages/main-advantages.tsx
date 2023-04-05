@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Typography } from '@mui/material';
 import { ContainerComponent } from '@/components';
 import { getImageUrl, PageSection, Title } from '@/shared/assets';
-import { IAdvantage } from '@/shared/types';
+import { IMainAdvantage } from '@/shared/types';
 
 import {
   StyledImageContainer,
@@ -13,7 +13,7 @@ import {
 } from './components';
 
 interface Props {
-  advantages: IAdvantage[] | null;
+  advantages: IMainAdvantage[];
 }
 
 export const MainAdvantages = ({ advantages = [] }: Props): JSX.Element => {
@@ -25,28 +25,22 @@ export const MainAdvantages = ({ advantages = [] }: Props): JSX.Element => {
             Почему нас выбирают?
           </Title>
           <StyledList>
-            {advantages &&
-              advantages.map(({ id, title, description, image }) => (
-                <StyledListItem key={id}>
-                  <StyledImageContainer className="image-container">
-                    <Image
-                      src={getImageUrl(image.id, `advantage-${id}`)}
-                      alt=""
-                      fill
-                      quality={100}
-                    />
-                  </StyledImageContainer>
-                  <StyledInfoContainer>
-                    <Title
-                      variant="h3"
-                      textAlign="center"
-                      minor
-                      dangerouslySetInnerHTML={{ __html: title }}
-                    />
-                    <Typography textAlign="center">{description}</Typography>
-                  </StyledInfoContainer>
-                </StyledListItem>
-              ))}
+            {advantages.map(({ id, title, description, image }) => (
+              <StyledListItem key={id}>
+                <StyledImageContainer className="image-container">
+                  <Image src={getImageUrl(image)} alt="" fill quality={100} />
+                </StyledImageContainer>
+                <StyledInfoContainer>
+                  <Title
+                    variant="h3"
+                    textAlign="center"
+                    minor
+                    dangerouslySetInnerHTML={{ __html: title }}
+                  />
+                  <Typography textAlign="center">{description}</Typography>
+                </StyledInfoContainer>
+              </StyledListItem>
+            ))}
           </StyledList>
         </StyledInner>
       </ContainerComponent>

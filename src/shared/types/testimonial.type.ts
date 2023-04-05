@@ -1,16 +1,12 @@
-import {
-  CitiesRef,
-  ClinicsRef,
-  DoctorRef,
-  InsurancesRef,
-  SpecialtyRef,
-} from './directus-api-refs';
-import { IImage } from './image.type';
+import { StrapiEditionsInfo } from './api-types.type';
+import { IClinic } from './clinic.type';
+import { IDoctor } from './doctor.type';
+import { IInsurance } from './insurance.type';
 import { IStatus } from './status.type';
 
 export type TestimonialType = 'app' | 'doctor' | 'clinic' | 'insurance';
 
-export interface ITestimonial {
+export interface ITestimonial extends StrapiEditionsInfo {
   id: string;
   status: IStatus;
   date: string;
@@ -18,10 +14,7 @@ export interface ITestimonial {
   rate: number;
   comment: string;
   author: string;
-  image?: IImage;
-  targetDoctor?: DoctorRef[];
-  targetClinic?: ClinicsRef[];
-  targetInsurance?: InsurancesRef[];
-  specialty?: SpecialtyRef[];
-  city?: CitiesRef[];
+  doctor?: IDoctor;
+  clinic?: IClinic;
+  insurance?: IInsurance;
 }

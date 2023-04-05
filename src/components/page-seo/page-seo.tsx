@@ -28,11 +28,7 @@ export const PageSeo = ({
       <meta property="og:description" content={pageSettings.pageDescription} />
       <meta
         property="og:image"
-        content={getImageUrl(
-          pageSettings.socialImage,
-          'social-image',
-          'width=150&height=150',
-        )}
+        content={getImageUrl(pageSettings.socialImage)}
       />
 
       <meta property="twitter:card" content="summary_large_image" />
@@ -44,11 +40,7 @@ export const PageSeo = ({
       />
       <meta
         property="twitter:image"
-        content={getImageUrl(
-          pageSettings.socialImage,
-          'social-image',
-          'width=150&height=150',
-        )}
+        content={getImageUrl(pageSettings.socialImage)}
       />
     </Head>
   );

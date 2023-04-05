@@ -1,17 +1,21 @@
+import { ICity } from './city.type';
 import { IContact } from './contact.type';
-import {
-  CitiesRef,
-  DoctorRef,
-  GlobalServicesRef,
-  InsurancesRef,
-  LanguagesRef,
-  SpecialtyRef,
-} from './directus-api-refs';
+import { GlobalServicesRef, InsurancesRef } from './directus-api-refs';
+import { IDoctor } from './doctor.type';
 import { IImage } from './image.type';
+import { ILanguage } from './language.type';
 import { IMetro } from './metro.type';
 import { IService } from './service.type';
+import { ISpecialty } from './specialty.type';
 import { ITestimonial } from './testimonial.type';
 import { IWorkTime } from './work-time.type';
+
+// TODO поправить в апи cities на city
+export interface IClinicAddress {
+  id: number;
+  address: string;
+  cities: ICity;
+}
 
 export interface IClinic {
   id: number;
@@ -24,16 +28,15 @@ export interface IClinic {
   name: string;
   subtitle: string;
   image: IImage;
-  address: string;
-  cities: CitiesRef[];
+  address: IClinicAddress[];
   metro: IMetro[];
   insurances: InsurancesRef[];
   contacts: IContact[];
   globalServices: GlobalServicesRef[];
-  doctors: DoctorRef[];
+  doctors: IDoctor[];
   description: string;
-  specialties: SpecialtyRef[];
-  lang: LanguagesRef[];
+  specialties: ISpecialty[];
+  lang: ILanguage[];
   worktime: IWorkTime[];
   services: IService[];
   longText: string;

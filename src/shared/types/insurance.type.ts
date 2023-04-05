@@ -1,14 +1,8 @@
+import { StrapiEditionsInfo } from './api-types.type';
 import { IImage } from './image.type';
-import { IStatus } from './status.type';
 
-export interface IInsurance {
+export interface IInsurance extends StrapiEditionsInfo {
   id: number;
-  status: IStatus;
-  sort?: number;
-  user_created: string;
-  date_created: Date;
-  user_updated?: string;
-  date_updated?: Date;
   name: string;
   image: IImage;
 }

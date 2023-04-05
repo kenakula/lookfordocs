@@ -39,3 +39,5 @@ export interface TriggerQueryArgs<T> {
   page?: number;
   limit?: number;
 }
+
+// TODO убрать рефы

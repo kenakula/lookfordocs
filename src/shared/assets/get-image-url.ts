@@ -1,14 +1,15 @@
 import { IImage } from '../types';
 
-export const getImageUrl = (
-  id: string | IImage,
-  name: string,
-  params?: string,
-): string => {
-  const paramsString = params ? `?${params}` : '';
-  const assetsUrl = process.env.NEXT_PUBLIC_ASSETS_URL ?? '';
+const apiPublicUrl = process.env.NEXT_PUBLIC_STRAPI_URL ?? '';
 
-  const imageId = typeof id === 'string' ? id : id.id;
+export const getImageUrl = (image: IImage): string => {
+  return `${apiPublicUrl}${image.url}`;
+};
 
-  return `${assetsUrl}/${imageId}/${name}${paramsString}`;
+export const getImageThumb = (image: IImage): string => {
+  if (image.formats && image.formats.thumbnail) {
+    return image.formats.thumbnail.url;
+  }
+
+  return image.url;
 };

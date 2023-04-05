@@ -1,12 +1,10 @@
-import {
-  SpecialtyRef,
-  InsurancesRef,
-  LanguagesRef,
-  ClinicsRef,
-  GlobalServicesRef,
-} from './directus-api-refs';
+import { StrapiEditionsInfo } from './api-types.type';
+import { IClinic } from './clinic.type';
+import { InsurancesRef, GlobalServicesRef } from './directus-api-refs';
 import { IImage } from './image.type';
+import { ILanguage } from './language.type';
 import { IService } from './service.type';
+import { ISpecialty } from './specialty.type';
 import { ITestimonial } from './testimonial.type';
 
 export type DoctorEducationType =
@@ -29,22 +27,16 @@ export interface IDoctorEducation {
   text: string;
 }
 
-export interface IDoctor {
+export interface IDoctor extends StrapiEditionsInfo {
   id: number;
-  status: string;
-  sort?: number;
-  date_created: Date;
-  date_updated: Date;
-  firstName: string;
-  lastName?: string;
-  gender: string;
+  fullName: string;
   shortText?: string;
   longText?: string;
   image: IImage;
-  specialties: SpecialtyRef[];
+  specialties: ISpecialty[];
   insurances: InsurancesRef[];
-  lang: LanguagesRef[];
-  clinics: ClinicsRef[];
+  lang: ILanguage[];
+  clinics: IClinic[];
   services: IService[];
   globalServices: GlobalServicesRef[];
   reembolso?: boolean;

@@ -1,28 +1,23 @@
-import { Avatar, capitalize, Typography } from '@mui/material';
-import { getImageUrl } from '@/shared/assets';
-import { ICity, IClinic } from '@/shared/types';
+import { Avatar, Typography } from '@mui/material';
+import { capitalizeName, getImageUrl } from '@/shared/assets';
+import { IClinic } from '@/shared/types';
 
 interface Props {
   clinic: IClinic;
-  city: ICity;
 }
 
 export const ClinicHeader = ({
-  clinic: { name, image },
-  city,
+  clinic: { name, image, address },
 }: Props): JSX.Element => {
   return (
     <header className="card-header">
-      <Avatar
-        src={getImageUrl(image, 'изображение клиники')}
-        alt="логотип клиники"
-      />
+      <Avatar src={getImageUrl(image)} alt="логотип клиники" />
       <div className="card-info">
         <Typography variant="h3" className="card-title">
           {name}
         </Typography>
         <Typography variant="body1" className="card-subtitle">
-          {`г. ${capitalize(city.name)}`}
+          {`г. ${capitalizeName(address[0].cities.name)}`}
         </Typography>
       </div>
     </header>

@@ -1,15 +1,8 @@
 export const capitalize = (str: string): string =>
   str[0].toUpperCase() + str.slice(1);
 
-export const capitalizeName = (firstName: string, lastName?: string): string =>
-  [firstName, lastName]
-    .filter(name => Boolean(name))
-    .map(name => {
-      if (name) {
-        return capitalize(name);
-      }
-    })
-    .join(' ');
+export const capitalizeName = (str: string): string =>
+  str.split(' ').map(capitalize).join(' ').split('-').map(capitalize).join('-');
 
 export const getHighlightedLetters = (
   str: string,

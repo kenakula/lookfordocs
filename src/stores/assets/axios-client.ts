@@ -1,13 +1,9 @@
 import axios from 'axios';
 
-const DIRECTUS_ITEMS_URL = process.env.NEXT_PUBLIC_ITEMS_URL ?? '';
-
-export interface AxiosResponse<T> {
-  data: T;
-}
+const API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL ?? '';
 
 export const axiosClient = axios.create({
-  baseURL: DIRECTUS_ITEMS_URL,
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
