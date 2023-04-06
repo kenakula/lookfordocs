@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
-import { LanguagesRef } from '@/shared/types';
+import { ILanguage } from '@/shared/types';
 import { LanguageIcon, StyledLanguages } from './components';
 
 interface Props {
-  list: LanguagesRef[];
+  list: ILanguage[];
 }
 
 export const LanguagesList = ({ list }: Props): JSX.Element => {
@@ -11,7 +11,7 @@ export const LanguagesList = ({ list }: Props): JSX.Element => {
     <StyledLanguages className="doctor-card-language">
       <Typography variant="caption">Языки</Typography>
       <ul>
-        {list.map(({ languages_id: { id, name, slug } }) => (
+        {list.map(({ id, name, slug }) => (
           <li key={id}>
             <span className="icon">
               <LanguageIcon slug={slug} />

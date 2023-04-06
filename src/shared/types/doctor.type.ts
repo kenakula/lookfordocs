@@ -1,7 +1,8 @@
 import { StrapiEditionsInfo } from './api-types.type';
 import { IClinic } from './clinic.type';
-import { InsurancesRef, GlobalServicesRef } from './directus-api-refs';
+import { IGlobalService } from './global-service.type';
 import { IImage } from './image.type';
+import { IInsurance } from './insurance.type';
 import { ILanguage } from './language.type';
 import { IService } from './service.type';
 import { ISpecialty } from './specialty.type';
@@ -34,14 +35,15 @@ export interface IDoctor extends StrapiEditionsInfo {
   longText?: string;
   image: IImage;
   specialties: ISpecialty[];
-  insurances: InsurancesRef[];
-  lang: ILanguage[];
+  insurances: IInsurance[];
+  languages: ILanguage[];
   clinics: IClinic[];
   services: IService[];
-  globalServices: GlobalServicesRef[];
+  globalServices: IGlobalService[];
   reembolso?: boolean;
   nosologies?: IDoctorNosology[];
   education?: IDoctorEducation[];
+  testimonials: ITestimonial[];
 }
 
 export interface IDoctorsTestimonials {

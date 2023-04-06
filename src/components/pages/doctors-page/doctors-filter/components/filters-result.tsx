@@ -1,41 +1,38 @@
 import { CircularProgress, Typography } from '@mui/material';
-import { IDoctor, IDoctorsTestimonials } from '@/shared/types';
+import { IDoctor } from '@/shared/types';
 import { DoctorCard } from '@/components';
 import { FilterEmptyResult, FilterResultList } from './styled-components';
-import { useCallback } from 'react';
 
 interface Props {
   doctorsList: IDoctor[] | undefined;
   fetching: boolean;
   error: boolean;
-  doctorsTestimonials: IDoctorsTestimonials[];
 }
 
 export const FiltersResult = ({
-  doctorsTestimonials,
   doctorsList,
   fetching,
   error,
 }: Props): JSX.Element | null => {
-  const getRate = useCallback(
-    (id: number): { rate: number | undefined; count: number | undefined } => {
-      const arr = doctorsTestimonials.filter(item => item.doctors_id.id === id);
+  // const getRate = useCallback(
+  //   (id: number): { rate: number | undefined; count: number | undefined } => {
+  //     const arr = doctorsTestimonials.filter(item => item.doctors_id.id === id);
 
-      if (!arr.length) {
-        return { rate: undefined, count: undefined };
-      }
+  //     if (!arr.length) {
+  //       return { rate: undefined, count: undefined };
+  //     }
 
-      const sum = arr.reduce((prev, curr) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const currRate = curr.testimonials_id!.rate;
+  //     const sum = arr.reduce((prev, curr) => {
+  //       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  //       const currRate = curr.testimonials_id!.rate;
 
-        return prev + currRate;
-      }, 0);
+  //       return prev + currRate;
+  //     }, 0);
 
-      return { rate: sum / arr.length, count: arr.length };
-    },
-    [doctorsTestimonials],
-  );
+  //     return { rate: sum / arr.length, count: arr.length };
+  //   },
+  //   [doctorsTestimonials],
+  // );
 
   if (!doctorsList) {
     return null;
@@ -56,8 +53,8 @@ export const FiltersResult = ({
           <li key={item.id}>
             <DoctorCard
               data={item}
-              rating={getRate(item.id).rate}
-              testimonialsCount={getRate(item.id).count}
+              rating={5}
+              testimonialsCount={item.testimonials && item.testimonials.length}
             />
           </li>
         ))}

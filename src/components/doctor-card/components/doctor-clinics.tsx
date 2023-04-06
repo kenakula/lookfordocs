@@ -2,13 +2,13 @@ import { useMemo } from 'react';
 import { Typography, useMediaQuery } from '@mui/material';
 import { SwiperSlide } from 'swiper/react';
 import { SwiperOptions, Navigation, Pagination } from 'swiper';
-import { ClinicsRef } from '@/shared/types';
+import { IClinic } from '@/shared/types';
 import { SliderComponent } from '@/components';
 import { Breakpoints } from '@/shared/enums';
 import { DoctorCardClinic } from './doctor-card-clinic';
 
 interface Props {
-  list: ClinicsRef[];
+  list: IClinic[];
 }
 
 export const DoctorClinics = ({ list }: Props): JSX.Element => {
@@ -42,8 +42,8 @@ export const DoctorClinics = ({ list }: Props): JSX.Element => {
   if (isDesktop) {
     return (
       <div className="clinics-wrapper">
-        {list.map(({ clinics_id }) => (
-          <DoctorCardClinic key={clinics_id.id} clinic={clinics_id} />
+        {list.map(clinic => (
+          <DoctorCardClinic key={clinic.id} clinic={clinic} />
         ))}
       </div>
     );
@@ -51,9 +51,9 @@ export const DoctorClinics = ({ list }: Props): JSX.Element => {
 
   return (
     <SliderComponent options={sliderConfig}>
-      {list.map(({ clinics_id }) => (
-        <SwiperSlide key={clinics_id.id} tag="li">
-          <DoctorCardClinic clinic={clinics_id} />
+      {list.map(clinic => (
+        <SwiperSlide key={clinic.id} tag="li">
+          <DoctorCardClinic clinic={clinic} />
         </SwiperSlide>
       ))}
     </SliderComponent>

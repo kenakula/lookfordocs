@@ -1,3 +1,4 @@
+import { StrapiEditionsInfo } from './api-types.type';
 import { ICity } from './city.type';
 import { IContact } from './contact.type';
 import { GlobalServicesRef, InsurancesRef } from './directus-api-refs';
@@ -17,14 +18,8 @@ export interface IClinicAddress {
   cities: ICity;
 }
 
-export interface IClinic {
+export interface IClinic extends StrapiEditionsInfo {
   id: number;
-  status: string;
-  sort?: number;
-  user_created: string;
-  date_created: Date;
-  user_updated: string;
-  date_updated?: Date;
   name: string;
   subtitle: string;
   image: IImage;
@@ -41,11 +36,5 @@ export interface IClinic {
   services: IService[];
   longText: string;
   reembolso: boolean;
-}
-
-export interface IClinicsTestimonials {
-  clinics_id: {
-    id: number;
-  };
-  testimonials_id: ITestimonial | null;
+  testimonials: ITestimonial[];
 }

@@ -5,7 +5,6 @@ import { useLazyGetDoctorsCountQuery } from '@/stores/api';
 import { searchFieldClear, useAppDispatch, useAppSelector } from '@/stores';
 import {
   IClinic,
-  IDoctorsTestimonials,
   IGlobalService,
   IInsurance,
   ILanguage,
@@ -17,18 +16,16 @@ import { usePaginationQuery } from '@/shared/hooks';
 import {
   ButtonComponent,
   FilterResultSkeleton,
-  PaginationComponent,
   SmartSearchInput,
 } from '@/components';
 import {
   FiltersBlock,
   FiltersCounter,
-  FiltersResult,
   StyledFiltersBody,
   StyledFiltersTop,
 } from './components';
 import { useBuildQuery } from './hooks';
-import { DOCTORS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
+import { getFilterValues } from '@/shared/assets';
 
 interface Props {
   specialties: ISpecialty[];
@@ -36,11 +33,9 @@ interface Props {
   insurances: IInsurance[];
   languages: ILanguage[];
   clinics: IClinic[];
-  docsTestimonials: IDoctorsTestimonials[];
 }
 
 export const DoctorsFilter = ({
-  docsTestimonials,
   specialties,
   insurances,
   languages,
@@ -49,8 +44,7 @@ export const DoctorsFilter = ({
 }: Props): JSX.Element => {
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [searchString, setSearchString] = useState('');
-  const [pagingValue, setPagingValue] = useState(1);
+  // const [searchString, setSearchString] = useState('');
   const topBlockRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
@@ -70,9 +64,7 @@ export const DoctorsFilter = ({
     setFormValue,
     formControl,
     doctorsList,
-    isFetching,
     isLoading,
-    isError,
   } = useBuildQuery({
     getItemsCount,
     specialties,
@@ -89,7 +81,7 @@ export const DoctorsFilter = ({
   };
 
   const handleSmartSearchSubmit = (name?: string): void => {
-    setSearchString(name ?? '');
+    // setSearchString(name ?? '');
     runQueryBuilder(name);
 
     if (inputRef.current) {
@@ -129,13 +121,13 @@ export const DoctorsFilter = ({
     runQueryBuilder();
   };
 
-  const setPage = (value: number): void => {
-    if (topBlockRef.current) {
-      topBlockRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-    setPagingValue(value);
-    runQueryBuilder(searchString, value);
-  };
+  // const setPage = (value: number): void => {
+  //   if (topBlockRef.current) {
+  //     topBlockRef.current.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  //   setPagingValue(value);
+  //   runQueryBuilder(searchString, value);
+  // };
 
   return (
     <div className="doctors-filter">
@@ -192,20 +184,19 @@ export const DoctorsFilter = ({
               </Typography>
             </div>
           ) : null}
-          <FiltersResult
+          {/* <FiltersResult
             doctorsList={doctorsList}
             fetching={isFetching}
             error={isError}
-            doctorsTestimonials={docsTestimonials}
-          />
-          {doctorsList && totalItemsCount ? (
+          /> */}
+          {/* {doctorsList && totalItemsCount ? (
             <PaginationComponent
               setPage={setPage}
               page={pagingValue}
               total={totalItemsCount}
               limit={DOCTORS_PAGE_LIMIT}
             />
-          ) : null}
+          ) : null} */}
         </div>
       </StyledFiltersBody>
     </div>

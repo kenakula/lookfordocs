@@ -1,7 +1,6 @@
 import { Box, styled } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getImageUrl } from '@/shared/assets';
 
 export const StyledImageContainer = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -26,7 +25,7 @@ export const StyledImageContainer = styled('div')(({ theme }) => ({
 }));
 
 interface Props {
-  imageId: string;
+  imageUrl: string;
   name: string;
   isDetailedPage: boolean;
   url?: string;
@@ -35,7 +34,7 @@ interface Props {
 
 export const CardImage = ({
   name,
-  imageId,
+  imageUrl,
   url,
   sizes,
   isDetailedPage,
@@ -44,13 +43,7 @@ export const CardImage = ({
     return (
       <StyledImageContainer className="card-image">
         <Link href={url}>
-          <Image
-            fill
-            src={getImageUrl(imageId, name)}
-            alt={name}
-            priority
-            sizes={sizes}
-          />
+          <Image fill src={imageUrl} alt={name} priority sizes={sizes} />
         </Link>
       </StyledImageContainer>
     );
@@ -59,13 +52,7 @@ export const CardImage = ({
   return (
     <StyledImageContainer className="card-image">
       <Box className="image-container">
-        <Image
-          fill
-          src={getImageUrl(imageId, name)}
-          alt={name}
-          priority
-          sizes={sizes}
-        />
+        <Image fill src={imageUrl} alt={name} priority sizes={sizes} />
       </Box>
     </StyledImageContainer>
   );

@@ -10,7 +10,7 @@ import {
   ServicesList,
 } from '@/components';
 import { IDoctor } from '@/shared/types';
-import { capitalizeName, DOCTORS_PAGE } from '@/shared/assets';
+import { capitalizeName, DOCTORS_PAGE, getImageUrl } from '@/shared/assets';
 import { Breakpoints } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
 import {
@@ -36,13 +36,12 @@ interface Props {
 
 export const DoctorCard = ({
   data: {
-    firstName,
-    lastName,
+    fullName,
     specialties,
     image,
     shortText,
     id,
-    lang,
+    languages,
     services,
     clinics,
     globalServices,
@@ -58,10 +57,7 @@ export const DoctorCard = ({
   const isDesktop = useMediaQuery(Breakpoints.Desktop);
   const dispatch = useAppDispatch();
 
-  const doctorName = useMemo(
-    () => capitalizeName(firstName, lastName),
-    [firstName, lastName],
-  );
+  const doctorName = useMemo(() => capitalizeName(fullName), [fullName]);
 
   const openRequestForm = () => {
     dispatch(
@@ -86,7 +82,7 @@ export const DoctorCard = ({
           <div className="mobile-image-container">
             <CardImage
               name={doctorName}
-              imageId={image.id}
+              imageUrl={getImageUrl(image)}
               url={`${DOCTORS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
@@ -108,7 +104,7 @@ export const DoctorCard = ({
                   <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
                 </Typography>
               )}
-              <LanguagesList list={lang} />
+              <LanguagesList list={languages} />
               <GlobalServicesList list={globalServices} />
             </StyledInfo>
           )}
@@ -124,7 +120,7 @@ export const DoctorCard = ({
                   <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
                 </Typography>
               )}
-              <LanguagesList list={lang} />
+              <LanguagesList list={languages} />
             </StyledInfo>
           )}
           <StyledText className="doctor-card-text" sx={{ mt: 2, mb: 2 }}>
