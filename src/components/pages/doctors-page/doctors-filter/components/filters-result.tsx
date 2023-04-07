@@ -51,11 +51,7 @@ export const FiltersResult = ({
       <FilterResultList>
         {doctorsList.map(item => (
           <li key={item.id}>
-            <DoctorCard
-              data={item}
-              rating={5}
-              testimonialsCount={item.testimonials && item.testimonials.length}
-            />
+            <DoctorCard data={item} rating={5} />
           </li>
         ))}
         {fetching && (

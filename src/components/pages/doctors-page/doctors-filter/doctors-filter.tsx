@@ -192,9 +192,6 @@ export const DoctorsFilter = ({
           clinics={clinics}
         />
         <div className="filters-result">
-          {doctorsList.data.map(item => (
-            <div key={item.id}>{item.fullName}</div>
-          ))}
           {isLoading && <FilterResultSkeleton />}
           {doctorsList ? (
             <div className="filters-sort">

@@ -11,7 +11,7 @@ import {
 } from '@/components';
 import { IDoctor } from '@/shared/types';
 import { capitalizeName, DOCTORS_PAGE, getImageUrl } from '@/shared/assets';
-import { Breakpoints } from '@/shared/enums';
+import { Breakpoints, ImageSize } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
 import {
   DoctorSpecialties,
@@ -30,7 +30,6 @@ interface Props {
   data: IDoctor;
   detailedLocation?: boolean;
   rating?: number;
-  testimonialsCount?: number;
   shadowed?: boolean;
 }
 
@@ -46,11 +45,11 @@ export const DoctorCard = ({
     clinics,
     global_services,
     reembolso,
+    testimonials,
   },
   detailedLocation = false,
   shadowed = false,
   rating,
-  testimonialsCount,
 }: Props): JSX.Element => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
@@ -82,14 +81,14 @@ export const DoctorCard = ({
           <div className="mobile-image-container">
             <CardImage
               name={doctorName}
-              imageUrl={getImageUrl(image)}
+              imageUrl={getImageUrl(image, ImageSize.Small)}
               url={`${DOCTORS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
             {rating ? (
               <DoctorCardRating
                 rating={rating}
-                testimonialsCount={testimonialsCount}
+                testimonialsCount={testimonials.length}
                 detaiedLocation={detailedLocation}
               />
             ) : null}
