@@ -8,6 +8,8 @@ export * from './global-service.type';
 export * from './main-advantage.type';
 export * from './site-settings.type';
 export * from './page-settings.type';
+export * from './clinics-page-query';
+export * from './doctors-page-query';
 export * from './directus-api-refs';
 export * from './smart-search.type';
 export * from './testimonial.type';

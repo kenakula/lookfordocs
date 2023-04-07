@@ -39,7 +39,7 @@ export interface IDoctor extends StrapiEditionsInfo {
   languages: ILanguage[];
   clinics: IClinic[];
   services: IService[];
-  globalServices: IGlobalService[];
+  global_services: IGlobalService[];
   reembolso?: boolean;
   nosologies?: IDoctorNosology[];
   education?: IDoctorEducation[];

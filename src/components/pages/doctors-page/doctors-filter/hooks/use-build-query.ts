@@ -12,10 +12,9 @@ import {
   setDoctorsFiltersCount,
   useAppDispatch,
 } from '@/stores';
-import { DoctorsFilterQuery } from '@/stores/types';
-import { useLazyGetDoctorsListQuery } from '@/stores/api';
 import {
   DoctorsFilterFormModel,
+  DoctorsFilterQuery,
   FilterGroupValue,
   IClinic,
   IDoctor,
@@ -23,13 +22,10 @@ import {
   IInsurance,
   ILanguage,
   ISpecialty,
+  StrapiCollection,
 } from '@/shared/types';
-import {
-  DOCTORS_PAGE,
-  DOCTORS_PAGE_LIMIT,
-  getFilterValues,
-} from '@/shared/assets';
-import { usePageQuery } from '@/shared/hooks';
+import { DOCTORS_PAGE, getFilterValues } from '@/shared/assets';
+import { useDoctorsPageQuery } from '@/shared/hooks';
 
 interface HookValue {
   runQueryBuilder: (nameString?: string, pageNumber?: number) => void;
@@ -47,7 +43,7 @@ interface HookValue {
 }
 
 interface HookProps {
-  getItemsCount: (queryObj: DoctorsFilterQuery) => void;
+  doctors: StrapiCollection<IDoctor>;
   services: IGlobalService[];
   specialties: ISpecialty[];
   insurances: IInsurance[];
@@ -56,23 +52,19 @@ interface HookProps {
 }
 
 export const useBuildQuery = ({
-  getItemsCount,
   specialties,
   insurances,
   languages,
   services,
   clinics,
+  doctors,
 }: HookProps): HookValue => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [searchString, setSearchString] = useState('');
   const [pagingValue, setPagingValue] = useState(1);
   const { data, isLoading, isError, query, fetchDoctors, isFetching } =
-    usePageQuery<
-      IDoctor,
-      DoctorsFilterQuery,
-      typeof useLazyGetDoctorsListQuery
-    >(useLazyGetDoctorsListQuery, DOCTORS_PAGE_LIMIT);
+    useDoctorsPageQuery(doctors, 6, 1);
   const { control, getValues, setValue, reset } =
     useForm<DoctorsFilterFormModel>({
       defaultValues: {
@@ -171,11 +163,7 @@ export const useBuildQuery = ({
     }
 
     countFilters();
-    fetchDoctors(queryObj, {
-      page: pageNumber ?? 1,
-      limit: DOCTORS_PAGE_LIMIT,
-    });
-    getItemsCount(queryObj);
+    fetchDoctors(queryObj, pageNumber ?? 1);
 
     router.push(
       {
@@ -192,7 +180,7 @@ export const useBuildQuery = ({
     setFormValue: setValue,
     resetFormValue: reset,
     formControl: control,
-    doctorsList: data,
+    doctorsList: data ? data.data : [],
     searchString,
     pagingValue,
     isFetching,

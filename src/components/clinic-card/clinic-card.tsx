@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
-import { capitalize, CLINICS_PAGE } from '@/shared/assets';
+import { capitalize, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
 import { Breakpoints } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
 import { IClinic } from '@/shared/types';
@@ -73,7 +73,7 @@ export const ClinicCard = ({
           <div className="mobile-image-container">
             <CardImage
               name={clinicName}
-              imageId={image.id}
+              imageUrl={getImageUrl(image)}
               url={`${CLINICS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />

@@ -44,7 +44,7 @@ export const DoctorCard = ({
     languages,
     services,
     clinics,
-    globalServices,
+    global_services,
     reembolso,
   },
   detailedLocation = false,
@@ -93,7 +93,7 @@ export const DoctorCard = ({
                 detaiedLocation={detailedLocation}
               />
             ) : null}
-            {isDesktop && <GlobalServicesList list={globalServices} />}
+            {isDesktop && <GlobalServicesList list={global_services} />}
           </div>
           {!isDesktop && (
             <StyledInfo>
@@ -105,7 +105,7 @@ export const DoctorCard = ({
                 </Typography>
               )}
               <LanguagesList list={languages} />
-              <GlobalServicesList list={globalServices} />
+              <GlobalServicesList list={global_services} />
             </StyledInfo>
           )}
         </DoctorCardInfo>

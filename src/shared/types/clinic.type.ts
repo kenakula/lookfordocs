@@ -1,9 +1,10 @@
 import { StrapiEditionsInfo } from './api-types.type';
 import { ICity } from './city.type';
 import { IContact } from './contact.type';
-import { GlobalServicesRef, InsurancesRef } from './directus-api-refs';
 import { IDoctor } from './doctor.type';
+import { IGlobalService } from './global-service.type';
 import { IImage } from './image.type';
+import { IInsurance } from './insurance.type';
 import { ILanguage } from './language.type';
 import { IMetro } from './metro.type';
 import { IService } from './service.type';
@@ -25,9 +26,9 @@ export interface IClinic extends StrapiEditionsInfo {
   image: IImage;
   address: IClinicAddress[];
   metro: IMetro[];
-  insurances: InsurancesRef[];
+  insurances: IInsurance[];
   contacts: IContact[];
-  globalServices: GlobalServicesRef[];
+  globalServices: IGlobalService[];
   doctors: IDoctor[];
   description: string;
   specialties: ISpecialty[];

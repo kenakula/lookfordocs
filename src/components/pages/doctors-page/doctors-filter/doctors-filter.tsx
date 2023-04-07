@@ -1,38 +1,44 @@
 import { useRef, useState } from 'react';
 import { Typography } from '@mui/material';
-
-import { useLazyGetDoctorsCountQuery } from '@/stores/api';
 import { searchFieldClear, useAppDispatch, useAppSelector } from '@/stores';
 import {
+  DoctorsFilterFormModel,
+  DoctorsFilterQuery,
   IClinic,
+  IDoctor,
   IGlobalService,
   IInsurance,
   ILanguage,
   ISmartSearchQuery,
   ISpecialty,
+  StrapiCollection,
 } from '@/shared/types';
-import { DoctorsFilterQuery } from '@/stores/types';
-import { usePaginationQuery } from '@/shared/hooks';
 import {
   ButtonComponent,
   FilterResultSkeleton,
+  PaginationComponent,
   SmartSearchInput,
 } from '@/components';
 import {
   FiltersBlock,
   FiltersCounter,
+  FiltersResult,
   StyledFiltersBody,
   StyledFiltersTop,
 } from './components';
-import { useBuildQuery } from './hooks';
-import { getFilterValues } from '@/shared/assets';
+import { DOCTORS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
+import { useForm } from 'react-hook-form';
+import { doctorsFetcher } from './assets';
+import { useQuery } from '@tanstack/react-query';
 
 interface Props {
-  specialties: ISpecialty[];
+  doctors: StrapiCollection<IDoctor>;
   services: IGlobalService[];
+  specialties: ISpecialty[];
   insurances: IInsurance[];
   languages: ILanguage[];
   clinics: IClinic[];
+  query: DoctorsFilterQuery;
 }
 
 export const DoctorsFilter = ({
@@ -41,48 +47,56 @@ export const DoctorsFilter = ({
   languages,
   services,
   clinics,
+  doctors,
+  query,
 }: Props): JSX.Element => {
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
+  const [pageNumber, setPageNumber] = useState(1);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   // const [searchString, setSearchString] = useState('');
   const topBlockRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
-  const { getItemsCount, totalItemsCount } = usePaginationQuery<
-    DoctorsFilterQuery,
-    typeof useLazyGetDoctorsCountQuery
-  >(useLazyGetDoctorsCountQuery);
-
   const handleOpenMobileFilter = (): void => {
     setMobileFilterOpen(true);
   };
 
-  const {
-    runQueryBuilder,
-    resetFormValue,
-    setFormValue,
-    formControl,
-    doctorsList,
-    isLoading,
-  } = useBuildQuery({
-    getItemsCount,
-    specialties,
-    insurances,
-    languages,
-    services,
-    clinics,
+  const { control, setValue, reset } = useForm<DoctorsFilterFormModel>({
+    defaultValues: {
+      specialties: [],
+      services: [],
+      insurances: [],
+      languages: [],
+      clinics: [],
+    },
   });
 
+  const {
+    data: doctorsList,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  } = useQuery(
+    ['doctorsList'],
+    () =>
+      doctorsFetcher(query, { page: pageNumber, pageSize: DOCTORS_PAGE_LIMIT }),
+    {
+      initialData: doctors,
+      enabled: false,
+    },
+  );
+
   const resetFilters = (): void => {
-    resetFormValue();
-    runQueryBuilder();
+    reset();
+    refetch();
     dispatch(searchFieldClear());
   };
 
-  const handleSmartSearchSubmit = (name?: string): void => {
+  const handleSmartSearchSubmit = (): void => {
     // setSearchString(name ?? '');
-    runQueryBuilder(name);
+    refetch();
 
     if (inputRef.current) {
       inputRef.current.blur();
@@ -90,7 +104,7 @@ export const DoctorsFilter = ({
   };
 
   const handleClearInput = (): void => {
-    runQueryBuilder();
+    refetch();
     dispatch(searchFieldClear());
   };
 
@@ -100,34 +114,36 @@ export const DoctorsFilter = ({
   }: ISmartSearchQuery): void => {
     switch (name) {
       case 'specialties':
-        setFormValue(name, getFilterValues(specialties, value));
+        setValue(name, getFilterValues(specialties, value));
         break;
       case 'services':
-        setFormValue(name, getFilterValues(services, value));
+        setValue(name, getFilterValues(services, value));
         break;
       case 'insurances':
-        setFormValue(name, getFilterValues(insurances, value));
+        setValue(name, getFilterValues(insurances, value));
         break;
       case 'clinics':
-        setFormValue(name, getFilterValues(clinics, value));
+        setValue(name, getFilterValues(clinics, value));
         break;
       case 'languages':
-        setFormValue(name, getFilterValues(languages, value));
+        setValue(name, getFilterValues(languages, value));
         break;
       default:
         break;
     }
-
-    runQueryBuilder();
+    refetch();
   };
 
-  // const setPage = (value: number): void => {
-  //   if (topBlockRef.current) {
-  //     topBlockRef.current.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  //   setPagingValue(value);
-  //   runQueryBuilder(searchString, value);
-  // };
+  const setPage = (value: number): void => {
+    setTimeout(() => {
+      if (topBlockRef.current) {
+        topBlockRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
+
+    setPageNumber(value);
+    refetch();
+  };
 
   return (
     <div className="doctors-filter">
@@ -167,8 +183,8 @@ export const DoctorsFilter = ({
           mobileFilterOpen={mobileFilterOpen}
           resetFilters={resetFilters}
           setMobileFilterOpen={setMobileFilterOpen}
-          buildQueryString={runQueryBuilder}
-          control={formControl}
+          buildQueryString={refetch}
+          control={control}
           specialties={specialties}
           services={services}
           insurances={insurances}
@@ -176,27 +192,30 @@ export const DoctorsFilter = ({
           clinics={clinics}
         />
         <div className="filters-result">
+          {doctorsList.data.map(item => (
+            <div key={item.id}>{item.fullName}</div>
+          ))}
           {isLoading && <FilterResultSkeleton />}
-          {doctorsList && totalItemsCount ? (
+          {doctorsList ? (
             <div className="filters-sort">
               <Typography className="filters-total">
-                Найдено врачей: {totalItemsCount}
+                Найдено врачей: {doctorsList.meta.pagination.total}
               </Typography>
             </div>
           ) : null}
-          {/* <FiltersResult
-            doctorsList={doctorsList}
+          <FiltersResult
+            doctorsList={doctorsList.data}
             fetching={isFetching}
             error={isError}
-          /> */}
-          {/* {doctorsList && totalItemsCount ? (
+          />
+          {doctorsList ? (
             <PaginationComponent
               setPage={setPage}
-              page={pagingValue}
-              total={totalItemsCount}
+              page={pageNumber}
+              total={doctorsList.meta.pagination.total}
               limit={DOCTORS_PAGE_LIMIT}
             />
-          ) : null} */}
+          ) : null}
         </div>
       </StyledFiltersBody>
     </div>

@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import {
   BreadcrumbsComponent,
   DoctorsFilter,
@@ -21,6 +21,8 @@ import {
   ILanguage,
   IClinic,
   ICity,
+  IDoctor,
+  DoctorsFilterQuery,
 } from '@/shared/types';
 import { axiosClient } from '@/stores/assets';
 
@@ -36,9 +38,14 @@ interface Props {
   languages: ILanguage[];
   clinics: IClinic[];
   cities: ICity[];
+  doctors: StrapiCollection<IDoctor>;
+  pageQuery: DoctorsFilterQuery;
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  query,
+}) => {
+  const pageQuery = query as DoctorsFilterQuery;
   const siteSettings = await axiosClient
     .get<StrapiSingleton<ISiteSettings>>('site-settings', {
       params: { populate: '*' },
@@ -82,12 +89,71 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   const clinics = await axiosClient<StrapiCollection<IClinic>>('clinics').then(
     res => res.data.data,
   );
+  const doctors = await axiosClient<StrapiCollection<IDoctor>>('doctors', {
+    params: {
+      populate: '*',
+      filters: {
+        $and: [
+          {
+            fullName: {
+              $contains: pageQuery.name,
+            },
+          },
+          {
+            $or: [
+              {
+                specialties: {
+                  id: {
+                    $in: pageQuery.specialty
+                      ? pageQuery.specialty.split(',')
+                      : [],
+                  },
+                },
+              },
+              {
+                global_services: {
+                  id: {
+                    $in: pageQuery.service ? pageQuery.service.split(',') : [],
+                  },
+                },
+              },
+              {
+                clinics: {
+                  id: {
+                    $in: pageQuery.clinic ? pageQuery.clinic.split(',') : [],
+                  },
+                },
+              },
+              {
+                insurances: {
+                  id: {
+                    $in: pageQuery.insurance
+                      ? pageQuery.insurance.split(',')
+                      : [],
+                  },
+                },
+              },
+              {
+                languages: {
+                  id: {
+                    $in: pageQuery.lang ? pageQuery.lang.split(',') : [],
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  }).then(res => res.data);
 
   return {
     props: {
       cities,
+      doctors,
       clinics,
       languages,
+      pageQuery,
       promoData,
       insurances,
       specialties,
@@ -100,16 +166,17 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 const DoctorsPage = ({
   clinics,
+  doctors,
   languages,
+  pageQuery,
   promoData,
   insurances,
   specialties,
   pageSettings,
   siteSettings,
   globalServices,
-}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element => {
   const router = useRouter();
-
   if (router.isFallback) {
     return <ListPageSkeleton />;
   }
@@ -128,6 +195,8 @@ const DoctorsPage = ({
             insurances={insurances}
             languages={languages}
             clinics={clinics}
+            doctors={doctors}
+            query={pageQuery}
           />
         </PageResult>
       </Layout>
