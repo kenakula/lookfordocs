@@ -5,7 +5,8 @@ export type GlobalServiceType =
   | 'home'
   | 'online'
   | 'child'
-  | 'receipt';
+  | 'receipt'
+  | 'forms';
 
 export interface IGlobalService extends StrapiEditionsInfo {
   id: number;

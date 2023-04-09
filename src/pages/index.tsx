@@ -86,8 +86,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     'testimonials',
     {
       params: {
-        populate:
-          'clinic.image,clinic.address,clinic.address.cities,doctor.image,doctor.specialties',
+        populate: `
+          clinic.image,
+          clinic.address,
+          clinic.address.city,
+          doctor.image,
+          doctor.specialties
+        `,
       },
     },
   ).then(res => res.data.data);

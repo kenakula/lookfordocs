@@ -5,3 +5,5 @@ export interface CollectionResponse<T> {
 export interface SingletonResponse<T> {
   data: T;
 }
+
+// TODO delete

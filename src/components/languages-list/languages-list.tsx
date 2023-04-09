@@ -1,6 +1,7 @@
-import { Typography } from '@mui/material';
+import Image from 'next/image';
 import { ILanguage } from '@/shared/types';
-import { LanguageIcon, StyledLanguages } from './components';
+import { getImageUrl } from '@/shared/assets';
+import { StyledLanguages } from './components';
 
 interface Props {
   list: ILanguage[];
@@ -8,13 +9,15 @@ interface Props {
 
 export const LanguagesList = ({ list }: Props): JSX.Element => {
   return (
-    <StyledLanguages className="doctor-card-language">
-      <Typography variant="caption">Языки</Typography>
+    <StyledLanguages className="card-languages">
       <ul>
-        {list.map(({ id, name, slug }) => (
+        <li>
+          <span className="name">Языки</span>
+        </li>
+        {list.map(({ id, name, icon }) => (
           <li key={id}>
             <span className="icon">
-              <LanguageIcon slug={slug} />
+              <Image src={getImageUrl(icon)} width={16} height={16} alt="" />
             </span>
             <span className="name">{name}</span>
           </li>

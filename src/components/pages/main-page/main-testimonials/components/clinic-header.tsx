@@ -18,7 +18,7 @@ export const ClinicHeader = ({
           {name}
         </Typography>
         <Typography variant="body1" className="card-subtitle">
-          {`г. ${capitalizeName(address[0].cities.name)}`}
+          {`г. ${capitalizeName(address[0].city.name)}`}
         </Typography>
       </div>
     </header>

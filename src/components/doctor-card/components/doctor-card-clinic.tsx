@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Typography } from '@mui/material';
-import { CLINICS_PAGE, getImageUrl } from '@/shared/assets';
+import { CLINICS_PAGE, capitalizeName, getImageUrl } from '@/shared/assets';
+import { ImageSize } from '@/shared/enums';
 import { IClinic } from '@/shared/types';
 import { StyledClinicCard } from './styled-components';
 import { DoctorCardInsurances } from './doctor-card-insurances';
@@ -12,46 +13,29 @@ interface Props {
 }
 
 export const DoctorCardClinic = ({
-  clinic: { id, name, image, metro, insurances: insurancesList },
+  clinic: { id, name, image, metro, insurances: insurancesList, address },
   detailedLocation = false,
 }: Props): JSX.Element => {
-  // const getClinicAddress = useCallback(
-  //   (addressStr?: string, city?: CitiesRef): string => {
-  //     if (city && addressStr) {
-  //       return `г. ${capitalize(city.cities_id.name)}, ${addressStr}`;
-  //     }
-
-  //     if (city && !address) {
-  //       return `г. ${capitalize(city.cities_id.name)}`;
-  //     }
-
-  //     if (addressStr && !city) {
-  //       return addressStr;
-  //     }
-
-  //     return '';
-  //   },
-  //   [address],
-  // );
-
   return (
     <StyledClinicCard detailedLocation={detailedLocation}>
       <div className="clinic-top">
         <div className="clinic-image">
-          <Image fill alt={name} src={getImageUrl(image)} />
+          <Image fill alt={name} src={getImageUrl(image, ImageSize.Thumb)} />
         </div>
         <Link href={`${CLINICS_PAGE}/${id}`}>{name}</Link>
       </div>
-      {/* <Typography variant="body2" className="clinic-address">
-        {getClinicAddress(address, citiesList[0])}
-      </Typography> */}
+      {address.map(addr => (
+        <Typography key={addr.id} variant="body2" className="clinic-address">
+          {`г. ${capitalizeName(addr.city.name)}, ${addr.address}`}
+        </Typography>
+      ))}
       {metro && (
         <ul className="clinic-metro">
           {metro.map(item => (
             <li key={item.slug}>
               <Typography
                 variant="caption"
-                sx={{ backgroundColor: item.color }}
+                sx={{ backgroundColor: item.color.color }}
               />
               {item.name}
             </li>

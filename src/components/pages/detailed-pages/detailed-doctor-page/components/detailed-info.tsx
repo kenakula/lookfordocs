@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Skeleton } from '@mui/material';
 import { TestimonialDialog } from '@/components';
-import { IDoctor, ITestimonial } from '@/shared/types';
+import { IDoctor } from '@/shared/types';
 import {
   capitalizeName,
   StyledDetailedInfo,
@@ -16,7 +16,6 @@ import { DetialedDoctorTestimonials } from './detailed-doctor-testimonials';
 
 interface Props {
   data: IDoctor;
-  testimonials?: ITestimonial[];
 }
 
 export const DetailedInfo = ({
@@ -25,11 +24,10 @@ export const DetailedInfo = ({
     nosologies,
     education,
     id: docId,
-    firstName,
-    lastName,
+    fullName,
     image,
+    testimonials,
   },
-  testimonials,
 }: Props): JSX.Element => {
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
 
@@ -64,7 +62,7 @@ export const DetailedInfo = ({
         <Skeleton height={300} />
       )}
 
-      {nosologies && (
+      {nosologies.length ? (
         <StyledDetailInfoBlock className="detailed-info-block">
           <StyledDetailInfoBlockHeader className="detailed-info-block-header">
             <StyledDetailInfoTitle variant="h3">
@@ -77,9 +75,9 @@ export const DetailedInfo = ({
             ))}
           </ul>
         </StyledDetailInfoBlock>
-      )}
+      ) : null}
 
-      {education && (
+      {education.length ? (
         <StyledDetailInfoBlock className="detailed-info-block">
           <StyledDetailInfoBlockHeader className="detailed-info-block-header">
             <StyledDetailInfoTitle variant="h3">
@@ -88,13 +86,13 @@ export const DetailedInfo = ({
           </StyledDetailInfoBlockHeader>
           <DetailedDoctorEducation data={education} />
         </StyledDetailInfoBlock>
-      )}
+      ) : null}
       <TestimonialDialog
         opened={testimonialDialogOpen}
         onClose={handleCloseTestimonialsDialog}
         type="doctor"
         entityId={docId}
-        entityName={capitalizeName(firstName, lastName)}
+        entityName={capitalizeName(fullName)}
         entityImage={image}
       />
     </StyledDetailedInfo>

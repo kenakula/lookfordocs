@@ -1,14 +1,10 @@
 import { capitalize, capitalizeName } from './string-utils';
 
-export const getSeoDoctorPageTitle = (
-  firstName: string,
-  lastName?: string,
-): string => `GoodDoc | ${capitalizeName(firstName, lastName)}`;
+export const getSeoDoctorPageTitle = (fullName: string): string =>
+  `GoodDoc | ${capitalizeName(fullName)}`;
 
-export const getSeoDoctorPageH1 = (
-  firstName: string,
-  lastName?: string,
-): string => `Детальная страница врача ${capitalizeName(firstName, lastName)}`;
+export const getSeoDoctorPageH1 = (fullName: string): string =>
+  `Детальная страница врача ${capitalizeName(fullName)}`;
 
 export const getSeoClinicPageTitle = (name: string) =>
   `GoodDoc | ${capitalize(name)}`;

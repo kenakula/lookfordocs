@@ -7,6 +7,6 @@ export interface IPageSettings extends StrapiEditionsInfo {
   pageDescription: string;
   pageKeywords: string;
   h1: string;
-  content: string | null;
+  content?: string;
   socialImage: IImage;
 }

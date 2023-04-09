@@ -2,8 +2,6 @@ import { useRef, useState } from 'react';
 import { Typography } from '@mui/material';
 import { searchFieldClear, useAppDispatch, useAppSelector } from '@/stores';
 import {
-  DoctorsFilterFormModel,
-  DoctorsFilterQuery,
   IClinic,
   IDoctor,
   IGlobalService,
@@ -13,6 +11,7 @@ import {
   ISpecialty,
   StrapiCollection,
 } from '@/shared/types';
+import { DOCTORS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
 import {
   ButtonComponent,
   FilterResultSkeleton,
@@ -26,10 +25,7 @@ import {
   StyledFiltersBody,
   StyledFiltersTop,
 } from './components';
-import { DOCTORS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
-import { useForm } from 'react-hook-form';
-import { doctorsFetcher } from './assets';
-import { useQuery } from '@tanstack/react-query';
+import { useBuildQuery } from './hooks';
 
 interface Props {
   doctors: StrapiCollection<IDoctor>;
@@ -38,7 +34,6 @@ interface Props {
   insurances: IInsurance[];
   languages: ILanguage[];
   clinics: IClinic[];
-  query: DoctorsFilterQuery;
 }
 
 export const DoctorsFilter = ({
@@ -48,12 +43,10 @@ export const DoctorsFilter = ({
   services,
   clinics,
   doctors,
-  query,
 }: Props): JSX.Element => {
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
-  const [pageNumber, setPageNumber] = useState(1);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  // const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState('');
   const topBlockRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
@@ -62,41 +55,36 @@ export const DoctorsFilter = ({
     setMobileFilterOpen(true);
   };
 
-  const { control, setValue, reset } = useForm<DoctorsFilterFormModel>({
-    defaultValues: {
-      specialties: [],
-      services: [],
-      insurances: [],
-      languages: [],
-      clinics: [],
-    },
+  const {
+    runQueryBuilder,
+    pagingValue,
+    setPagingValue,
+    resetFormValue,
+    setFormValue,
+    formControl,
+    doctorsList,
+    doctorsMeta,
+    isFetching,
+    isLoading,
+    isError,
+  } = useBuildQuery({
+    specialties,
+    insurances,
+    languages,
+    services,
+    clinics,
+    doctors,
   });
 
-  const {
-    data: doctorsList,
-    isLoading,
-    isFetching,
-    isError,
-    refetch,
-  } = useQuery(
-    ['doctorsList'],
-    () =>
-      doctorsFetcher(query, { page: pageNumber, pageSize: DOCTORS_PAGE_LIMIT }),
-    {
-      initialData: doctors,
-      enabled: false,
-    },
-  );
-
   const resetFilters = (): void => {
-    reset();
-    refetch();
+    resetFormValue();
+    runQueryBuilder();
     dispatch(searchFieldClear());
   };
 
-  const handleSmartSearchSubmit = (): void => {
-    // setSearchString(name ?? '');
-    refetch();
+  const handleSmartSearchSubmit = (name?: string): void => {
+    setSearchString(name ?? '');
+    runQueryBuilder();
 
     if (inputRef.current) {
       inputRef.current.blur();
@@ -104,7 +92,7 @@ export const DoctorsFilter = ({
   };
 
   const handleClearInput = (): void => {
-    refetch();
+    runQueryBuilder();
     dispatch(searchFieldClear());
   };
 
@@ -114,24 +102,24 @@ export const DoctorsFilter = ({
   }: ISmartSearchQuery): void => {
     switch (name) {
       case 'specialties':
-        setValue(name, getFilterValues(specialties, value));
+        setFormValue(name, getFilterValues(specialties, value));
         break;
       case 'services':
-        setValue(name, getFilterValues(services, value));
+        setFormValue(name, getFilterValues(services, value));
         break;
       case 'insurances':
-        setValue(name, getFilterValues(insurances, value));
+        setFormValue(name, getFilterValues(insurances, value));
         break;
       case 'clinics':
-        setValue(name, getFilterValues(clinics, value));
+        setFormValue(name, getFilterValues(clinics, value));
         break;
       case 'languages':
-        setValue(name, getFilterValues(languages, value));
+        setFormValue(name, getFilterValues(languages, value));
         break;
       default:
         break;
     }
-    refetch();
+    runQueryBuilder();
   };
 
   const setPage = (value: number): void => {
@@ -141,8 +129,8 @@ export const DoctorsFilter = ({
       }
     }, 300);
 
-    setPageNumber(value);
-    refetch();
+    setPagingValue(value);
+    runQueryBuilder(searchString, value);
   };
 
   return (
@@ -183,8 +171,8 @@ export const DoctorsFilter = ({
           mobileFilterOpen={mobileFilterOpen}
           resetFilters={resetFilters}
           setMobileFilterOpen={setMobileFilterOpen}
-          buildQueryString={refetch}
-          control={control}
+          buildQueryString={runQueryBuilder}
+          control={formControl}
           specialties={specialties}
           services={services}
           insurances={insurances}
@@ -193,23 +181,23 @@ export const DoctorsFilter = ({
         />
         <div className="filters-result">
           {isLoading && <FilterResultSkeleton />}
-          {doctorsList ? (
+          {doctorsMeta ? (
             <div className="filters-sort">
               <Typography className="filters-total">
-                Найдено врачей: {doctorsList.meta.pagination.total}
+                Найдено врачей: {doctorsMeta.pagination.total}
               </Typography>
             </div>
           ) : null}
           <FiltersResult
-            doctorsList={doctorsList.data}
+            doctorsList={doctorsList}
             fetching={isFetching}
             error={isError}
           />
-          {doctorsList ? (
+          {doctorsMeta ? (
             <PaginationComponent
               setPage={setPage}
-              page={pageNumber}
-              total={doctorsList.meta.pagination.total}
+              page={pagingValue}
+              total={doctorsMeta.pagination.total}
               limit={DOCTORS_PAGE_LIMIT}
             />
           ) : null}

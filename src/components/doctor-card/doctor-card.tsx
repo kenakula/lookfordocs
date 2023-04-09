@@ -29,7 +29,6 @@ import {
 interface Props {
   data: IDoctor;
   detailedLocation?: boolean;
-  rating?: number;
   shadowed?: boolean;
 }
 
@@ -43,13 +42,12 @@ export const DoctorCard = ({
     languages,
     services,
     clinics,
-    global_services,
+    globalServices,
     reembolso,
     testimonials,
   },
   detailedLocation = false,
   shadowed = false,
-  rating,
 }: Props): JSX.Element => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
@@ -57,6 +55,17 @@ export const DoctorCard = ({
   const dispatch = useAppDispatch();
 
   const doctorName = useMemo(() => capitalizeName(fullName), [fullName]);
+
+  const rating = useMemo(() => {
+    const count = testimonials.length;
+
+    if (!count) {
+      return null;
+    }
+
+    const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
+    return sum === 0 ? 0 : sum / count;
+  }, [testimonials]);
 
   const openRequestForm = () => {
     dispatch(
@@ -92,7 +101,7 @@ export const DoctorCard = ({
                 detaiedLocation={detailedLocation}
               />
             ) : null}
-            {isDesktop && <GlobalServicesList list={global_services} />}
+            {isDesktop && <GlobalServicesList list={globalServices} />}
           </div>
           {!isDesktop && (
             <StyledInfo>
@@ -104,7 +113,7 @@ export const DoctorCard = ({
                 </Typography>
               )}
               <LanguagesList list={languages} />
-              <GlobalServicesList list={global_services} />
+              <GlobalServicesList list={globalServices} />
             </StyledInfo>
           )}
         </DoctorCardInfo>

@@ -3,7 +3,6 @@ import { axiosClient } from '@/stores/assets';
 import {
   DoctorRef,
   IClinic,
-  IClinicsTestimonials,
   IPromoBlockData,
   ITestimonial,
 } from '@/shared/types';
@@ -74,7 +73,7 @@ export const getClinicTestimonials = async (clinicId: string) =>
 
 export const getClinicsTestimonialsRates = async () =>
   axiosClient
-    .get<AxiosResponse<IClinicsTestimonials[]>>('testimonials_clinics', {
+    .get<AxiosResponse<ITestimonial[]>>('testimonials_clinics', {
       params: {
         fields: 'clinics_id.id,testimonials_id.rate',
       },

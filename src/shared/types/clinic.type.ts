@@ -12,11 +12,10 @@ import { ISpecialty } from './specialty.type';
 import { ITestimonial } from './testimonial.type';
 import { IWorkTime } from './work-time.type';
 
-// TODO поправить в апи cities на city
 export interface IClinicAddress {
   id: number;
   address: string;
-  cities: ICity;
+  city: ICity;
 }
 
 export interface IClinic extends StrapiEditionsInfo {

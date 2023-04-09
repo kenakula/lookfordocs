@@ -71,7 +71,7 @@ export const StyledDoctorsCard = styled('div', {
           }
         : {},
 
-      '.doctor-card-language': detailedLocation
+      '.card-languages': detailedLocation
         ? {
             span: {
               ...getTypography(theme, 14, 20),
@@ -269,9 +269,9 @@ export const StyledClinics = styled('div', {
   },
 
   [theme.breakpoints.up('lg')]: {
-    width: '32.21%',
-    borderLeft: `1px solid ${theme.palette.misc.dark}`,
     flexShrink: 0,
+    maxWidth: '32.21%',
+    borderLeft: `1px solid ${theme.palette.misc.dark}`,
     paddingRight: 4,
     paddingTop: 2,
     paddingBottom: 2,

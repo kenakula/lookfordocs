@@ -8,22 +8,15 @@ import { IService } from './service.type';
 import { ISpecialty } from './specialty.type';
 import { ITestimonial } from './testimonial.type';
 
-export type DoctorEducationType =
-  | 'base'
-  | 'internship'
-  | 'ordinator'
-  | 'training'
-  | 'retrainig';
-
 export interface IDoctorNosology {
   group: string;
   list: string;
 }
 
 export interface IDoctorEducation {
-  year: string;
-  type: DoctorEducationType;
-  typeString: string;
+  startYear: string;
+  endYear?: string;
+  type: string;
   specialty: string;
   text: string;
 }
@@ -39,16 +32,9 @@ export interface IDoctor extends StrapiEditionsInfo {
   languages: ILanguage[];
   clinics: IClinic[];
   services: IService[];
-  global_services: IGlobalService[];
-  reembolso?: boolean;
-  nosologies?: IDoctorNosology[];
-  education?: IDoctorEducation[];
+  globalServices: IGlobalService[];
+  nosologies: IDoctorNosology[];
+  reembolso: boolean;
+  education: IDoctorEducation[];
   testimonials: ITestimonial[];
-}
-
-export interface IDoctorsTestimonials {
-  doctors_id: {
-    id: number;
-  };
-  testimonials_id: ITestimonial | null;
 }

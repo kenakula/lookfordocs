@@ -1,9 +1,12 @@
 import Head from 'next/head';
 import { IPageSettings } from '@/shared/types';
 import { getImageUrl } from '@/shared/assets';
+import { ImageSize } from '@/shared/enums';
+
+type PageSeoProps = Omit<IPageSettings, 'slug'>;
 
 interface Props {
-  pageSettings: IPageSettings | null;
+  pageSettings: PageSeoProps;
   siteUrl: string;
 }
 
@@ -28,7 +31,7 @@ export const PageSeo = ({
       <meta property="og:description" content={pageSettings.pageDescription} />
       <meta
         property="og:image"
-        content={getImageUrl(pageSettings.socialImage)}
+        content={getImageUrl(pageSettings.socialImage, ImageSize.Small)}
       />
 
       <meta property="twitter:card" content="summary_large_image" />
@@ -40,7 +43,7 @@ export const PageSeo = ({
       />
       <meta
         property="twitter:image"
-        content={getImageUrl(pageSettings.socialImage)}
+        content={getImageUrl(pageSettings.socialImage, ImageSize.Small)}
       />
     </Head>
   );

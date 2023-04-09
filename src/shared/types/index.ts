@@ -34,6 +34,7 @@ export * from './paging.type';
 export * from './pages.type';
 export * from './image.type';
 export * from './metro.type';
+export * from './color.type';
 export * from './city.type';
 export * from './chip.type';
 export * from './link.type';

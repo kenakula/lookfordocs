@@ -5,11 +5,11 @@ import {
   getAvatarLetters,
   TooltipComponent,
 } from '@/shared/assets';
-import { InsurancesRef } from '@/shared/types';
+import { IInsurance } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 
 interface Props {
-  list: InsurancesRef[];
+  list: IInsurance[];
 }
 
 export const DoctorCardInsurances = ({ list }: Props): JSX.Element => {
@@ -32,7 +32,7 @@ export const DoctorCardInsurances = ({ list }: Props): JSX.Element => {
 
   return (
     <ul className="clinic-insurances">
-      {list.map(({ insurances_id: { id, name } }) => (
+      {list.map(({ id, name }) => (
         <li key={id}>
           <TooltipComponent
             title={capitalize(name)}

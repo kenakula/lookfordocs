@@ -11,6 +11,7 @@ export interface StrapiMeta {
 
 export interface StrapiSingleton<T> {
   data: T;
+  meta?: StrapiMeta;
 }
 
 export interface StrapiCollection<T> {
@@ -19,7 +20,7 @@ export interface StrapiCollection<T> {
 }
 
 export interface StrapiEditionsInfo {
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   publishedAt?: string;
 }

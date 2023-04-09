@@ -14,26 +14,6 @@ export const FiltersResult = ({
   fetching,
   error,
 }: Props): JSX.Element | null => {
-  // const getRate = useCallback(
-  //   (id: number): { rate: number | undefined; count: number | undefined } => {
-  //     const arr = doctorsTestimonials.filter(item => item.doctors_id.id === id);
-
-  //     if (!arr.length) {
-  //       return { rate: undefined, count: undefined };
-  //     }
-
-  //     const sum = arr.reduce((prev, curr) => {
-  //       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  //       const currRate = curr.testimonials_id!.rate;
-
-  //       return prev + currRate;
-  //     }, 0);
-
-  //     return { rate: sum / arr.length, count: arr.length };
-  //   },
-  //   [doctorsTestimonials],
-  // );
-
   if (!doctorsList) {
     return null;
   }
@@ -51,7 +31,7 @@ export const FiltersResult = ({
       <FilterResultList>
         {doctorsList.map(item => (
           <li key={item.id}>
-            <DoctorCard data={item} rating={5} />
+            <DoctorCard data={item} />
           </li>
         ))}
         {fetching && (

@@ -7,8 +7,8 @@ import { useScrollToElement } from '@/shared/hooks';
 
 interface Props {
   rating: number;
-  testimonialsCount?: number;
-  detaiedLocation?: boolean;
+  testimonialsCount: number;
+  detaiedLocation: boolean;
 }
 
 export const DoctorCardRating = ({
@@ -18,13 +18,11 @@ export const DoctorCardRating = ({
 }: Props): JSX.Element => {
   const { scrollToElement } = useScrollToElement('doctor-testimonials');
 
-  const ratingText = testimonialsCount
-    ? `${testimonialsCount} ${numWord(testimonialsCount, [
-        'отзыв',
-        'отзыва',
-        'отзывов',
-      ])}`
-    : '';
+  const ratingText = `${testimonialsCount} ${numWord(testimonialsCount, [
+    'отзыв',
+    'отзыва',
+    'отзывов',
+  ])}`;
 
   if (!detaiedLocation) {
     return (
@@ -45,17 +43,15 @@ export const DoctorCardRating = ({
         showValue
         className="detailed-location"
       />
-      {testimonialsCount ? (
-        <Link
-          href="#doctor-testimonials"
-          onClick={e => {
-            e.preventDefault();
-            scrollToElement();
-          }}
-        >
-          {ratingText}
-        </Link>
-      ) : null}
+      <Link
+        href="#doctor-testimonials"
+        onClick={e => {
+          e.preventDefault();
+          scrollToElement();
+        }}
+      >
+        {ratingText}
+      </Link>
     </StyledDoctorRating>
   );
 };
