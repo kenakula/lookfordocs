@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Typography } from '@mui/material';
 import { WorkTime } from '@/components';
-import { capitalizeName, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
+import { CLINICS_PAGE, getClinicAddress, getImageUrl } from '@/shared/assets';
 import { IClinic } from '@/shared/types';
 import { ImageSize } from '@/shared/enums';
 import { StyledClinicCard } from './styled-components';
@@ -33,8 +33,7 @@ export const ClinicCardAside = ({
       </div>
       {address.map(addr => (
         <Typography key={addr.id} variant="body2" className="clinic-address">
-          {/* TODO вынести в ассетс (повторяется в карточке клиники) */}
-          {`г. ${capitalizeName(addr.city.name)}, ${addr.address}`}
+          {getClinicAddress(addr)}
         </Typography>
       ))}
       {metro && (

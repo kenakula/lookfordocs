@@ -6,7 +6,6 @@ import {
   DOCTORS_PAGE,
   getHighlightedLetters,
   CLINICS_PAGE,
-  HOME_PAGE,
 } from '@/shared/assets';
 import {
   ISmartSearchResult,

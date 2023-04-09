@@ -27,6 +27,20 @@ export const getMainPageTestimonials = () =>
           doctor.image,
           doctor.specialties
         `,
+        filters: {
+          $and: [
+            {
+              reviewed: {
+                $eq: true,
+              },
+            },
+            {
+              showOnMainPage: {
+                $eq: true,
+              },
+            },
+          ],
+        },
       },
     })
     .then(res => res.data.data);

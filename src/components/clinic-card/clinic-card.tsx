@@ -52,20 +52,8 @@ export const ClinicCard = ({
 
   const clinicName = useMemo(() => `Клиника: "${capitalize(name)}"`, [name]);
 
-  const rating = useMemo(() => {
-    // TODO вынести в ассеты (повторяется в карточке врача)
-    const count = testimonials.length;
-
-    if (!count) {
-      return null;
-    }
-
-    const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
-    return sum === 0 ? 0 : sum / count;
-  }, [testimonials]);
-
   const openRequestForm = () => {
-    dispatch(openAppointmentDialog({ name, id, image, type: 'clinic' }));
+    dispatch(openAppointmentDialog({ clinic: data, type: 'clinic' }));
   };
 
   return (
@@ -87,13 +75,10 @@ export const ClinicCard = ({
               url={`${CLINICS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
-            {rating ? (
-              <ClinicCardRating
-                rating={rating}
-                testimonialsCount={testimonials.length}
-                detaiedLocation={detailedLocation}
-              />
-            ) : null}
+            <ClinicCardRating
+              testimonials={testimonials}
+              detaiedLocation={detailedLocation}
+            />
             {isDesktop && globalServices ? (
               <GlobalServicesList list={globalServices} />
             ) : null}

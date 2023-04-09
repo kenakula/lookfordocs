@@ -33,7 +33,11 @@ interface Props {
 }
 
 export const DoctorCard = ({
-  data: {
+  data,
+  detailedLocation = false,
+  shadowed = false,
+}: Props): JSX.Element => {
+  const {
     fullName,
     specialties,
     image,
@@ -45,10 +49,7 @@ export const DoctorCard = ({
     globalServices,
     reembolso,
     testimonials,
-  },
-  detailedLocation = false,
-  shadowed = false,
-}: Props): JSX.Element => {
+  } = data;
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
   const isDesktop = useMediaQuery(Breakpoints.Desktop);
@@ -56,21 +57,8 @@ export const DoctorCard = ({
 
   const doctorName = useMemo(() => capitalizeName(fullName), [fullName]);
 
-  const rating = useMemo(() => {
-    const count = testimonials.length;
-
-    if (!count) {
-      return null;
-    }
-
-    const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
-    return sum === 0 ? 0 : sum / count;
-  }, [testimonials]);
-
   const openRequestForm = () => {
-    dispatch(
-      openAppointmentDialog({ name: doctorName, id, image, type: 'doctor' }),
-    );
+    dispatch(openAppointmentDialog({ doctor: data, type: 'doctor' }));
   };
 
   return (
@@ -94,13 +82,10 @@ export const DoctorCard = ({
               url={`${DOCTORS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
-            {rating ? (
-              <DoctorCardRating
-                rating={rating}
-                testimonialsCount={testimonials.length}
-                detaiedLocation={detailedLocation}
-              />
-            ) : null}
+            <DoctorCardRating
+              testimonials={testimonials}
+              detaiedLocation={detailedLocation}
+            />
             {isDesktop && <GlobalServicesList list={globalServices} />}
           </div>
           {!isDesktop && (
