@@ -7,7 +7,7 @@ import { IImage } from './image.type';
 import { IInsurance } from './insurance.type';
 import { ILanguage } from './language.type';
 import { IMetro } from './metro.type';
-import { IService } from './service.type';
+import { IPrice } from './price.type';
 import { ISpecialty } from './specialty.type';
 import { ITestimonial } from './testimonial.type';
 import { IWorkTime } from './work-time.type';
@@ -33,7 +33,7 @@ export interface IClinic extends StrapiEditionsInfo {
   specialties: ISpecialty[];
   lang: ILanguage[];
   worktime: IWorkTime[];
-  services: IService[];
+  prices: IPrice[];
   longText: string;
   reembolso: boolean;
   testimonials: ITestimonial[];

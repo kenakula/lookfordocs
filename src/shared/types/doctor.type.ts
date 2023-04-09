@@ -4,7 +4,7 @@ import { IGlobalService } from './global-service.type';
 import { IImage } from './image.type';
 import { IInsurance } from './insurance.type';
 import { ILanguage } from './language.type';
-import { IService } from './service.type';
+import { IPrice } from './price.type';
 import { ISpecialty } from './specialty.type';
 import { ITestimonial } from './testimonial.type';
 
@@ -31,7 +31,7 @@ export interface IDoctor extends StrapiEditionsInfo {
   insurances: IInsurance[];
   languages: ILanguage[];
   clinics: IClinic[];
-  services: IService[];
+  prices: IPrice[];
   globalServices: IGlobalService[];
   nosologies: IDoctorNosology[];
   reembolso: boolean;

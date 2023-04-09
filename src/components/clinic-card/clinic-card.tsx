@@ -10,7 +10,7 @@ import {
   GlobalServicesList,
   CardImage,
   LanguagesList,
-  ServicesList,
+  PricesList,
   ButtonComponent,
 } from '@/components';
 import {
@@ -46,7 +46,7 @@ export const ClinicCard = ({
     globalServices,
     lang,
     description,
-    services,
+    prices,
   } = data;
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
@@ -119,11 +119,11 @@ export const ClinicCard = ({
           <StyledText className="clinic-card-text" sx={{ my: 2 }}>
             {description}
           </StyledText>
-          {services && (
+          {prices.length ? (
             <Box sx={{ mb: 2 }}>
-              <ServicesList list={services} />
+              <PricesList list={prices} />
             </Box>
-          )}
+          ) : null}
           {!detailedLocation && (
             <ButtonComponent
               text="Записаться"

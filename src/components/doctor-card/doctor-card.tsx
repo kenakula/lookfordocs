@@ -7,7 +7,7 @@ import {
   CardImage,
   GlobalServicesList,
   LanguagesList,
-  ServicesList,
+  PricesList,
 } from '@/components';
 import { IDoctor } from '@/shared/types';
 import { capitalizeName, DOCTORS_PAGE, getImageUrl } from '@/shared/assets';
@@ -40,7 +40,7 @@ export const DoctorCard = ({
     shortText,
     id,
     languages,
-    services,
+    prices,
     clinics,
     globalServices,
     reembolso,
@@ -134,11 +134,11 @@ export const DoctorCard = ({
           <StyledText className="doctor-card-text" sx={{ mt: 2, mb: 2 }}>
             {shortText}
           </StyledText>
-          {services && (
+          {prices.length ? (
             <StyleSevices>
-              <ServicesList list={services} />
+              <PricesList list={prices} />
             </StyleSevices>
-          )}
+          ) : null}
           {!detailedLocation && (
             <ButtonComponent
               text={detailedLocation ? 'Записаться к врачу' : 'Записаться'}

@@ -28,7 +28,7 @@ export const getDoctorInfo = async (id: string) =>
         nosologies,
         insurances,
         globalServices,
-        prices,
+        prices.currency,
         education,
         testimonials,
         image
@@ -53,7 +53,7 @@ export const getDoctorsList = (
         nosologies,
         insurances,
         globalServices,
-        prices,
+        prices.currency,
         education,
         testimonials,
         image
