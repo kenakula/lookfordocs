@@ -1,26 +1,18 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  IClinic,
-  IDoctor,
-  IGlobalService,
-  IInsurance,
-  ILanguage,
   ISmartSearchResult,
-  ISpecialty,
   SmartSearchLocation,
   SmartSearchStatus,
 } from '@/shared/types';
 import {
-  axiosClient,
-  AxiosResponse,
-  getClinicsFilterString,
-  getDoctorsFilterString,
-  getGlobalServicesFilterString,
-  getInsurancesFilterString,
-  getLanguagesFilterString,
-  getSpecialtiesFilterString,
-} from '../assets';
+  getFilteredClinics,
+  getFilteredDoctors,
+  getFilteredGlobalServices,
+  getFilteredInsurances,
+  getFilteredLanguages,
+  getFilteredSpecialties,
+} from '@/api';
 
 type DirectusError = {
   message: string;
@@ -55,43 +47,12 @@ export const smartSearch = createAsyncThunk<
 
   try {
     const response = await Promise.all([
-      axiosClient.get<AxiosResponse<ISpecialty[]>>('/specialties', {
-        params: {
-          filter: getSpecialtiesFilterString(search),
-          fields: 'id,slug,title',
-        },
-      }),
-      axiosClient.get<AxiosResponse<IDoctor[]>>('/doctors', {
-        params: {
-          filter: getDoctorsFilterString(search),
-          fields: 'id,firstName,lastName,image.*,specialties.specialties_id.*',
-          sort: '-image',
-        },
-      }),
-      axiosClient.get<AxiosResponse<IClinic[]>>('/clinics', {
-        params: {
-          filter: getClinicsFilterString(search),
-          fields: 'id,slug,name,address,image.*',
-        },
-      }),
-      axiosClient.get<AxiosResponse<IInsurance[]>>('/insurances', {
-        params: {
-          filter: getInsurancesFilterString(search),
-          fields: 'id,name,image.*',
-        },
-      }),
-      axiosClient.get<AxiosResponse<IGlobalService[]>>('/globalServices', {
-        params: {
-          filter: getGlobalServicesFilterString(search),
-          fields: 'id,name,slug',
-        },
-      }),
-      axiosClient.get<AxiosResponse<ILanguage[]>>('/languages', {
-        params: {
-          filter: getLanguagesFilterString(search),
-          fields: 'id,name,slug',
-        },
-      }),
+      getFilteredSpecialties(search),
+      getFilteredDoctors(search),
+      getFilteredClinics(search),
+      getFilteredInsurances(search),
+      getFilteredGlobalServices(search),
+      getFilteredLanguages(search),
     ]);
 
     const result: ISmartSearchResult[] = [];
@@ -104,12 +65,12 @@ export const smartSearch = createAsyncThunk<
       languages,
     ] = response;
 
-    result.push({ type: 'specialties', list: specialties.data.data });
-    result.push({ type: 'docs', list: doctors.data.data });
-    result.push({ type: 'clinics', list: clinics.data.data });
-    result.push({ type: 'insurances', list: insurances.data.data });
-    result.push({ type: 'globalService', list: globalServices.data.data });
-    result.push({ type: 'languages', list: languages.data.data });
+    result.push({ type: 'specialties', list: specialties });
+    result.push({ type: 'docs', list: doctors });
+    result.push({ type: 'clinics', list: clinics });
+    result.push({ type: 'insurances', list: insurances });
+    result.push({ type: 'globalService', list: globalServices });
+    result.push({ type: 'languages', list: languages });
 
     return result;
   } catch (error) {

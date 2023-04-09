@@ -7,12 +7,21 @@ export const capitalizeName = (str: string): string =>
 export const getHighlightedLetters = (
   str: string,
   substr: string,
-): JSX.Element => {
-  const capitalizedStr = str
-    .split(' ')
-    .filter(word => word.length)
-    .map(word => capitalize(word))
-    .join(' ');
+  append?: string,
+  capitalizeAll = true,
+): JSX.Element | null => {
+  if (!str) {
+    return null;
+  }
+
+  const capitalizedStr = capitalizeAll
+    ? str
+        .split(' ')
+        .filter(word => word.length)
+        .map(word => capitalize(word))
+        .join(' ')
+    : capitalize(str);
+
   const startIndex = capitalizedStr.toLowerCase().indexOf(substr.toLowerCase());
 
   if (startIndex === -1) {
@@ -32,6 +41,7 @@ export const getHighlightedLetters = (
       <span>{firstPartStr}</span>
       <span className="highlighted">{highlightedStr}</span>
       <span>{lastPartStr}</span>
+      {append ? <span>{` ${append}`}</span> : null}
     </span>
   );
 };

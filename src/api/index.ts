@@ -1,3 +1,4 @@
+export * from './smart-search.api';
 export * from './main-page.api';
 export * from './doctors.api';
 export * from './clinics.api';

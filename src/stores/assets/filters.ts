@@ -1,5 +1,7 @@
 import { ClinicsFilterQuery, DoctorsFilterQuery } from '../types';
 
+// TODO удалить
+
 export const getDoctorsFilterString = (search: string): string => `
   {
     "_or": [
