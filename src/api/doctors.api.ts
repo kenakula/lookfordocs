@@ -19,20 +19,20 @@ export const getDoctorInfo = async (id: string) =>
     .get<StrapiSingleton<IDoctor>>(`doctors/${id}`, {
       params: {
         populate: `
-        clinics.image,
-        clinics.address.city,
-        clinics.metro.color,
-        clinics.insurances,
-        languages.icon,
-        specialties,
-        nosologies,
-        insurances,
-        globalServices,
-        prices.currency,
-        education,
-        testimonials,
-        image
-      `,
+          clinics.image,
+          clinics.address.city,
+          clinics.metro.color,
+          clinics.insurances,
+          languages.icon,
+          specialties,
+          nosologies,
+          insurances,
+          globalServices,
+          prices.currency,
+          education,
+          testimonials,
+          image
+        `,
       },
     })
     .then(res => res.data.data);
@@ -50,11 +50,9 @@ export const getDoctorsList = (
         clinics.insurances,
         languages.icon,
         specialties,
-        nosologies,
         insurances,
         globalServices,
         prices.currency,
-        education,
         testimonials,
         image
       `,

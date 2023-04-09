@@ -1,13 +1,26 @@
 import { useRouter } from 'next/router';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import { getClinicsIds } from '@/api';
-import { DetailedClinicSkeleton, Layout, LayoutSkeleton } from '@/components';
-import { ISiteSettings, StrapiSingleton } from '@/shared/types';
-import { axiosClient } from '@/stores/assets';
+import { ParsedUrlQuery } from 'querystring';
+import { api, getClinicInfo, getClinicsIds } from '@/api';
+import {
+  BreadcrumbsComponent,
+  DetailedClinicPage,
+  DetailedClinicSkeleton,
+  Layout,
+  LayoutSkeleton,
+  PageSeo,
+} from '@/components';
+import { IClinic, ISiteSettings, StrapiSingleton } from '@/shared/types';
+import {
+  CLINICS_PAGE,
+  capitalize,
+  getSeoClinicPageH1,
+  getSeoClinicPageTitle,
+} from '@/shared/assets';
 
-// interface PageParams extends ParsedUrlQuery {
-//   id: string;
-// }
+interface PageParams extends ParsedUrlQuery {
+  id: string;
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await getClinicsIds();
@@ -22,28 +35,32 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 interface Props {
   siteSettings: ISiteSettings;
+  clinicInfo: IClinic;
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  // const clinicId = (params as PageParams).id;
-  const siteSettings = await axiosClient
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+  const clinicId = (params as PageParams).id;
+  const siteSettings = await api
     .get<StrapiSingleton<ISiteSettings>>('site-settings', {
       params: { populate: '*' },
     })
     .then(res => res.data.data);
+  const clinicInfo = await getClinicInfo(clinicId);
 
   return {
     props: {
       siteSettings,
+      clinicInfo,
     },
   };
 };
 
 const ClinicPage = ({
   siteSettings,
+  clinicInfo,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  // const clinicId = typeof router.query?.id === 'string' ? router.query.id : '';
+  // TODO pageKeywords сделать динамичным
 
   if (router.isFallback) {
     return (
@@ -55,19 +72,19 @@ const ClinicPage = ({
 
   if (siteSettings) {
     return (
-      <Layout siteSettings={siteSettings}>
-        {/* <PageSeo
+      <Layout siteSettings={siteSettings} isDetailedPage>
+        <PageSeo
           pageSettings={{
             pageTitle: getSeoClinicPageTitle(clinicInfo.name),
+            h1: getSeoClinicPageH1(clinicInfo.name),
             pageDescription: clinicInfo.description,
             pageKeywords:
               'клиника, португалия, врачи, запись на прием, адрес клиники, метро рядом',
-            slug: 'clinic',
             socialImage: clinicInfo.image,
           }}
           siteUrl={siteSettings.siteUrl}
-        /> */}
-        {/* <BreadcrumbsComponent
+        />
+        <BreadcrumbsComponent
           crumbs={[
             { text: 'Клиники', link: CLINICS_PAGE },
             { text: capitalize(clinicInfo.name) },
@@ -76,7 +93,7 @@ const ClinicPage = ({
         <h1 className="visually-hidden">
           {getSeoClinicPageH1(clinicInfo.name)}
         </h1>
-        <DetailedClinicPage data={clinicInfo} /> */}
+        <DetailedClinicPage data={clinicInfo} />
       </Layout>
     );
   }

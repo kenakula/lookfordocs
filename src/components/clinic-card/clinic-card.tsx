@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { capitalize, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
-import { Breakpoints } from '@/shared/enums';
+import { Breakpoints, ImageSize } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
 import { IClinic } from '@/shared/types';
 import {
@@ -27,26 +27,23 @@ import {
 
 interface Props {
   data: IClinic;
-  rating?: number;
   detailedLocation?: boolean;
-  testimonialsCount?: number;
 }
 
 export const ClinicCard = ({
   data,
-  rating,
   detailedLocation = false,
-  testimonialsCount,
 }: Props): JSX.Element => {
   const {
     id,
     name,
     image,
-    subtitle,
-    globalServices,
-    lang,
-    description,
     prices,
+    subtitle,
+    languages,
+    description,
+    testimonials,
+    globalServices,
   } = data;
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
@@ -54,6 +51,18 @@ export const ClinicCard = ({
   const dispatch = useAppDispatch();
 
   const clinicName = useMemo(() => `Клиника: "${capitalize(name)}"`, [name]);
+
+  const rating = useMemo(() => {
+    // TODO вынести в ассеты (повторяется в карточке врача)
+    const count = testimonials.length;
+
+    if (!count) {
+      return null;
+    }
+
+    const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
+    return sum === 0 ? 0 : sum / count;
+  }, [testimonials]);
 
   const openRequestForm = () => {
     dispatch(openAppointmentDialog({ name, id, image, type: 'clinic' }));
@@ -72,15 +81,16 @@ export const ClinicCard = ({
         <ClinicCardInfo className="clinic-card-info">
           <div className="mobile-image-container">
             <CardImage
+              isClinic
               name={clinicName}
-              imageUrl={getImageUrl(image)}
+              imageUrl={getImageUrl(image, ImageSize.Small)}
               url={`${CLINICS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
             {rating ? (
               <ClinicCardRating
                 rating={rating}
-                testimonialsCount={testimonialsCount}
+                testimonialsCount={testimonials.length}
                 detaiedLocation={detailedLocation}
               />
             ) : null}
@@ -97,7 +107,7 @@ export const ClinicCard = ({
                   <Link href={`${CLINICS_PAGE}/${id}`}>{clinicName}</Link>
                 </Typography>
               )}
-              {lang && lang.length ? <LanguagesList list={lang} /> : null}
+              {languages.length ? <LanguagesList list={languages} /> : null}
               {globalServices && <GlobalServicesList list={globalServices} />}
             </StyledInfo>
           )}
@@ -113,7 +123,7 @@ export const ClinicCard = ({
                   <Link href={`${CLINICS_PAGE}/${id}`}>{clinicName}</Link>
                 </Typography>
               )}
-              {lang && lang.length ? <LanguagesList list={lang} /> : null}
+              {languages.length ? <LanguagesList list={languages} /> : null}
             </StyledInfo>
           )}
           <StyledText className="clinic-card-text" sx={{ my: 2 }}>

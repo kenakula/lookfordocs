@@ -26,13 +26,14 @@ export const DoctorCardClinic = ({
       </div>
       {address.map(addr => (
         <Typography key={addr.id} variant="body2" className="clinic-address">
+          {/* TODO вынести в ассетс (повторяется в карточке клиники) */}
           {`г. ${capitalizeName(addr.city.name)}, ${addr.address}`}
         </Typography>
       ))}
       {metro && (
         <ul className="clinic-metro">
           {metro.map(item => (
-            <li key={item.slug}>
+            <li key={item.name}>
               <Typography
                 variant="caption"
                 sx={{ backgroundColor: item.color.color }}
@@ -42,7 +43,9 @@ export const DoctorCardClinic = ({
           ))}
         </ul>
       )}
-      {insurancesList && <DoctorCardInsurances list={insurancesList} />}
+      {insurancesList.length ? (
+        <DoctorCardInsurances list={insurancesList} />
+      ) : null}
     </StyledClinicCard>
   );
 };

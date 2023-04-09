@@ -1,29 +1,28 @@
 import { useRef, useState } from 'react';
 import { Typography } from '@mui/material';
 import {
-  clearClinicsSearchValue,
-  useAppDispatch,
-  useAppSelector,
-} from '@/stores';
-import { useLazyGetClinicsCountQuery } from '@/stores/api';
-import { ClinicsFilterQuery } from '@/stores/types';
-import {
-  IGlobalService,
-  ISpecialty,
-  IInsurance,
-  ILanguage,
-  IClinicsTestimonials,
-  ISmartSearchQuery,
-} from '@/shared/types';
-import { usePaginationQuery } from '@/shared/hooks';
-import { CLINICS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
-import {
   ButtonComponent,
   SmartSearchInput,
   PaginationComponent,
   FiltersCounter,
   FilterResultSkeleton,
 } from '@/components';
+import {
+  clearClinicsSearchValue,
+  useAppDispatch,
+  useAppSelector,
+} from '@/stores';
+import {
+  IGlobalService,
+  ISpecialty,
+  IInsurance,
+  ILanguage,
+  ISmartSearchQuery,
+  StrapiCollection,
+  IClinic,
+} from '@/shared/types';
+import { CLINICS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
+
 import {
   FiltersBlock,
   StyledFiltersBody,
@@ -33,32 +32,26 @@ import {
 import { useBuildQuery } from './hooks';
 
 interface Props {
-  specialties: ISpecialty[];
+  clinics: StrapiCollection<IClinic>;
   services: IGlobalService[];
+  specialties: ISpecialty[];
   insurances: IInsurance[];
   languages: ILanguage[];
-  clinicsTestimonials: IClinicsTestimonials[];
 }
 
 export const ClinicsFilter = ({
   specialties,
-  services,
   insurances,
   languages,
-  clinicsTestimonials,
+  services,
+  clinics,
 }: Props) => {
   const { filtersCount } = useAppSelector(state => state.clinicsPage);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [searchString, setSearchString] = useState('');
-  const [pagingValue, setPagingValue] = useState(1);
   const topBlockRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
-
-  const { getItemsCount, totalItemsCount } = usePaginationQuery<
-    ClinicsFilterQuery,
-    typeof useLazyGetClinicsCountQuery
-  >(useLazyGetClinicsCountQuery);
 
   const handleOpenMobileFilter = (): void => {
     setMobileFilterOpen(true);
@@ -67,18 +60,21 @@ export const ClinicsFilter = ({
   const {
     runQueryBuilder,
     resetFormValue,
+    setPagingValue,
     setFormValue,
+    pagingValue,
+    clinicsMeta,
     formControl,
     clinicsList,
     isFetching,
     isLoading,
     isError,
   } = useBuildQuery({
-    getItemsCount,
     specialties,
     insurances,
     languages,
     services,
+    clinics,
   });
 
   const resetFilters = (): void => {
@@ -180,10 +176,10 @@ export const ClinicsFilter = ({
         />
         <div className="filters-result">
           {isLoading && <FilterResultSkeleton />}
-          {clinicsList && totalItemsCount ? (
+          {clinicsMeta ? (
             <div className="filters-sort">
               <Typography className="filters-total">
-                Найдено клиник: {totalItemsCount}
+                Найдено клиник: {clinicsMeta.pagination.total}
               </Typography>
             </div>
           ) : null}
@@ -191,13 +187,12 @@ export const ClinicsFilter = ({
             clinicsList={clinicsList}
             fetching={isFetching}
             error={isError}
-            clinicsTestimonials={clinicsTestimonials}
           />
-          {clinicsList && totalItemsCount ? (
+          {clinicsMeta ? (
             <PaginationComponent
               setPage={setPage}
               page={pagingValue}
-              total={totalItemsCount}
+              total={clinicsMeta.pagination.total}
               limit={CLINICS_PAGE_LIMIT}
             />
           ) : null}

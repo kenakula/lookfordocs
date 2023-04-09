@@ -10,17 +10,13 @@ import { useForm } from 'react-hook-form';
 import { object, number, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { setToaster, useAppDispatch, useAppSelector } from '@/stores';
-import {
-  CitiesRef,
-  IImage,
-  TestimonialFormModel,
-  TestimonialType,
-} from '@/shared/types';
+import { IImage, TestimonialFormModel, TestimonialType } from '@/shared/types';
 import { TestimonialModel } from '@/shared/models';
 import { useMutation } from '@tanstack/react-query';
 import { axiosClient } from '@/stores/assets';
 import { getImageUrl } from '@/shared/assets';
 import { StyledDialogBody, StyledRatingWrapper } from './components';
+import { ImageSize } from '@/shared/enums';
 
 interface Props {
   opened: boolean;
@@ -29,7 +25,6 @@ interface Props {
   entityId: number;
   entityName: string;
   entityImage: IImage;
-  city?: CitiesRef;
 }
 
 export const TestimonialDialog = ({
@@ -39,7 +34,6 @@ export const TestimonialDialog = ({
   onClose,
   opened,
   type,
-  city,
 }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const { testimonialsLimit } = useAppSelector(state => state.settings);
@@ -101,16 +95,15 @@ export const TestimonialDialog = ({
     };
 
     if (type === 'doctor') {
-      testimonialData.targetDoctor = [{ doctors_id: entityId }];
+      testimonialData.targetDoctor = [entityId];
     }
 
-    if (type === 'clinic' && city) {
-      testimonialData.targetClinic = [{ clinics_id: entityId }];
-      testimonialData.city = [{ cities_id: city.cities_id.id }];
+    if (type === 'clinic') {
+      testimonialData.targetClinic = [entityId];
     }
 
     if (type === 'insurance') {
-      testimonialData.targetInsurance = [{ insurances_id: entityId }];
+      testimonialData.targetInsurance = [entityId];
     }
 
     try {
@@ -140,7 +133,7 @@ export const TestimonialDialog = ({
       openState={opened}
       onClose={onClose}
       title={entityName}
-      imageUrl={getImageUrl(entityImage, entityName)}
+      imageUrl={getImageUrl(entityImage, ImageSize.Small)}
     >
       <StyledDialogBody action="#" onSubmit={handleSubmit(onSubmit)}>
         <InputComponent
