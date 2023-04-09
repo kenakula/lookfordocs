@@ -39,7 +39,12 @@ export const TestimonialDialog = ({
   const { testimonialsLimit } = useAppSelector(state => state.settings);
 
   const { isLoading, mutateAsync: saveTestimonial } = useMutation({
-    mutationFn: (data: TestimonialModel) => api.post('testimonials', data),
+    mutationFn: (data: TestimonialModel) =>
+      api.post<{ data: TestimonialModel }>('testimonials', {
+        data: {
+          ...data,
+        },
+      }),
   });
 
   const formSchema = useMemo(
@@ -88,21 +93,21 @@ export const TestimonialDialog = ({
       date: new Date(),
       author: data.name,
       rate: data.rate,
-      targetDoctor: undefined,
-      targetClinic: undefined,
-      targetInsurance: undefined,
+      doctor: undefined,
+      clinic: undefined,
+      insurance: undefined,
     };
 
     if (type === 'doctor') {
-      testimonialData.targetDoctor = [entityId];
+      testimonialData.doctor = [entityId];
     }
 
     if (type === 'clinic') {
-      testimonialData.targetClinic = [entityId];
+      testimonialData.clinic = [entityId];
     }
 
     if (type === 'insurance') {
-      testimonialData.targetInsurance = [entityId];
+      testimonialData.insurance = [entityId];
     }
 
     try {

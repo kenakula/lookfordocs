@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Skeleton } from '@mui/material';
+import { useMemo, useState } from 'react';
 import { TestimonialDialog } from '@/components';
 import { IDoctor } from '@/shared/types';
 import {
@@ -39,6 +38,12 @@ export const DetailedInfo = ({
     setTestimonialDialogOpen(false);
   };
 
+  // TODO брать отзывы api
+
+  const filteredTestimonials = useMemo(() => {
+    return testimonials.slice().filter(value => Boolean(value.reviewed));
+  }, [testimonials]);
+
   return (
     <StyledDetailedInfo>
       {longText && (
@@ -53,14 +58,10 @@ export const DetailedInfo = ({
         </StyledDetailInfoBlock>
       )}
 
-      {testimonials ? (
-        <DetialedDoctorTestimonials
-          testimonials={testimonials}
-          openDialog={handleOpenTestimonialsDialog}
-        />
-      ) : (
-        <Skeleton height={300} />
-      )}
+      <DetialedDoctorTestimonials
+        testimonials={filteredTestimonials}
+        openDialog={handleOpenTestimonialsDialog}
+      />
 
       {nosologies.length ? (
         <StyledDetailInfoBlock className="detailed-info-block">

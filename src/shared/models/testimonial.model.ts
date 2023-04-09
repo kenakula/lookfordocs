@@ -6,7 +6,7 @@ export interface TestimonialModel {
   author: string;
   comment: string;
   rate: number;
-  targetDoctor?: number[];
-  targetClinic?: number[];
-  targetInsurance?: number[];
+  doctor?: number[];
+  clinic?: number[];
+  insurance?: number[];
 }

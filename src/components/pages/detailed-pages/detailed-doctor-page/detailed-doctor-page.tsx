@@ -1,7 +1,7 @@
 import { Box, useMediaQuery } from '@mui/material';
 import { ButtonComponent, ContainerComponent, DoctorCard } from '@/components';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
-import { capitalizeName, DetailedPageLayout } from '@/shared/assets';
+import { DetailedPageLayout } from '@/shared/assets';
 import { IDoctor } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { DetailedDoctorClinics, DetailedInfo } from './components';
@@ -13,14 +13,11 @@ interface Props {
 export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
   const dispatch = useAppDispatch();
-  const doctorName = capitalizeName(data.fullName);
 
   const openRequestForm = () => {
     dispatch(
       openAppointmentDialog({
-        name: doctorName,
-        id: data.id,
-        image: data.image,
+        doctor: data,
         type: 'doctor',
       }),
     );

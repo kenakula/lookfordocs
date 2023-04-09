@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { CircularProgress, Typography } from '@mui/material';
 import { getClinicDoctors } from '@/api';
 import {
@@ -32,6 +32,10 @@ export const DetailedInfo = ({
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const blockRef = useRef<HTMLDivElement>(null);
+
+  const filteredTestimonials = useMemo(() => {
+    return testimonials.slice().filter(value => Boolean(value.reviewed));
+  }, [testimonials]);
 
   const setPage = (page: number) => {
     setTimeout(() => {
@@ -125,7 +129,7 @@ export const DetailedInfo = ({
       >
         <StyledDetailInfoBlockHeader className="detailed-info-header">
           <StyledDetailInfoTitle variant="h3">Отзывы</StyledDetailInfoTitle>
-          {testimonials && testimonials.length ? (
+          {filteredTestimonials.length ? (
             <ButtonComponent
               text="Оставить отзыв"
               variant="outlined"
@@ -135,7 +139,7 @@ export const DetailedInfo = ({
           ) : null}
         </StyledDetailInfoBlockHeader>
         <TestimonialsList
-          testimonials={testimonials}
+          testimonials={filteredTestimonials}
           openTestimonialDialog={handleOpenTestimonialsDialog}
         />
       </StyledDetailInfoBlock>

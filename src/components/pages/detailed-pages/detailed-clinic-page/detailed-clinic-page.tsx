@@ -20,9 +20,7 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
   const openRequestForm = () => {
     dispatch(
       openAppointmentDialog({
-        name: clinicName,
-        id: data.id,
-        image: data.image,
+        clinic: data,
         type: 'clinic',
       }),
     );

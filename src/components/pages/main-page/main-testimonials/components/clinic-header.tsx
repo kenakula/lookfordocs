@@ -1,5 +1,5 @@
 import { Avatar, Typography } from '@mui/material';
-import { capitalizeName, getImageUrl } from '@/shared/assets';
+import { getClinicAddress, getImageUrl } from '@/shared/assets';
 import { IClinic } from '@/shared/types';
 import { ImageSize } from '@/shared/enums';
 
@@ -17,9 +17,11 @@ export const ClinicHeader = ({
         <Typography variant="h3" className="card-title">
           {name}
         </Typography>
-        <Typography variant="body1" className="card-subtitle">
-          {`г. ${capitalizeName(address[0].city.name)}`}
-        </Typography>
+        {address.map(addr => (
+          <Typography key={addr.id} variant="body1" className="card-subtitle">
+            {getClinicAddress(addr)}
+          </Typography>
+        ))}
       </div>
     </header>
   );

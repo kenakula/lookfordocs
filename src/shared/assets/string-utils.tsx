@@ -1,3 +1,5 @@
+import { IClinicAddress } from '../types';
+
 export const capitalize = (str: string): string =>
   str[0].toUpperCase() + str.slice(1);
 
@@ -78,3 +80,6 @@ export const getAvatarLetters = (str: string): string => {
     .join('')
     .toUpperCase();
 };
+
+export const getClinicAddress = (address: IClinicAddress): string =>
+  `г. ${capitalizeName(address.city.name)}, ${address.address}`;
