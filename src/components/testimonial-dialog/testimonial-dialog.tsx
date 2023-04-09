@@ -13,10 +13,10 @@ import { setToaster, useAppDispatch, useAppSelector } from '@/stores';
 import { IImage, TestimonialFormModel, TestimonialType } from '@/shared/types';
 import { TestimonialModel } from '@/shared/models';
 import { useMutation } from '@tanstack/react-query';
-import { axiosClient } from '@/stores/assets';
 import { getImageUrl } from '@/shared/assets';
 import { StyledDialogBody, StyledRatingWrapper } from './components';
 import { ImageSize } from '@/shared/enums';
+import { api } from '@/api';
 
 interface Props {
   opened: boolean;
@@ -39,8 +39,7 @@ export const TestimonialDialog = ({
   const { testimonialsLimit } = useAppSelector(state => state.settings);
 
   const { isLoading, mutateAsync: saveTestimonial } = useMutation({
-    mutationFn: (data: TestimonialModel) =>
-      axiosClient.post('testimonials', data),
+    mutationFn: (data: TestimonialModel) => api.post('testimonials', data),
   });
 
   const formSchema = useMemo(

@@ -12,7 +12,6 @@ import {
   MainTestimonials,
   PageSeo,
 } from '@/components';
-import { axiosClient } from '@/stores/assets';
 import {
   IInsurance,
   IMainPageData,
@@ -20,9 +19,15 @@ import {
   ISiteSettings,
   ISpecialty,
   ITestimonial,
-  StrapiCollection,
-  StrapiSingleton,
 } from '@/shared/types';
+import {
+  getInsurances,
+  getMainPageData,
+  getMainPageTestimonials,
+  getPageSettings,
+  getSiteSettings,
+  getSpecialties,
+} from '@/api';
 
 const PAGE_SLUG = 'main';
 
@@ -36,66 +41,12 @@ interface Props {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const siteSettings = await axiosClient
-    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
-      params: { populate: '*' },
-    })
-    .then(res => res.data.data);
-  const pageSettings = await axiosClient
-    .get<StrapiCollection<IPageSettings>>('pages', {
-      params: {
-        filters: {
-          slug: {
-            $eq: PAGE_SLUG,
-          },
-        },
-        populate: '*',
-      },
-    })
-    .then(res => res.data);
-  const mainPageData = await axiosClient<StrapiSingleton<IMainPageData>>(
-    'main-page',
-    {
-      params: {
-        populate: 'promo,appointment,services.image,advantages.image',
-      },
-    },
-  ).then(res => res.data.data);
-  const popularSpecialties = await axiosClient<StrapiCollection<ISpecialty>>(
-    'specialties',
-    {
-      params: {
-        populate: '*',
-        filters: {
-          popular: {
-            $eq: true,
-          },
-        },
-      },
-    },
-  ).then(res => res.data.data);
-  const insurances = await axiosClient<StrapiCollection<IInsurance>>(
-    'insurances',
-    {
-      params: {
-        populate: '*',
-      },
-    },
-  ).then(res => res.data.data);
-  const testimonials = await axiosClient<StrapiCollection<ITestimonial>>(
-    'testimonials',
-    {
-      params: {
-        populate: `
-          clinic.image,
-          clinic.address,
-          clinic.address.city,
-          doctor.image,
-          doctor.specialties
-        `,
-      },
-    },
-  ).then(res => res.data.data);
+  const siteSettings = await getSiteSettings();
+  const pageSettings = await getPageSettings(PAGE_SLUG);
+  const mainPageData = await getMainPageData();
+  const popularSpecialties = await getSpecialties(true);
+  const insurances = await getInsurances();
+  const testimonials = await getMainPageTestimonials();
 
   return {
     props: {
@@ -104,7 +55,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       testimonials,
       siteSettings,
       popularSpecialties,
-      pageSettings: pageSettings.data[0],
+      pageSettings,
     },
   };
 };

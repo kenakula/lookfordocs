@@ -21,7 +21,6 @@ export * from './prices-list/prices-list';
 export * from './doctor-card/doctor-card';
 export * from './clinic-card/clinic-card';
 export * from './page-result/page-result';
-export * from './user-avatar/user-avatar';
 export * from './card-image/card-image';
 export * from './pages/detailed-pages';
 export * from './pages/doctors-page';

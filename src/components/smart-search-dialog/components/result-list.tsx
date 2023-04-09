@@ -46,11 +46,7 @@ export const ResultList = ({
       return CLINICS_PAGE;
     }
 
-    if (smartSearchLocation === 'doctors') {
-      return DOCTORS_PAGE;
-    }
-
-    return HOME_PAGE;
+    return DOCTORS_PAGE;
   }, [smartSearchLocation]);
 
   const closeSearchBox = (): void => {

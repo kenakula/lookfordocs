@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { api } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
-import { axiosClient } from '@/stores/assets';
 import { getImageUrl } from '@/shared/assets';
 import {
   ButtonComponent,
@@ -20,7 +20,7 @@ export const AppointmentDialog = (): JSX.Element => {
   const { dialogOpen, target } = useAppSelector(state => state.appointment);
   const dispatch = useAppDispatch();
   const { isLoading, mutateAsync: sendRequest } = useMutation({
-    mutationFn: (data: RequestFormModel) => axiosClient.post('requests', data),
+    mutationFn: (data: RequestFormModel) => api.post('requests', data),
   });
 
   const { handleSubmit, control, formState, reset, setValue } =
@@ -69,7 +69,7 @@ export const AppointmentDialog = (): JSX.Element => {
       openState={dialogOpen}
       onClose={closeDialog}
       title={target ? target.name : 'Заполните данные'}
-      imageUrl={target ? getImageUrl(target.image, target.name) : undefined}
+      imageUrl={target ? getImageUrl(target.image) : undefined}
     >
       <StyledAppointmentForm
         className="appointment-form"

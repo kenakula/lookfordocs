@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { api, getClinicInfo, getClinicsIds } from '@/api';
+import { getClinicInfo, getClinicsIds, getSiteSettings } from '@/api';
 import {
   BreadcrumbsComponent,
   DetailedClinicPage,
@@ -10,10 +10,11 @@ import {
   LayoutSkeleton,
   PageSeo,
 } from '@/components';
-import { IClinic, ISiteSettings, StrapiSingleton } from '@/shared/types';
+import { IClinic, ISiteSettings } from '@/shared/types';
 import {
   CLINICS_PAGE,
   capitalize,
+  getSeoClinicKeywords,
   getSeoClinicPageH1,
   getSeoClinicPageTitle,
 } from '@/shared/assets';
@@ -40,11 +41,8 @@ interface Props {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const clinicId = (params as PageParams).id;
-  const siteSettings = await api
-    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
-      params: { populate: '*' },
-    })
-    .then(res => res.data.data);
+
+  const siteSettings = await getSiteSettings();
   const clinicInfo = await getClinicInfo(clinicId);
 
   return {
@@ -60,7 +58,6 @@ const ClinicPage = ({
   clinicInfo,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  // TODO pageKeywords сделать динамичным
 
   if (router.isFallback) {
     return (
@@ -78,8 +75,11 @@ const ClinicPage = ({
             pageTitle: getSeoClinicPageTitle(clinicInfo.name),
             h1: getSeoClinicPageH1(clinicInfo.name),
             pageDescription: clinicInfo.description,
-            pageKeywords:
-              'клиника, португалия, врачи, запись на прием, адрес клиники, метро рядом',
+            pageKeywords: getSeoClinicKeywords(
+              clinicInfo.name,
+              clinicInfo.address,
+              clinicInfo.specialties,
+            ),
             socialImage: clinicInfo.image,
           }}
           siteUrl={siteSettings.siteUrl}

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { getDoctorInfo, getDoctorsIds, api } from '@/api';
+import { getDoctorInfo, getDoctorsIds, getSiteSettings } from '@/api';
 import {
   BreadcrumbsComponent,
   DetailedDoctorPage,
@@ -10,10 +10,11 @@ import {
   LayoutSkeleton,
   PageSeo,
 } from '@/components';
-import { IDoctor, ISiteSettings, StrapiSingleton } from '@/shared/types';
+import { IDoctor, ISiteSettings } from '@/shared/types';
 import {
   DOCTORS_PAGE,
   capitalizeName,
+  getSeoDoctorKeywords,
   getSeoDoctorPageH1,
   getSeoDoctorPageTitle,
 } from '@/shared/assets';
@@ -41,19 +42,8 @@ interface Props {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const docId = (params as PageParams).id;
 
-  // TODO заменить на методы из api
-  const siteSettings = await api
-    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
-      params: { populate: '*' },
-    })
-    .then(res => res.data.data);
+  const siteSettings = await getSiteSettings();
   const doctorInfo = await getDoctorInfo(docId);
-
-  if (!doctorInfo) {
-    return {
-      notFound: true,
-    };
-  }
 
   return {
     props: {
@@ -68,7 +58,6 @@ const DoctorPage = ({
   doctorInfo,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  // TODO pageKeywords сделать динамичным
 
   if (router.isFallback) {
     return (
@@ -87,8 +76,10 @@ const DoctorPage = ({
             h1: getSeoDoctorPageH1(doctorInfo.fullName),
             socialImage: doctorInfo.image,
             pageDescription: doctorInfo.shortText ?? '',
-            pageKeywords:
-              'врач, записаться на прием, описание врача, специальности врача, что лечит врач, вызвать врача на дом',
+            pageKeywords: getSeoDoctorKeywords(
+              doctorInfo.fullName,
+              doctorInfo.specialties,
+            ),
           }}
           siteUrl={siteSettings.siteUrl}
         />

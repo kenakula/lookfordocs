@@ -1,4 +1,17 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
+import {
+  getDoctorsList,
+  getSiteSettings,
+  getPageSettings,
+  getDoctorsPageData,
+  getSpecialties,
+  getInsurances,
+  getGlobalServices,
+  getLanguages,
+  getCities,
+  getClinics,
+} from '@/api';
 import {
   BreadcrumbsComponent,
   DoctorsFilter,
@@ -8,12 +21,9 @@ import {
   PageSeo,
   Promo,
 } from '@/components';
-import { useRouter } from 'next/router';
-import { getDoctorsList, api } from '@/api';
 import {
   ISiteSettings,
   IPageSettings,
-  StrapiSingleton,
   StrapiCollection,
   IDoctorsPageData,
   ISpecialty,
@@ -46,52 +56,16 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
   query,
 }) => {
   const pageQuery = query as DoctorsFilterQuery;
-  const siteSettings = await api
-    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
-      params: { populate: '*' },
-    })
-    .then(res => res.data.data);
-  const pageSettings = await api
-    .get<StrapiCollection<IPageSettings>>('pages', {
-      params: {
-        filters: {
-          slug: {
-            $eq: PAGE_SLUG,
-          },
-        },
-        populate: '*',
-      },
-    })
-    .then(res => res.data);
-  const promoData = await api
-    .get<StrapiSingleton<IDoctorsPageData>>('doctors-page', {
-      params: {
-        populate: 'promo.chips',
-      },
-    })
-    .then(res => res.data.data);
-  const specialties = await api
-    .get<StrapiCollection<ISpecialty>>('specialties', {
-      params: {
-        sort: 'popular:desc',
-      },
-    })
-    .then(res => res.data.data);
-  const insurances = await api
-    .get<StrapiCollection<IInsurance>>('insurances')
-    .then(res => res.data.data);
-  const globalServices = await api
-    .get<StrapiCollection<IGlobalService>>('global-services')
-    .then(res => res.data.data);
-  const languages = await api
-    .get<StrapiCollection<ILanguage>>('languages')
-    .then(res => res.data.data);
-  const cities = await api
-    .get<StrapiCollection<ICity>>('cities')
-    .then(res => res.data.data);
-  const clinics = await api
-    .get<StrapiCollection<IClinic>>('clinics')
-    .then(res => res.data.data);
+
+  const siteSettings = await getSiteSettings();
+  const pageSettings = await getPageSettings(PAGE_SLUG);
+  const promoData = await getDoctorsPageData();
+  const specialties = await getSpecialties();
+  const insurances = await getInsurances();
+  const globalServices = await getGlobalServices();
+  const languages = await getLanguages();
+  const cities = await getCities();
+  const clinics = await getClinics();
   const doctors = await getDoctorsList(
     {
       page: 1,
@@ -99,12 +73,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
     },
     pageQuery,
   );
-
-  if (!doctors) {
-    return {
-      notFound: true,
-    };
-  }
 
   return {
     props: {
@@ -117,7 +85,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
       specialties,
       siteSettings,
       globalServices,
-      pageSettings: pageSettings.data[0],
+      pageSettings,
     },
   };
 };

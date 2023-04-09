@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { getSiteSettings, getPageSettings } from '@/api';
 import {
   ContainerComponent,
   Layout,
@@ -7,13 +8,7 @@ import {
   PageSeo,
 } from '@/components';
 import { Title } from '@/shared/assets';
-import {
-  ISiteSettings,
-  IPageSettings,
-  StrapiSingleton,
-  StrapiCollection,
-} from '@/shared/types';
-import { axiosClient } from '@/stores/assets';
+import { ISiteSettings, IPageSettings } from '@/shared/types';
 
 const PAGE_SLUG = 'privacy-policy';
 
@@ -23,28 +18,13 @@ interface Props {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const siteSettings = await axiosClient
-    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
-      params: { populate: '*' },
-    })
-    .then(res => res.data.data);
-  const pageSettings = await axiosClient
-    .get<StrapiCollection<IPageSettings>>('pages', {
-      params: {
-        filters: {
-          slug: {
-            $eq: PAGE_SLUG,
-          },
-        },
-        populate: '*',
-      },
-    })
-    .then(res => res.data);
+  const siteSettings = await getSiteSettings();
+  const pageSettings = await getPageSettings(PAGE_SLUG);
 
   return {
     props: {
       siteSettings,
-      pageSettings: pageSettings.data[0],
+      pageSettings,
     },
   };
 };

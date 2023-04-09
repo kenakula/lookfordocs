@@ -1,5 +1,6 @@
 import { ContainerComponent } from '@/components';
 import { getImageUrl, Subtitle } from '@/shared/assets';
+import { ImageSize } from '@/shared/enums';
 import { IImage } from '@/shared/types';
 import { styled } from '@mui/material';
 import Image from 'next/image';
@@ -50,7 +51,7 @@ export const UnderConstructionPage = ({
         <Subtitle textAlign="center">Страница находится в разработке</Subtitle>
         <div className="image-wrapper">
           <Image
-            src={getImageUrl(image, 'under-construction')}
+            src={getImageUrl(image, ImageSize.Medium)}
             width={270}
             height={270}
             alt=""

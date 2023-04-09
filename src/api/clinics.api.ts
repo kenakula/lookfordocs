@@ -94,7 +94,7 @@ export const getClinicsList = (
         $and: [
           {
             name: {
-              $contains: query && query.name,
+              $containsi: query && query.name,
             },
           },
           {
