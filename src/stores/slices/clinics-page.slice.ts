@@ -1,21 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICity, IInsurance } from '@/shared/types';
-import { ClinicsFilterQuery } from '../types';
 
 interface ClinicsPageState {
   searshString: string;
   filtersCount: number;
-  filterQuery: ClinicsFilterQuery;
-  cities: ICity[];
-  insurances: IInsurance[];
 }
 
 const initialState: ClinicsPageState = {
   searshString: '',
   filtersCount: 0,
-  filterQuery: {},
-  cities: [],
-  insurances: [],
 };
 
 export const clinicsPageSlice = createSlice({

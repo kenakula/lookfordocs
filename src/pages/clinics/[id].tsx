@@ -1,8 +1,6 @@
-import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
-import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
-import { capitalize } from '@mui/material';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 import { getClinicInfo, getClinicsIds, getSiteSettings } from '@/api';
 import {
   BreadcrumbsComponent,
@@ -12,8 +10,11 @@ import {
   LayoutSkeleton,
   PageSeo,
 } from '@/components';
+import { IClinic, ISiteSettings } from '@/shared/types';
 import {
   CLINICS_PAGE,
+  capitalize,
+  getSeoClinicKeywords,
   getSeoClinicPageH1,
   getSeoClinicPageTitle,
 } from '@/shared/assets';
@@ -33,40 +34,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const clinicId = (params as PageParams).id;
-  const queryClient = new QueryClient();
+interface Props {
+  siteSettings: ISiteSettings;
+  clinicInfo: IClinic;
+}
 
-  await queryClient.prefetchQuery(['fetchClinic', clinicId], () =>
-    getClinicInfo(clinicId),
-  );
-  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+  const clinicId = (params as PageParams).id;
+
+  const siteSettings = await getSiteSettings();
+  const clinicInfo = await getClinicInfo(clinicId);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      siteSettings,
+      clinicInfo,
     },
   };
 };
 
-const ClinicPage = (): JSX.Element => {
+const ClinicPage = ({
+  siteSettings,
+  clinicInfo,
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  const clinicId = typeof router.query?.id === 'string' ? router.query.id : '';
-
-  const [{ data: siteSettings }, { data: clinicInfo }] = useQueries({
-    queries: [
-      {
-        queryKey: ['siteSettings'],
-        queryFn: getSiteSettings,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['fetchClinic', clinicId],
-        queryFn: () => getClinicInfo(clinicId),
-        staleTime: Infinity,
-      },
-    ],
-  });
 
   if (router.isFallback) {
     return (
@@ -76,16 +67,19 @@ const ClinicPage = (): JSX.Element => {
     );
   }
 
-  if (clinicInfo && siteSettings) {
+  if (siteSettings) {
     return (
-      <Layout siteSettings={siteSettings}>
+      <Layout siteSettings={siteSettings} isDetailedPage>
         <PageSeo
           pageSettings={{
             pageTitle: getSeoClinicPageTitle(clinicInfo.name),
+            h1: getSeoClinicPageH1(clinicInfo.name),
             pageDescription: clinicInfo.description,
-            pageKeywords:
-              'клиника, португалия, врачи, запись на прием, адрес клиники, метро рядом',
-            slug: 'clinic',
+            pageKeywords: getSeoClinicKeywords(
+              clinicInfo.name,
+              clinicInfo.address,
+              clinicInfo.specialties,
+            ),
             socialImage: clinicInfo.image,
           }}
           siteUrl={siteSettings.siteUrl}

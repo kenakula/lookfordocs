@@ -2,15 +2,15 @@ import { useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
-import { capitalize, CLINICS_PAGE } from '@/shared/assets';
-import { Breakpoints } from '@/shared/enums';
+import { capitalize, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
+import { Breakpoints, ImageSize } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
 import { IClinic } from '@/shared/types';
 import {
   GlobalServicesList,
   CardImage,
   LanguagesList,
-  ServicesList,
+  PricesList,
   ButtonComponent,
 } from '@/components';
 import {
@@ -27,26 +27,23 @@ import {
 
 interface Props {
   data: IClinic;
-  rating?: number;
   detailedLocation?: boolean;
-  testimonialsCount?: number;
 }
 
 export const ClinicCard = ({
   data,
-  rating,
   detailedLocation = false,
-  testimonialsCount,
 }: Props): JSX.Element => {
   const {
     id,
     name,
     image,
+    prices,
     subtitle,
-    globalServices,
-    lang,
+    languages,
     description,
-    services,
+    testimonials,
+    globalServices,
   } = data;
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
@@ -56,7 +53,7 @@ export const ClinicCard = ({
   const clinicName = useMemo(() => `Клиника: "${capitalize(name)}"`, [name]);
 
   const openRequestForm = () => {
-    dispatch(openAppointmentDialog({ name, id, image, type: 'clinic' }));
+    dispatch(openAppointmentDialog({ clinic: data, type: 'clinic' }));
   };
 
   return (
@@ -72,18 +69,16 @@ export const ClinicCard = ({
         <ClinicCardInfo className="clinic-card-info">
           <div className="mobile-image-container">
             <CardImage
+              isClinic
               name={clinicName}
-              imageId={image.id}
+              imageUrl={getImageUrl(image, ImageSize.Small)}
               url={`${CLINICS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
-            {rating ? (
-              <ClinicCardRating
-                rating={rating}
-                testimonialsCount={testimonialsCount}
-                detaiedLocation={detailedLocation}
-              />
-            ) : null}
+            <ClinicCardRating
+              testimonials={testimonials}
+              detaiedLocation={detailedLocation}
+            />
             {isDesktop && globalServices ? (
               <GlobalServicesList list={globalServices} />
             ) : null}
@@ -97,7 +92,7 @@ export const ClinicCard = ({
                   <Link href={`${CLINICS_PAGE}/${id}`}>{clinicName}</Link>
                 </Typography>
               )}
-              {lang && lang.length ? <LanguagesList list={lang} /> : null}
+              {languages.length ? <LanguagesList list={languages} /> : null}
               {globalServices && <GlobalServicesList list={globalServices} />}
             </StyledInfo>
           )}
@@ -113,17 +108,17 @@ export const ClinicCard = ({
                   <Link href={`${CLINICS_PAGE}/${id}`}>{clinicName}</Link>
                 </Typography>
               )}
-              {lang && lang.length ? <LanguagesList list={lang} /> : null}
+              {languages.length ? <LanguagesList list={languages} /> : null}
             </StyledInfo>
           )}
           <StyledText className="clinic-card-text" sx={{ my: 2 }}>
             {description}
           </StyledText>
-          {services && (
+          {prices.length ? (
             <Box sx={{ mb: 2 }}>
-              <ServicesList list={services} />
+              <PricesList list={prices} />
             </Box>
-          )}
+          ) : null}
           {!detailedLocation && (
             <ButtonComponent
               text="Записаться"

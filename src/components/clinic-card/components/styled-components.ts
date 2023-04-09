@@ -83,7 +83,7 @@ export const ClinicCardInfo = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(1.5),
 
   '.mobile-image-container': {
-    width: '36.6%',
+    width: '40%',
     flexShrink: 0,
   },
 
@@ -274,7 +274,7 @@ export const StyledClinicCard = styled('div', {
     listStyle: 'none',
     margin: 0,
     marginTop: 'auto',
-    padding: theme.spacing(2, 0, 0, 0),
+    padding: 0,
 
     li: {
       cursor: 'pointer',

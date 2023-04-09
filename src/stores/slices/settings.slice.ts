@@ -9,7 +9,7 @@ const initialState: SettingsState = {
 };
 
 export const settingsSlice = createSlice({
-  name: 'toaster',
+  name: 'settings',
   initialState,
   reducers: {
     setTestimonialsLimit: (state, { payload }: PayloadAction<number>) => {

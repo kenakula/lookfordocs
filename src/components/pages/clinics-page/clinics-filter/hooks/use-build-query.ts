@@ -12,23 +12,24 @@ import {
   setClinicsFiltersCount,
   useAppDispatch,
 } from '@/stores';
-import { ClinicsFilterQuery } from '@/stores/types';
-import { useLazyGetClinicsListQuery } from '@/stores/api';
 import {
   ClinicsFilterFormModel,
+  ClinicsFilterQuery,
   FilterGroupValue,
   IClinic,
   IGlobalService,
   IInsurance,
   ILanguage,
   ISpecialty,
+  StrapiCollection,
+  StrapiMeta,
 } from '@/shared/types';
 import {
   CLINICS_PAGE,
   CLINICS_PAGE_LIMIT,
   getFilterValues,
 } from '@/shared/assets';
-import { usePageQuery } from '@/shared/hooks';
+import { useClinicsPageQuery } from '@/shared/hooks';
 
 interface HookValue {
   runQueryBuilder: (nameString?: string, pageNumber?: number) => void;
@@ -37,16 +38,18 @@ interface HookValue {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formControl: Control<ClinicsFilterFormModel, any>;
   clinicsList: IClinic[] | undefined;
-  query: ClinicsFilterQuery;
+  clinicsMeta: StrapiMeta | null;
+  query?: ClinicsFilterQuery;
   searchString: string;
   isFetching: boolean;
   pagingValue: number;
+  setPagingValue: (value: number) => void;
   isLoading: boolean;
   isError: boolean;
 }
 
 interface HookProps {
-  getItemsCount: (queryObj: ClinicsFilterQuery) => void;
+  clinics: StrapiCollection<IClinic>;
   services: IGlobalService[];
   specialties: ISpecialty[];
   insurances: IInsurance[];
@@ -54,22 +57,20 @@ interface HookProps {
 }
 
 export const useBuildQuery = ({
-  getItemsCount,
   specialties,
   insurances,
   languages,
   services,
+  clinics,
 }: HookProps): HookValue => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [searchString, setSearchString] = useState('');
   const [pagingValue, setPagingValue] = useState(1);
-  const { data, isLoading, isError, query, fetchDoctors, isFetching } =
-    usePageQuery<
-      IClinic,
-      ClinicsFilterQuery,
-      typeof useLazyGetClinicsListQuery
-    >(useLazyGetClinicsListQuery, CLINICS_PAGE_LIMIT);
+
+  const { data, isLoading, isError, query, fetchClinics, isFetching } =
+    useClinicsPageQuery(clinics, CLINICS_PAGE_LIMIT);
+
   const { control, getValues, setValue, reset } =
     useForm<ClinicsFilterFormModel>({
       defaultValues: {
@@ -81,23 +82,23 @@ export const useBuildQuery = ({
     });
 
   useEffect(() => {
-    if (query.specialty) {
+    if (query && query.specialty) {
       setValue('specialties', getFilterValues(specialties, query.specialty));
     }
 
-    if (query.service) {
+    if (query && query.service) {
       setValue('services', getFilterValues(services, query.service));
     }
 
-    if (query.insurance) {
+    if (query && query.insurance) {
       setValue('insurances', getFilterValues(insurances, query.insurance));
     }
 
-    if (query.lang) {
+    if (query && query.lang) {
       setValue('languages', getFilterValues(languages, query.lang));
     }
 
-    if (query.name) {
+    if (query && query.name) {
       dispatch(searchFieldInput(query.name));
       setSearchString(query.name);
     }
@@ -107,6 +108,7 @@ export const useBuildQuery = ({
   }, [query]);
 
   const countFilters = useCallback((): void => {
+    // TODO вынести в ассеты (повторяется у докторов)
     const formValues = getValues();
     const arr = Object.values(formValues) as FilterGroupValue[];
     const filtered = arr.map(group => group.filter(val => Boolean(val)));
@@ -154,11 +156,7 @@ export const useBuildQuery = ({
     }
 
     countFilters();
-    fetchDoctors(queryObj, {
-      page: pageNumber ?? 1,
-      limit: CLINICS_PAGE_LIMIT,
-    });
-    getItemsCount(queryObj);
+    fetchClinics(queryObj, pageNumber ?? 1);
 
     router.push(
       {
@@ -175,9 +173,11 @@ export const useBuildQuery = ({
     setFormValue: setValue,
     resetFormValue: reset,
     formControl: control,
-    clinicsList: data,
+    clinicsMeta: data ? data.meta : null,
+    clinicsList: data ? data.data : [],
     searchString,
     pagingValue,
+    setPagingValue,
     isFetching,
     isLoading,
     isError,

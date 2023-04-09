@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import {
-  Hydrate,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { AppProps, NextWebVitalsMetric } from 'next/app';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
@@ -28,50 +24,48 @@ export default function MyApp(props: MyAppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <CacheProvider value={emotionCache}>
-          <Provider store={store}>
-            <ThemeStoreProvider>
-              <>
-                <Head>
-                  <meta
-                    name="viewport"
-                    content="initial-scale=1, width=device-width"
-                  />
-                  <link
-                    rel="apple-touch-icon"
-                    sizes="180x180"
-                    href="/apple-touch-icon.png"
-                  />
-                  <link
-                    rel="icon"
-                    type="image/png"
-                    sizes="32x32"
-                    href="/favicon-32x32.png"
-                  />
-                  <link
-                    rel="icon"
-                    type="image/png"
-                    sizes="16x16"
-                    href="/favicon-16x16.png"
-                  />
-                  <link rel="manifest" href="/site.webmanifest" />
-                  <link
-                    rel="mask-icon"
-                    href="/safari-pinned-tab.svg"
-                    color="#5bbad5"
-                  />
-                  <meta name="msapplication-TileColor" content="#da532c" />
-                  <meta name="theme-color" content="#ffffff" />
-                </Head>
-                <GoogleAnalytics trackPageViews />
-                <Component {...pageProps} />
-                <Toaster />
-              </>
-            </ThemeStoreProvider>
-          </Provider>
-        </CacheProvider>
-      </Hydrate>
+      <CacheProvider value={emotionCache}>
+        <Provider store={store}>
+          <ThemeStoreProvider>
+            <>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="initial-scale=1, width=device-width"
+                />
+                <link
+                  rel="apple-touch-icon"
+                  sizes="180x180"
+                  href="/apple-touch-icon.png"
+                />
+                <link
+                  rel="icon"
+                  type="image/png"
+                  sizes="32x32"
+                  href="/favicon-32x32.png"
+                />
+                <link
+                  rel="icon"
+                  type="image/png"
+                  sizes="16x16"
+                  href="/favicon-16x16.png"
+                />
+                <link rel="manifest" href="/site.webmanifest" />
+                <link
+                  rel="mask-icon"
+                  href="/safari-pinned-tab.svg"
+                  color="#5bbad5"
+                />
+                <meta name="msapplication-TileColor" content="#da532c" />
+                <meta name="theme-color" content="#ffffff" />
+              </Head>
+              <GoogleAnalytics trackPageViews />
+              <Component {...pageProps} />
+              <Toaster />
+            </>
+          </ThemeStoreProvider>
+        </Provider>
+      </CacheProvider>
     </QueryClientProvider>
   );
 }

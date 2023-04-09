@@ -62,17 +62,19 @@ export const StyledFiltersBody = styled('div')(({ theme }) => ({
 
     '.filters-result': {
       flexGrow: 1,
-      minWidth: '66%',
+      minHeight: 0,
+      minWidth: 0,
     },
 
     '.filters-block': {
-      minWidth: 210,
+      flexShrink: 0,
+      width: '30%',
     },
   },
 
   [theme.breakpoints.up('lg')]: {
     '.filters-block': {
-      minWidth: 250,
+      width: 250,
     },
   },
 }));
@@ -205,6 +207,8 @@ export const FilterResultList = styled('ul')(({ theme }) => ({
   listStyle: 'none',
   padding: 0,
   margin: theme.spacing(0, -2),
+  minHeight: 0,
+  minWidth: 0,
 
   '.loader': {
     position: 'absolute',

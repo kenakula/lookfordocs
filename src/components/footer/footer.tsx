@@ -31,7 +31,7 @@ export const Footer = ({
           <StyledFooterTop>
             <StyledFooterInfo>
               <Image
-                src={getImageUrl(logo.id, 'logo')}
+                src={getImageUrl(logo)}
                 width="113"
                 height="21"
                 alt="логотип сайта"

@@ -1,15 +1,15 @@
-import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import {
-  getSiteSettings,
-  getPageSettings,
+  getCities,
+  getClinicsList,
+  getDoctorsPageData,
   getGlobalServices,
-  getLanguages,
-  getClinicsPagePromoData,
-  getSpecialties,
   getInsurances,
-  getClinicsTestimonialsRates,
+  getLanguages,
+  getPageSettings,
+  getSiteSettings,
+  getSpecialties,
 } from '@/api';
 import {
   BreadcrumbsComponent,
@@ -20,104 +20,82 @@ import {
   PageSeo,
   Promo,
 } from '@/components';
+import {
+  ISiteSettings,
+  IPageSettings,
+  IDoctorsPageData,
+  StrapiCollection,
+  IGlobalService,
+  ICity,
+  IInsurance,
+  ILanguage,
+  ISpecialty,
+  IClinic,
+  ClinicsFilterQuery,
+} from '@/shared/types';
+import { CLINICS_PAGE_LIMIT } from '@/shared/assets';
 
 const PAGE_SLUG = 'clinics';
 
-export const getStaticProps: GetStaticProps = async () => {
-  const queryClient = new QueryClient();
+interface Props {
+  siteSettings: ISiteSettings;
+  pageSettings: IPageSettings;
+  promoData: IDoctorsPageData;
+  specialties: ISpecialty[];
+  insurances: IInsurance[];
+  globalServices: IGlobalService[];
+  languages: ILanguage[];
+  cities: ICity[];
+  clinics: StrapiCollection<IClinic>;
+}
 
-  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
-  await queryClient.prefetchQuery(['pageSettings', PAGE_SLUG], () =>
-    getPageSettings(PAGE_SLUG),
-  );
-
-  await queryClient.prefetchQuery(['globalServices'], getGlobalServices);
-  await queryClient.prefetchQuery(['languages'], getLanguages);
-  await queryClient.prefetchQuery(
-    ['clinicsPagePromo'],
-    getClinicsPagePromoData,
-  );
-  await queryClient.prefetchQuery(['specialties'], getSpecialties);
-  await queryClient.prefetchQuery(['insurances'], getInsurances);
-  await queryClient.prefetchQuery(
-    ['clinicsTestimonialsRates'],
-    getClinicsTestimonialsRates,
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  query,
+}) => {
+  const pageQuery = query as ClinicsFilterQuery;
+  const siteSettings = await getSiteSettings();
+  const pageSettings = await getPageSettings(PAGE_SLUG);
+  const promoData = await getDoctorsPageData();
+  const specialties = await getSpecialties();
+  const insurances = await getInsurances();
+  const globalServices = await getGlobalServices();
+  const languages = await getLanguages();
+  const cities = await getCities();
+  const clinics = await getClinicsList(
+    { page: 1, pageSize: CLINICS_PAGE_LIMIT },
+    pageQuery,
   );
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      cities,
+      clinics,
+      languages,
+      promoData,
+      insurances,
+      specialties,
+      siteSettings,
+      globalServices,
+      pageSettings: pageSettings,
     },
   };
 };
 
-const ClinicsPage = (): JSX.Element => {
+const ClinicsPage = ({
+  clinics,
+  languages,
+  promoData,
+  insurances,
+  specialties,
+  pageSettings,
+  siteSettings,
+  globalServices,
+}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element => {
   const router = useRouter();
-
-  const [
-    { data: siteSettings },
-    { data: pageSettings },
-    { data: globalServices },
-    { data: languages },
-    { data: promoData },
-    { data: specialties },
-    { data: insurances },
-    { data: clinicsTestimonials },
-  ] = useQueries({
-    queries: [
-      {
-        queryKey: ['siteSettings'],
-        queryFn: getSiteSettings,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['pageSettings', PAGE_SLUG],
-        queryFn: () => getPageSettings(PAGE_SLUG),
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['globalServices'],
-        queryFn: getGlobalServices,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['languages'],
-        queryFn: getLanguages,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['clinicsPagePromo'],
-        queryFn: getClinicsPagePromoData,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['specialties'],
-        queryFn: getSpecialties,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['insurances'],
-        queryFn: getInsurances,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['clinicsTestimonialsRates'],
-        queryFn: getClinicsTestimonialsRates,
-        staleTime: Infinity,
-      },
-    ],
-  });
 
   if (router.isFallback) {
     return <ListPageSkeleton />;
   }
-
-  const hasData =
-    globalServices &&
-    languages &&
-    specialties &&
-    insurances &&
-    clinicsTestimonials;
 
   if (siteSettings && pageSettings) {
     return (
@@ -126,17 +104,15 @@ const ClinicsPage = (): JSX.Element => {
         <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
 
         <BreadcrumbsComponent crumbs={[{ text: 'Клиники' }]} />
-        {promoData && <Promo promoData={promoData} />}
+        <Promo promoData={promoData.promo} />
         <PageResult>
-          {hasData && (
-            <ClinicsFilter
-              services={globalServices}
-              languages={languages}
-              specialties={specialties}
-              insurances={insurances}
-              clinicsTestimonials={clinicsTestimonials}
-            />
-          )}
+          <ClinicsFilter
+            services={globalServices}
+            languages={languages}
+            specialties={specialties}
+            insurances={insurances}
+            clinics={clinics}
+          />
         </PageResult>
       </Layout>
     );

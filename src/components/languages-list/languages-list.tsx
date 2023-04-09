@@ -1,20 +1,23 @@
-import { Typography } from '@mui/material';
-import { LanguagesRef } from '@/shared/types';
-import { LanguageIcon, StyledLanguages } from './components';
+import Image from 'next/image';
+import { ILanguage } from '@/shared/types';
+import { getImageUrl } from '@/shared/assets';
+import { StyledLanguages } from './components';
 
 interface Props {
-  list: LanguagesRef[];
+  list: ILanguage[];
 }
 
 export const LanguagesList = ({ list }: Props): JSX.Element => {
   return (
-    <StyledLanguages className="doctor-card-language">
-      <Typography variant="caption">Языки</Typography>
+    <StyledLanguages className="card-languages">
       <ul>
-        {list.map(({ languages_id: { id, name, slug } }) => (
+        <li>
+          <span className="name">Языки</span>
+        </li>
+        {list.map(({ id, name, icon }) => (
           <li key={id}>
             <span className="icon">
-              <LanguageIcon slug={slug} />
+              <Image src={getImageUrl(icon)} width={16} height={16} alt="" />
             </span>
             <span className="name">{name}</span>
           </li>

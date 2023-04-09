@@ -12,4 +12,5 @@ export * from './price-utils';
 export * from './is-browser';
 export * from './num-words';
 export * from './seo-utils';
+export * from './get-rate';
 export * from './routes';

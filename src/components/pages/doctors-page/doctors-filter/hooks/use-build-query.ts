@@ -12,10 +12,9 @@ import {
   setDoctorsFiltersCount,
   useAppDispatch,
 } from '@/stores';
-import { DoctorsFilterQuery } from '@/stores/types';
-import { useLazyGetDoctorsListQuery } from '@/stores/api';
 import {
   DoctorsFilterFormModel,
+  DoctorsFilterQuery,
   FilterGroupValue,
   IClinic,
   IDoctor,
@@ -23,13 +22,15 @@ import {
   IInsurance,
   ILanguage,
   ISpecialty,
+  StrapiCollection,
+  StrapiMeta,
 } from '@/shared/types';
 import {
   DOCTORS_PAGE,
   DOCTORS_PAGE_LIMIT,
   getFilterValues,
 } from '@/shared/assets';
-import { usePageQuery } from '@/shared/hooks';
+import { useDoctorsPageQuery } from '@/shared/hooks';
 
 interface HookValue {
   runQueryBuilder: (nameString?: string, pageNumber?: number) => void;
@@ -38,16 +39,18 @@ interface HookValue {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formControl: Control<DoctorsFilterFormModel, any>;
   doctorsList: IDoctor[] | undefined;
-  query: DoctorsFilterQuery;
+  doctorsMeta: StrapiMeta | null;
+  query?: DoctorsFilterQuery;
   searchString: string;
   isFetching: boolean;
   pagingValue: number;
+  setPagingValue: (value: number) => void;
   isLoading: boolean;
   isError: boolean;
 }
 
 interface HookProps {
-  getItemsCount: (queryObj: DoctorsFilterQuery) => void;
+  doctors: StrapiCollection<IDoctor>;
   services: IGlobalService[];
   specialties: ISpecialty[];
   insurances: IInsurance[];
@@ -56,23 +59,21 @@ interface HookProps {
 }
 
 export const useBuildQuery = ({
-  getItemsCount,
   specialties,
   insurances,
   languages,
   services,
   clinics,
+  doctors,
 }: HookProps): HookValue => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [searchString, setSearchString] = useState('');
   const [pagingValue, setPagingValue] = useState(1);
+
   const { data, isLoading, isError, query, fetchDoctors, isFetching } =
-    usePageQuery<
-      IDoctor,
-      DoctorsFilterQuery,
-      typeof useLazyGetDoctorsListQuery
-    >(useLazyGetDoctorsListQuery, DOCTORS_PAGE_LIMIT);
+    useDoctorsPageQuery(doctors, DOCTORS_PAGE_LIMIT);
+
   const { control, getValues, setValue, reset } =
     useForm<DoctorsFilterFormModel>({
       defaultValues: {
@@ -85,27 +86,27 @@ export const useBuildQuery = ({
     });
 
   useEffect(() => {
-    if (query.specialty) {
+    if (query && query.specialty) {
       setValue('specialties', getFilterValues(specialties, query.specialty));
     }
 
-    if (query.service) {
+    if (query && query.service) {
       setValue('services', getFilterValues(services, query.service));
     }
 
-    if (query.insurance) {
+    if (query && query.insurance) {
       setValue('insurances', getFilterValues(insurances, query.insurance));
     }
 
-    if (query.lang) {
+    if (query && query.lang) {
       setValue('languages', getFilterValues(languages, query.lang));
     }
 
-    if (query.clinic) {
+    if (query && query.clinic) {
       setValue('clinics', getFilterValues(clinics, query.clinic));
     }
 
-    if (query.name) {
+    if (query && query.name) {
       dispatch(searchFieldInput(query.name));
       setSearchString(query.name);
     }
@@ -171,11 +172,7 @@ export const useBuildQuery = ({
     }
 
     countFilters();
-    fetchDoctors(queryObj, {
-      page: pageNumber ?? 1,
-      limit: DOCTORS_PAGE_LIMIT,
-    });
-    getItemsCount(queryObj);
+    fetchDoctors(queryObj, pageNumber ?? 1);
 
     router.push(
       {
@@ -192,9 +189,11 @@ export const useBuildQuery = ({
     setFormValue: setValue,
     resetFormValue: reset,
     formControl: control,
-    doctorsList: data,
+    doctorsMeta: data ? data.meta : null,
+    doctorsList: data ? data.data : [],
     searchString,
     pagingValue,
+    setPagingValue,
     isFetching,
     isLoading,
     isError,

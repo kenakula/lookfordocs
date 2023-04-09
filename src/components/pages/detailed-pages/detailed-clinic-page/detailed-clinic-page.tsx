@@ -1,7 +1,4 @@
-import { useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useMediaQuery } from '@mui/material';
-import { getClinicTestimonials } from '@/api';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { ButtonComponent, ClinicCard, ContainerComponent } from '@/components';
 import { IClinic } from '@/shared/types';
@@ -16,55 +13,26 @@ interface Props {
 
 export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
-  const clinicId = data.id.toString();
-  const { data: testimonials, isLoading: testimonialsLoading } = useQuery({
-    queryKey: ['clinicTestimonials', clinicId],
-    queryFn: () => getClinicTestimonials(clinicId),
-    staleTime: Infinity,
-  });
   const dispatch = useAppDispatch();
 
-  const clinicName = useMemo(() => capitalize(data.name), [data.name]);
+  const clinicName = capitalize(data.name);
 
   const openRequestForm = () => {
     dispatch(
       openAppointmentDialog({
-        name: clinicName,
-        id: data.id,
-        image: data.image,
+        clinic: data,
         type: 'clinic',
       }),
     );
   };
-
-  const testimonialsCount = testimonials ? testimonials.length : undefined;
-  const avarageRating = useMemo(() => {
-    if (!testimonials) {
-      return undefined;
-    }
-
-    const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
-    return sum === 0 ? 0 : sum / testimonials.length;
-  }, [testimonials]);
 
   return (
     <ContainerComponent>
       <DetailedPageLayout>
         <h2 className="visually-hidden">Общая информация о клинике</h2>
         <div className="detailed-left-column">
-          <ClinicCard
-            data={data}
-            detailedLocation
-            rating={avarageRating}
-            testimonialsCount={testimonialsCount}
-          />
-          {isTablet ? (
-            <DetailedInfo
-              data={data}
-              testimonials={testimonials}
-              testimonialsLoading={testimonialsLoading}
-            />
-          ) : null}
+          <ClinicCard data={data} detailedLocation />
+          {isTablet ? <DetailedInfo data={data} /> : null}
         </div>
         <div className="detailed-right-column">
           <div className="sticky-block">
@@ -83,15 +51,7 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
             />
           </div>
         </div>
-        <div>
-          {!isTablet ? (
-            <DetailedInfo
-              data={data}
-              testimonials={testimonials}
-              testimonialsLoading={testimonialsLoading}
-            />
-          ) : null}
-        </div>
+        <div>{!isTablet ? <DetailedInfo data={data} /> : null}</div>
       </DetailedPageLayout>
     </ContainerComponent>
   );

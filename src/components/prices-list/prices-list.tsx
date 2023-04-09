@@ -1,5 +1,5 @@
 import { getPriceString, getTypography } from '@/shared/assets';
-import { IService } from '@/shared/types';
+import { IPrice } from '@/shared/types';
 import { styled } from '@mui/material';
 
 export const StyledList = styled('dl')(({ theme }) => ({
@@ -30,16 +30,16 @@ export const StyledList = styled('dl')(({ theme }) => ({
 }));
 
 interface Props {
-  list: IService[];
+  list: IPrice[];
 }
 
-export const ServicesList = ({ list }: Props): JSX.Element => {
+export const PricesList = ({ list }: Props): JSX.Element => {
   return (
     <StyledList className="services-list">
-      {list.map(({ name, price, priceFrom, value }) => (
-        <div key={name} className="services-list-service">
-          <dt>{value}</dt>
-          <dd>{getPriceString(price, priceFrom)}</dd>
+      {list.map(price => (
+        <div key={price.name} className="services-list-service">
+          <dt>{price.name}</dt>
+          <dd>{getPriceString(price)}</dd>
         </div>
       ))}
     </StyledList>

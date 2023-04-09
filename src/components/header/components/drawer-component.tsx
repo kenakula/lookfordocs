@@ -10,7 +10,7 @@ import Image from 'next/image';
 import React from 'react';
 import { ContainerComponent, Socials } from '@/components';
 import { IconClose } from '@/components/icons';
-import { IImage, INavigation, ISocial } from '@/shared/types';
+import { IImage, ILink, ISocial } from '@/shared/types';
 import { getActiveStateClassName, getImageUrl } from '@/shared/assets';
 import { StyledDrawer, StyledSocials } from './styled-components';
 import Link from 'next/link';
@@ -19,7 +19,7 @@ interface Props {
   closeDrawer: () => void;
   openAppointmentForm: () => void;
   openState: boolean;
-  navigation: INavigation[];
+  navigation: ILink[];
   socials: ISocial[];
   logo: IImage;
   copyrights: string;
@@ -49,7 +49,7 @@ export const DrawerComponent = ({
       >
         <ContainerComponent>
           <Image
-            src={getImageUrl(logo.id, 'logo')}
+            src={getImageUrl(logo)}
             width="115"
             height="33"
             alt="логотип сайта"
@@ -77,7 +77,7 @@ export const DrawerComponent = ({
                     url,
                     router.pathname,
                   )}`}
-                  href={`/${url}`}
+                  href={url}
                 >
                   {name}
                 </Link>

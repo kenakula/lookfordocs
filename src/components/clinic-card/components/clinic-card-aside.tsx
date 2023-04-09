@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Typography } from '@mui/material';
-import { capitalize, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
-import { CitiesRef, IClinic } from '@/shared/types';
-import { StyledClinicCard } from './styled-components';
 import { WorkTime } from '@/components';
+import { CLINICS_PAGE, getClinicAddress, getImageUrl } from '@/shared/assets';
+import { IClinic } from '@/shared/types';
+import { ImageSize } from '@/shared/enums';
+import { StyledClinicCard } from './styled-components';
 import { ClinicCardInsurances } from './clinic-card-insurances';
-import { useCallback } from 'react';
 
 interface Props {
   data: IClinic;
@@ -15,44 +15,15 @@ interface Props {
 }
 
 export const ClinicCardAside = ({
-  data: {
-    image,
-    name,
-    id,
-    metro,
-    worktime,
-    insurances,
-    address,
-    cities,
-    reembolso,
-  },
+  data: { id, name, image, metro, address, worktime, reembolso, insurances },
   detailedLocation = false,
   clinicName,
 }: Props): JSX.Element => {
-  const getClinicAddress = useCallback(
-    (addressStr?: string, city?: CitiesRef): string => {
-      if (city && addressStr) {
-        return `г. ${capitalize(city.cities_id.name)}, ${addressStr}`;
-      }
-
-      if (city && !address) {
-        return `г. ${capitalize(city.cities_id.name)}`;
-      }
-
-      if (addressStr && !city) {
-        return addressStr;
-      }
-
-      return '';
-    },
-    [address],
-  );
-
   return (
     <StyledClinicCard detailedLocation={detailedLocation}>
       <div className="clinic-top">
         <div className="clinic-image">
-          <Image fill alt={name} src={getImageUrl(image, clinicName)} />
+          <Image fill alt={name} src={getImageUrl(image, ImageSize.Thumb)} />
         </div>
         {detailedLocation ? (
           <Typography>{clinicName}</Typography>
@@ -60,26 +31,26 @@ export const ClinicCardAside = ({
           <Link href={`${CLINICS_PAGE}/${id}`}>{clinicName}</Link>
         )}
       </div>
-      {cities && (
-        <Typography variant="body2" className="clinic-address">
-          {getClinicAddress(address, cities[0])}
+      {address.map(addr => (
+        <Typography key={addr.id} variant="body2" className="clinic-address">
+          {getClinicAddress(addr)}
         </Typography>
-      )}
+      ))}
       {metro && (
         <ul className="clinic-metro">
           {metro.map(item => (
-            <li key={item.slug}>
+            <li key={item.name}>
               <Typography
                 variant="caption"
-                sx={{ backgroundColor: item.color }}
+                sx={{ backgroundColor: item.color.color }}
               />
               {item.name}
             </li>
           ))}
         </ul>
       )}
-      {worktime && <WorkTime data={worktime} />}
-      {insurances && <ClinicCardInsurances list={insurances} />}
+      {worktime.length ? <WorkTime data={worktime} /> : null}
+      {insurances.length ? <ClinicCardInsurances list={insurances} /> : null}
       {reembolso && (
         <Typography className="clinics-reembolso">
           Есть возможность получения возмещения оказанных услуг в страховой

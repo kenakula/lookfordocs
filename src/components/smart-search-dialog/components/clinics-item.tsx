@@ -3,6 +3,7 @@ import { Avatar, ListItemButton, Typography } from '@mui/material';
 import {
   CLINICS_PAGE,
   DOCTORS_PAGE,
+  capitalizeName,
   getHighlightedLetters,
   getImageUrl,
 } from '@/shared/assets';
@@ -11,6 +12,7 @@ import {
   ISmartSearchQuery,
   SmartSearchLocation,
 } from '@/shared/types';
+import { ImageSize } from '@/shared/enums';
 
 interface Props {
   location: SmartSearchLocation;
@@ -52,11 +54,21 @@ export const ClinicsItem = ({
         <Avatar
           sx={{ width: 40, height: 40 }}
           variant="rounded"
-          src={getImageUrl(image.id, name, 'width=80&height=80')}
+          src={getImageUrl(image, ImageSize.Thumb)}
         />
         <div className="complex-item-info">
-          <Typography>{getHighlightedLetters(name, searchString)}</Typography>
-          <Typography variant="caption">{address}</Typography>
+          <Typography>
+            {`Клиника "`}
+            {getHighlightedLetters(name, searchString)}
+            {'"'}
+          </Typography>
+          <div className="complex-item-sublist">
+            {address.map(addr => (
+              <Typography key={addr.id} variant="caption">
+                {capitalizeName(addr.city.name)}
+              </Typography>
+            ))}
+          </div>
         </div>
       </ListItemButton>
     );
@@ -72,11 +84,21 @@ export const ClinicsItem = ({
       <Avatar
         sx={{ width: 40, height: 40 }}
         variant="rounded"
-        src={getImageUrl(image.id, name, 'width=80&height=80')}
+        src={getImageUrl(image, ImageSize.Thumb)}
       />
       <div className="complex-item-info">
-        <Typography>{getHighlightedLetters(name, searchString)}</Typography>
-        <Typography variant="caption">{address}</Typography>
+        <Typography>
+          {`Клиника "`}
+          {getHighlightedLetters(name, searchString)}
+          {'"'}
+        </Typography>
+        <div className="complex-item-sublist">
+          {address.map(addr => (
+            <Typography key={addr.id} variant="caption">
+              {capitalizeName(addr.city.name)}
+            </Typography>
+          ))}
+        </div>
       </div>
     </ListItemButton>
   );

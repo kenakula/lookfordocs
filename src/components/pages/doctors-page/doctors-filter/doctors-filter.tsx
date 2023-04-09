@@ -1,19 +1,17 @@
 import { useRef, useState } from 'react';
 import { Typography } from '@mui/material';
-
-import { useLazyGetDoctorsCountQuery } from '@/stores/api';
 import { searchFieldClear, useAppDispatch, useAppSelector } from '@/stores';
 import {
   IClinic,
-  IDoctorsTestimonials,
+  IDoctor,
   IGlobalService,
   IInsurance,
   ILanguage,
   ISmartSearchQuery,
   ISpecialty,
+  StrapiCollection,
 } from '@/shared/types';
-import { DoctorsFilterQuery } from '@/stores/types';
-import { usePaginationQuery } from '@/shared/hooks';
+import { DOCTORS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
 import {
   ButtonComponent,
   FilterResultSkeleton,
@@ -28,37 +26,30 @@ import {
   StyledFiltersTop,
 } from './components';
 import { useBuildQuery } from './hooks';
-import { DOCTORS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
 
 interface Props {
-  specialties: ISpecialty[];
+  doctors: StrapiCollection<IDoctor>;
   services: IGlobalService[];
+  specialties: ISpecialty[];
   insurances: IInsurance[];
   languages: ILanguage[];
   clinics: IClinic[];
-  docsTestimonials: IDoctorsTestimonials[];
 }
 
 export const DoctorsFilter = ({
-  docsTestimonials,
   specialties,
   insurances,
   languages,
   services,
   clinics,
+  doctors,
 }: Props): JSX.Element => {
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [searchString, setSearchString] = useState('');
-  const [pagingValue, setPagingValue] = useState(1);
   const topBlockRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
-
-  const { getItemsCount, totalItemsCount } = usePaginationQuery<
-    DoctorsFilterQuery,
-    typeof useLazyGetDoctorsCountQuery
-  >(useLazyGetDoctorsCountQuery);
 
   const handleOpenMobileFilter = (): void => {
     setMobileFilterOpen(true);
@@ -66,20 +57,23 @@ export const DoctorsFilter = ({
 
   const {
     runQueryBuilder,
+    pagingValue,
+    setPagingValue,
     resetFormValue,
     setFormValue,
     formControl,
     doctorsList,
+    doctorsMeta,
     isFetching,
     isLoading,
     isError,
   } = useBuildQuery({
-    getItemsCount,
     specialties,
     insurances,
     languages,
     services,
     clinics,
+    doctors,
   });
 
   const resetFilters = (): void => {
@@ -90,7 +84,7 @@ export const DoctorsFilter = ({
 
   const handleSmartSearchSubmit = (name?: string): void => {
     setSearchString(name ?? '');
-    runQueryBuilder(name);
+    runQueryBuilder();
 
     if (inputRef.current) {
       inputRef.current.blur();
@@ -125,14 +119,16 @@ export const DoctorsFilter = ({
       default:
         break;
     }
-
     runQueryBuilder();
   };
 
   const setPage = (value: number): void => {
-    if (topBlockRef.current) {
-      topBlockRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      if (topBlockRef.current) {
+        topBlockRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
+
     setPagingValue(value);
     runQueryBuilder(searchString, value);
   };
@@ -185,10 +181,10 @@ export const DoctorsFilter = ({
         />
         <div className="filters-result">
           {isLoading && <FilterResultSkeleton />}
-          {doctorsList && totalItemsCount ? (
+          {doctorsMeta ? (
             <div className="filters-sort">
               <Typography className="filters-total">
-                Найдено врачей: {totalItemsCount}
+                Найдено врачей: {doctorsMeta.pagination.total}
               </Typography>
             </div>
           ) : null}
@@ -196,13 +192,12 @@ export const DoctorsFilter = ({
             doctorsList={doctorsList}
             fetching={isFetching}
             error={isError}
-            doctorsTestimonials={docsTestimonials}
           />
-          {doctorsList && totalItemsCount ? (
+          {doctorsMeta ? (
             <PaginationComponent
               setPage={setPage}
               page={pagingValue}
-              total={totalItemsCount}
+              total={doctorsMeta.pagination.total}
               limit={DOCTORS_PAGE_LIMIT}
             />
           ) : null}

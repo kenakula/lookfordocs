@@ -1,38 +1,40 @@
 import Link from 'next/link';
 import { Typography } from '@mui/material';
-import { numWord } from '@/shared/assets';
+import { getRate, numWord } from '@/shared/assets';
 import { RatingComponent } from '@/components';
 import { StyledDoctorRating } from './styled-components';
 import { useScrollToElement } from '@/shared/hooks';
+import { ITestimonial } from '@/shared/types';
 
 interface Props {
-  rating: number;
-  testimonialsCount?: number;
-  detaiedLocation?: boolean;
+  testimonials: ITestimonial[];
+  detaiedLocation: boolean;
 }
 
 export const DoctorCardRating = ({
-  rating,
-  testimonialsCount,
+  testimonials,
   detaiedLocation,
-}: Props): JSX.Element => {
+}: Props): JSX.Element | null => {
   const { scrollToElement } = useScrollToElement('doctor-testimonials');
+  const reviewedTestimonials = testimonials
+    .slice()
+    .filter(({ reviewed }) => Boolean(reviewed));
+  const rating = getRate(reviewedTestimonials);
 
-  const ratingText = testimonialsCount
-    ? `${testimonialsCount} ${numWord(testimonialsCount, [
-        'отзыв',
-        'отзыва',
-        'отзывов',
-      ])}`
-    : '';
+  const ratingText = `${reviewedTestimonials.length} ${numWord(
+    reviewedTestimonials.length,
+    ['отзыв', 'отзыва', 'отзывов'],
+  )}`;
+
+  if (!rating) {
+    return null;
+  }
 
   if (!detaiedLocation) {
     return (
       <StyledDoctorRating>
         <RatingComponent rate={rating} size="small" showValue />
-        {testimonialsCount ? (
-          <Typography variant="caption">{ratingText}</Typography>
-        ) : null}
+        <Typography variant="caption">{ratingText}</Typography>
       </StyledDoctorRating>
     );
   }
@@ -45,17 +47,15 @@ export const DoctorCardRating = ({
         showValue
         className="detailed-location"
       />
-      {testimonialsCount ? (
-        <Link
-          href="#doctor-testimonials"
-          onClick={e => {
-            e.preventDefault();
-            scrollToElement();
-          }}
-        >
-          {ratingText}
-        </Link>
-      ) : null}
+      <Link
+        href="#doctor-testimonials"
+        onClick={e => {
+          e.preventDefault();
+          scrollToElement();
+        }}
+      >
+        {ratingText}
+      </Link>
     </StyledDoctorRating>
   );
 };

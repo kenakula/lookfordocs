@@ -1,20 +1,7 @@
-import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
-import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import {
-  getCities,
-  getDoctorInfo,
-  getDoctorsIds,
-  getInsurances,
-  getSiteSettings,
-} from '@/api';
-import {
-  capitalizeName,
-  DOCTORS_PAGE,
-  getSeoDoctorPageH1,
-  getSeoDoctorPageTitle,
-} from '@/shared/assets';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+import { getDoctorInfo, getDoctorsIds, getSiteSettings } from '@/api';
 import {
   BreadcrumbsComponent,
   DetailedDoctorPage,
@@ -23,6 +10,14 @@ import {
   LayoutSkeleton,
   PageSeo,
 } from '@/components';
+import { IDoctor, ISiteSettings } from '@/shared/types';
+import {
+  DOCTORS_PAGE,
+  capitalizeName,
+  getSeoDoctorKeywords,
+  getSeoDoctorPageH1,
+  getSeoDoctorPageTitle,
+} from '@/shared/assets';
 
 interface PageParams extends ParsedUrlQuery {
   id: string;
@@ -39,57 +34,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const queryClient = new QueryClient();
+interface Props {
+  siteSettings: ISiteSettings;
+  doctorInfo: IDoctor;
+}
+
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const docId = (params as PageParams).id;
 
-  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
-  await queryClient.prefetchQuery(['cities'], getCities);
-  await queryClient.prefetchQuery(['insurances'], getInsurances);
-  await queryClient.prefetchQuery(['doctorInfo', docId], () =>
-    getDoctorInfo(docId),
-  );
+  const siteSettings = await getSiteSettings();
+  const doctorInfo = await getDoctorInfo(docId);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      siteSettings,
+      doctorInfo,
     },
   };
 };
 
-const DoctorPage = (): JSX.Element => {
+const DoctorPage = ({
+  siteSettings,
+  doctorInfo,
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
-  const docId = typeof router.query?.id === 'string' ? router.query.id : '';
-
-  const [
-    { data: siteSettings },
-    { data: doctorInfo },
-    { data: cities },
-    { data: insurances },
-  ] = useQueries({
-    queries: [
-      {
-        queryKey: ['siteSettings'],
-        queryFn: getSiteSettings,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['doctorInfo', docId],
-        queryFn: () => getDoctorInfo(docId),
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['cities'],
-        queryFn: getCities,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['insurances'],
-        queryFn: getInsurances,
-        staleTime: Infinity,
-      },
-    ],
-  });
 
   if (router.isFallback) {
     return (
@@ -99,19 +67,19 @@ const DoctorPage = (): JSX.Element => {
     );
   }
 
-  if (siteSettings && doctorInfo) {
+  if (siteSettings) {
     return (
       <Layout siteSettings={siteSettings} isDetailedPage>
         <PageSeo
           pageSettings={{
-            pageTitle: getSeoDoctorPageTitle(
-              doctorInfo.firstName,
-              doctorInfo.lastName,
-            ),
+            pageTitle: getSeoDoctorPageTitle(doctorInfo.fullName),
+            h1: getSeoDoctorPageH1(doctorInfo.fullName),
             socialImage: doctorInfo.image,
             pageDescription: doctorInfo.shortText ?? '',
-            pageKeywords:
-              'врач, записаться на прием, описание врача, специальности врача, что лечит врач, вызвать врача на дом',
+            pageKeywords: getSeoDoctorKeywords(
+              doctorInfo.fullName,
+              doctorInfo.specialties,
+            ),
           }}
           siteUrl={siteSettings.siteUrl}
         />
@@ -119,20 +87,14 @@ const DoctorPage = (): JSX.Element => {
           crumbs={[
             { text: 'Врачи', link: DOCTORS_PAGE },
             {
-              text: capitalizeName(doctorInfo.firstName, doctorInfo.lastName),
+              text: capitalizeName(doctorInfo.fullName),
             },
           ]}
         />
         <h1 className="visually-hidden">
-          {getSeoDoctorPageH1(doctorInfo.firstName, doctorInfo.lastName)}
+          {getSeoDoctorPageH1(doctorInfo.fullName)}
         </h1>
-        {cities && insurances ? (
-          <DetailedDoctorPage
-            data={doctorInfo}
-            cities={cities}
-            insurances={insurances}
-          />
-        ) : null}
+        <DetailedDoctorPage data={doctorInfo} />
       </Layout>
     );
   }

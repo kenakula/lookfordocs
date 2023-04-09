@@ -1,10 +1,10 @@
-import { IImage } from './image.type';
+import { IClinic } from './clinic.type';
+import { IDoctor } from './doctor.type';
 
 export type AppointmentType = 'doctor' | 'clinic';
 
 export interface IAppointment {
-  id: number;
-  name: string;
-  image: IImage;
   type: AppointmentType;
+  clinic?: IClinic;
+  doctor?: IDoctor;
 }

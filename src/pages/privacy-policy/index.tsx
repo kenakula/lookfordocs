@@ -1,7 +1,6 @@
-import { dehydrate, QueryClient, useQueries } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { GetStaticProps } from 'next';
-import { getPageSettings, getSiteSettings } from '@/api';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { getSiteSettings, getPageSettings } from '@/api';
 import {
   ContainerComponent,
   Layout,
@@ -9,41 +8,32 @@ import {
   PageSeo,
 } from '@/components';
 import { Title } from '@/shared/assets';
+import { ISiteSettings, IPageSettings } from '@/shared/types';
 
 const PAGE_SLUG = 'privacy-policy';
 
-export const getStaticProps: GetStaticProps = async () => {
-  const queryClient = new QueryClient();
+interface Props {
+  siteSettings: ISiteSettings;
+  pageSettings: IPageSettings;
+}
 
-  await queryClient.prefetchQuery(['siteSettings'], getSiteSettings);
-  await queryClient.prefetchQuery(['pageSettings', PAGE_SLUG], () =>
-    getPageSettings(PAGE_SLUG),
-  );
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const siteSettings = await getSiteSettings();
+  const pageSettings = await getPageSettings(PAGE_SLUG);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      siteSettings,
+      pageSettings,
     },
   };
 };
 
-export default function Home(): JSX.Element {
+export default function PrivacyPolicyPage({
+  siteSettings,
+  pageSettings,
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const router = useRouter();
-
-  const [{ data: siteSettings }, { data: pageSettings }] = useQueries({
-    queries: [
-      {
-        queryKey: ['siteSettings'],
-        queryFn: getSiteSettings,
-        staleTime: Infinity,
-      },
-      {
-        queryKey: ['pageSettings', PAGE_SLUG],
-        queryFn: () => getPageSettings(PAGE_SLUG),
-        staleTime: Infinity,
-      },
-    ],
-  });
 
   if (router.isFallback) {
     return <ListPageSkeleton />;
@@ -51,7 +41,7 @@ export default function Home(): JSX.Element {
 
   if (siteSettings && pageSettings) {
     return (
-      <Layout siteSettings={siteSettings} isMainPage>
+      <Layout siteSettings={siteSettings}>
         <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
         <main>
           {pageSettings.content && (

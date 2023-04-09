@@ -1,2 +1,7 @@
-export const getPriceString = (price: string, from?: boolean): string =>
-  `${from ? 'от' : ''} ${price} €`;
+import { IPrice } from '../types';
+
+export const getPriceString = ({
+  price,
+  priceFrom,
+  currency: { label },
+}: IPrice): string => `${priceFrom ? 'от' : ''} ${price} ${label}`;
