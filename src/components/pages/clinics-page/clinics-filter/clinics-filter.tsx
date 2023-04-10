@@ -18,8 +18,6 @@ import {
   IInsurance,
   ILanguage,
   ISmartSearchQuery,
-  StrapiCollection,
-  IClinic,
 } from '@/shared/types';
 import { CLINICS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
 
@@ -32,7 +30,6 @@ import {
 import { useBuildQuery } from './hooks';
 
 interface Props {
-  clinics: StrapiCollection<IClinic>;
   services: IGlobalService[];
   specialties: ISpecialty[];
   insurances: IInsurance[];
@@ -44,7 +41,6 @@ export const ClinicsFilter = ({
   insurances,
   languages,
   services,
-  clinics,
 }: Props) => {
   const { filtersCount } = useAppSelector(state => state.clinicsPage);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -74,7 +70,6 @@ export const ClinicsFilter = ({
     insurances,
     languages,
     services,
-    clinics,
   });
 
   const resetFilters = (): void => {

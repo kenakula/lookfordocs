@@ -3,13 +3,11 @@ import { Typography } from '@mui/material';
 import { searchFieldClear, useAppDispatch, useAppSelector } from '@/stores';
 import {
   IClinic,
-  IDoctor,
   IGlobalService,
   IInsurance,
   ILanguage,
   ISmartSearchQuery,
   ISpecialty,
-  StrapiCollection,
 } from '@/shared/types';
 import { DOCTORS_PAGE_LIMIT, getFilterValues } from '@/shared/assets';
 import {
@@ -28,7 +26,7 @@ import {
 import { useBuildQuery } from './hooks';
 
 interface Props {
-  doctors: StrapiCollection<IDoctor>;
+  // doctors: StrapiCollection<IDoctor>;
   services: IGlobalService[];
   specialties: ISpecialty[];
   insurances: IInsurance[];
@@ -42,7 +40,6 @@ export const DoctorsFilter = ({
   languages,
   services,
   clinics,
-  doctors,
 }: Props): JSX.Element => {
   const { filtersCount } = useAppSelector(state => state.doctorsPage);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -73,7 +70,6 @@ export const DoctorsFilter = ({
     languages,
     services,
     clinics,
-    doctors,
   });
 
   const resetFilters = (): void => {

@@ -6,7 +6,6 @@ import { getDoctorsList } from '@/api';
 import { DoctorsFilterQuery, IDoctor, StrapiCollection } from '../types';
 
 export const useDoctorsPageQuery = (
-  initialData: StrapiCollection<IDoctor>,
   pageSize: number,
 ): {
   data: StrapiCollection<IDoctor> | undefined;
@@ -18,13 +17,11 @@ export const useDoctorsPageQuery = (
 } => {
   const router = useRouter();
   const [query, setQuery] = useState<DoctorsFilterQuery>();
-  const [initialQuery, setInitialQuery] = useState<DoctorsFilterQuery>({});
   const [pageNumber, setPageNumber] = useState(1);
   const { data, isLoading, isFetching, isError } = useQuery(
     ['doctorsList', query, pageNumber],
     () => getDoctorsList({ page: pageNumber, pageSize }, query),
     {
-      placeholderData: initialData,
       refetchOnWindowFocus: false,
       enabled: !!query,
     },
@@ -33,7 +30,7 @@ export const useDoctorsPageQuery = (
   useEffect(() => {
     if (router.isReady) {
       const queryObj = router.query as DoctorsFilterQuery;
-      setInitialQuery(queryObj);
+      setQuery(queryObj);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
@@ -46,7 +43,7 @@ export const useDoctorsPageQuery = (
 
   return {
     data,
-    query: initialQuery,
+    query,
     isLoading,
     isFetching,
     isError,

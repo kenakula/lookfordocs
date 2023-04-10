@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage({
 
   if (siteSettings && pageSettings) {
     return (
-      <Layout siteSettings={siteSettings}>
+      <Layout siteSettings={siteSettings} isDetailedPage>
         <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
         <main>
           {pageSettings.content && (

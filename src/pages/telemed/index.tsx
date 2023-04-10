@@ -41,7 +41,7 @@ const TelemedPage = ({
 
   if (siteSettings && pageSettings) {
     return (
-      <Layout siteSettings={siteSettings}>
+      <Layout siteSettings={siteSettings} isDetailedPage>
         <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
         <UnderConstructionPage image={siteSettings.constructionImage}>
           <Title variant="h2" textAlign="center">

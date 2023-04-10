@@ -1,7 +1,6 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import {
-  getDoctorsList,
   getSiteSettings,
   getPageSettings,
   getDoctorsPageData,
@@ -24,7 +23,6 @@ import {
 import {
   ISiteSettings,
   IPageSettings,
-  StrapiCollection,
   IDoctorsPageData,
   ISpecialty,
   IInsurance,
@@ -32,10 +30,7 @@ import {
   ILanguage,
   IClinic,
   ICity,
-  IDoctor,
-  DoctorsFilterQuery,
 } from '@/shared/types';
-import { DOCTORS_PAGE_LIMIT } from '@/shared/assets';
 
 const PAGE_SLUG = 'doctors';
 
@@ -49,14 +44,9 @@ interface Props {
   languages: ILanguage[];
   clinics: IClinic[];
   cities: ICity[];
-  doctors: StrapiCollection<IDoctor>;
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async ({
-  query,
-}) => {
-  const pageQuery = query as DoctorsFilterQuery;
-
+export const getStaticProps: GetStaticProps<Props> = async () => {
   const siteSettings = await getSiteSettings();
   const pageSettings = await getPageSettings(PAGE_SLUG);
   const promoData = await getDoctorsPageData();
@@ -66,18 +56,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
   const languages = await getLanguages();
   const cities = await getCities();
   const clinics = await getClinics();
-  const doctors = await getDoctorsList(
-    {
-      page: 1,
-      pageSize: DOCTORS_PAGE_LIMIT,
-    },
-    pageQuery,
-  );
 
   return {
     props: {
       cities,
-      doctors,
       clinics,
       languages,
       promoData,
@@ -92,7 +74,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
 
 const DoctorsPage = ({
   clinics,
-  doctors,
   languages,
   promoData,
   insurances,
@@ -100,7 +81,7 @@ const DoctorsPage = ({
   pageSettings,
   siteSettings,
   globalServices,
-}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element => {
+}: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
   if (router.isFallback) {
     return <ListPageSkeleton />;
@@ -120,7 +101,6 @@ const DoctorsPage = ({
             insurances={insurances}
             languages={languages}
             clinics={clinics}
-            doctors={doctors}
           />
         </PageResult>
       </Layout>

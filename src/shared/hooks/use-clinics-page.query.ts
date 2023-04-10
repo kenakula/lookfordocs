@@ -6,7 +6,6 @@ import { ClinicsFilterQuery, IClinic, StrapiCollection } from '../types';
 import { getClinicsList } from '@/api';
 
 export const useClinicsPageQuery = (
-  initialData: StrapiCollection<IClinic>,
   pageSize: number,
 ): {
   data: StrapiCollection<IClinic> | undefined;
@@ -18,14 +17,12 @@ export const useClinicsPageQuery = (
 } => {
   const router = useRouter();
   const [query, setQuery] = useState<ClinicsFilterQuery>();
-  const [initialQuery, setInitialQuery] = useState<ClinicsFilterQuery>({});
   const [pageNumber, setPageNumber] = useState(1);
 
   const { data, isLoading, isFetching, isError } = useQuery(
     ['doctorsList', query, pageNumber],
     () => getClinicsList({ page: pageNumber, pageSize }, query),
     {
-      placeholderData: initialData,
       refetchOnWindowFocus: false,
       enabled: !!query,
     },
@@ -35,7 +32,7 @@ export const useClinicsPageQuery = (
     if (router.isReady) {
       if (router.isReady) {
         const queryObj = router.query as ClinicsFilterQuery;
-        setInitialQuery(queryObj);
+        setQuery(queryObj);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +45,7 @@ export const useClinicsPageQuery = (
 
   return {
     data,
-    query: initialQuery,
+    query,
     isLoading,
     isFetching,
     isError,

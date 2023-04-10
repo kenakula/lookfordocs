@@ -22,7 +22,6 @@ import {
   IInsurance,
   ILanguage,
   ISpecialty,
-  StrapiCollection,
   StrapiMeta,
 } from '@/shared/types';
 import {
@@ -50,7 +49,6 @@ interface HookValue {
 }
 
 interface HookProps {
-  doctors: StrapiCollection<IDoctor>;
   services: IGlobalService[];
   specialties: ISpecialty[];
   insurances: IInsurance[];
@@ -64,7 +62,6 @@ export const useBuildQuery = ({
   languages,
   services,
   clinics,
-  doctors,
 }: HookProps): HookValue => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -72,7 +69,7 @@ export const useBuildQuery = ({
   const [pagingValue, setPagingValue] = useState(1);
 
   const { data, isLoading, isError, query, fetchDoctors, isFetching } =
-    useDoctorsPageQuery(doctors, DOCTORS_PAGE_LIMIT);
+    useDoctorsPageQuery(DOCTORS_PAGE_LIMIT);
 
   const { control, getValues, setValue, reset } =
     useForm<DoctorsFilterFormModel>({
