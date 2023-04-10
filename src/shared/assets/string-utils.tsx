@@ -1,10 +1,26 @@
 import { IClinicAddress } from '../types';
 
-export const capitalize = (str: string): string =>
-  str[0].toUpperCase() + str.slice(1);
+export const capitalize = (str: string): string => {
+  if (!str) {
+    return '';
+  }
 
-export const capitalizeName = (str: string): string =>
-  str.split(' ').map(capitalize).join(' ').split('-').map(capitalize).join('-');
+  return str[0].toUpperCase() + str.slice(1);
+};
+
+export const capitalizeName = (str: string): string => {
+  if (!str) {
+    return '';
+  }
+
+  return str
+    .split(' ')
+    .map(capitalize)
+    .join(' ')
+    .split('-')
+    .map(capitalize)
+    .join('-');
+};
 
 export const getHighlightedLetters = (
   str: string,
