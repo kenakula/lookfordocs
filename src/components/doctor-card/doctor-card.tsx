@@ -64,7 +64,7 @@ export const DoctorCard = ({
 
   return (
     <StyledDoctorsCard
-      multipleClinics={clinics.length > 1}
+      multipleClinics={clinics && clinics.length > 1}
       detailedLocation={detailedLocation}
       shadowed={shadowed}
       className="doctor-card"

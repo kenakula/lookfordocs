@@ -50,7 +50,7 @@ export const ClinicCardAside = ({
           ))}
         </ul>
       )}
-      {worktime.length ? <WorkTime data={worktime} /> : null}
+      {worktime && worktime.length ? <WorkTime data={worktime} /> : null}
       {insurances.length ? <ClinicCardInsurances list={insurances} /> : null}
       {reembolso && (
         <Typography className="clinics-reembolso">

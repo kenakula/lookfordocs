@@ -80,7 +80,7 @@ export const DoctorsFilter = ({
 
   const handleSmartSearchSubmit = (name?: string): void => {
     setSearchString(name ?? '');
-    runQueryBuilder();
+    runQueryBuilder(name);
 
     if (inputRef.current) {
       inputRef.current.blur();
