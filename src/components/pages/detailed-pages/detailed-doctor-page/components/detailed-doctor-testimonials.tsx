@@ -41,7 +41,7 @@ export const DetialedDoctorTestimonials = ({
     >
       <StyledDetailInfoBlockHeader className="detailed-info-header">
         <StyledDetailInfoTitle variant="h3">Отзывы</StyledDetailInfoTitle>
-        {testimonials && testimonials.length ? (
+        {testimonials.length ? (
           <ButtonComponent
             text="Оставить отзыв"
             variant="outlined"

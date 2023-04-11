@@ -1,17 +1,13 @@
 import { ContainerComponent } from '@/components';
 import { PageSection, Title } from '@/shared/assets';
-import { ICountedSpecialties, ISpecialty } from '@/shared/types';
+import { ISpecialty } from '@/shared/types';
 import { CardsList, StyledInner } from './components';
 
 interface Props {
-  specialties: ISpecialty[] | null;
-  countedSpecialties: ICountedSpecialties[] | null;
+  specialties: ISpecialty[];
 }
 
-export const MainPopular = ({
-  specialties = [],
-  countedSpecialties = [],
-}: Props) => {
+export const MainPopular = ({ specialties = [] }: Props) => {
   return (
     <PageSection shortBottom>
       <ContainerComponent>
@@ -19,12 +15,7 @@ export const MainPopular = ({
           <Title className="title" variant="h2" minor>
             Популярные направления
           </Title>
-          {specialties && countedSpecialties && (
-            <CardsList
-              specialties={specialties}
-              countedSpecialties={countedSpecialties}
-            />
-          )}
+          <CardsList specialties={specialties} />
         </StyledInner>
       </ContainerComponent>
     </PageSection>

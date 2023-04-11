@@ -1,6 +1,6 @@
+import { Header, Footer, AppointmentDialog, ScrollToTop } from '@/components';
 import { useSaveSiteSettings } from '@/shared/hooks';
 import { ISiteSettings } from '@/shared/types';
-import { Header, Footer, AppointmentDialog, ScrollToTop } from '@/components';
 
 interface Props {
   children: React.ReactNode;

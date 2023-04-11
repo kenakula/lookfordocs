@@ -1,7 +1,4 @@
-import { useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useMediaQuery } from '@mui/material';
-import { getClinicTestimonials } from '@/api';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { ButtonComponent, ClinicCard, ContainerComponent } from '@/components';
 import { IClinic } from '@/shared/types';
@@ -9,6 +6,8 @@ import { Breakpoints } from '@/shared/enums';
 import { capitalize, DetailedPageLayout } from '@/shared/assets';
 import { DetailedInfo } from './components';
 import { ClinicCardAside } from '@/components/clinic-card/components';
+import { useQuery } from '@tanstack/react-query';
+import { getClinicTestimonials } from '@/api';
 
 interface Props {
   data: IClinic;
@@ -16,36 +15,24 @@ interface Props {
 
 export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
-  const clinicId = data.id.toString();
-  const { data: testimonials, isLoading: testimonialsLoading } = useQuery({
-    queryKey: ['clinicTestimonials', clinicId],
-    queryFn: () => getClinicTestimonials(clinicId),
-    staleTime: Infinity,
-  });
   const dispatch = useAppDispatch();
 
-  const clinicName = useMemo(() => capitalize(data.name), [data.name]);
+  const { data: clinicTestimonials } = useQuery({
+    queryKey: ['clinicTestimonials', data.id],
+    queryFn: () => getClinicTestimonials(data.id.toString()),
+    staleTime: Infinity,
+  });
+
+  const clinicName = capitalize(data.name);
 
   const openRequestForm = () => {
     dispatch(
       openAppointmentDialog({
-        name: clinicName,
-        id: data.id,
-        image: data.image,
+        clinic: data,
         type: 'clinic',
       }),
     );
   };
-
-  const testimonialsCount = testimonials ? testimonials.length : undefined;
-  const avarageRating = useMemo(() => {
-    if (!testimonials) {
-      return undefined;
-    }
-
-    const sum = testimonials.reduce((prev, curr) => prev + curr.rate, 0);
-    return sum === 0 ? 0 : sum / testimonials.length;
-  }, [testimonials]);
 
   return (
     <ContainerComponent>
@@ -55,15 +42,10 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
           <ClinicCard
             data={data}
             detailedLocation
-            rating={avarageRating}
-            testimonialsCount={testimonialsCount}
+            testimonials={clinicTestimonials}
           />
-          {isTablet ? (
-            <DetailedInfo
-              data={data}
-              testimonials={testimonials}
-              testimonialsLoading={testimonialsLoading}
-            />
+          {isTablet && clinicTestimonials ? (
+            <DetailedInfo data={data} testimonials={clinicTestimonials} />
           ) : null}
         </div>
         <div className="detailed-right-column">
@@ -84,12 +66,8 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
           </div>
         </div>
         <div>
-          {!isTablet ? (
-            <DetailedInfo
-              data={data}
-              testimonials={testimonials}
-              testimonialsLoading={testimonialsLoading}
-            />
+          {!isTablet && clinicTestimonials ? (
+            <DetailedInfo data={data} testimonials={clinicTestimonials} />
           ) : null}
         </div>
       </DetailedPageLayout>

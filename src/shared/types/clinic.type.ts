@@ -1,48 +1,38 @@
+import { StrapiEditionsInfo } from './api-types.type';
+import { ICity } from './city.type';
 import { IContact } from './contact.type';
-import {
-  CitiesRef,
-  DoctorRef,
-  GlobalServicesRef,
-  InsurancesRef,
-  LanguagesRef,
-  SpecialtyRef,
-} from './directus-api-refs';
+import { IGlobalService } from './global-service.type';
 import { IImage } from './image.type';
+import { IInsurance } from './insurance.type';
+import { ILanguage } from './language.type';
 import { IMetro } from './metro.type';
-import { IService } from './service.type';
+import { IPrice } from './price.type';
+import { ISpecialty } from './specialty.type';
 import { ITestimonial } from './testimonial.type';
 import { IWorkTime } from './work-time.type';
 
-export interface IClinic {
+export interface IClinicAddress {
   id: number;
-  status: string;
-  sort?: number;
-  user_created: string;
-  date_created: Date;
-  user_updated: string;
-  date_updated?: Date;
+  address: string;
+  city: ICity;
+}
+
+export interface IClinic extends StrapiEditionsInfo {
+  id: number;
   name: string;
   subtitle: string;
   image: IImage;
-  address: string;
-  cities: CitiesRef[];
+  address: IClinicAddress[];
   metro: IMetro[];
-  insurances: InsurancesRef[];
+  insurances: IInsurance[];
   contacts: IContact[];
-  globalServices: GlobalServicesRef[];
-  doctors: DoctorRef[];
+  globalServices: IGlobalService[];
   description: string;
-  specialties: SpecialtyRef[];
-  lang: LanguagesRef[];
+  specialties: ISpecialty[];
+  languages: ILanguage[];
   worktime: IWorkTime[];
-  services: IService[];
+  prices: IPrice[];
   longText: string;
   reembolso: boolean;
-}
-
-export interface IClinicsTestimonials {
-  clinics_id: {
-    id: number;
-  };
-  testimonials_id: ITestimonial | null;
+  testimonials: ITestimonial[];
 }

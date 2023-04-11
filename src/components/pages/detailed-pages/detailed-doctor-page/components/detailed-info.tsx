@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Skeleton } from '@mui/material';
 import { TestimonialDialog } from '@/components';
 import { IDoctor, ITestimonial } from '@/shared/types';
 import {
@@ -16,19 +15,11 @@ import { DetialedDoctorTestimonials } from './detailed-doctor-testimonials';
 
 interface Props {
   data: IDoctor;
-  testimonials?: ITestimonial[];
+  testimonials: ITestimonial[];
 }
 
 export const DetailedInfo = ({
-  data: {
-    longText,
-    nosologies,
-    education,
-    id: docId,
-    firstName,
-    lastName,
-    image,
-  },
+  data: { longText, nosologies, education, id: docId, fullName, image },
   testimonials,
 }: Props): JSX.Element => {
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
@@ -55,16 +46,12 @@ export const DetailedInfo = ({
         </StyledDetailInfoBlock>
       )}
 
-      {testimonials ? (
-        <DetialedDoctorTestimonials
-          testimonials={testimonials}
-          openDialog={handleOpenTestimonialsDialog}
-        />
-      ) : (
-        <Skeleton height={300} />
-      )}
+      <DetialedDoctorTestimonials
+        testimonials={testimonials}
+        openDialog={handleOpenTestimonialsDialog}
+      />
 
-      {nosologies && (
+      {nosologies.length ? (
         <StyledDetailInfoBlock className="detailed-info-block">
           <StyledDetailInfoBlockHeader className="detailed-info-block-header">
             <StyledDetailInfoTitle variant="h3">
@@ -77,9 +64,9 @@ export const DetailedInfo = ({
             ))}
           </ul>
         </StyledDetailInfoBlock>
-      )}
+      ) : null}
 
-      {education && (
+      {education.length ? (
         <StyledDetailInfoBlock className="detailed-info-block">
           <StyledDetailInfoBlockHeader className="detailed-info-block-header">
             <StyledDetailInfoTitle variant="h3">
@@ -88,13 +75,13 @@ export const DetailedInfo = ({
           </StyledDetailInfoBlockHeader>
           <DetailedDoctorEducation data={education} />
         </StyledDetailInfoBlock>
-      )}
+      ) : null}
       <TestimonialDialog
         opened={testimonialDialogOpen}
         onClose={handleCloseTestimonialsDialog}
         type="doctor"
         entityId={docId}
-        entityName={capitalizeName(firstName, lastName)}
+        entityName={capitalizeName(fullName)}
         entityImage={image}
       />
     </StyledDetailedInfo>

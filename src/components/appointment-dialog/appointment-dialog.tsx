@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { api } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
-import { axiosClient } from '@/stores/assets';
-import { getImageUrl } from '@/shared/assets';
+import { capitalizeName, getImageUrl } from '@/shared/assets';
 import {
   ButtonComponent,
   DialogComponent,
@@ -12,6 +12,8 @@ import {
 } from '@/components';
 import { closeAppointmentDialog, setToaster } from '@/stores/slices';
 import { RequestFormModel } from '@/shared/models';
+import { IAppointment } from '@/shared/types';
+import { ImageSize } from '@/shared/enums';
 import { StyledAppointmentForm } from './components';
 import { formSchema } from './assets';
 import { useCommentBuilder } from './hooks';
@@ -20,7 +22,12 @@ export const AppointmentDialog = (): JSX.Element => {
   const { dialogOpen, target } = useAppSelector(state => state.appointment);
   const dispatch = useAppDispatch();
   const { isLoading, mutateAsync: sendRequest } = useMutation({
-    mutationFn: (data: RequestFormModel) => axiosClient.post('requests', data),
+    mutationFn: (data: RequestFormModel) =>
+      api.post('requests', {
+        data: {
+          ...data,
+        },
+      }),
   });
 
   const { handleSubmit, control, formState, reset, setValue } =
@@ -38,8 +45,21 @@ export const AppointmentDialog = (): JSX.Element => {
   useCommentBuilder(target, setValue);
 
   const onSubmit = async (data: RequestFormModel) => {
+    const request: RequestFormModel = {
+      ...data,
+      date: new Date(),
+    };
+
+    if (target && target.clinic) {
+      request.clinic = [target.clinic.id];
+    }
+
+    if (target && target.doctor) {
+      request.doctor = [target.doctor.id];
+    }
+
     try {
-      await sendRequest({ ...data, type: target?.type });
+      await sendRequest(request);
       reset();
       dispatch(closeAppointmentDialog());
       dispatch(
@@ -64,12 +84,38 @@ export const AppointmentDialog = (): JSX.Element => {
     dispatch(closeAppointmentDialog());
   };
 
+  const getHeaderTitle = (appointmentType: IAppointment | null): string => {
+    if (appointmentType && appointmentType.clinic) {
+      return capitalizeName(appointmentType.clinic.name);
+    }
+
+    if (appointmentType && appointmentType.doctor) {
+      return capitalizeName(appointmentType.doctor.fullName);
+    }
+
+    return 'Заполните данные';
+  };
+
+  const getHeaderImageUrl = (
+    appointmentType: IAppointment | null,
+  ): string | undefined => {
+    if (appointmentType && appointmentType.clinic) {
+      return getImageUrl(appointmentType.clinic.image, ImageSize.Thumb);
+    }
+
+    if (appointmentType && appointmentType.doctor) {
+      return getImageUrl(appointmentType.doctor.image, ImageSize.Thumb);
+    }
+
+    return undefined;
+  };
+
   return (
     <DialogComponent
       openState={dialogOpen}
       onClose={closeDialog}
-      title={target ? target.name : 'Заполните данные'}
-      imageUrl={target ? getImageUrl(target.image, target.name) : undefined}
+      title={getHeaderTitle(target)}
+      imageUrl={getHeaderImageUrl(target)}
     >
       <StyledAppointmentForm
         className="appointment-form"

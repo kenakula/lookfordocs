@@ -1,5 +1,6 @@
+import { IColor } from './color.type';
+
 export interface IMetro {
-  color: string;
+  color: IColor;
   name: string;
-  slug: string;
 }

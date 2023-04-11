@@ -1,8 +1,8 @@
-import { GlobalServicesRef } from '@/shared/types';
+import { IGlobalService } from '@/shared/types';
 import { GlobalServiceIcon, StyledGlobalServices } from './components';
 
 interface Props {
-  list: GlobalServicesRef[];
+  list: IGlobalService[];
 }
 
 export const GlobalServicesList = ({ list }: Props): JSX.Element | null => {
@@ -13,7 +13,7 @@ export const GlobalServicesList = ({ list }: Props): JSX.Element | null => {
   return (
     <StyledGlobalServices>
       <ul>
-        {list.map(({ globalServices_id: { id, name, type } }) => (
+        {list.map(({ id, name, type }) => (
           <GlobalServiceIcon key={id} name={name} type={type} />
         ))}
       </ul>

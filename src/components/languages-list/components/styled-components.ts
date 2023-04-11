@@ -29,26 +29,22 @@ export const StyledLanguages = styled('div')(({ theme }) => ({
       display: 'inline-flex',
       alignItems: 'center',
       marginRight: 6,
-
-      svg: {
-        width: 14,
-        height: 16,
-      },
+      width: 16,
+      height: 16,
     },
   },
 
   [theme.breakpoints.up('lg')]: {
-    display: 'flex',
-    alignItems: 'center',
-
     '.MuiTypography-caption': {
       margin: theme.spacing(0, 1.5, 0, 0),
     },
 
     ul: {
       display: 'flex',
+      flexWrap: 'wrap',
       alignItems: 'center',
       columnGap: theme.spacing(1.5),
+      rowGap: theme.spacing(0.5),
     },
 
     li: {

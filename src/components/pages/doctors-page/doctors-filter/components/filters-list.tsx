@@ -36,6 +36,8 @@ export const FiltersList = ({
 }: Props): JSX.Element => {
   const { searchStr } = useAppSelector(state => state.smartSearch);
 
+  // TODO добавить фильтр города
+
   return (
     <form className="filter-form" onChange={() => handleChange(searchStr)}>
       <FilterGroupComponent<ISpecialty>
@@ -74,7 +76,6 @@ export const FiltersList = ({
         list={insurances}
         name="insurances"
       />
-
       <FilterGroupComponent<IClinic>
         title="Работает в клиниках"
         formControl={formControl}

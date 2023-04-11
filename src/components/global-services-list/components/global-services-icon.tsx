@@ -71,6 +71,7 @@ export const GlobalServiceIcon = ({ type, name }: IconProps): JSX.Element => {
         </li>
       );
     case 'receipt':
+    case 'forms':
       return (
         <li>
           <TooltipComponent

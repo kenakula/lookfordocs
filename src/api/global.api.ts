@@ -1,66 +1,76 @@
 import {
   ICity,
+  IClinic,
   IGlobalService,
   IInsurance,
   ILanguage,
   IPageSettings,
   ISiteSettings,
   ISpecialty,
+  StrapiCollection,
+  StrapiSingleton,
 } from '@/shared/types';
-import { axiosClient } from '@/stores/assets';
-import { AxiosResponse } from 'axios';
+import { api } from './api';
 
-export const getSiteSettings = async (): Promise<ISiteSettings> =>
-  axiosClient
-    .get<AxiosResponse<ISiteSettings>>('/site_settings', {
+export const getSiteSettings = async () =>
+  api
+    .get<StrapiSingleton<ISiteSettings>>('site-settings', {
       params: {
-        fields: '*.*',
+        populate: '*',
       },
     })
     .then(res => res.data.data);
 
-export const getPageSettings = async (slug: string): Promise<IPageSettings> =>
-  axiosClient
-    .get<AxiosResponse<IPageSettings[]>>('/pages', {
+export const getPageSettings = async (slug: string) =>
+  api
+    .get<StrapiCollection<IPageSettings>>('pages', {
       params: {
-        filter: JSON.stringify({ slug: { _eq: slug } }),
-        fields: '*.*',
+        filters: {
+          slug: {
+            $eq: slug,
+          },
+        },
+        populate: '*',
       },
     })
     .then(res => res.data.data[0]);
 
-export const getGlobalServices = async (): Promise<IGlobalService[]> =>
-  axiosClient
-    .get<AxiosResponse<IGlobalService[]>>('/globalServices')
-    .then(res => res.data.data);
-
-export const getLanguages = async (): Promise<ILanguage[]> =>
-  axiosClient
-    .get<AxiosResponse<ILanguage[]>>('/languages', {
+export const getSpecialties = async (popular?: boolean) =>
+  api
+    .get<StrapiCollection<ISpecialty>>('specialties', {
       params: {
-        fields: 'id, name, slug',
+        sort: 'popular:desc',
+        populate: '*',
+        filters: popular
+          ? {
+              popular: {
+                $eq: true,
+              },
+            }
+          : undefined,
       },
     })
     .then(res => res.data.data);
-
-export const getCities = async () =>
-  axiosClient.get<AxiosResponse<ICity[]>>('cities').then(res => res.data.data);
 
 export const getInsurances = async () =>
-  axiosClient
-    .get<AxiosResponse<IInsurance[]>>('insurances', {
+  api
+    .get<StrapiCollection<IInsurance>>('insurances', {
       params: {
-        fields: 'id, name, image.*',
-        sort: 'sort',
+        populate: '*',
       },
     })
     .then(res => res.data.data);
 
-export const getSpecialties = async () =>
-  axiosClient
-    .get<AxiosResponse<ISpecialty[]>>('specialties', {
-      params: {
-        sort: '-popular',
-      },
-    })
+export const getGlobalServices = async () =>
+  api
+    .get<StrapiCollection<IGlobalService>>('global-services')
     .then(res => res.data.data);
+
+export const getLanguages = async () =>
+  api.get<StrapiCollection<ILanguage>>('languages').then(res => res.data.data);
+
+export const getCities = async () =>
+  api.get<StrapiCollection<ICity>>('cities').then(res => res.data.data);
+
+export const getClinics = async () =>
+  api.get<StrapiCollection<IClinic>>('clinics').then(res => res.data.data);

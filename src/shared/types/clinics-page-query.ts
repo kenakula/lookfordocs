@@ -4,4 +4,5 @@ export type ClinicsFilterQuery = {
   insurance?: string;
   lang?: string;
   service?: string;
+  city?: string;
 };

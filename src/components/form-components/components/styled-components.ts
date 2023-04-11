@@ -89,6 +89,30 @@ export const StyledInputWrapper = styled('div')(({ theme }) => ({
     },
   },
 
+  '.country-list.phone-input__dropdown': {
+    width: 'calc(100vw - 32px)',
+    borderRadius: theme.shape.borderRadius,
+
+    [theme.breakpoints.up('lmd')]: {
+      width: 461,
+
+      '&::-webkit-scrollbar': {
+        width: 4,
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: theme.palette.background.default,
+      },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: 23,
+        backgroundColor: theme.palette.misc.dark,
+      },
+    },
+
+    [theme.breakpoints.up('xl')]: {
+      width: 465,
+    },
+  },
+
   '.flag-dropdown.phone-input__btn': {
     borderColor: theme.palette.misc.dark,
     backgroundColor: theme.palette.misc.light,

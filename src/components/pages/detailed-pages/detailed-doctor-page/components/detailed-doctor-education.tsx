@@ -21,8 +21,8 @@ export const DetailedDoctorEducation = ({ data }: Props): JSX.Element => {
 
   return (
     <Timeline className="doctor-education-timeline">
-      {data.map(({ year, typeString, specialty, text }, index) => (
-        <TimelineItem key={`${year}-${index}`} className="timeline-item">
+      {data.map(({ startYear, endYear, type, specialty, text }, index) => (
+        <TimelineItem key={`${startYear}-${index}`} className="timeline-item">
           <TimelineSeparator>
             <TimelineDot />
             {index < data.length - 1 && <TimelineConnector />}
@@ -30,14 +30,14 @@ export const DetailedDoctorEducation = ({ data }: Props): JSX.Element => {
           <TimelineContent>
             <StyledDoctorEducationItem>
               <Typography variant="caption" className="doctor-education-year">
-                {year}
+                {endYear ?? 'по н.в.'}
               </Typography>
               <Box className="doctor-education-info">
                 <Typography className="doctor-education-text">
                   {text}
                 </Typography>
                 <Typography className="doctor-education-description">
-                  {getEducationDescriptionElements([specialty, typeString])}
+                  {getEducationDescriptionElements([type, specialty])}
                 </Typography>
               </Box>
             </StyledDoctorEducationItem>

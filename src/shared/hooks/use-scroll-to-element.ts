@@ -1,14 +1,16 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useScrollToElement = (
   elId: string,
 ): { scrollToElement: () => void } => {
   const [el, setEl] = useState<HTMLElement | null>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const element = document.getElementById(elId);
 
-    setEl(element);
+    if (element) {
+      setEl(element);
+    }
   }, [elId]);
 
   const scrollToElement = (): void => {

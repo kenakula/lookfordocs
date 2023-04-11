@@ -1,82 +1,158 @@
-import { AxiosResponse } from 'axios';
-import { axiosClient } from '@/stores/assets';
 import {
-  DoctorRef,
+  ClinicsFilterQuery,
   IClinic,
-  IClinicsTestimonials,
-  IPromoBlockData,
+  IDoctor,
   ITestimonial,
+  StrapiCollection,
+  StrapiPagination,
+  StrapiSingleton,
 } from '@/shared/types';
+import { api } from './api';
 
 export const getClinicsIds = async () =>
-  axiosClient
-    .get<AxiosResponse<{ id: number }[]>>('clinics', {
+  api
+    .get<StrapiCollection<IClinic>>('clinics', {
       params: { fields: 'id' },
-    })
-    .then(res => res.data.data);
-
-export const getClinicInfo = async (id: string) =>
-  axiosClient
-    .get<AxiosResponse<IClinic>>(`/clinics/${id}`, {
-      params: {
-        fields: `*.*,specialties.specialties_id.*,insurances.insurances_id.*,lang.languages_id.*,globalServices.globalServices_id.*,cities.cities_id.*`,
-      },
     })
     .then(res => res.data.data);
 
 export const getClinicDoctors = async (
   id: string,
-  page: number,
-  limit: number,
+  pagination: Partial<StrapiPagination>,
 ) =>
-  axiosClient
-    .get<AxiosResponse<DoctorRef[]>>('/clinics_doctors', {
+  api
+    .get<StrapiCollection<IDoctor>>('doctors', {
       params: {
-        filter: JSON.stringify({
-          clinics_id: { _eq: id },
-        }),
-        page,
-        limit,
-        fields: `
-            doctors_id.*,
-            doctors_id.specialties.specialties_id.*,
-            doctors_id.image.*,
-            doctors_id.globalServices.globalServices_id.*,
-            doctors_id.lang.languages_id.*,
-            doctors_id.clinics.clinics_id.*,
-            doctors_id.insurances.insurances_id.*,
-            doctors_id.clinics.clinics_id.cities.cities_id.*,
-            doctors_id.clinics.clinics_id.insurances.insurances_id.*
-          `,
+        pagination,
+        filters: {
+          clinics: {
+            id: {
+              $eq: id,
+            },
+          },
+        },
+        populate: `
+          clinics.image,
+          clinics.address.city,
+          clinics.metro.color,
+          clinics.insurances,
+          languages.icon,
+          specialties,
+          insurances,
+          globalServices,
+          prices.currency,
+          testimonials,
+          image
+        `,
+      },
+    })
+    .then(res => res.data);
+
+export const getClinicInfo = async (id: string) =>
+  api
+    .get<StrapiSingleton<IClinic>>(`clinics/${id}`, {
+      params: {
+        populate: `
+        image,
+        address.city,
+        metro.color,
+        insurances,
+        languages.icon,
+        specialties,
+        insurances,
+        globalServices,
+        prices.currency,
+        testimonials,
+        worktime,
+        image,
+      `,
       },
     })
     .then(res => res.data.data);
 
-export const getClinicsPagePromoData = async () =>
-  axiosClient
-    .get<AxiosResponse<IPromoBlockData>>('clinics_promo', {
-      params: { fields: 'id,title,subtitle,chips' },
-    })
-    .then(res => res.data.data);
-
-export const getClinicTestimonials = async (clinicId: string) =>
-  axiosClient
-    .get<AxiosResponse<ITestimonial[]>>('testimonials', {
+export const getClinicTestimonials = async (id: string) =>
+  api
+    .get<StrapiCollection<ITestimonial>>('testimonials', {
       params: {
-        filter: JSON.stringify({
-          targetClinic: { clinics_id: { _eq: clinicId } },
-        }),
-        fields: 'id,type,author,date,rate,comment,targetClinic.*',
-        sort: '-date_created',
+        populate: '*',
+        filters: {
+          clinic: {
+            id: {
+              $eq: id,
+            },
+          },
+        },
       },
     })
     .then(res => res.data.data);
 
-export const getClinicsTestimonialsRates = async () =>
-  axiosClient
-    .get<AxiosResponse<IClinicsTestimonials[]>>('testimonials_clinics', {
-      params: {
-        fields: 'clinics_id.id,testimonials_id.rate',
+export const getClinicsList = (
+  pagination: Partial<StrapiPagination>,
+  query?: ClinicsFilterQuery,
+) =>
+  api<StrapiCollection<IClinic>>('clinics', {
+    params: {
+      populate: `
+        image,
+        address.city,
+        metro.color,
+        insurances,
+        languages.icon,
+        specialties,
+        insurances,
+        globalServices,
+        prices.currency,
+        testimonials,
+        worktime,
+        image
+      `,
+      pagination,
+      filters: {
+        $and: [
+          {
+            name: {
+              $containsi: query && query.name,
+            },
+          },
+          {
+            $or: [
+              {
+                specialties: {
+                  id: {
+                    $in:
+                      query && query.specialty
+                        ? query.specialty.split(',')
+                        : [],
+                  },
+                },
+              },
+              {
+                globalServices: {
+                  id: {
+                    $in: query && query.service ? query.service.split(',') : [],
+                  },
+                },
+              },
+              {
+                insurances: {
+                  id: {
+                    $in:
+                      query && query.insurance
+                        ? query.insurance.split(',')
+                        : [],
+                  },
+                },
+              },
+              {
+                languages: {
+                  id: {
+                    $in: query && query.lang ? query.lang.split(',') : [],
+                  },
+                },
+              },
+            ],
+          },
+        ],
       },
-    })
-    .then(res => res.data.data);
+    },
+  }).then(res => res.data);

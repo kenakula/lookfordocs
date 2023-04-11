@@ -38,7 +38,7 @@ export const CardsList = ({
                 component={Link}
               >
                 <Image
-                  src={getImageUrl(image.id, `insurance-${name}`)}
+                  src={getImageUrl(image)}
                   fill
                   alt={name}
                   quality={100}

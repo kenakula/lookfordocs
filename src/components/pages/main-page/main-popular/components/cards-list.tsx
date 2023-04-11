@@ -7,7 +7,7 @@ import {
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { ButtonComponent } from '@/components';
-import { ISpecialty, ICountedSpecialties } from '@/shared/types';
+import { ISpecialty } from '@/shared/types';
 import { capitalize, DOCTORS_PAGE, numWord } from '@/shared/assets';
 import { Breakpoints } from '@/shared/enums';
 import {
@@ -22,13 +22,9 @@ const CARDS_COUNT_SHOW = 4;
 
 interface Props {
   specialties: ISpecialty[];
-  countedSpecialties: ICountedSpecialties[];
 }
 
-export const CardsList = ({
-  specialties,
-  countedSpecialties,
-}: Props): JSX.Element => {
+export const CardsList = ({ specialties }: Props): JSX.Element => {
   const [expanded, setExpanded] = useState(false);
   const matches = useMediaQuery(Breakpoints.Tablet);
 
@@ -39,21 +35,10 @@ export const CardsList = ({
   const collapsedSize =
     CARDS_COUNT_SHOW * CARD_HEIGHT + CARDS_COUNT_SHOW * CARD_GAP;
 
-  const getSpecialtyCount = (id: number): number => {
-    const spec = countedSpecialties.find(item => item.specialties_id === id);
-
-    if (spec) {
-      return spec.count.doctors_id;
-    }
-
-    return 0;
-  };
-
-  const getCountValue = (specId: number): string => {
-    const count = getSpecialtyCount(specId);
+  const getCountValue = (value: number): string => {
     const words = ['врач', 'врача', 'врачей'];
 
-    return `${count} ${numWord(count, words)}`;
+    return `${value} ${numWord(value, words)}`;
   };
 
   return (
@@ -63,15 +48,17 @@ export const CardsList = ({
         collapsedSize={matches ? 0 : collapsedSize}
       >
         <StyledList gap={CARD_GAP}>
-          {specialties.map(({ id, title }) => (
+          {specialties.map(({ id, name, doctors }) => (
             <StyledCard minHeight={CARD_HEIGHT} key={id}>
               <MuiLink
                 underline="none"
                 href={`${DOCTORS_PAGE}?specialty=${id}`}
                 component={Link}
               >
-                <Typography variant="h3">{capitalize(title)}</Typography>
-                <Typography variant="caption">{getCountValue(id)}</Typography>
+                <Typography variant="h3">{capitalize(name)}</Typography>
+                <Typography variant="caption">
+                  {getCountValue(doctors.length)}
+                </Typography>
               </MuiLink>
             </StyledCard>
           ))}

@@ -7,4 +7,7 @@ export interface RequestFormModel {
   connectType: 'phone' | 'watsapp' | 'telegram';
   comment: string;
   type: AppointmentType | undefined;
+  clinic?: number[];
+  doctor?: number[];
+  date: Date;
 }

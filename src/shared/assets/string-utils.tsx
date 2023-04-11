@@ -1,25 +1,45 @@
-export const capitalize = (str: string): string =>
-  str[0].toUpperCase() + str.slice(1);
+import { IClinicAddress } from '../types';
 
-export const capitalizeName = (firstName: string, lastName?: string): string =>
-  [firstName, lastName]
-    .filter(name => Boolean(name))
-    .map(name => {
-      if (name) {
-        return capitalize(name);
-      }
-    })
-    .join(' ');
+export const capitalize = (str: string): string => {
+  if (!str) {
+    return '';
+  }
+
+  return str[0].toUpperCase() + str.slice(1);
+};
+
+export const capitalizeName = (str: string): string => {
+  if (!str) {
+    return '';
+  }
+
+  return str
+    .split(' ')
+    .map(capitalize)
+    .join(' ')
+    .split('-')
+    .map(capitalize)
+    .join('-');
+};
 
 export const getHighlightedLetters = (
   str: string,
   substr: string,
-): JSX.Element => {
-  const capitalizedStr = str
-    .split(' ')
-    .filter(word => word.length)
-    .map(word => capitalize(word))
-    .join(' ');
+  append?: string,
+  capitalizeAll = true,
+): JSX.Element | null => {
+  if (!str) {
+    return null;
+  }
+
+  const capitalizedStr = capitalizeAll
+    ? str
+        .split(' ')
+        .filter(word => word.length)
+        .map(word => capitalize(word))
+        .join(' ')
+    : capitalize(str);
+
   const startIndex = capitalizedStr.toLowerCase().indexOf(substr.toLowerCase());
 
   if (startIndex === -1) {
@@ -39,6 +59,7 @@ export const getHighlightedLetters = (
       <span>{firstPartStr}</span>
       <span className="highlighted">{highlightedStr}</span>
       <span>{lastPartStr}</span>
+      {append ? <span>{` ${append}`}</span> : null}
     </span>
   );
 };
@@ -75,3 +96,6 @@ export const getAvatarLetters = (str: string): string => {
     .join('')
     .toUpperCase();
 };
+
+export const getClinicAddress = (address: IClinicAddress): string =>
+  `г. ${capitalizeName(address.city.name)}, ${address.address}`;

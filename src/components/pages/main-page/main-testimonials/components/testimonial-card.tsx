@@ -11,46 +11,26 @@ interface Props {
 }
 
 export const TestimonialCard = ({
-  data: {
-    date,
-    author,
-    comment,
-    targetDoctor,
-    targetClinic,
-    targetInsurance,
-    type,
-    specialty,
-    city,
-  },
+  data: { date, author, comment, type, doctor, clinic, insurance },
 }: Props): JSX.Element => {
   const cardDate = new Date(date).toLocaleDateString('ru-RU');
   const dateTimeString = new Date(date).toISOString();
 
   const renderHeader = (): JSX.Element | null => {
-    if (type === 'clinic' && targetClinic && city) {
-      return (
-        <ClinicHeader
-          city={city[0].cities_id}
-          clinic={targetClinic[0].clinics_id}
-        />
-      );
+    if (type === 'clinic' && clinic) {
+      return <ClinicHeader clinic={clinic} />;
     }
 
-    if (type === 'doctor' && targetDoctor && specialty) {
-      return (
-        <DoctorHeader
-          doctor={targetDoctor[0].doctors_id}
-          specialty={specialty}
-        />
-      );
+    if (type === 'doctor' && doctor) {
+      return <DoctorHeader doctor={doctor} />;
     }
 
     if (type === 'app') {
       return <AppHeader />;
     }
 
-    if (type === 'insurance' && targetInsurance) {
-      return <InsuranceHeader insurance={targetInsurance[0].insurances_id} />;
+    if (type === 'insurance' && insurance) {
+      return <InsuranceHeader insurance={insurance} />;
     }
 
     return null;

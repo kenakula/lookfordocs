@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { CircularProgress, Skeleton, Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
+import { getClinicDoctors } from '@/api';
 import {
   ButtonComponent,
   DoctorCard,
@@ -18,20 +19,17 @@ import {
   StyledDetailInfoTitle,
   StyledDetailLongText,
 } from '@/shared/assets';
-import { StyledDetailedClinicDoctorList } from './styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { getClinicDoctors } from '@/api';
-
+import { StyledDetailedClinicDoctorList } from './styled-components';
+// TODO рефактор
 interface Props {
   data: IClinic;
-  testimonials?: ITestimonial[];
-  testimonialsLoading: boolean;
+  testimonials: ITestimonial[];
 }
 
 export const DetailedInfo = ({
-  data: { longText, id: clinicId, image, name, cities },
+  data: { longText, id: clinicId, image, name },
   testimonials,
-  testimonialsLoading,
 }: Props): JSX.Element => {
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
@@ -42,24 +40,23 @@ export const DetailedInfo = ({
       if (blockRef.current) {
         blockRef.current.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 100);
+    }, 300);
 
     setPageNumber(page);
   };
 
   const {
-    data: doctors,
+    data: doctorsData,
     isLoading,
     isError,
     isFetching,
   } = useQuery({
     queryKey: ['clinicDoctors', clinicId, pageNumber],
     queryFn: () =>
-      getClinicDoctors(
-        clinicId.toString(),
-        pageNumber,
-        CLINIC_PAGE_DOCTORS_LIMIT,
-      ),
+      getClinicDoctors(clinicId.toString(), {
+        page: pageNumber,
+        pageSize: CLINIC_PAGE_DOCTORS_LIMIT,
+      }),
     staleTime: Infinity,
     keepPreviousData: true,
   });
@@ -97,15 +94,17 @@ export const DetailedInfo = ({
             Ошибка. Попробуйте позже.
           </Typography>
         )}
-        {doctors ? (
+        {doctorsData && doctorsData.data ? (
           <StyledDetailedClinicDoctorList className="detailed-info-block-list">
-            {doctors.map(({ doctors_id }) =>
-              doctors_id ? (
-                <li key={doctors_id.id}>
-                  <DoctorCard data={doctors_id} shadowed />
-                </li>
-              ) : null,
-            )}
+            {doctorsData.data.map(doc => (
+              <li key={doc.id}>
+                <DoctorCard
+                  data={doc}
+                  shadowed
+                  testimonials={doc.testimonials}
+                />
+              </li>
+            ))}
             {(isFetching || isLoading) && (
               <li className="loader">
                 <CircularProgress size={60} />
@@ -115,39 +114,38 @@ export const DetailedInfo = ({
         ) : (
           <FilterResultSkeleton />
         )}
-        <PaginationComponent
-          setPage={setPage}
-          page={pageNumber}
-          total={11}
-          limit={CLINIC_PAGE_DOCTORS_LIMIT}
-          variant="light"
-        />
+        {doctorsData && doctorsData.meta ? (
+          <PaginationComponent
+            setPage={setPage}
+            page={pageNumber}
+            total={doctorsData.meta.pagination.total}
+            limit={CLINIC_PAGE_DOCTORS_LIMIT}
+            variant="light"
+          />
+        ) : null}
       </StyledDetailInfoBlock>
 
-      {!testimonialsLoading ? (
-        <StyledDetailInfoBlock
-          className="detailed-info-block"
-          id="clinic-testimonials"
-        >
-          <StyledDetailInfoBlockHeader className="detailed-info-header">
-            <StyledDetailInfoTitle variant="h3">Отзывы</StyledDetailInfoTitle>
-            {testimonials && testimonials.length ? (
-              <ButtonComponent
-                text="Оставить отзыв"
-                variant="outlined"
-                fullWidth
-                onClick={handleOpenTestimonialsDialog}
-              />
-            ) : null}
-          </StyledDetailInfoBlockHeader>
-          <TestimonialsList
-            testimonials={testimonials}
-            openTestimonialDialog={handleOpenTestimonialsDialog}
-          />
-        </StyledDetailInfoBlock>
-      ) : (
-        <Skeleton height={300} />
-      )}
+      <StyledDetailInfoBlock
+        className="detailed-info-block"
+        id="clinic-testimonials"
+      >
+        <StyledDetailInfoBlockHeader className="detailed-info-header">
+          <StyledDetailInfoTitle variant="h3">Отзывы</StyledDetailInfoTitle>
+          {testimonials.length ? (
+            <ButtonComponent
+              text="Оставить отзыв"
+              variant="outlined"
+              fullWidth
+              onClick={handleOpenTestimonialsDialog}
+            />
+          ) : null}
+        </StyledDetailInfoBlockHeader>
+        {/* TODO сделать как на детальке врача */}
+        <TestimonialsList
+          testimonials={testimonials}
+          openTestimonialDialog={handleOpenTestimonialsDialog}
+        />
+      </StyledDetailInfoBlock>
 
       <TestimonialDialog
         opened={testimonialDialogOpen}
@@ -156,7 +154,6 @@ export const DetailedInfo = ({
         entityId={clinicId}
         entityName={capitalize(name)}
         entityImage={image}
-        city={cities[0]}
       />
     </StyledDetailedInfo>
   );

@@ -1,20 +1,17 @@
+import { StrapiEditionsInfo } from './api-types.type';
+
 export type GlobalServiceType =
   | 'clinic'
   | 'home'
   | 'online'
   | 'child'
-  | 'receipt';
+  | 'receipt'
+  | 'forms';
 
-export interface IGlobalService {
+export interface IGlobalService extends StrapiEditionsInfo {
   id: number;
-  status: string;
-  sort?: number;
-  user_created: string;
-  date_created: Date;
-  user_updated: string;
-  date_updated?: Date;
   slug: string;
   name: string;
-  description?: string;
   type: GlobalServiceType;
+  desctription?: string;
 }

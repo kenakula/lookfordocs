@@ -1,20 +1,12 @@
-import {
-  SpecialtyRef,
-  InsurancesRef,
-  LanguagesRef,
-  ClinicsRef,
-  GlobalServicesRef,
-} from './directus-api-refs';
+import { StrapiEditionsInfo } from './api-types.type';
+import { IClinic } from './clinic.type';
+import { IGlobalService } from './global-service.type';
 import { IImage } from './image.type';
-import { IService } from './service.type';
+import { IInsurance } from './insurance.type';
+import { ILanguage } from './language.type';
+import { IPrice } from './price.type';
+import { ISpecialty } from './specialty.type';
 import { ITestimonial } from './testimonial.type';
-
-export type DoctorEducationType =
-  | 'base'
-  | 'internship'
-  | 'ordinator'
-  | 'training'
-  | 'retrainig';
 
 export interface IDoctorNosology {
   group: string;
@@ -22,39 +14,27 @@ export interface IDoctorNosology {
 }
 
 export interface IDoctorEducation {
-  year: string;
-  type: DoctorEducationType;
-  typeString: string;
+  startYear: string;
+  endYear?: string;
+  type: string;
   specialty: string;
   text: string;
 }
 
-export interface IDoctor {
+export interface IDoctor extends StrapiEditionsInfo {
   id: number;
-  status: string;
-  sort?: number;
-  date_created: Date;
-  date_updated: Date;
-  firstName: string;
-  lastName?: string;
-  gender: string;
+  fullName: string;
   shortText?: string;
   longText?: string;
   image: IImage;
-  specialties: SpecialtyRef[];
-  insurances: InsurancesRef[];
-  lang: LanguagesRef[];
-  clinics: ClinicsRef[];
-  services: IService[];
-  globalServices: GlobalServicesRef[];
-  reembolso?: boolean;
-  nosologies?: IDoctorNosology[];
-  education?: IDoctorEducation[];
-}
-
-export interface IDoctorsTestimonials {
-  doctors_id: {
-    id: number;
-  };
-  testimonials_id: ITestimonial | null;
+  specialties: ISpecialty[];
+  insurances: IInsurance[];
+  languages: ILanguage[];
+  clinics: IClinic[];
+  prices: IPrice[];
+  globalServices: IGlobalService[];
+  nosologies: IDoctorNosology[];
+  reembolso: boolean;
+  education: IDoctorEducation[];
+  testimonials: ITestimonial[];
 }

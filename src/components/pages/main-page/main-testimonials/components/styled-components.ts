@@ -73,7 +73,7 @@ export const StyledCard = styled('div')(({ theme }) => ({
   },
 
   '.card-subtitle': {
-    ...getTypography(theme, 14, 20),
+    ...getTypography(theme, 14, 18),
     color: theme.palette.text.secondary,
   },
 

@@ -6,9 +6,8 @@ export interface TestimonialModel {
   author: string;
   comment: string;
   rate: number;
-  targetDoctor?: { doctors_id: number }[];
-  targetClinic?: { clinics_id: number }[];
-  targetInsurance?: { insurances_id: number }[];
-  city?: { cities_id: number }[];
-  specialty?: { specialties_id: number }[];
+  publishedAt: Date | null;
+  doctor?: number[];
+  clinic?: number[];
+  insurance?: number[];
 }

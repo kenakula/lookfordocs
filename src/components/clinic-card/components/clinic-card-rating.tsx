@@ -1,38 +1,38 @@
 import Link from 'next/link';
 import { Typography } from '@mui/material';
-import { numWord } from '@/shared/assets';
+import { getRate, numWord } from '@/shared/assets';
 import { useScrollToElement } from '@/shared/hooks';
 import { RatingComponent } from '@/components';
 import { StyledClinicRating } from './styled-components';
+import { ITestimonial } from '@/shared/types';
 
 interface Props {
-  rating: number;
-  testimonialsCount?: number;
+  testimonials: ITestimonial[];
   detaiedLocation?: boolean;
 }
 
 export const ClinicCardRating = ({
-  rating,
-  testimonialsCount,
+  testimonials,
   detaiedLocation,
-}: Props): JSX.Element => {
-  const { scrollToElement } = useScrollToElement('doctor-testimonials');
+}: Props): JSX.Element | null => {
+  const { scrollToElement } = useScrollToElement('clinic-testimonials');
+  const rating = getRate(testimonials);
 
-  const ratingText = testimonialsCount
-    ? `${testimonialsCount} ${numWord(testimonialsCount, [
-        'отзыв',
-        'отзыва',
-        'отзывов',
-      ])}`
-    : '';
+  const ratingText = `${testimonials.length} ${numWord(testimonials.length, [
+    'отзыв',
+    'отзыва',
+    'отзывов',
+  ])}`;
+
+  if (!rating) {
+    return null;
+  }
 
   if (!detaiedLocation) {
     return (
       <StyledClinicRating>
         <RatingComponent rate={rating} size="small" showValue />
-        {testimonialsCount ? (
-          <Typography variant="caption">{ratingText}</Typography>
-        ) : null}
+        <Typography variant="caption">{ratingText}</Typography>
       </StyledClinicRating>
     );
   }
@@ -45,17 +45,15 @@ export const ClinicCardRating = ({
         showValue
         className="detailed-location"
       />
-      {testimonialsCount ? (
-        <Link
-          href="#clinic-testimonials"
-          onClick={e => {
-            e.preventDefault();
-            scrollToElement();
-          }}
-        >
-          {ratingText}
-        </Link>
-      ) : null}
+      <Link
+        href="#clinic-testimonials"
+        onClick={e => {
+          e.preventDefault();
+          scrollToElement();
+        }}
+      >
+        {ratingText}
+      </Link>
     </StyledClinicRating>
   );
 };

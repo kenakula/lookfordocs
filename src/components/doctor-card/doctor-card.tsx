@@ -7,11 +7,11 @@ import {
   CardImage,
   GlobalServicesList,
   LanguagesList,
-  ServicesList,
+  PricesList,
 } from '@/components';
-import { IDoctor } from '@/shared/types';
-import { capitalizeName, DOCTORS_PAGE } from '@/shared/assets';
-import { Breakpoints } from '@/shared/enums';
+import { IDoctor, ITestimonial } from '@/shared/types';
+import { capitalizeName, DOCTORS_PAGE, getImageUrl } from '@/shared/assets';
+import { Breakpoints, ImageSize } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
 import {
   DoctorSpecialties,
@@ -28,50 +28,43 @@ import {
 
 interface Props {
   data: IDoctor;
+  testimonials?: ITestimonial[];
   detailedLocation?: boolean;
-  rating?: number;
-  testimonialsCount?: number;
   shadowed?: boolean;
 }
 
 export const DoctorCard = ({
-  data: {
-    firstName,
-    lastName,
+  data,
+  detailedLocation = false,
+  testimonials,
+  shadowed = false,
+}: Props): JSX.Element => {
+  const {
+    fullName,
     specialties,
     image,
     shortText,
     id,
-    lang,
-    services,
+    languages,
+    prices,
     clinics,
     globalServices,
     reembolso,
-  },
-  detailedLocation = false,
-  shadowed = false,
-  rating,
-  testimonialsCount,
-}: Props): JSX.Element => {
+  } = data;
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
   const isDesktop = useMediaQuery(Breakpoints.Desktop);
   const dispatch = useAppDispatch();
 
-  const doctorName = useMemo(
-    () => capitalizeName(firstName, lastName),
-    [firstName, lastName],
-  );
+  const doctorName = useMemo(() => capitalizeName(fullName), [fullName]);
 
   const openRequestForm = () => {
-    dispatch(
-      openAppointmentDialog({ name: doctorName, id, image, type: 'doctor' }),
-    );
+    dispatch(openAppointmentDialog({ doctor: data, type: 'doctor' }));
   };
 
   return (
     <StyledDoctorsCard
-      multipleClinics={clinics.length > 1}
+      multipleClinics={clinics && clinics.length > 1}
       detailedLocation={detailedLocation}
       shadowed={shadowed}
       className="doctor-card"
@@ -86,17 +79,16 @@ export const DoctorCard = ({
           <div className="mobile-image-container">
             <CardImage
               name={doctorName}
-              imageId={image.id}
+              imageUrl={getImageUrl(image, ImageSize.Small)}
               url={`${DOCTORS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
-            {rating ? (
+            {testimonials && (
               <DoctorCardRating
-                rating={rating}
-                testimonialsCount={testimonialsCount}
+                testimonials={testimonials}
                 detaiedLocation={detailedLocation}
               />
-            ) : null}
+            )}
             {isDesktop && <GlobalServicesList list={globalServices} />}
           </div>
           {!isDesktop && (
@@ -108,7 +100,7 @@ export const DoctorCard = ({
                   <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
                 </Typography>
               )}
-              <LanguagesList list={lang} />
+              <LanguagesList list={languages} />
               <GlobalServicesList list={globalServices} />
             </StyledInfo>
           )}
@@ -124,17 +116,17 @@ export const DoctorCard = ({
                   <Link href={`${DOCTORS_PAGE}/${id}`}>{doctorName}</Link>
                 </Typography>
               )}
-              <LanguagesList list={lang} />
+              <LanguagesList list={languages} />
             </StyledInfo>
           )}
           <StyledText className="doctor-card-text" sx={{ mt: 2, mb: 2 }}>
             {shortText}
           </StyledText>
-          {services && (
+          {prices.length ? (
             <StyleSevices>
-              <ServicesList list={services} />
+              <PricesList list={prices} />
             </StyleSevices>
-          )}
+          ) : null}
           {!detailedLocation && (
             <ButtonComponent
               text={detailedLocation ? 'Записаться к врачу' : 'Записаться'}

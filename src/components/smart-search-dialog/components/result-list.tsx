@@ -5,6 +5,7 @@ import {
   getImageUrl,
   DOCTORS_PAGE,
   getHighlightedLetters,
+  CLINICS_PAGE,
 } from '@/shared/assets';
 import {
   ISmartSearchResult,
@@ -18,6 +19,8 @@ import {
 } from '@/shared/types';
 import { StyledResultList } from './styled-components';
 import { ClinicsItem } from './clinics-item';
+import { ImageSize } from '@/shared/enums';
+import { useMemo } from 'react';
 
 // TODO рефактор
 
@@ -37,6 +40,14 @@ export const ResultList = ({
     state => state.smartSearch,
   );
 
+  const filterTargetUrl = useMemo(() => {
+    if (smartSearchLocation === 'clinics') {
+      return CLINICS_PAGE;
+    }
+
+    return DOCTORS_PAGE;
+  }, [smartSearchLocation]);
+
   const closeSearchBox = (): void => {
     dispatch(closeSmartSearch({ clear: true }));
   };
@@ -48,14 +59,14 @@ export const ResultList = ({
           <Typography variant="h3">Специализация врачей</Typography>
           <List>
             {list.map(item => {
-              const { id, title } = item as ISpecialty;
+              const { id, name } = item as ISpecialty;
 
               return (
                 <ListItemButton
                   key={`spec-${id}`}
                   className="search-link"
                   component={Link}
-                  href={`${DOCTORS_PAGE}?specialty=${id}`}
+                  href={`${filterTargetUrl}?specialty=${id}`}
                   onClick={e => {
                     if (useCustomQuery && handleChooseOptionCb) {
                       e.preventDefault();
@@ -69,7 +80,7 @@ export const ResultList = ({
                     }
                   }}
                 >
-                  {getHighlightedLetters(title, search)}
+                  {getHighlightedLetters(name, search)}
                 </ListItemButton>
               );
             })}
@@ -89,7 +100,7 @@ export const ResultList = ({
                   key={`service-${id}`}
                   className="search-link"
                   component={Link}
-                  href={`${DOCTORS_PAGE}?service=${id}`}
+                  href={`${filterTargetUrl}?service=${id}`}
                   onClick={e => {
                     if (useCustomQuery && handleChooseOptionCb) {
                       e.preventDefault();
@@ -103,7 +114,7 @@ export const ResultList = ({
                     }
                   }}
                 >
-                  {getHighlightedLetters(name, search)}
+                  {getHighlightedLetters(name, search, '', false)}
                 </ListItemButton>
               );
             })}
@@ -135,8 +146,7 @@ export const ResultList = ({
           <Typography variant="h3">Врачи</Typography>
           <List>
             {list.map(item => {
-              const { id, image, firstName, lastName, specialties } =
-                item as IDoctor;
+              const { id, image, fullName, specialties } = item as IDoctor;
 
               return (
                 <ListItemButton
@@ -149,19 +159,14 @@ export const ResultList = ({
                   <Avatar
                     sx={{ width: 40, height: 40 }}
                     variant="circular"
-                    src={getImageUrl(image.id, firstName, 'width=80&height=80')}
+                    src={getImageUrl(image, ImageSize.Thumb)}
                   />
                   <div className="complex-item-info">
                     <Typography>
-                      {getHighlightedLetters(
-                        `${firstName} ${lastName ?? ''}`,
-                        search,
-                      )}
+                      {getHighlightedLetters(fullName, search)}
                     </Typography>
                     <Typography variant="caption">
-                      {specialties
-                        .map(spec => spec.specialties_id.title)
-                        .join(', ')}
+                      {specialties.map(spec => spec.name).join(', ')}
                     </Typography>
                   </div>
                 </ListItemButton>
@@ -183,7 +188,7 @@ export const ResultList = ({
                   key={`insurance-${id}`}
                   className="complex-item"
                   component={Link}
-                  href={`${DOCTORS_PAGE}?insurance=${id}`}
+                  href={`${filterTargetUrl}?insurance=${id}`}
                   onClick={e => {
                     if (useCustomQuery && handleChooseOptionCb) {
                       e.preventDefault();
@@ -200,7 +205,7 @@ export const ResultList = ({
                   <Avatar
                     sx={{ width: 40, height: 40 }}
                     variant="rounded"
-                    src={getImageUrl(image.id, name, 'width=80&height=80')}
+                    src={getImageUrl(image, ImageSize.Thumb)}
                   />
                   <div className="complex-item-info">
                     <Typography>
@@ -226,7 +231,7 @@ export const ResultList = ({
                   key={`lang-${id}`}
                   className="search-link"
                   component={Link}
-                  href={`${DOCTORS_PAGE}?lang=${id}`}
+                  href={`${filterTargetUrl}?lang=${id}`}
                   onClick={e => {
                     if (useCustomQuery && handleChooseOptionCb) {
                       e.preventDefault();
@@ -240,7 +245,7 @@ export const ResultList = ({
                     }
                   }}
                 >
-                  {getHighlightedLetters(name, search)}
+                  {getHighlightedLetters(name, search, 'язык')}
                 </ListItemButton>
               );
             })}
