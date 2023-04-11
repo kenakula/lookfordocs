@@ -5,6 +5,8 @@ import { DetailedPageLayout } from '@/shared/assets';
 import { IDoctor } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { DetailedDoctorClinics, DetailedInfo } from './components';
+import { useQuery } from '@tanstack/react-query';
+import { getDoctorTestimonials } from '@/api';
 
 interface Props {
   data: IDoctor;
@@ -13,6 +15,12 @@ interface Props {
 export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
   const dispatch = useAppDispatch();
+
+  const { data: doctorTestimonials } = useQuery({
+    queryKey: ['doctorTestimonials', data.id],
+    queryFn: () => getDoctorTestimonials(data.id.toString()),
+    staleTime: Infinity,
+  });
 
   const openRequestForm = () => {
     dispatch(
@@ -28,8 +36,14 @@ export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
       <DetailedPageLayout>
         <h2 className="visually-hidden">Общая информация о враче</h2>
         <Box className="detailed-left-column">
-          <DoctorCard data={data} detailedLocation />
-          {isTablet ? <DetailedInfo data={data} /> : null}
+          <DoctorCard
+            data={data}
+            detailedLocation
+            testimonials={doctorTestimonials}
+          />
+          {isTablet && doctorTestimonials ? (
+            <DetailedInfo data={data} testimonials={doctorTestimonials} />
+          ) : null}
         </Box>
         <Box className="detailed-right-column">
           <Box className="sticky-block">
@@ -48,7 +62,9 @@ export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
           </Box>
         </Box>
         <Box sx={{ overflow: 'hidden' }}>
-          {!isTablet ? <DetailedInfo data={data} /> : null}
+          {!isTablet && doctorTestimonials ? (
+            <DetailedInfo data={data} testimonials={doctorTestimonials} />
+          ) : null}
         </Box>
       </DetailedPageLayout>
     </ContainerComponent>

@@ -16,15 +16,13 @@ export const DoctorCardRating = ({
   detaiedLocation,
 }: Props): JSX.Element | null => {
   const { scrollToElement } = useScrollToElement('doctor-testimonials');
-  const reviewedTestimonials = testimonials
-    .slice()
-    .filter(({ reviewed }) => Boolean(reviewed));
-  const rating = getRate(reviewedTestimonials);
+  const rating = getRate(testimonials);
 
-  const ratingText = `${reviewedTestimonials.length} ${numWord(
-    reviewedTestimonials.length,
-    ['отзыв', 'отзыва', 'отзывов'],
-  )}`;
+  const ratingText = `${testimonials.length} ${numWord(testimonials.length, [
+    'отзыв',
+    'отзыва',
+    'отзывов',
+  ])}`;
 
   if (!rating) {
     return null;

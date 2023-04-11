@@ -6,6 +6,8 @@ import { Breakpoints } from '@/shared/enums';
 import { capitalize, DetailedPageLayout } from '@/shared/assets';
 import { DetailedInfo } from './components';
 import { ClinicCardAside } from '@/components/clinic-card/components';
+import { useQuery } from '@tanstack/react-query';
+import { getClinicTestimonials } from '@/api';
 
 interface Props {
   data: IClinic;
@@ -14,6 +16,12 @@ interface Props {
 export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
   const dispatch = useAppDispatch();
+
+  const { data: clinicTestimonials } = useQuery({
+    queryKey: ['clinicTestimonials', data.id],
+    queryFn: () => getClinicTestimonials(data.id.toString()),
+    staleTime: Infinity,
+  });
 
   const clinicName = capitalize(data.name);
 
@@ -31,8 +39,14 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
       <DetailedPageLayout>
         <h2 className="visually-hidden">Общая информация о клинике</h2>
         <div className="detailed-left-column">
-          <ClinicCard data={data} detailedLocation />
-          {isTablet ? <DetailedInfo data={data} /> : null}
+          <ClinicCard
+            data={data}
+            detailedLocation
+            testimonials={clinicTestimonials}
+          />
+          {isTablet && clinicTestimonials ? (
+            <DetailedInfo data={data} testimonials={clinicTestimonials} />
+          ) : null}
         </div>
         <div className="detailed-right-column">
           <div className="sticky-block">
@@ -51,7 +65,11 @@ export const DetailedClinicPage = ({ data }: Props): JSX.Element => {
             />
           </div>
         </div>
-        <div>{!isTablet ? <DetailedInfo data={data} /> : null}</div>
+        <div>
+          {!isTablet && clinicTestimonials ? (
+            <DetailedInfo data={data} testimonials={clinicTestimonials} />
+          ) : null}
+        </div>
       </DetailedPageLayout>
     </ContainerComponent>
   );

@@ -96,6 +96,7 @@ export const TestimonialDialog = ({
       doctor: undefined,
       clinic: undefined,
       insurance: undefined,
+      publishedAt: null,
     };
 
     if (type === 'doctor') {

@@ -1,6 +1,7 @@
 import {
   DoctorsFilterQuery,
   IDoctor,
+  ITestimonial,
   StrapiCollection,
   StrapiPagination,
   StrapiSingleton,
@@ -33,6 +34,22 @@ export const getDoctorInfo = async (id: string) =>
           testimonials,
           image
         `,
+      },
+    })
+    .then(res => res.data.data);
+
+export const getDoctorTestimonials = async (id: string) =>
+  api
+    .get<StrapiCollection<ITestimonial>>('testimonials', {
+      params: {
+        populate: '*',
+        filters: {
+          doctor: {
+            id: {
+              $eq: id,
+            },
+          },
+        },
       },
     })
     .then(res => res.data.data);

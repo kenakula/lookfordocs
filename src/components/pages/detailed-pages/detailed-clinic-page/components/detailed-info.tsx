@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { CircularProgress, Typography } from '@mui/material';
 import { getClinicDoctors } from '@/api';
 import {
@@ -9,7 +9,7 @@ import {
   TestimonialDialog,
   TestimonialsList,
 } from '@/components';
-import { IClinic } from '@/shared/types';
+import { IClinic, ITestimonial } from '@/shared/types';
 import {
   capitalize,
   CLINIC_PAGE_DOCTORS_LIMIT,
@@ -24,18 +24,16 @@ import { StyledDetailedClinicDoctorList } from './styled-components';
 // TODO рефактор
 interface Props {
   data: IClinic;
+  testimonials: ITestimonial[];
 }
 
 export const DetailedInfo = ({
-  data: { longText, id: clinicId, image, name, testimonials },
+  data: { longText, id: clinicId, image, name },
+  testimonials,
 }: Props): JSX.Element => {
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const blockRef = useRef<HTMLDivElement>(null);
-
-  const filteredTestimonials = useMemo(() => {
-    return testimonials.slice().filter(value => Boolean(value.reviewed));
-  }, [testimonials]);
 
   const setPage = (page: number) => {
     setTimeout(() => {
@@ -100,7 +98,11 @@ export const DetailedInfo = ({
           <StyledDetailedClinicDoctorList className="detailed-info-block-list">
             {doctorsData.data.map(doc => (
               <li key={doc.id}>
-                <DoctorCard data={doc} shadowed />
+                <DoctorCard
+                  data={doc}
+                  shadowed
+                  testimonials={doc.testimonials}
+                />
               </li>
             ))}
             {(isFetching || isLoading) && (
@@ -129,7 +131,7 @@ export const DetailedInfo = ({
       >
         <StyledDetailInfoBlockHeader className="detailed-info-header">
           <StyledDetailInfoTitle variant="h3">Отзывы</StyledDetailInfoTitle>
-          {filteredTestimonials.length ? (
+          {testimonials.length ? (
             <ButtonComponent
               text="Оставить отзыв"
               variant="outlined"
@@ -138,8 +140,9 @@ export const DetailedInfo = ({
             />
           ) : null}
         </StyledDetailInfoBlockHeader>
+        {/* TODO сделать как на детальке врача */}
         <TestimonialsList
-          testimonials={filteredTestimonials}
+          testimonials={testimonials}
           openTestimonialDialog={handleOpenTestimonialsDialog}
         />
       </StyledDetailInfoBlock>

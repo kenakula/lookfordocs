@@ -5,7 +5,7 @@ import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { capitalize, CLINICS_PAGE, getImageUrl } from '@/shared/assets';
 import { Breakpoints, ImageSize } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
-import { IClinic } from '@/shared/types';
+import { IClinic, ITestimonial } from '@/shared/types';
 import {
   GlobalServicesList,
   CardImage,
@@ -28,10 +28,12 @@ import {
 interface Props {
   data: IClinic;
   detailedLocation?: boolean;
+  testimonials?: ITestimonial[];
 }
 
 export const ClinicCard = ({
   data,
+  testimonials,
   detailedLocation = false,
 }: Props): JSX.Element => {
   const {
@@ -42,7 +44,6 @@ export const ClinicCard = ({
     subtitle,
     languages,
     description,
-    testimonials,
     globalServices,
   } = data;
   const cardRef = useRef<HTMLDivElement>(null);
@@ -75,10 +76,12 @@ export const ClinicCard = ({
               url={`${CLINICS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
-            <ClinicCardRating
-              testimonials={testimonials}
-              detaiedLocation={detailedLocation}
-            />
+            {testimonials && (
+              <ClinicCardRating
+                testimonials={testimonials}
+                detaiedLocation={detailedLocation}
+              />
+            )}
             {isDesktop && globalServices ? (
               <GlobalServicesList list={globalServices} />
             ) : null}

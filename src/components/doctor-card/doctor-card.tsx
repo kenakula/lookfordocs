@@ -9,7 +9,7 @@ import {
   LanguagesList,
   PricesList,
 } from '@/components';
-import { IDoctor } from '@/shared/types';
+import { IDoctor, ITestimonial } from '@/shared/types';
 import { capitalizeName, DOCTORS_PAGE, getImageUrl } from '@/shared/assets';
 import { Breakpoints, ImageSize } from '@/shared/enums';
 import { useGetElementHeight } from '@/shared/hooks';
@@ -28,6 +28,7 @@ import {
 
 interface Props {
   data: IDoctor;
+  testimonials?: ITestimonial[];
   detailedLocation?: boolean;
   shadowed?: boolean;
 }
@@ -35,6 +36,7 @@ interface Props {
 export const DoctorCard = ({
   data,
   detailedLocation = false,
+  testimonials,
   shadowed = false,
 }: Props): JSX.Element => {
   const {
@@ -48,7 +50,6 @@ export const DoctorCard = ({
     clinics,
     globalServices,
     reembolso,
-    testimonials,
   } = data;
   const cardRef = useRef<HTMLDivElement>(null);
   const { height: cardHeight } = useGetElementHeight(cardRef);
@@ -82,10 +83,12 @@ export const DoctorCard = ({
               url={`${DOCTORS_PAGE}/${id}`}
               isDetailedPage={detailedLocation}
             />
-            <DoctorCardRating
-              testimonials={testimonials}
-              detaiedLocation={detailedLocation}
-            />
+            {testimonials && (
+              <DoctorCardRating
+                testimonials={testimonials}
+                detaiedLocation={detailedLocation}
+              />
+            )}
             {isDesktop && <GlobalServicesList list={globalServices} />}
           </div>
           {!isDesktop && (

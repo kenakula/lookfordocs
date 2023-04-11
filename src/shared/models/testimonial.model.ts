@@ -6,6 +6,7 @@ export interface TestimonialModel {
   author: string;
   comment: string;
   rate: number;
+  publishedAt: Date | null;
   doctor?: number[];
   clinic?: number[];
   insurance?: number[];

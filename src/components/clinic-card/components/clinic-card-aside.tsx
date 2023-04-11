@@ -31,11 +31,12 @@ export const ClinicCardAside = ({
           <Link href={`${CLINICS_PAGE}/${id}`}>{clinicName}</Link>
         )}
       </div>
-      {address.map(addr => (
-        <Typography key={addr.id} variant="body2" className="clinic-address">
-          {getClinicAddress(addr)}
-        </Typography>
-      ))}
+      {address &&
+        address.map(addr => (
+          <Typography key={addr.id} variant="body2" className="clinic-address">
+            {getClinicAddress(addr)}
+          </Typography>
+        ))}
       {metro && (
         <ul className="clinic-metro">
           {metro.map(item => (

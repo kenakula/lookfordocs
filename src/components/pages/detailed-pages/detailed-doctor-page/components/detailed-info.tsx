@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { TestimonialDialog } from '@/components';
-import { IDoctor } from '@/shared/types';
+import { IDoctor, ITestimonial } from '@/shared/types';
 import {
   capitalizeName,
   StyledDetailedInfo,
@@ -15,18 +15,12 @@ import { DetialedDoctorTestimonials } from './detailed-doctor-testimonials';
 
 interface Props {
   data: IDoctor;
+  testimonials: ITestimonial[];
 }
 
 export const DetailedInfo = ({
-  data: {
-    longText,
-    nosologies,
-    education,
-    id: docId,
-    fullName,
-    image,
-    testimonials,
-  },
+  data: { longText, nosologies, education, id: docId, fullName, image },
+  testimonials,
 }: Props): JSX.Element => {
   const [testimonialDialogOpen, setTestimonialDialogOpen] = useState(false);
 
@@ -37,12 +31,6 @@ export const DetailedInfo = ({
   const handleCloseTestimonialsDialog = (): void => {
     setTestimonialDialogOpen(false);
   };
-
-  // TODO брать отзывы api
-
-  const filteredTestimonials = useMemo(() => {
-    return testimonials.slice().filter(value => Boolean(value.reviewed));
-  }, [testimonials]);
 
   return (
     <StyledDetailedInfo>
@@ -59,7 +47,7 @@ export const DetailedInfo = ({
       )}
 
       <DetialedDoctorTestimonials
-        testimonials={filteredTestimonials}
+        testimonials={testimonials}
         openDialog={handleOpenTestimonialsDialog}
       />
 

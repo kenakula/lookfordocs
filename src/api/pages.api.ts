@@ -28,18 +28,9 @@ export const getMainPageTestimonials = () =>
           doctor.specialties
         `,
         filters: {
-          $and: [
-            {
-              reviewed: {
-                $eq: true,
-              },
-            },
-            {
-              showOnMainPage: {
-                $eq: true,
-              },
-            },
-          ],
+          showOnMainPage: {
+            $eq: true,
+          },
         },
       },
     })

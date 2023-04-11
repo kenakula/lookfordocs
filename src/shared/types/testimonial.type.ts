@@ -12,7 +12,6 @@ export interface ITestimonial extends StrapiEditionsInfo {
   rate: number;
   comment: string;
   author: string;
-  reviewed: boolean;
   doctor?: IDoctor;
   clinic?: IClinic;
   insurance?: IInsurance;

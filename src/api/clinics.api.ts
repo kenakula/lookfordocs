@@ -2,6 +2,7 @@ import {
   ClinicsFilterQuery,
   IClinic,
   IDoctor,
+  ITestimonial,
   StrapiCollection,
   StrapiPagination,
   StrapiSingleton,
@@ -65,6 +66,22 @@ export const getClinicInfo = async (id: string) =>
         worktime,
         image,
       `,
+      },
+    })
+    .then(res => res.data.data);
+
+export const getClinicTestimonials = async (id: string) =>
+  api
+    .get<StrapiCollection<ITestimonial>>('testimonials', {
+      params: {
+        populate: '*',
+        filters: {
+          clinic: {
+            id: {
+              $eq: id,
+            },
+          },
+        },
       },
     })
     .then(res => res.data.data);
