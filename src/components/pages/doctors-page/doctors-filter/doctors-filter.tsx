@@ -186,7 +186,7 @@ export const DoctorsFilter = ({
           ) : null}
           <FiltersResult
             doctorsList={doctorsList}
-            fetching={isFetching}
+            fetching={isFetching || isLoading}
             error={isError}
           />
           {doctorsMeta ? (

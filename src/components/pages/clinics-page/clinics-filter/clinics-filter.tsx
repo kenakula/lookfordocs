@@ -180,7 +180,7 @@ export const ClinicsFilter = ({
           ) : null}
           <FiltersResult
             clinicsList={clinicsList}
-            fetching={isFetching}
+            fetching={isFetching || isLoading}
             error={isError}
           />
           {clinicsMeta ? (
