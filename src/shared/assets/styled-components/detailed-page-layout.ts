@@ -76,7 +76,7 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
     '.doctors-no-clinic': {
       ...getTypography(theme, 14, 20),
       padding: theme.spacing(3, 3, 0),
-      textAlign: 'center',
+      textAlign: 'left',
     },
   },
 

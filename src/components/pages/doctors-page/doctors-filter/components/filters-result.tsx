@@ -43,9 +43,13 @@ export const FiltersResult = ({
     );
   }
 
-  return (
-    <FilterEmptyResult textAlign="center" variant="body1">
-      По вашему запросу не найдено докторов. Попробуйте ослабить фильтры.
-    </FilterEmptyResult>
-  );
+  if (!doctorsList.length && !fetching) {
+    return (
+      <FilterEmptyResult textAlign="center" variant="body1">
+        По вашему запросу не найдено докторов. Попробуйте ослабить фильтры.
+      </FilterEmptyResult>
+    );
+  }
+
+  return null;
 };
