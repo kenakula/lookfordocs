@@ -141,7 +141,7 @@ export const DoctorCard = ({
       </StyledCardBody>
       {!detailedLocation && (
         <StyledClinics maxListHeight={cardHeight} className="doctors-clinics">
-          <DoctorClinics list={clinics} />
+          {clinics ? <DoctorClinics list={clinics} /> : null}
           {reembolso && (
             <Typography className="doctors-reembolso">
               Возможность получения возмещения оказанных услуг в страховой
