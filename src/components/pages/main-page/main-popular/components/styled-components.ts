@@ -5,6 +5,10 @@ export const StyledInner = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   margin: theme.spacing(0, -2),
 
+  '.MuiSkeleton-root': {
+    transform: 'none',
+  },
+
   '.title': {
     marginBottom: theme.spacing(3),
     padding: theme.spacing(0, 2),

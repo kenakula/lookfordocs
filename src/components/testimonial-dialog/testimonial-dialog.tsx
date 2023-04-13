@@ -51,7 +51,10 @@ export const TestimonialDialog = ({
     () =>
       object({
         rate: number().min(1, 'Поставьте оценку').required('Поставьте оценку'),
-        name: string().required('Введите свое имя'),
+        author: string().required('Введите свое имя'),
+        email: string()
+          .email('Введите корректный адрес почты')
+          .required('Введите вашу почту'),
         comment: string()
           .required('Введите ваше сообщение')
           .max(testimonialsLimit, 'Слишком длинное сообщение'),
@@ -70,7 +73,8 @@ export const TestimonialDialog = ({
   } = useForm<TestimonialFormModel>({
     defaultValues: {
       rate: 0,
-      name: '',
+      author: '',
+      email: '',
       comment: '',
     },
     resolver: yupResolver(formSchema),
@@ -88,19 +92,19 @@ export const TestimonialDialog = ({
 
   const onSubmit = async (data: TestimonialFormModel): Promise<void> => {
     const testimonialData: TestimonialModel = {
+      ...data,
       type,
-      comment: data.comment,
       date: new Date(),
-      author: data.name,
-      rate: data.rate,
       doctor: undefined,
       clinic: undefined,
       insurance: undefined,
       publishedAt: null,
+      entityName: entityName,
     };
 
     if (type === 'doctor') {
       testimonialData.doctor = [entityId];
+      testimonialData.entityName = entityName;
     }
 
     if (type === 'clinic') {
@@ -145,15 +149,32 @@ export const TestimonialDialog = ({
           className="testimonial-dialog-field"
           formControl={control}
           id="testimonial-name"
-          name="name"
+          name="author"
           type="text"
           fullwidth
           label="Ваше имя"
           placeholoder="Введите ваше имя"
           disabled={isLoading}
-          error={!!formState.errors.name}
+          error={!!formState.errors.author}
           errorMessage={
-            formState.errors.name ? formState.errors.name.message : undefined
+            formState.errors.author
+              ? formState.errors.author.message
+              : undefined
+          }
+        />
+        <InputComponent
+          className="testimonial-dialog-field"
+          formControl={control}
+          id="testimonial-email"
+          name="email"
+          type="email"
+          fullwidth
+          label="Ваша почта"
+          placeholoder="Введите ваш e-mail"
+          disabled={isLoading}
+          error={!!formState.errors.email}
+          errorMessage={
+            formState.errors.email ? formState.errors.email.message : undefined
           }
         />
         <StyledRatingWrapper>

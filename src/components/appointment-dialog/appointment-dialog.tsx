@@ -36,8 +36,9 @@ export const AppointmentDialog = (): JSX.Element => {
         name: '',
         email: '',
         phone: '',
-        connectType: 'phone',
+        connectionType: 'phone',
         comment: '',
+        publishedAt: null,
       },
       resolver: yupResolver(formSchema),
     });
@@ -52,10 +53,12 @@ export const AppointmentDialog = (): JSX.Element => {
 
     if (target && target.clinic) {
       request.clinic = [target.clinic.id];
+      request.entityName = target.clinic.name;
     }
 
     if (target && target.doctor) {
       request.doctor = [target.doctor.id];
+      request.entityName = target.doctor.fullName;
     }
 
     try {
@@ -168,7 +171,7 @@ export const AppointmentDialog = (): JSX.Element => {
           disabled={isLoading}
         />
         <RadioComponent
-          name="connectType"
+          name="connectionType"
           formControl={control}
           id="appointment-contact-type"
           label="Предпочитаемый способ для связи"

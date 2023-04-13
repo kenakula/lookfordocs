@@ -1,5 +1,6 @@
 export interface TestimonialFormModel {
   rate: number;
-  name: string;
+  author: string;
+  email: string;
   comment: string;
 }
