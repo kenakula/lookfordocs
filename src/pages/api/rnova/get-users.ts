@@ -1,17 +1,23 @@
 import { rnovaApi } from '@/api';
-import { RnovaUserModel } from '@/shared/models';
+import { RnovaResponseModel, RnovaUserModel } from '@/shared/models';
 import { AxiosResponse } from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (
-  req: NextApiRequest,
-  res: NextApiResponse<RnovaUserModel[]>,
-) => {
+interface Data {
+  name: string;
+  id: number;
+}
+
+const handler = async (req: NextApiRequest, res: NextApiResponse<Data[]>) => {
   const response = await rnovaApi
-    .post<void, AxiosResponse<RnovaUserModel[]>>('getUsers')
+    .post<void, AxiosResponse<RnovaResponseModel<RnovaUserModel>>>('getUsers')
     .then(x => x.data);
 
-  res.status(200).json(response);
+  const withTelemed = response.data
+    .filter(({ is_telemedicine }) => Boolean(is_telemedicine))
+    .map(({ id, name }) => ({ name, id }));
+
+  res.status(200).json(withTelemed);
 };
 
 export default handler;
