@@ -15,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data[]>) => {
 
   const withTelemed = response.data
     .filter(({ is_telemedicine }) => Boolean(is_telemedicine))
-    .map(({ id, name }) => ({ name, id }));
+    .map(({ id, name, clinic }) => ({ name, id, clinic }));
 
   res.status(200).json(withTelemed);
 };

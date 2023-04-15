@@ -37,5 +37,5 @@ export interface IDoctor extends StrapiEditionsInfo {
   reembolso: boolean;
   education: IDoctorEducation[];
   testimonials: ITestimonial[];
-  rnovaId: number | null;
+  rnovaId?: string;
 }

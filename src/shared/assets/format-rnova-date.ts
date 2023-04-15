@@ -1,5 +1,7 @@
-export const formatRnovaDate = (date: Date): string => {
+export const formatRnovaDate = (date: Date, withTime?: boolean): string => {
   const dateString = date.toLocaleDateString('ru-RU');
-
-  return `${dateString} ${date.getHours()}:${date.getMinutes()}`;
+  const timeString = withTime
+    ? ` ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`
+    : '';
+  return dateString + timeString;
 };

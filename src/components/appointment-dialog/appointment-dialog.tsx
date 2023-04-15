@@ -1,7 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { api } from '@/api';
+import { api, getDoctorSlots, getTelemedDoctors } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
 import { capitalizeName, getImageUrl } from '@/shared/assets';
 import {
@@ -29,6 +30,25 @@ export const AppointmentDialog = (): JSX.Element => {
         },
       }),
   });
+
+  const { data: doctorsData, isLoading: isDoctorsLoading } = useQuery(
+    ['getSlots', dialogOpen],
+    {
+      queryFn: getTelemedDoctors,
+      enabled: dialogOpen && !target,
+      staleTime: 10000,
+    },
+  );
+
+  const { data: scheduleData } = useQuery(
+    ['getSchedule', target?.doctor?.rnovaId],
+    {
+      queryFn: () => getDoctorSlots(target?.doctor?.rnovaId),
+      enabled:
+        dialogOpen && !!target && !!target.doctor && !!target.doctor.rnovaId,
+      staleTime: 10000,
+    },
+  );
 
   const { handleSubmit, control, formState, reset, setValue } =
     useForm<RequestFormModel>({

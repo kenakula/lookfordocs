@@ -17,3 +17,7 @@ export const rnovaApi = axios.create({
     api_key: RNOVA_API_KEY,
   },
 });
+
+export const nextApi = axios.create({
+  baseURL: '/api/rnova',
+});
