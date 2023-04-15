@@ -16,7 +16,24 @@ export const getSiteSettings = async () =>
   api
     .get<StrapiSingleton<ISiteSettings>>('site-settings', {
       params: {
-        populate: '*',
+        populate: `
+          logo,
+          socials,
+          documents,
+          navigation,
+          footerLinks,
+          favicons.ico,
+          favicons.png16,
+          favicons.png32,
+          favicons.png150,
+          favicons.png192,
+          favicons.png384,
+          constructionImage,
+          favicons.webmanifest,
+          favicons.browserconfig,
+          favicons.appleTouchIcon,
+          favicons.safariPinnedTab
+        `,
       },
     })
     .then(res => res.data.data);

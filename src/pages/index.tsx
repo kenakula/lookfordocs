@@ -72,7 +72,11 @@ export default function Home({
     return (
       <Layout siteSettings={siteSettings} isMainPage>
         <h1 className="visually-hidden">{pageSettings.h1}</h1>
-        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
+        <PageSeo
+          pageSettings={pageSettings}
+          siteUrl={siteSettings.siteUrl}
+          favicons={siteSettings.favicons}
+        />
         <MainPromo promoData={mainPageData.promo} />
         <MainAppointment appointmentData={mainPageData.appointment} />
         <MainPopular />

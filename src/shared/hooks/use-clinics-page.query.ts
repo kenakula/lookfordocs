@@ -20,7 +20,7 @@ export const useClinicsPageQuery = (
   const [pageNumber, setPageNumber] = useState(1);
 
   const { data, isLoading, isFetching, isError } = useQuery(
-    ['doctorsList', query, pageNumber],
+    ['clinicsList', query, pageNumber],
     () => getClinicsList({ page: pageNumber, pageSize }, query),
     {
       refetchOnWindowFocus: false,

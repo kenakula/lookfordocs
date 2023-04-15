@@ -94,8 +94,8 @@ export const Header = ({
               <Link href={HOME_PAGE} className="logo">
                 <Image
                   src={getImageUrl(logo)}
-                  width="113"
-                  height="21"
+                  width="150"
+                  height="20"
                   alt="логотип сайта"
                 />
               </Link>

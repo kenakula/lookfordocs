@@ -25,6 +25,7 @@ export const StyledHeader = styled(AppBar, {
       padding: 0,
     },
     '.logo': {
+      display: 'flex',
       marginRight: 'auto',
       transition: theme.transitions.create('opacity'),
     },

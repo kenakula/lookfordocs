@@ -81,6 +81,7 @@ const DoctorPage = ({
               doctorInfo.specialties,
             ),
           }}
+          favicons={siteSettings.favicons}
           siteUrl={siteSettings.siteUrl}
         />
         <BreadcrumbsComponent

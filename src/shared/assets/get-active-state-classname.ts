@@ -5,5 +5,5 @@ export const getActiveStateClassName = (
 ): string => {
   const classNameString = className ?? 'active';
 
-  return currentPath.slice(1) === url ? classNameString : '';
+  return currentPath === url ? classNameString : '';
 };
