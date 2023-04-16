@@ -97,5 +97,13 @@ export const getAvatarLetters = (str: string): string => {
     .toUpperCase();
 };
 
-export const getClinicAddress = (address: IClinicAddress): string =>
-  `г. ${capitalizeName(address.city.name)}, ${address.address}`;
+export const getClinicAddress = (
+  address: IClinicAddress,
+  onlyCity = false,
+): string => {
+  if (onlyCity) {
+    return `г. ${capitalizeName(address.city.name)}`;
+  }
+
+  return `г. ${capitalizeName(address.city.name)}, ${address.address}`;
+};

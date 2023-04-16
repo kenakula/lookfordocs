@@ -16,6 +16,7 @@ export * from './dialog-component/dialog-component';
 export * from './filters-counter/filters-counter';
 export * from './chip-component/chip-component';
 export * from './languages-list/languages-list';
+export * from './error-boundary/error-boundary';
 export * from './scroll-to-top/scroll-to-top';
 export * from './prices-list/prices-list';
 export * from './doctor-card/doctor-card';

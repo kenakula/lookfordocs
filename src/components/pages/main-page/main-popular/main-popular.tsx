@@ -1,13 +1,16 @@
+import { Skeleton } from '@mui/material';
 import { ContainerComponent } from '@/components';
 import { PageSection, Title } from '@/shared/assets';
-import { ISpecialty } from '@/shared/types';
 import { CardsList, StyledInner } from './components';
+import { useQuery } from '@tanstack/react-query';
+import { getSpecialties } from '@/api';
 
-interface Props {
-  specialties: ISpecialty[];
-}
+export const MainPopular = () => {
+  const { data: specialties, isLoading } = useQuery(['mainPopular'], {
+    queryFn: () => getSpecialties(true),
+    staleTime: Infinity,
+  });
 
-export const MainPopular = ({ specialties = [] }: Props) => {
   return (
     <PageSection shortBottom>
       <ContainerComponent>
@@ -15,6 +18,7 @@ export const MainPopular = ({ specialties = [] }: Props) => {
           <Title className="title" variant="h2" minor>
             Популярные направления
           </Title>
+          {isLoading && <Skeleton height={268} />}
           <CardsList specialties={specialties} />
         </StyledInner>
       </ContainerComponent>

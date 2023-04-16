@@ -21,6 +21,6 @@ export const formSchema = object({
         return true;
       },
     }),
-  connectType: string().required(),
+  connectionType: string().required(),
   comment: string().required('Введите сообщение'),
 });

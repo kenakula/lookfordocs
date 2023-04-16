@@ -42,7 +42,11 @@ const AboutPage = ({
   if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings} isDetailedPage>
-        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
+        <PageSeo
+          pageSettings={pageSettings}
+          siteUrl={siteSettings.siteUrl}
+          favicons={siteSettings.favicons}
+        />
         <UnderConstructionPage image={siteSettings.constructionImage}>
           <Title variant="h2" textAlign="center">
             О нашем <span className="highlighted">проекте</span>

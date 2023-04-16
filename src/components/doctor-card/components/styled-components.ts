@@ -295,7 +295,7 @@ export const StyledClinics = styled('div', {
     },
 
     '.doctors-no-clinic': {
-      ...getTypography(theme, 16, 20),
+      ...getTypography(theme, 14, 20),
       padding: theme.spacing(3, 3, 0),
       textAlign: 'left',
     },

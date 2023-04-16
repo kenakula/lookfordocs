@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import Link from 'next/link';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
@@ -51,7 +51,7 @@ export const ClinicCard = ({
   const isDesktop = useMediaQuery(Breakpoints.Desktop);
   const dispatch = useAppDispatch();
 
-  const clinicName = useMemo(() => `Клиника: "${capitalize(name)}"`, [name]);
+  const clinicName = `Клиника: "${capitalize(name)}"`;
 
   const openRequestForm = () => {
     dispatch(openAppointmentDialog({ clinic: data, type: 'clinic' }));
@@ -139,7 +139,7 @@ export const ClinicCard = ({
           maxListHeight={cardHeight}
           className="clinic-card-clinics"
         >
-          <ClinicCardAside data={data} clinicName={clinicName} />
+          <ClinicCardAside data={data} clinicName={name} />
         </StyledClinics>
       )}
     </StyledClinicsCard>

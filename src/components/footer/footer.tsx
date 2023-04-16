@@ -32,8 +32,8 @@ export const Footer = ({
             <StyledFooterInfo>
               <Image
                 src={getImageUrl(logo)}
-                width="113"
-                height="21"
+                width="150"
+                height="20"
                 alt="логотип сайта"
               />
               <Box sx={{ ml: -1 }}>

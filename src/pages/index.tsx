@@ -17,7 +17,6 @@ import {
   IMainPageData,
   IPageSettings,
   ISiteSettings,
-  ISpecialty,
   ITestimonial,
 } from '@/shared/types';
 import {
@@ -26,7 +25,6 @@ import {
   getMainPageTestimonials,
   getPageSettings,
   getSiteSettings,
-  getSpecialties,
 } from '@/api';
 
 const PAGE_SLUG = 'main';
@@ -35,7 +33,6 @@ interface Props {
   siteSettings: ISiteSettings;
   pageSettings: IPageSettings;
   mainPageData: IMainPageData;
-  popularSpecialties: ISpecialty[];
   insurances: IInsurance[];
   testimonials: ITestimonial[];
 }
@@ -44,7 +41,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   const siteSettings = await getSiteSettings();
   const pageSettings = await getPageSettings(PAGE_SLUG);
   const mainPageData = await getMainPageData();
-  const popularSpecialties = await getSpecialties(true);
   const insurances = await getInsurances();
   const testimonials = await getMainPageTestimonials();
 
@@ -54,7 +50,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       mainPageData,
       testimonials,
       siteSettings,
-      popularSpecialties,
       pageSettings,
     },
   };
@@ -66,7 +61,6 @@ export default function Home({
   pageSettings,
   mainPageData,
   testimonials,
-  popularSpecialties,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element {
   const router = useRouter();
 
@@ -78,10 +72,14 @@ export default function Home({
     return (
       <Layout siteSettings={siteSettings} isMainPage>
         <h1 className="visually-hidden">{pageSettings.h1}</h1>
-        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
+        <PageSeo
+          pageSettings={pageSettings}
+          siteUrl={siteSettings.siteUrl}
+          favicons={siteSettings.favicons}
+        />
         <MainPromo promoData={mainPageData.promo} />
         <MainAppointment appointmentData={mainPageData.appointment} />
-        <MainPopular specialties={popularSpecialties} />
+        <MainPopular />
         <MainServices services={mainPageData.services} />
         <MainInsurances insurances={insurances} />
         <MainAdvantages advantages={mainPageData.advantages} />

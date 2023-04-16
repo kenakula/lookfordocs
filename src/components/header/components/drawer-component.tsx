@@ -50,8 +50,8 @@ export const DrawerComponent = ({
         <ContainerComponent>
           <Image
             src={getImageUrl(logo)}
-            width="115"
-            height="33"
+            width="150"
+            height="20"
             alt="логотип сайта"
           />
           <IconButton disableFocusRipple disableRipple onClick={closeDrawer}>

@@ -91,7 +91,11 @@ const DoctorsPage = ({
     return (
       <Layout siteSettings={siteSettings}>
         <h1 className="visually-hidden">{pageSettings.h1}</h1>
-        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
+        <PageSeo
+          pageSettings={pageSettings}
+          siteUrl={siteSettings.siteUrl}
+          favicons={siteSettings.favicons}
+        />
         <BreadcrumbsComponent crumbs={[{ text: 'Врачи' }]} />
         <Promo promoData={promoData.promo} />
         <PageResult>
