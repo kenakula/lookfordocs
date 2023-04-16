@@ -1,16 +1,12 @@
 import { SlotModel } from '@/shared/models';
 import { nextApi } from './api';
 
-export const getTelemedDoctors = async () =>
-  nextApi
-    .get<{ name: string; id: string }[]>('get-users')
-    .then(res => res.data);
-
-export const getDoctorSlots = async (id?: string) =>
+export const getDoctorSlots = async (docId?: string, categoryId?: number) =>
   nextApi
     .get<SlotModel[]>('get-schedule', {
       params: {
-        id: id ?? '',
+        id: docId,
+        categoryId,
       },
     })
     .then(res => res.data);

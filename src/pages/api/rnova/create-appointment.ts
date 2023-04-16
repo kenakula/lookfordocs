@@ -1,11 +1,15 @@
-import type { NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import FormData from 'form-data';
 import { rnovaApi } from '@/api';
-import { ExtendedNextApiRequest, RnovaAppointmentModel } from '@/shared/models';
+import { RnovaAppointmentModel } from '@/shared/models';
 import { appointmentDataMapper } from '@/shared/assets/mappers';
 
+interface ExtendedNextApiRequest extends NextApiRequest {
+  body: RnovaAppointmentModel;
+}
+
 const handler = async (
-  req: ExtendedNextApiRequest<RnovaAppointmentModel>,
+  req: ExtendedNextApiRequest,
   res: NextApiResponse<{ success: boolean }>,
 ) => {
   const { body } = req;

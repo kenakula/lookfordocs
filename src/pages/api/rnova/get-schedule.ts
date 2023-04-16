@@ -2,44 +2,39 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import FormData from 'form-data';
 import { rnovaApi } from '@/api';
 import { RnovaObjectResponse, SlotModel } from '@/shared/models';
+import { formatRnovaDate } from '@/shared/assets';
 
-interface Query {
+interface GetScheduleQuery {
   id?: string;
-  start?: string;
-  end?: string;
+  categoryId?: string;
 }
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<{ data: SlotModel[] | string }>,
+  res: NextApiResponse<SlotModel[]>,
 ) => {
-  const query = req.query as Query;
+  const query = req.query as GetScheduleQuery;
   const formData = new FormData();
 
   if (query.id) {
+    const currMonth = new Date().getMonth();
+    const endDate = new Date(new Date().setMonth(currMonth + 5));
+    const endDateString = formatRnovaDate(endDate, true);
+
     formData.append('user_id', query.id);
+    formData.append('time_end', endDateString);
 
-    if (query.start) {
-      formData.append('time_start', query.start + ' 00:00');
-    }
+    const response = await rnovaApi
+      .post<RnovaObjectResponse<SlotModel>>('getSchedule', formData)
+      .then(x => x.data.data);
 
-    if (query.end) {
-      formData.append('time_end', query.end + ' 23:59');
-    } else {
-      formData.append('time_end', '31.12.2024 23:59');
-    }
+    const result = Object.values(response)[0];
 
-    try {
-      const response = await rnovaApi
-        .post<RnovaObjectResponse<SlotModel>>('getSchedule', formData)
-        .then(x => Object.values(x.data.data)[0]);
+    const filtered = result.filter(
+      ({ category_id }) => category_id.toString() === query.categoryId,
+    );
 
-      res.status(200).json({ data: response });
-    } catch (err) {
-      res.status(500).json({ data: 'Rnova API error' });
-    }
-  } else {
-    res.status(500).json({ data: 'Rnova API error' });
+    res.status(200).json(filtered);
   }
 };
 

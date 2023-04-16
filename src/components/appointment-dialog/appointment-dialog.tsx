@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { api, getDoctorSlots, getTelemedDoctors } from '@/api';
+import { api } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
 import { capitalizeName, getImageUrl } from '@/shared/assets';
 import {
@@ -31,24 +30,40 @@ export const AppointmentDialog = (): JSX.Element => {
       }),
   });
 
-  const { data: doctorsData, isLoading: isDoctorsLoading } = useQuery(
-    ['getSlots', dialogOpen],
-    {
-      queryFn: getTelemedDoctors,
-      enabled: dialogOpen && !target,
-      staleTime: 10000,
-    },
-  );
+  // const {
+  //   isLoading: creatingAppointment,
+  //   data: createAppointmentData,
+  //   mutateAsync: createAppointment,
+  // } = useMutation({
+  //   mutationFn: (data: RnovaAppointmentModel) =>
+  //     nextApi.post('create-appointment', data),
+  // });
 
-  const { data: scheduleData } = useQuery(
-    ['getSchedule', target?.doctor?.rnovaId],
-    {
-      queryFn: () => getDoctorSlots(target?.doctor?.rnovaId),
-      enabled:
-        dialogOpen && !!target && !!target.doctor && !!target.doctor.rnovaId,
-      staleTime: 10000,
-    },
-  );
+  // const { data: scheduleData, isLoading: scheduleLoading } = useQuery(
+  //   ['getSchedule', target?.doctor?.rnovaId],
+  //   {
+  //     queryFn: () => getDoctorSlots(target?.doctor?.rnovaId, 248),
+  //     enabled:
+  //       dialogOpen && !!target && !!target.doctor && !!target.doctor.rnovaId,
+  //     staleTime: 10000,
+  //   },
+  // );
+
+  // const saveAppointment = (start: Date, end: Date) => {
+  //   const timeStart = formatRnovaDate(new Date(start), true);
+  //   const timeEnd = formatRnovaDate(new Date(end), true);
+  //   const doctorRnovaId =
+  //     target && target.doctor && target.doctor.rnovaId
+  //       ? target.doctor.rnovaId
+  //       : '';
+
+  //   createAppointment({
+  //     timeStart,
+  //     timeEnd,
+  //     doctorRnovaId,
+  //     isTelemed: true,
+  //   });
+  // };
 
   const { handleSubmit, control, formState, reset, setValue } =
     useForm<RequestFormModel>({
