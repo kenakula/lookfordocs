@@ -10,6 +10,7 @@ import { createEmotionCache } from '@/shared/assets';
 import { store } from '@/stores';
 import { Toaster } from '@/components';
 import '../styles/global.css';
+import ErrorBoundary from '@/components/error-boundary/error-boundary';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -27,7 +28,7 @@ export default function MyApp(props: MyAppProps) {
       <CacheProvider value={emotionCache}>
         <Provider store={store}>
           <ThemeStoreProvider>
-            <>
+            <ErrorBoundary>
               <Head>
                 <meta
                   name="viewport"
@@ -37,7 +38,7 @@ export default function MyApp(props: MyAppProps) {
               <GoogleAnalytics trackPageViews />
               <Component {...pageProps} />
               <Toaster />
-            </>
+            </ErrorBoundary>
           </ThemeStoreProvider>
         </Provider>
       </CacheProvider>
