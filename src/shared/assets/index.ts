@@ -10,6 +10,7 @@ export * from './query-limits';
 export * from './string-utils';
 export * from './price-utils';
 export * from './is-browser';
+export * from './validators';
 export * from './num-words';
 export * from './seo-utils';
 export * from './get-rate';

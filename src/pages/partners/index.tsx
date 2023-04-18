@@ -5,9 +5,8 @@ import {
   Layout,
   ListPageSkeleton,
   PageSeo,
-  UnderConstructionPage,
+  PartnersPage as PartnersPageComponent,
 } from '@/components';
-import { Title } from '@/shared/assets';
 import { ISiteSettings, IPageSettings } from '@/shared/types';
 
 const PAGE_SLUG = 'partners';
@@ -16,6 +15,8 @@ interface Props {
   siteSettings: ISiteSettings;
   pageSettings: IPageSettings;
 }
+
+// TODO хранить города в редаксе
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const siteSettings = await getSiteSettings();
@@ -47,12 +48,7 @@ const PartnersPage = ({
           siteUrl={siteSettings.siteUrl}
           favicons={siteSettings.favicons}
         />
-        <UnderConstructionPage image={siteSettings.constructionImage}>
-          <Title variant="h2" textAlign="center">
-            <span className="highlighted">Докторам</span> и{' '}
-            <span className="highlighted">Клиникам</span>
-          </Title>
-        </UnderConstructionPage>
+        <PartnersPageComponent />
       </Layout>
     );
   }
