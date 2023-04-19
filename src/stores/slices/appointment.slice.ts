@@ -29,6 +29,7 @@ export const appointmentSlice = createSlice({
     },
     closeAppointmentDialog: state => {
       state.dialogOpen = false;
+      state.target = null;
     },
   },
 });

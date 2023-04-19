@@ -30,6 +30,41 @@ export const AppointmentDialog = (): JSX.Element => {
       }),
   });
 
+  // const {
+  //   isLoading: creatingAppointment,
+  //   data: createAppointmentData,
+  //   mutateAsync: createAppointment,
+  // } = useMutation({
+  //   mutationFn: (data: RnovaAppointmentModel) =>
+  //     nextApi.post('create-appointment', data),
+  // });
+
+  // const { data: scheduleData, isLoading: scheduleLoading } = useQuery(
+  //   ['getSchedule', target?.doctor?.rnovaId],
+  //   {
+  //     queryFn: () => getDoctorSlots(target?.doctor?.rnovaId, 248),
+  //     enabled:
+  //       dialogOpen && !!target && !!target.doctor && !!target.doctor.rnovaId,
+  //     staleTime: 10000,
+  //   },
+  // );
+
+  // const saveAppointment = (start: Date, end: Date) => {
+  //   const timeStart = formatRnovaDate(new Date(start), true);
+  //   const timeEnd = formatRnovaDate(new Date(end), true);
+  //   const doctorRnovaId =
+  //     target && target.doctor && target.doctor.rnovaId
+  //       ? target.doctor.rnovaId
+  //       : '';
+
+  //   createAppointment({
+  //     timeStart,
+  //     timeEnd,
+  //     doctorRnovaId,
+  //     isTelemed: true,
+  //   });
+  // };
+
   const { handleSubmit, control, formState, reset, setValue } =
     useForm<RequestFormModel>({
       defaultValues: {

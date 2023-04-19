@@ -35,4 +35,5 @@ export interface IClinic extends StrapiEditionsInfo {
   longText: string;
   reembolso: boolean;
   testimonials: ITestimonial[];
+  rnovaId?: string;
 }
