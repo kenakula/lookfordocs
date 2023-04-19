@@ -11,6 +11,13 @@ export const api = axios.create({
   },
 });
 
+export const testApi = axios.create({
+  baseURL: 'http://localhost:8082/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export const rnovaApi = axios.create({
   baseURL: RNOVA_API_URL,
   params: {

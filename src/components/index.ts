@@ -13,6 +13,7 @@ export * from './button-component/button-component';
 export * from './slider-component/slider-component';
 export * from './rating-component/rating-component';
 export * from './dialog-component/dialog-component';
+export * from './pages/partners-page/partners-page';
 export * from './filters-counter/filters-counter';
 export * from './chip-component/chip-component';
 export * from './languages-list/languages-list';
