@@ -19,6 +19,7 @@ const handler = async (
   for (const key in model) {
     formData.append(key, model[key]);
   }
+  // TODO Обрабатывать ошибку (она приходит респонсом 200, но в объекте 1 у поля error)
 
   try {
     await rnovaApi.post('createAppointment', formData);
