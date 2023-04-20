@@ -1,5 +1,10 @@
 import { Box, useMediaQuery } from '@mui/material';
-import { ButtonComponent, ContainerComponent, DoctorCard } from '@/components';
+import {
+  ButtonComponent,
+  ContainerComponent,
+  DoctorCard,
+  Timetable,
+} from '@/components';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { DetailedPageLayout } from '@/shared/assets';
 import { IDoctor } from '@/shared/types';
@@ -55,10 +60,13 @@ export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
               size="large"
               onClick={openRequestForm}
             />
-            <DetailedDoctorClinics
-              reembolso={data.reembolso}
-              clinics={data.clinics}
-            />
+            <div className="detailed-doctor-aside">
+              <DetailedDoctorClinics
+                reembolso={data.reembolso}
+                clinics={data.clinics}
+              />
+              {data.rnovaId ? <Timetable docId={data.rnovaId} /> : null}
+            </div>
           </Box>
         </Box>
         <Box sx={{ overflow: 'hidden' }}>

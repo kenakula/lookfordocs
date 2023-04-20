@@ -25,6 +25,7 @@ export * from './clinic-card/clinic-card';
 export * from './page-result/page-result';
 export * from './card-image/card-image';
 export * from './pages/detailed-pages';
+export * from './timetable/timetable';
 export * from './pages/doctors-page';
 export * from './pages/clinics-page';
 export * from './page-seo/page-seo';

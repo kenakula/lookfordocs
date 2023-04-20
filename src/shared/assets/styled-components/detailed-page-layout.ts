@@ -7,7 +7,7 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
   rowGap: theme.spacing(1.5),
   paddingTop: theme.spacing(3),
 
-  '.swiper': {
+  '.swiper:not(.timetable .swiper)': {
     margin: theme.spacing(0, -2),
     padding: theme.spacing(0, 2, 4),
 
@@ -48,6 +48,8 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
 
   [theme.breakpoints.up('lmd')]: {
     flexDirection: 'row',
+    maxWidth: '100%',
+    minWidth: 0,
 
     '.detailed-left-column': {
       flexShrink: 0,
@@ -57,12 +59,12 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
 
     '.detailed-right-column': {
       position: 'relative',
-      flexGrow: 1,
+      width: 'calc(35% - 12px)',
     },
 
     '.sticky-block': {
       position: 'sticky',
-      zIndex: theme.zIndex.appBar,
+      zIndex: theme.zIndex.mobileStepper,
       left: 0,
       top: 87,
     },
@@ -82,10 +84,6 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
 
   [theme.breakpoints.up('lg')]: {
     paddingTop: theme.spacing(8),
-
-    '.detailed-left-column': {
-      width: 'calc(66.5% - 12px)',
-    },
   },
 }));
 

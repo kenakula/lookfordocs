@@ -1,0 +1,1 @@
+export const RNOVA_CATEGORY_ONLINE = 248;
