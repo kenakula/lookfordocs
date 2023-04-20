@@ -30,11 +30,17 @@ const handler = async (
 
     const result = Object.values(response)[0];
 
-    const filtered = result.filter(
-      ({ category_id }) => category_id.toString() === query.categoryId,
-    );
+    if (result) {
+      const filtered = result.filter(
+        ({ category_id }) => category_id.toString() === query.categoryId,
+      );
 
-    res.status(200).json(filtered);
+      res.status(200).json(filtered);
+
+      return;
+    }
+
+    res.status(200).json([]);
   }
 };
 

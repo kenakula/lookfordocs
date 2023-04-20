@@ -82,3 +82,12 @@ export const StyledFilterSkeleton = styled('div')(({ theme }) => ({
     marginTop: theme.spacing(1),
   },
 }));
+
+export const StyledTimetableSkeleton = styled('div')({
+  width: '100%',
+
+  '.MuiSkeleton-root': {
+    width: '100%',
+    transform: 'none',
+  },
+});
