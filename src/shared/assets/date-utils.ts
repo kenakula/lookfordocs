@@ -1,4 +1,6 @@
-export const getDayHeader = (date: Date): string => {
+// TODO рефактор
+
+export const getDayString = (date: Date, withTime?: boolean): string => {
   const weekDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
   const today = new Date(new Date());
   const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
@@ -23,5 +25,12 @@ export const getDayHeader = (date: Date): string => {
     month: 'long',
   });
 
-  return `${prefix}${dateString} (${weekDay})`;
+  const time = withTime
+    ? ` ${date.getHours().toString().padStart(2, '0')}:${date
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}`
+    : '';
+
+  return `${prefix}${dateString} (${weekDay})${time}`;
 };

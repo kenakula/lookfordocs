@@ -12,6 +12,7 @@ export * from './query-limits';
 export * from './string-utils';
 export * from './price-utils';
 export * from './is-browser';
+export * from './date-utils';
 export * from './validators';
 export * from './num-words';
 export * from './seo-utils';

@@ -1,36 +1,40 @@
 import { useEffect, useMemo, useState } from 'react';
+import { IconButton, Typography } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useQuery } from '@tanstack/react-query';
+import { Navigation, SwiperOptions } from 'swiper';
 import { getDoctorSlots } from '@/api';
-import { RNOVA_CATEGORY_ONLINE, isBrowser } from '@/shared/assets';
-import { SlotModel } from '@/shared/models';
+import { ButtonComponent, TimetableSkeleton } from '@/components';
+import { IconArrowLeft, IconArrowRight } from '@/components/icons';
+import { RNOVA_CATEGORY_ONLINE, getDayString } from '@/shared/assets';
+import { SelectedSlot } from '@/shared/types';
 import { StyledTimetable, TimeTableDay } from './components';
 import { useGetScheduleEntries } from './hooks';
-import { TimetableSkeleton } from '../cupboard';
-import { Navigation, Pagination, SwiperOptions } from 'swiper';
-import { IconButton, Typography } from '@mui/material';
-import { getDayHeader } from './assets';
-import { IconArrowLeft } from '../icons';
-import { IconArrowRight } from '../icons/icon-arrow-right';
 
 interface Props {
   docId: string;
+  openAppointmentDialog: (slot?: SelectedSlot) => void;
 }
 
 // TODO обработать ошибку
+// TODO сохранять где-то слоты на которые чел записался и их не показывать
 
-export const Timetable = ({ docId }: Props): JSX.Element => {
+export const Timetable = ({
+  docId,
+  openAppointmentDialog,
+}: Props): JSX.Element => {
   const [activeSlideDate, setActiveSlideDate] = useState('');
-  const [selectedSlot, setSelectedSlot] = useState<SlotModel | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null);
   const { data: schedule, isLoading } = useQuery(['getSchedule', docId], {
     queryFn: () => getDoctorSlots(docId, RNOVA_CATEGORY_ONLINE),
+    staleTime: 5000,
   });
 
   const { entries } = useGetScheduleEntries(schedule);
 
   const sliderConfig: SwiperOptions = useMemo(
     () => ({
-      modules: [Navigation, Pagination],
+      modules: [Navigation],
       spaceBetween: 8,
       navigation: {
         nextEl: '.button-next',
@@ -40,18 +44,26 @@ export const Timetable = ({ docId }: Props): JSX.Element => {
     [],
   );
 
+  const chooseSlot = (slot: SelectedSlot) => {
+    setSelectedSlot(slot);
+  };
+
   useEffect(() => {
     if (entries && entries.length) {
-      const dayString = getDayHeader(new Date(entries[0][0]));
+      const dayString = getDayString(new Date(entries[0][0]));
       setActiveSlideDate(dayString);
     }
   }, [entries]);
 
   const onSlideChange = (index: number) => {
     if (entries && entries.length) {
-      const dayString = getDayHeader(new Date(entries[index][0]));
+      const dayString = getDayString(new Date(entries[index][0]));
       setActiveSlideDate(dayString);
     }
+  };
+
+  const handleButtonClick = () => {
+    openAppointmentDialog(selectedSlot ?? undefined);
   };
 
   if (isLoading) {
@@ -80,18 +92,28 @@ export const Timetable = ({ docId }: Props): JSX.Element => {
       </div>
       <Swiper
         {...sliderConfig}
+        wrapperTag="ul"
         onActiveIndexChange={swiper => onSlideChange(swiper.activeIndex)}
       >
         {entries.map(entry => (
-          <SwiperSlide key={entry[0]}>
+          <SwiperSlide key={entry[0]} tag="li">
             <TimeTableDay
               key={entry[0]}
-              date={new Date(entry[0])}
               slots={entry[1]}
+              onChange={chooseSlot}
             />
           </SwiperSlide>
         ))}
       </Swiper>
+      <ButtonComponent
+        text="Записаться"
+        disabled={!selectedSlot}
+        variant="contained"
+        size="small"
+        fullWidth
+        className="timetable-button"
+        onClick={handleButtonClick}
+      />
     </StyledTimetable>
   );
 };

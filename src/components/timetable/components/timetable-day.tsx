@@ -1,31 +1,31 @@
 import { SlotModel } from '@/shared/models';
-import { getDayHeader } from '../assets';
 import { StyledTimeTableDay } from './styled-components';
-import { Typography } from '@mui/material';
+import { SelectedSlot } from '@/shared/types';
 
 interface Props {
-  date: Date;
   slots: SlotModel[];
+  onChange: (date: SelectedSlot) => void;
 }
 
-export const TimeTableDay = ({ date, slots }: Props): JSX.Element => {
+export const TimeTableDay = ({ slots, onChange }: Props): JSX.Element => {
   return (
     <StyledTimeTableDay>
       <ul className="day-slots">
-        {slots.map(item => (
-          <li className="day-slot" key={item.time_start_short}>
+        {slots.map(({ time_start, time_start_short, time_end }) => (
+          <li className="day-slot" key={time_start_short}>
+            <input
+              id={`day-slot-${new Date(time_start).getTime()}`}
+              type="radio"
+              name="slot-time"
+              value={new Date(time_start).getTime()}
+              className="visually-hidden day-slot-input"
+              onChange={() => onChange({ start: time_start, end: time_end })}
+            />
             <label
-              htmlFor={`day-slot-${item.time_start_short}`}
-              className="day-slot"
+              htmlFor={`day-slot-${new Date(time_start).getTime()}`}
+              className="day-slot-label"
             >
-              <input
-                id={`day-slot-${item.time_start_short}`}
-                type="radio"
-                name="slot-time"
-                value={item.time_start_short}
-                className="visually-hidden"
-              />
-              {item.time_start_short}
+              {time_start_short}
             </label>
           </li>
         ))}

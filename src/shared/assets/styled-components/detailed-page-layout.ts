@@ -53,13 +53,13 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
 
     '.detailed-left-column': {
       flexShrink: 0,
-      width: 'calc(65% - 12px)',
-      marginRight: theme.spacing(3),
+      width: 'calc(65% - 8px)',
+      marginRight: theme.spacing(2),
     },
 
     '.detailed-right-column': {
       position: 'relative',
-      width: 'calc(35% - 12px)',
+      width: 'calc(35% - 8px)',
     },
 
     '.sticky-block': {

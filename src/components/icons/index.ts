@@ -1,3 +1,4 @@
+export * from './icon-arrow-right';
 export * from './icon-arrow-left';
 export * from './icon-telegram';
 export * from './icon-receipt';

@@ -1,4 +1,4 @@
-import { IAppointment } from '@/shared/types';
+import { IAppointment, SelectedSlot } from '@/shared/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AppointmentState {

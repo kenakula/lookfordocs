@@ -1,9 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { api } from '@/api';
+import { api, nextApi } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
-import { capitalizeName, getImageUrl } from '@/shared/assets';
+import {
+  RNOVA_QCLINIC_ID,
+  capitalizeName,
+  formatRnovaDate,
+  getImageUrl,
+} from '@/shared/assets';
 import {
   ButtonComponent,
   DialogComponent,
@@ -11,10 +16,10 @@ import {
   RadioComponent,
 } from '@/components';
 import { closeAppointmentDialog, setToaster } from '@/stores/slices';
-import { RequestFormModel } from '@/shared/models';
-import { IAppointment } from '@/shared/types';
+import { RequestFormModel, RnovaAppointmentModel } from '@/shared/models';
+import { IAppointment, SelectedSlot } from '@/shared/types';
 import { ImageSize } from '@/shared/enums';
-import { StyledAppointmentForm } from './components';
+import { AppointmentLabel, StyledAppointmentForm } from './components';
 import { formSchema } from './assets';
 import { useCommentBuilder } from './hooks';
 
@@ -30,40 +35,49 @@ export const AppointmentDialog = (): JSX.Element => {
       }),
   });
 
-  // const {
-  //   isLoading: creatingAppointment,
-  //   data: createAppointmentData,
-  //   mutateAsync: createAppointment,
-  // } = useMutation({
-  //   mutationFn: (data: RnovaAppointmentModel) =>
-  //     nextApi.post('create-appointment', data),
-  // });
+  const { isLoading: creatingAppointment, mutateAsync: createAppointment } =
+    useMutation({
+      mutationFn: (data: RnovaAppointmentModel) =>
+        nextApi.post('create-appointment', data),
+    });
 
-  // const { data: scheduleData, isLoading: scheduleLoading } = useQuery(
-  //   ['getSchedule', target?.doctor?.rnovaId],
-  //   {
-  //     queryFn: () => getDoctorSlots(target?.doctor?.rnovaId, 248),
-  //     enabled:
-  //       dialogOpen && !!target && !!target.doctor && !!target.doctor.rnovaId,
-  //     staleTime: 10000,
-  //   },
-  // );
+  const saveAppointmentToRnova = async (
+    { start, end }: SelectedSlot,
+    { name, phone, email, comment }: RequestFormModel,
+  ) => {
+    if (target && target.doctor) {
+      const timeStart = formatRnovaDate(new Date(start), true);
+      const timeEnd = formatRnovaDate(new Date(end), true);
+      const doctorRnovaId = target.doctor.rnovaId ? target.doctor.rnovaId : '';
+      // TODO тонкий момент, как передавать айдишник клиники
+      const clinicRnovaId = RNOVA_QCLINIC_ID.toString();
 
-  // const saveAppointment = (start: Date, end: Date) => {
-  //   const timeStart = formatRnovaDate(new Date(start), true);
-  //   const timeEnd = formatRnovaDate(new Date(end), true);
-  //   const doctorRnovaId =
-  //     target && target.doctor && target.doctor.rnovaId
-  //       ? target.doctor.rnovaId
-  //       : '';
-
-  //   createAppointment({
-  //     timeStart,
-  //     timeEnd,
-  //     doctorRnovaId,
-  //     isTelemed: true,
-  //   });
-  // };
+      createAppointment({
+        timeStart,
+        timeEnd,
+        doctorRnovaId,
+        isTelemed: true,
+        clinicRnovaId,
+        firstName: name,
+        mobile: phone,
+        comment,
+        email,
+      })
+        .then(() => {
+          reset();
+          closeDialog();
+        })
+        .catch(() => {
+          dispatch(
+            setToaster({
+              message: 'Произошла ошибка, попробуйте позже',
+              severety: 'error',
+              key: new Date().getTime(),
+            }),
+          );
+        });
+    }
+  };
 
   const { handleSubmit, control, formState, reset, setValue } =
     useForm<RequestFormModel>({
@@ -96,10 +110,16 @@ export const AppointmentDialog = (): JSX.Element => {
       request.entityName = target.doctor.fullName;
     }
 
+    if (target && target.slot) {
+      await saveAppointmentToRnova(target.slot, request);
+
+      return;
+    }
+
     try {
       await sendRequest(request);
       reset();
-      dispatch(closeAppointmentDialog());
+      closeDialog();
       dispatch(
         setToaster({
           message: 'Заявка успешно отправлена. Скоро с вами свяжутся',
@@ -159,6 +179,9 @@ export const AppointmentDialog = (): JSX.Element => {
         className="appointment-form"
         onSubmit={handleSubmit(onSubmit)}
       >
+        {target && target.slot ? (
+          <AppointmentLabel date={new Date(target.slot.start)} />
+        ) : null}
         <InputComponent
           formControl={control}
           type="text"
@@ -249,7 +272,7 @@ export const AppointmentDialog = (): JSX.Element => {
           text="Отправить заявку"
           fullWidth
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || creatingAppointment}
         />
       </StyledAppointmentForm>
     </DialogComponent>
