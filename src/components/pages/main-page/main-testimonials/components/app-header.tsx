@@ -7,7 +7,7 @@ export const AppHeader = (): JSX.Element => {
       <Avatar className="app-avatar">LD</Avatar>
       <div className="card-info">
         <Typography variant="h3" className="card-title">
-          LookForDoc
+          LookForDocs
         </Typography>
       </div>
     </header>
