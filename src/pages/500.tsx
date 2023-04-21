@@ -7,8 +7,8 @@ import { StyledErrorContainer } from '@/shared/assets';
 export default function Custom500Page() {
   const router = useRouter();
 
-  const goBack = () => {
-    router.back();
+  const reload = () => {
+    router.reload();
   };
 
   return (
@@ -21,9 +21,9 @@ export default function Custom500Page() {
           <Icon500 />
         </div>
         <ButtonComponent
-          text="Вернуться назад"
+          text="Попробовать ещё раз"
           variant="outlined"
-          onClick={goBack}
+          onClick={reload}
         />
       </div>
     </StyledErrorContainer>
