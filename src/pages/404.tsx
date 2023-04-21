@@ -4,7 +4,7 @@ import { ButtonComponent } from '@/components';
 import { Icon400 } from '@/components/icons';
 import { StyledErrorContainer } from '@/shared/assets';
 
-export default function Custom500() {
+export default function Custom404Page() {
   const router = useRouter();
 
   const goBack = () => {
