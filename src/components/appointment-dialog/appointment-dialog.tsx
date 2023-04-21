@@ -15,16 +15,26 @@ import {
   InputComponent,
   RadioComponent,
 } from '@/components';
-import { closeAppointmentDialog, setToaster } from '@/stores/slices';
+import {
+  closeAppointmentDialog,
+  setAppointmentDialogSuccess,
+  setToaster,
+} from '@/stores/slices';
 import { RequestFormModel, RnovaAppointmentModel } from '@/shared/models';
 import { IAppointment, SelectedSlot } from '@/shared/types';
 import { ImageSize } from '@/shared/enums';
-import { AppointmentLabel, StyledAppointmentForm } from './components';
+import {
+  AppointmentLabel,
+  StyledAppointmentForm,
+  SuccessView,
+} from './components';
 import { formSchema } from './assets';
 import { useCommentBuilder } from './hooks';
 
 export const AppointmentDialog = (): JSX.Element => {
-  const { dialogOpen, target } = useAppSelector(state => state.appointment);
+  const { dialogOpen, target, dialogSuccess } = useAppSelector(
+    state => state.appointment,
+  );
   const dispatch = useAppDispatch();
   const { isLoading, mutateAsync: sendRequest } = useMutation({
     mutationFn: (data: RequestFormModel) =>
@@ -65,7 +75,7 @@ export const AppointmentDialog = (): JSX.Element => {
       })
         .then(() => {
           reset();
-          closeDialog();
+          dispatch(setAppointmentDialogSuccess());
         })
         .catch(() => {
           dispatch(
@@ -119,14 +129,7 @@ export const AppointmentDialog = (): JSX.Element => {
     try {
       await sendRequest(request);
       reset();
-      closeDialog();
-      dispatch(
-        setToaster({
-          message: 'Заявка успешно отправлена. Скоро с вами свяжутся',
-          severety: 'success',
-          key: new Date().getTime(),
-        }),
-      );
+      dispatch(setAppointmentDialogSuccess());
     } catch (error) {
       dispatch(
         setToaster({
@@ -175,106 +178,112 @@ export const AppointmentDialog = (): JSX.Element => {
       title={getHeaderTitle(target)}
       imageUrl={getHeaderImageUrl(target)}
     >
-      <StyledAppointmentForm
-        className="appointment-form"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {target && target.slot ? (
-          <AppointmentLabel date={new Date(target.slot.start)} />
-        ) : null}
-        <InputComponent
-          formControl={control}
-          type="text"
-          id="appointment-name"
-          name="name"
-          fullwidth
-          label="Ваше имя"
-          placeholoder="Введите ваше имя"
-          error={!!formState.errors.name}
-          errorMessage={
-            !!formState.errors.name ? formState.errors.name.message : undefined
-          }
-          disabled={isLoading}
-        />
-        <InputComponent
-          formControl={control}
-          type="email"
-          id="appointment-email"
-          name="email"
-          fullwidth
-          label="E-mail"
-          placeholoder="Введите e-mail"
-          error={!!formState.errors.email}
-          errorMessage={
-            !!formState.errors.email
-              ? formState.errors.email.message
-              : undefined
-          }
-          disabled={isLoading}
-        />
-        <InputComponent
-          formControl={control}
-          type="tel"
-          id="appointment-tel"
-          name="phone"
-          fullwidth
-          label="Номер телефона"
-          placeholoder="Введите номер телефона"
-          error={!!formState.errors.phone}
-          errorMessage={
-            !!formState.errors.phone
-              ? formState.errors.phone.message
-              : undefined
-          }
-          disabled={isLoading}
-        />
-        <RadioComponent
-          name="connectionType"
-          formControl={control}
-          id="appointment-contact-type"
-          label="Предпочитаемый способ для связи"
-          options={[
-            {
-              value: 'phone',
-              label: 'По телефону',
-            },
-            {
-              value: 'watsapp',
-              label: 'WhatsApp',
-            },
-            {
-              value: 'telegram',
-              label: 'Telegram',
-            },
-          ]}
-          disabled={isLoading}
-        />
-        <InputComponent
-          formControl={control}
-          type="text"
-          id="appointment-comment"
-          name="comment"
-          fullwidth
-          label="Комментарий"
-          placeholoder="К какому специалисту вы хотели бы записаться"
-          multiline
-          minHeight={70}
-          error={!!formState.errors.comment}
-          errorMessage={
-            !!formState.errors.comment
-              ? formState.errors.comment.message
-              : undefined
-          }
-          disabled={isLoading}
-        />
-        <ButtonComponent
-          variant="contained"
-          text="Отправить заявку"
-          fullWidth
-          type="submit"
-          disabled={isLoading || creatingAppointment}
-        />
-      </StyledAppointmentForm>
+      {dialogSuccess ? (
+        <SuccessView slot={target?.slot} />
+      ) : (
+        <StyledAppointmentForm
+          className="appointment-form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {target && target.slot ? (
+            <AppointmentLabel date={new Date(target.slot.start)} />
+          ) : null}
+          <InputComponent
+            formControl={control}
+            type="text"
+            id="appointment-name"
+            name="name"
+            fullwidth
+            label="Ваше имя"
+            placeholoder="Введите ваше имя"
+            error={!!formState.errors.name}
+            errorMessage={
+              !!formState.errors.name
+                ? formState.errors.name.message
+                : undefined
+            }
+            disabled={isLoading}
+          />
+          <InputComponent
+            formControl={control}
+            type="email"
+            id="appointment-email"
+            name="email"
+            fullwidth
+            label="E-mail"
+            placeholoder="Введите e-mail"
+            error={!!formState.errors.email}
+            errorMessage={
+              !!formState.errors.email
+                ? formState.errors.email.message
+                : undefined
+            }
+            disabled={isLoading}
+          />
+          <InputComponent
+            formControl={control}
+            type="tel"
+            id="appointment-tel"
+            name="phone"
+            fullwidth
+            label="Номер телефона"
+            placeholoder="Введите номер телефона"
+            error={!!formState.errors.phone}
+            errorMessage={
+              !!formState.errors.phone
+                ? formState.errors.phone.message
+                : undefined
+            }
+            disabled={isLoading}
+          />
+          <RadioComponent
+            name="connectionType"
+            formControl={control}
+            id="appointment-contact-type"
+            label="Предпочитаемый способ для связи"
+            options={[
+              {
+                value: 'phone',
+                label: 'По телефону',
+              },
+              {
+                value: 'watsapp',
+                label: 'WhatsApp',
+              },
+              {
+                value: 'telegram',
+                label: 'Telegram',
+              },
+            ]}
+            disabled={isLoading}
+          />
+          <InputComponent
+            formControl={control}
+            type="text"
+            id="appointment-comment"
+            name="comment"
+            fullwidth
+            label="Комментарий"
+            placeholoder="К какому специалисту вы хотели бы записаться"
+            multiline
+            minHeight={70}
+            error={!!formState.errors.comment}
+            errorMessage={
+              !!formState.errors.comment
+                ? formState.errors.comment.message
+                : undefined
+            }
+            disabled={isLoading}
+          />
+          <ButtonComponent
+            variant="contained"
+            text="Отправить заявку"
+            fullWidth
+            type="submit"
+            disabled={isLoading || creatingAppointment}
+          />
+        </StyledAppointmentForm>
+      )}
     </DialogComponent>
   );
 };

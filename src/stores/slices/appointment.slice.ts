@@ -34,9 +34,15 @@ export const appointmentSlice = createSlice({
       state.dialogSuccess = false;
       state.target = null;
     },
+    setAppointmentDialogSuccess: state => {
+      state.dialogSuccess = true;
+    },
   },
 });
 
-export const { openAppointmentDialog, closeAppointmentDialog } =
-  appointmentSlice.actions;
+export const {
+  openAppointmentDialog,
+  closeAppointmentDialog,
+  setAppointmentDialogSuccess,
+} = appointmentSlice.actions;
 export const appointmentReducer = appointmentSlice.reducer;
