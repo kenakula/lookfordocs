@@ -1,13 +1,15 @@
-import { IAppointment, SelectedSlot } from '@/shared/types';
+import { IAppointment } from '@/shared/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AppointmentState {
   dialogOpen: boolean;
+  dialogSuccess: boolean;
   target: IAppointment | null;
 }
 
 const initialState: AppointmentState = {
   dialogOpen: false,
+  dialogSuccess: false,
   target: null,
 };
 
@@ -29,6 +31,7 @@ export const appointmentSlice = createSlice({
     },
     closeAppointmentDialog: state => {
       state.dialogOpen = false;
+      state.dialogSuccess = false;
       state.target = null;
     },
   },

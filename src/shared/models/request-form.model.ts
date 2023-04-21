@@ -1,4 +1,4 @@
-import { AppointmentType } from '../types';
+import { AppointmentType, SelectedSlot } from '../types';
 
 export interface RequestFormModel {
   name: string;
@@ -12,4 +12,5 @@ export interface RequestFormModel {
   doctor?: number[];
   entityName?: string;
   date: Date;
+  slot?: SelectedSlot;
 }

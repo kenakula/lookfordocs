@@ -111,9 +111,9 @@ export const AppointmentDialog = (): JSX.Element => {
     }
 
     if (target && target.slot) {
-      await saveAppointmentToRnova(target.slot, request);
+      request.slot = target.slot;
 
-      return;
+      await saveAppointmentToRnova(target.slot, request);
     }
 
     try {
