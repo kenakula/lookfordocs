@@ -5,9 +5,10 @@ import {
   Layout,
   ListPageSkeleton,
   PageSeo,
-  PartnersPage as PartnersPageComponent,
+  UnderConstructionPage,
 } from '@/components';
 import { ISiteSettings, IPageSettings } from '@/shared/types';
+import { Title } from '@/shared/assets';
 
 const PAGE_SLUG = 'partners';
 
@@ -48,7 +49,12 @@ const PartnersPage = ({
           siteUrl={siteSettings.siteUrl}
           favicons={siteSettings.favicons}
         />
-        <PartnersPageComponent />
+        {/* <PartnersPageComponent /> */}
+        <UnderConstructionPage image={siteSettings.constructionImage}>
+          <Title variant="h2" textAlign="center">
+            Докторам и Клиникам
+          </Title>
+        </UnderConstructionPage>
       </Layout>
     );
   }

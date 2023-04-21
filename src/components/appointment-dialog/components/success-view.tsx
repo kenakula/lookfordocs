@@ -6,6 +6,7 @@ import { StyledSuccessView } from './styled-components';
 interface Props {
   slot?: SelectedSlot;
 }
+// TODO Либо убрать для обычных заявок, либо кастомизировать
 
 export const SuccessView = ({ slot }: Props): JSX.Element => {
   return (
