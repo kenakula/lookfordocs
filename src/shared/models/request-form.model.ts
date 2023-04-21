@@ -1,4 +1,4 @@
-import { AppointmentType, SelectedSlot } from '../types';
+import { AppointmentType } from '../types';
 
 export interface RequestFormModel {
   name: string;
@@ -12,5 +12,6 @@ export interface RequestFormModel {
   doctor?: number[];
   entityName?: string;
   date: Date;
-  slot?: SelectedSlot;
+  isTelemed?: boolean;
+  slot?: Date;
 }

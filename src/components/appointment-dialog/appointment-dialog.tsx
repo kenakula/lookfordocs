@@ -118,11 +118,8 @@ export const AppointmentDialog = (): JSX.Element => {
     }
 
     if (target && target.slot) {
-      const slot: SelectedSlot = {
-        start: new Date(target.slot.start),
-        end: new Date(target.slot.end),
-      };
-      request.slot = slot;
+      request.isTelemed = true;
+      request.slot = new Date(target.slot.start);
 
       await saveAppointmentToRnova(target.slot, request);
     }
