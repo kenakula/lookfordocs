@@ -28,7 +28,11 @@ const handler = async (
       .post<RnovaObjectResponse<SlotModel>>('getSchedule', formData)
       .then(x => x.data.data);
 
-    const result = Object.values(response)[0];
+    const result = Object.values(response)[0].map(slot => ({
+      ...slot,
+      time_end: new Date(slot.time_end),
+      time_start: new Date(slot.time_start),
+    }));
 
     if (result) {
       const filtered = result.filter(

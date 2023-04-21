@@ -11,6 +11,7 @@ import {
   StrapiSingleton,
 } from '@/shared/types';
 import { api } from './api';
+import { RequestFormModel } from '@/shared/models';
 
 export const getSiteSettings = async () =>
   api
@@ -91,3 +92,10 @@ export const getCities = async () =>
 
 export const getClinics = async () =>
   api.get<StrapiCollection<IClinic>>('clinics').then(res => res.data.data);
+
+export const sendRequest = async (data: RequestFormModel) =>
+  api.post('requests', {
+    data: {
+      ...data,
+    },
+  });

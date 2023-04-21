@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { api, nextApi } from '@/api';
+import { sendRequest as sendApiRequest, nextApi } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
 import {
   RNOVA_QCLINIC_ID,
@@ -17,7 +17,7 @@ import {
 } from '@/components';
 import {
   closeAppointmentDialog,
-  setAppointmentDialogSuccess,
+  setAppointmentDialogSuccessState,
   setToaster,
 } from '@/stores/slices';
 import { RequestFormModel, RnovaAppointmentModel } from '@/shared/models';
@@ -31,18 +31,15 @@ import {
 import { formSchema } from './assets';
 import { useCommentBuilder } from './hooks';
 
+// TODO рефактор
+
 export const AppointmentDialog = (): JSX.Element => {
-  const { dialogOpen, target, dialogSuccess } = useAppSelector(
+  const { dialogOpen, target, dialogSuccessState } = useAppSelector(
     state => state.appointment,
   );
   const dispatch = useAppDispatch();
   const { isLoading, mutateAsync: sendRequest } = useMutation({
-    mutationFn: (data: RequestFormModel) =>
-      api.post('requests', {
-        data: {
-          ...data,
-        },
-      }),
+    mutationFn: (data: RequestFormModel) => sendApiRequest(data),
   });
 
   const { isLoading: creatingAppointment, mutateAsync: createAppointment } =
@@ -75,7 +72,7 @@ export const AppointmentDialog = (): JSX.Element => {
       })
         .then(() => {
           reset();
-          dispatch(setAppointmentDialogSuccess());
+          dispatch(setAppointmentDialogSuccessState(true));
         })
         .catch(() => {
           dispatch(
@@ -121,7 +118,11 @@ export const AppointmentDialog = (): JSX.Element => {
     }
 
     if (target && target.slot) {
-      request.slot = target.slot;
+      const slot: SelectedSlot = {
+        start: new Date(target.slot.start),
+        end: new Date(target.slot.end),
+      };
+      request.slot = slot;
 
       await saveAppointmentToRnova(target.slot, request);
     }
@@ -129,7 +130,7 @@ export const AppointmentDialog = (): JSX.Element => {
     try {
       await sendRequest(request);
       reset();
-      dispatch(setAppointmentDialogSuccess());
+      dispatch(setAppointmentDialogSuccessState(true));
     } catch (error) {
       dispatch(
         setToaster({
@@ -143,6 +144,11 @@ export const AppointmentDialog = (): JSX.Element => {
 
   const closeDialog = () => {
     dispatch(closeAppointmentDialog());
+
+    // TODO убрать хак. Сделано потому что содержимое резко меняется перед тем как окно закрывается
+    setTimeout(() => {
+      dispatch(setAppointmentDialogSuccessState(false));
+    }, 500);
   };
 
   const getHeaderTitle = (appointmentType: IAppointment | null): string => {
@@ -178,7 +184,7 @@ export const AppointmentDialog = (): JSX.Element => {
       title={getHeaderTitle(target)}
       imageUrl={getHeaderImageUrl(target)}
     >
-      {dialogSuccess ? (
+      {dialogSuccessState ? (
         <SuccessView slot={target?.slot} />
       ) : (
         <StyledAppointmentForm

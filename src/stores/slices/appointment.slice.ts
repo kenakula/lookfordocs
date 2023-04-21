@@ -3,13 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AppointmentState {
   dialogOpen: boolean;
-  dialogSuccess: boolean;
+  dialogSuccessState: boolean;
   target: IAppointment | null;
 }
 
 const initialState: AppointmentState = {
   dialogOpen: false,
-  dialogSuccess: false,
+  dialogSuccessState: false,
   target: null,
 };
 
@@ -31,11 +31,13 @@ export const appointmentSlice = createSlice({
     },
     closeAppointmentDialog: state => {
       state.dialogOpen = false;
-      state.dialogSuccess = false;
       state.target = null;
     },
-    setAppointmentDialogSuccess: state => {
-      state.dialogSuccess = true;
+    setAppointmentDialogSuccessState: (
+      state,
+      { payload }: PayloadAction<boolean>,
+    ) => {
+      state.dialogSuccessState = payload;
     },
   },
 });
@@ -43,6 +45,6 @@ export const appointmentSlice = createSlice({
 export const {
   openAppointmentDialog,
   closeAppointmentDialog,
-  setAppointmentDialogSuccess,
+  setAppointmentDialogSuccessState,
 } = appointmentSlice.actions;
 export const appointmentReducer = appointmentSlice.reducer;

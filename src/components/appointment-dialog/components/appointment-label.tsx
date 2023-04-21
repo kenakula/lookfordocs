@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { getDayString } from '@/shared/assets';
+import { StyledAppointmentLabel } from './styled-components';
 
 interface Props {
   date: Date;
@@ -7,9 +8,9 @@ interface Props {
 
 export const AppointmentLabel = ({ date }: Props): JSX.Element => {
   return (
-    <div className="appointment">
+    <StyledAppointmentLabel className="appointment-label">
       <Typography variant="h4">Дата и время приема</Typography>
       <time dateTime={date.toDateString()}>{getDayString(date, true)}</time>
-    </div>
+    </StyledAppointmentLabel>
   );
 };
