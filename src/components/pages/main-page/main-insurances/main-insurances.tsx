@@ -47,6 +47,8 @@ export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
     }
   };
 
+  // TODO вынести тексты в цмс
+
   return (
     <PageSection bgColor="beje">
       <ContainerComponent>
@@ -55,7 +57,7 @@ export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
             Страховые компании
           </Title>
           <Subtitle className="subtitle" textAlign="center">
-            Выберите свою страховую и узнайте какие докторы принимаю по ней
+            Выберите свою страховую и узнайте какие врачи принимают по ней
           </Subtitle>
           <CardsList
             insurances={insurances}

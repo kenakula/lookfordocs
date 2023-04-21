@@ -33,6 +33,10 @@ export const StyledFooterTop = styled('div')(({ theme }) => ({
 }));
 
 export const StyledFooterInfo = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  rowGap: theme.spacing(1),
+  alignItems: 'flex-start',
   marginBottom: theme.spacing(4),
 
   [theme.breakpoints.up('lmd')]: {

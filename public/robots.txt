@@ -1,7 +1,7 @@
-User-agent: *
-Disallow:
-Disallow: /privacy-policy
-Disallow: /telemed
-Disallow: /partners
+User-Agent: *
+Allow: /
 Disallow: /contacts
-Sitemap: /sitemap.xml
+Disallow: /telemed
+Disallow: /privacy-policy
+Disallow: /cities
+Disallow: /about

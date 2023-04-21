@@ -11,12 +11,30 @@ import {
   StrapiSingleton,
 } from '@/shared/types';
 import { api } from './api';
+import { RequestFormModel } from '@/shared/models';
 
 export const getSiteSettings = async () =>
   api
     .get<StrapiSingleton<ISiteSettings>>('site-settings', {
       params: {
-        populate: '*',
+        populate: `
+          logo,
+          socials,
+          documents,
+          navigation,
+          footerLinks,
+          favicons.ico,
+          favicons.png16,
+          favicons.png32,
+          favicons.png150,
+          favicons.png192,
+          favicons.png384,
+          constructionImage,
+          favicons.webmanifest,
+          favicons.browserconfig,
+          favicons.appleTouchIcon,
+          favicons.safariPinnedTab
+        `,
       },
     })
     .then(res => res.data.data);
@@ -74,3 +92,10 @@ export const getCities = async () =>
 
 export const getClinics = async () =>
   api.get<StrapiCollection<IClinic>>('clinics').then(res => res.data.data);
+
+export const sendRequest = async (data: RequestFormModel) =>
+  api.post('requests', {
+    data: {
+      ...data,
+    },
+  });

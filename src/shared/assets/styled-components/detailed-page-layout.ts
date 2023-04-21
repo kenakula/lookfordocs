@@ -7,7 +7,7 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
   rowGap: theme.spacing(1.5),
   paddingTop: theme.spacing(3),
 
-  '.swiper': {
+  '.swiper:not(.timetable .swiper)': {
     margin: theme.spacing(0, -2),
     padding: theme.spacing(0, 2, 4),
 
@@ -48,21 +48,23 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
 
   [theme.breakpoints.up('lmd')]: {
     flexDirection: 'row',
+    maxWidth: '100%',
+    minWidth: 0,
 
     '.detailed-left-column': {
       flexShrink: 0,
-      width: 'calc(65% - 12px)',
-      marginRight: theme.spacing(3),
+      width: 'calc(65% - 8px)',
+      marginRight: theme.spacing(2),
     },
 
     '.detailed-right-column': {
       position: 'relative',
-      flexGrow: 1,
+      width: 'calc(35% - 8px)',
     },
 
     '.sticky-block': {
       position: 'sticky',
-      zIndex: theme.zIndex.appBar,
+      zIndex: theme.zIndex.mobileStepper,
       left: 0,
       top: 87,
     },
@@ -82,10 +84,6 @@ export const DetailedPageLayout = styled('section')(({ theme }) => ({
 
   [theme.breakpoints.up('lg')]: {
     paddingTop: theme.spacing(8),
-
-    '.detailed-left-column': {
-      width: 'calc(66.5% - 12px)',
-    },
   },
 }));
 

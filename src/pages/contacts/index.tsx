@@ -42,7 +42,11 @@ const ContactsPage = ({
   if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings} isDetailedPage>
-        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
+        <PageSeo
+          pageSettings={pageSettings}
+          siteUrl={siteSettings.siteUrl}
+          favicons={siteSettings.favicons}
+        />
         <UnderConstructionPage image={siteSettings.constructionImage}>
           <Title variant="h2" textAlign="center">
             Наши <span className="highlighted">контакты</span>

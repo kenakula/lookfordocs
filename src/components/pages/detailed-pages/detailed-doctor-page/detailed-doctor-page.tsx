@@ -1,8 +1,13 @@
 import { Box, useMediaQuery } from '@mui/material';
-import { ButtonComponent, ContainerComponent, DoctorCard } from '@/components';
+import {
+  ButtonComponent,
+  ContainerComponent,
+  DoctorCard,
+  Timetable,
+} from '@/components';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { DetailedPageLayout } from '@/shared/assets';
-import { IDoctor } from '@/shared/types';
+import { IDoctor, SelectedSlot } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { DetailedDoctorClinics, DetailedInfo } from './components';
 import { useQuery } from '@tanstack/react-query';
@@ -22,11 +27,12 @@ export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
     staleTime: Infinity,
   });
 
-  const openRequestForm = () => {
+  const openRequestForm = (slot?: SelectedSlot) => {
     dispatch(
       openAppointmentDialog({
         doctor: data,
         type: 'doctor',
+        slot,
       }),
     );
   };
@@ -53,12 +59,20 @@ export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
               fullWidth
               variant="contained"
               size="large"
-              onClick={openRequestForm}
+              onClick={() => openRequestForm()}
             />
-            <DetailedDoctorClinics
-              reembolso={data.reembolso}
-              clinics={data.clinics}
-            />
+            <div className="detailed-doctor-aside">
+              <DetailedDoctorClinics
+                reembolso={data.reembolso}
+                clinics={data.clinics}
+              />
+              {data.rnovaId ? (
+                <Timetable
+                  docId={data.rnovaId}
+                  openAppointmentDialog={openRequestForm}
+                />
+              ) : null}
+            </div>
           </Box>
         </Box>
         <Box sx={{ overflow: 'hidden' }}>

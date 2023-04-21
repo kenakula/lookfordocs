@@ -21,10 +21,10 @@ const CARD_GAP = 12;
 const CARDS_COUNT_SHOW = 4;
 
 interface Props {
-  specialties: ISpecialty[];
+  specialties?: ISpecialty[];
 }
 
-export const CardsList = ({ specialties }: Props): JSX.Element => {
+export const CardsList = ({ specialties = [] }: Props): JSX.Element => {
   const [expanded, setExpanded] = useState(false);
   const matches = useMediaQuery(Breakpoints.Tablet);
 

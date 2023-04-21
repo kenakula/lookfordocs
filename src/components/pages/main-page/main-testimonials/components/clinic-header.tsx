@@ -19,7 +19,7 @@ export const ClinicHeader = ({
         </Typography>
         {address.map(addr => (
           <Typography key={addr.id} variant="body1" className="card-subtitle">
-            {getClinicAddress(addr)}
+            {getClinicAddress(addr, true)}
           </Typography>
         ))}
       </div>

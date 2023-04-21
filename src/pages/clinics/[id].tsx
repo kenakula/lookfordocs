@@ -82,6 +82,7 @@ const ClinicPage = ({
             ),
             socialImage: clinicInfo.image,
           }}
+          favicons={siteSettings.favicons}
           siteUrl={siteSettings.siteUrl}
         />
         <BreadcrumbsComponent

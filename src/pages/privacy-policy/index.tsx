@@ -42,7 +42,11 @@ export default function PrivacyPolicyPage({
   if (siteSettings && pageSettings) {
     return (
       <Layout siteSettings={siteSettings} isDetailedPage>
-        <PageSeo pageSettings={pageSettings} siteUrl={siteSettings.siteUrl} />
+        <PageSeo
+          pageSettings={pageSettings}
+          siteUrl={siteSettings.siteUrl}
+          favicons={siteSettings.favicons}
+        />
         <main>
           {pageSettings.content && (
             <ContainerComponent style={{ mt: 4 }}>

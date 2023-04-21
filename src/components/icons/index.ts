@@ -1,3 +1,4 @@
+export * from './icon-arrow-right';
 export * from './icon-arrow-left';
 export * from './icon-telegram';
 export * from './icon-receipt';
@@ -11,6 +12,9 @@ export * from './icon-face';
 export * from './icon-port';
 export * from './icon-star';
 export * from './icon-home';
+export * from './icon-void';
 export * from './icon-rus';
+export * from './icon-400';
+export * from './icon-500';
 export * from './icon-en';
 export * from './becas';

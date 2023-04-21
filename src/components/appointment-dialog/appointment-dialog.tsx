@@ -1,34 +1,90 @@
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { api } from '@/api';
+import { sendRequest as sendApiRequest, nextApi } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
-import { capitalizeName, getImageUrl } from '@/shared/assets';
+import {
+  RNOVA_QCLINIC_ID,
+  capitalizeName,
+  formatRnovaDate,
+  getImageUrl,
+} from '@/shared/assets';
 import {
   ButtonComponent,
   DialogComponent,
   InputComponent,
   RadioComponent,
 } from '@/components';
-import { closeAppointmentDialog, setToaster } from '@/stores/slices';
-import { RequestFormModel } from '@/shared/models';
-import { IAppointment } from '@/shared/types';
+import {
+  closeAppointmentDialog,
+  setAppointmentDialogSuccessState,
+  setToaster,
+} from '@/stores/slices';
+import { RequestFormModel, RnovaAppointmentModel } from '@/shared/models';
+import { IAppointment, SelectedSlot } from '@/shared/types';
 import { ImageSize } from '@/shared/enums';
-import { StyledAppointmentForm } from './components';
+import {
+  AppointmentLabel,
+  StyledAppointmentForm,
+  SuccessView,
+} from './components';
 import { formSchema } from './assets';
 import { useCommentBuilder } from './hooks';
 
+// TODO рефактор
+
 export const AppointmentDialog = (): JSX.Element => {
-  const { dialogOpen, target } = useAppSelector(state => state.appointment);
+  const { dialogOpen, target, dialogSuccessState } = useAppSelector(
+    state => state.appointment,
+  );
   const dispatch = useAppDispatch();
   const { isLoading, mutateAsync: sendRequest } = useMutation({
-    mutationFn: (data: RequestFormModel) =>
-      api.post('requests', {
-        data: {
-          ...data,
-        },
-      }),
+    mutationFn: (data: RequestFormModel) => sendApiRequest(data),
   });
+
+  const { isLoading: creatingAppointment, mutateAsync: createAppointment } =
+    useMutation({
+      mutationFn: (data: RnovaAppointmentModel) =>
+        nextApi.post('create-appointment', data),
+    });
+
+  const saveAppointmentToRnova = async (
+    { start, end }: SelectedSlot,
+    { name, phone, email, comment }: RequestFormModel,
+  ) => {
+    if (target && target.doctor) {
+      const timeStart = formatRnovaDate(new Date(start), true);
+      const timeEnd = formatRnovaDate(new Date(end), true);
+      const doctorRnovaId = target.doctor.rnovaId ? target.doctor.rnovaId : '';
+      // TODO тонкий момент, как передавать айдишник клиники
+      const clinicRnovaId = RNOVA_QCLINIC_ID.toString();
+
+      createAppointment({
+        timeStart,
+        timeEnd,
+        doctorRnovaId,
+        isTelemed: true,
+        clinicRnovaId,
+        firstName: name,
+        mobile: phone,
+        comment,
+        email,
+      })
+        .then(() => {
+          reset();
+          dispatch(setAppointmentDialogSuccessState(true));
+        })
+        .catch(() => {
+          dispatch(
+            setToaster({
+              message: 'Произошла ошибка, попробуйте позже',
+              severety: 'error',
+              key: new Date().getTime(),
+            }),
+          );
+        });
+    }
+  };
 
   const { handleSubmit, control, formState, reset, setValue } =
     useForm<RequestFormModel>({
@@ -36,8 +92,9 @@ export const AppointmentDialog = (): JSX.Element => {
         name: '',
         email: '',
         phone: '',
-        connectType: 'phone',
+        connectionType: 'phone',
         comment: '',
+        publishedAt: null,
       },
       resolver: yupResolver(formSchema),
     });
@@ -52,23 +109,25 @@ export const AppointmentDialog = (): JSX.Element => {
 
     if (target && target.clinic) {
       request.clinic = [target.clinic.id];
+      request.entityName = target.clinic.name;
     }
 
     if (target && target.doctor) {
       request.doctor = [target.doctor.id];
+      request.entityName = target.doctor.fullName;
+    }
+
+    if (target && target.slot) {
+      request.isTelemed = true;
+      request.slot = new Date(target.slot.start);
+
+      await saveAppointmentToRnova(target.slot, request);
     }
 
     try {
       await sendRequest(request);
       reset();
-      dispatch(closeAppointmentDialog());
-      dispatch(
-        setToaster({
-          message: 'Заявка успешно отправлена. Скоро с вами свяжутся',
-          severety: 'success',
-          key: new Date().getTime(),
-        }),
-      );
+      dispatch(setAppointmentDialogSuccessState(true));
     } catch (error) {
       dispatch(
         setToaster({
@@ -82,6 +141,11 @@ export const AppointmentDialog = (): JSX.Element => {
 
   const closeDialog = () => {
     dispatch(closeAppointmentDialog());
+
+    // TODO убрать хак. Сделано потому что содержимое резко меняется перед тем как окно закрывается
+    setTimeout(() => {
+      dispatch(setAppointmentDialogSuccessState(false));
+    }, 500);
   };
 
   const getHeaderTitle = (appointmentType: IAppointment | null): string => {
@@ -117,103 +181,112 @@ export const AppointmentDialog = (): JSX.Element => {
       title={getHeaderTitle(target)}
       imageUrl={getHeaderImageUrl(target)}
     >
-      <StyledAppointmentForm
-        className="appointment-form"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <InputComponent
-          formControl={control}
-          type="text"
-          id="appointment-name"
-          name="name"
-          fullwidth
-          label="Ваше имя"
-          placeholoder="Введите ваше имя"
-          error={!!formState.errors.name}
-          errorMessage={
-            !!formState.errors.name ? formState.errors.name.message : undefined
-          }
-          disabled={isLoading}
-        />
-        <InputComponent
-          formControl={control}
-          type="email"
-          id="appointment-email"
-          name="email"
-          fullwidth
-          label="E-mail"
-          placeholoder="Введите e-mail"
-          error={!!formState.errors.email}
-          errorMessage={
-            !!formState.errors.email
-              ? formState.errors.email.message
-              : undefined
-          }
-          disabled={isLoading}
-        />
-        <InputComponent
-          formControl={control}
-          type="tel"
-          id="appointment-tel"
-          name="phone"
-          fullwidth
-          label="Номер телефона"
-          placeholoder="Введите номер телефона"
-          error={!!formState.errors.phone}
-          errorMessage={
-            !!formState.errors.phone
-              ? formState.errors.phone.message
-              : undefined
-          }
-          disabled={isLoading}
-        />
-        <RadioComponent
-          name="connectType"
-          formControl={control}
-          id="appointment-contact-type"
-          label="Предпочитаемый способ для связи"
-          options={[
-            {
-              value: 'phone',
-              label: 'По телефону',
-            },
-            {
-              value: 'watsapp',
-              label: 'WhatsApp',
-            },
-            {
-              value: 'telegram',
-              label: 'Telegram',
-            },
-          ]}
-          disabled={isLoading}
-        />
-        <InputComponent
-          formControl={control}
-          type="text"
-          id="appointment-comment"
-          name="comment"
-          fullwidth
-          label="Комментарий"
-          placeholoder="К какому специалисту вы хотели бы записаться"
-          multiline
-          minHeight={70}
-          error={!!formState.errors.comment}
-          errorMessage={
-            !!formState.errors.comment
-              ? formState.errors.comment.message
-              : undefined
-          }
-          disabled={isLoading}
-        />
-        <ButtonComponent
-          variant="contained"
-          text="Отправить заявку"
-          fullWidth
-          type="submit"
-          disabled={isLoading}
-        />
-      </StyledAppointmentForm>
+      {dialogSuccessState ? (
+        <SuccessView slot={target?.slot} />
+      ) : (
+        <StyledAppointmentForm
+          className="appointment-form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {target && target.slot ? (
+            <AppointmentLabel date={new Date(target.slot.start)} />
+          ) : null}
+          <InputComponent
+            formControl={control}
+            type="text"
+            id="appointment-name"
+            name="name"
+            fullwidth
+            label="Ваше имя"
+            placeholoder="Введите ваше имя"
+            error={!!formState.errors.name}
+            errorMessage={
+              !!formState.errors.name
+                ? formState.errors.name.message
+                : undefined
+            }
+            disabled={isLoading}
+          />
+          <InputComponent
+            formControl={control}
+            type="email"
+            id="appointment-email"
+            name="email"
+            fullwidth
+            label="E-mail"
+            placeholoder="Введите e-mail"
+            error={!!formState.errors.email}
+            errorMessage={
+              !!formState.errors.email
+                ? formState.errors.email.message
+                : undefined
+            }
+            disabled={isLoading}
+          />
+          <InputComponent
+            formControl={control}
+            type="tel"
+            id="appointment-tel"
+            name="phone"
+            fullwidth
+            label="Номер телефона"
+            placeholoder="Введите номер телефона"
+            error={!!formState.errors.phone}
+            errorMessage={
+              !!formState.errors.phone
+                ? formState.errors.phone.message
+                : undefined
+            }
+            disabled={isLoading}
+          />
+          <RadioComponent
+            name="connectionType"
+            formControl={control}
+            id="appointment-contact-type"
+            label="Предпочитаемый способ для связи"
+            options={[
+              {
+                value: 'phone',
+                label: 'По телефону',
+              },
+              {
+                value: 'watsapp',
+                label: 'WhatsApp',
+              },
+              {
+                value: 'telegram',
+                label: 'Telegram',
+              },
+            ]}
+            disabled={isLoading}
+          />
+          <InputComponent
+            formControl={control}
+            type="text"
+            id="appointment-comment"
+            name="comment"
+            fullwidth
+            label="Комментарий"
+            placeholoder="К какому специалисту вы хотели бы записаться"
+            multiline
+            minHeight={70}
+            error={!!formState.errors.comment}
+            errorMessage={
+              !!formState.errors.comment
+                ? formState.errors.comment.message
+                : undefined
+            }
+            disabled={isLoading}
+          />
+          <ButtonComponent
+            variant="contained"
+            text="Отправить заявку"
+            fullWidth
+            type="submit"
+            disabled={isLoading || creatingAppointment}
+          />
+        </StyledAppointmentForm>
+      )}
     </DialogComponent>
   );
 };

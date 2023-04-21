@@ -99,6 +99,12 @@ export const ThemeStoreProvider = ({ children }: Props): JSX.Element => {
             light: '#F6F8FB',
             dark: '#DDE3EF',
           },
+          error: {
+            main: '#EB5E55',
+          },
+          success: {
+            main: '#1B9D46',
+          },
         },
       }),
     [mode],
