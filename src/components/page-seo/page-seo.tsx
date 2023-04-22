@@ -26,6 +26,11 @@ export const PageSeo = ({
       <meta name="title" content={pageSettings.pageTitle} />
       <meta name="description" content={pageSettings.pageDescription} />
       <meta name="keywords" content={pageSettings.pageKeywords} />
+      <meta name="yandex-verification" content="3d2cdefdca29e59a" />
+      <meta
+        name="google-site-verification"
+        content="HapLff9jdr72ojI4cKcEGgMbXUibbekCUu4kuV4K4MU"
+      />
 
       {favicons && (
         <>
