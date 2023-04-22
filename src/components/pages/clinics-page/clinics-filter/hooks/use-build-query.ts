@@ -105,7 +105,6 @@ export const useBuildQuery = ({
   }, [query]);
 
   const countFilters = useCallback((): void => {
-    // TODO вынести в ассеты (повторяется у докторов)
     const formValues = getValues();
     const arr = Object.values(formValues) as FilterGroupValue[];
     const filtered = arr.map(group => group.filter(val => Boolean(val)));

@@ -6,7 +6,6 @@ import { StyledSuccessView } from './styled-components';
 interface Props {
   slot?: SelectedSlot;
 }
-// TODO Либо убрать для обычных заявок, либо кастомизировать
 
 export const SuccessView = ({ slot }: Props): JSX.Element => {
   return (
@@ -18,7 +17,6 @@ export const SuccessView = ({ slot }: Props): JSX.Element => {
       ) : (
         <Typography variant="h3">Заявка успешно отправлена</Typography>
       )}
-      {/* TODO избавиться от бесконечного new Date для данных полученных от rnova */}
       {slot && <AppointmentLabel date={new Date(slot.start)} />}
       <div className="success-view-block">
         <Typography variant="h4">Описание</Typography>

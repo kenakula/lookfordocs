@@ -3,35 +3,27 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { sendRequest as sendApiRequest, nextApi } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
+import { RNOVA_QCLINIC_ID, formatRnovaDate } from '@/shared/assets';
 import {
-  RNOVA_QCLINIC_ID,
-  capitalizeName,
-  formatRnovaDate,
-  getImageUrl,
-} from '@/shared/assets';
+  closeAppointmentDialog,
+  setAppointmentDialogSuccessState,
+  setToaster,
+} from '@/stores/slices';
 import {
   ButtonComponent,
   DialogComponent,
   InputComponent,
   RadioComponent,
 } from '@/components';
-import {
-  closeAppointmentDialog,
-  setAppointmentDialogSuccessState,
-  setToaster,
-} from '@/stores/slices';
 import { RequestFormModel, RnovaAppointmentModel } from '@/shared/models';
-import { IAppointment, SelectedSlot } from '@/shared/types';
-import { ImageSize } from '@/shared/enums';
+import { SelectedSlot } from '@/shared/types';
 import {
   AppointmentLabel,
   StyledAppointmentForm,
   SuccessView,
 } from './components';
-import { formSchema } from './assets';
+import { formSchema, getHeaderImageUrl, getHeaderTitle } from './assets';
 import { useCommentBuilder } from './hooks';
-
-// TODO рефактор
 
 export const AppointmentDialog = (): JSX.Element => {
   const { dialogOpen, target, dialogSuccessState } = useAppSelector(
@@ -141,44 +133,14 @@ export const AppointmentDialog = (): JSX.Element => {
 
   const closeDialog = () => {
     dispatch(closeAppointmentDialog());
-
-    // TODO убрать хак. Сделано потому что содержимое резко меняется перед тем как окно закрывается
-    setTimeout(() => {
-      dispatch(setAppointmentDialogSuccessState(false));
-    }, 500);
-  };
-
-  const getHeaderTitle = (appointmentType: IAppointment | null): string => {
-    if (appointmentType && appointmentType.clinic) {
-      return capitalizeName(appointmentType.clinic.name);
-    }
-
-    if (appointmentType && appointmentType.doctor) {
-      return capitalizeName(appointmentType.doctor.fullName);
-    }
-
-    return 'Заполните данные';
-  };
-
-  const getHeaderImageUrl = (
-    appointmentType: IAppointment | null,
-  ): string | undefined => {
-    if (appointmentType && appointmentType.clinic) {
-      return getImageUrl(appointmentType.clinic.image, ImageSize.Thumb);
-    }
-
-    if (appointmentType && appointmentType.doctor) {
-      return getImageUrl(appointmentType.doctor.image, ImageSize.Thumb);
-    }
-
-    return undefined;
+    dispatch(setAppointmentDialogSuccessState(false));
   };
 
   return (
     <DialogComponent
       openState={dialogOpen}
       onClose={closeDialog}
-      title={getHeaderTitle(target)}
+      title={getHeaderTitle(target, dialogSuccessState)}
       imageUrl={getHeaderImageUrl(target)}
     >
       {dialogSuccessState ? (
