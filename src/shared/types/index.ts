@@ -34,4 +34,5 @@ export * from './metro.type';
 export * from './color.type';
 export * from './city.type';
 export * from './chip.type';
+export * from './tabs.type';
 export * from './link.type';

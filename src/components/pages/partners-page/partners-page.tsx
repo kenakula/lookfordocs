@@ -1,20 +1,67 @@
-import { ContainerComponent } from '@/components';
-import { Subtitle, Title } from '@/shared/assets';
-import { DoctorsForm } from './components';
+import { useState } from 'react';
+import { Typography } from '@mui/material';
+import {
+  ContainerComponent,
+  TabPanelComponent,
+  TabsListComponent,
+} from '@/components';
+import { ITabItem } from '@/shared/types';
+import { Title } from '@/shared/assets';
+import {
+  ClinicsForm,
+  DoctorsForm,
+  StyledPartnersPageTabs,
+  StyledPartnersPageWrapper,
+  StyledPartnersPanels,
+} from './components';
+
+const PAGE_TABS: ITabItem[] = [
+  {
+    label: 'Для докторов',
+  },
+  {
+    label: 'Для клиник',
+  },
+];
+
+// TODO динамический рендеринг содержимого табов
 
 export const PartnersPage = (): JSX.Element => {
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const handleTabChange = (event: React.SyntheticEvent, tab: number) => {
+    setCurrentTab(tab);
+  };
+
   return (
     <ContainerComponent>
-      <Title variant="h2" textAlign="center">
-        <span className="highlighted">Докторам</span> и{' '}
-        <span className="highlighted">Клиникам</span>
-      </Title>
-      <Subtitle>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi vitae
-        quos veritatis laboriosam a magni autem. Obcaecati molestias harum
-        officia, sit necessitatibus velit reprehenderit nam.
-      </Subtitle>
-      <DoctorsForm />
+      <StyledPartnersPageWrapper>
+        <Title variant="h1" textAlign="center">
+          Докторам и Клиникам
+        </Title>
+        <Typography textAlign="center">
+          Если вы хотите с нами сотрудничать, заполните, пожалуйста,
+          соответсвующую форму
+        </Typography>
+        <StyledPartnersPageTabs>
+          <TabsListComponent
+            className="partners-tabs-list"
+            currentTab={currentTab}
+            handleChange={handleTabChange}
+            ariaLabel="Вкладки форм для партнеров"
+            items={PAGE_TABS}
+          />
+
+          <StyledPartnersPanels>
+            <TabPanelComponent currentTab={currentTab} index={0}>
+              <DoctorsForm />
+            </TabPanelComponent>
+            <TabPanelComponent currentTab={currentTab} index={1}>
+              <ClinicsForm />
+            </TabPanelComponent>
+          </StyledPartnersPanels>
+        </StyledPartnersPageTabs>
+      </StyledPartnersPageWrapper>
     </ContainerComponent>
   );
 };

@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { testApi } from '@/api';
 import { PartnerRequestModel } from '@/shared/models';
 import { setToaster, useAppDispatch } from '@/stores';
+import { StyledPartnersForm } from './styled-components';
 
 export interface PartnerDoctorFormModel {
   name: string;
@@ -63,8 +64,10 @@ export const DoctorsForm = (): JSX.Element => {
   };
 
   return (
-    <form className="doctors-form" onSubmit={handleSubmit(onSubmit)}>
-      <h2>Doctors Form</h2>
+    <StyledPartnersForm
+      className="doctors-form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <InputComponent
         className="doctor-name-field"
         formControl={control}
@@ -149,6 +152,6 @@ export const DoctorsForm = (): JSX.Element => {
         type="submit"
         disabled={isLoading}
       />
-    </form>
+    </StyledPartnersForm>
   );
 };
