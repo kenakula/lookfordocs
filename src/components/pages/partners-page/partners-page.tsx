@@ -39,9 +39,9 @@ export const PartnersPage = (): JSX.Element => {
         <Title variant="h1" textAlign="center">
           Докторам и Клиникам
         </Title>
+        {/* TODO перенести тексты в CMS */}
         <Typography textAlign="center">
-          Если вы хотите с нами сотрудничать, заполните, пожалуйста,
-          соответсвующую форму
+          Если вы хотите с нами сотрудничать, заполните форму
         </Typography>
         <StyledPartnersPageTabs>
           <TabsListComponent
