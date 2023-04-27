@@ -1,13 +1,12 @@
-import { testApi } from '@/api';
-import { PartnerRequestModel } from '@/shared/models';
-import { useAppDispatch, setToaster } from '@/stores';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
+import { useAppDispatch, setToaster } from '@/stores';
+import { api } from '@/api';
+import { ButtonComponent, InputComponent } from '@/components';
+import { PartnerRequestModel } from '@/shared/models';
 import { clinicFormSchema } from '../assets';
 import { StyledPartnersForm } from './styled-components';
-import { ButtonComponent } from '@/components/button-component/button-component';
-import { InputComponent } from '@/components/form-components';
 
 export interface PartnerClinicFormModel {
   clinicName: string;
@@ -34,7 +33,7 @@ export const ClinicsForm = (): JSX.Element => {
 
   const { isLoading, mutateAsync: sendRequest } = useMutation({
     mutationFn: (data: PartnerRequestModel) =>
-      testApi.post<{ data: PartnerRequestModel }>('partner-requests', {
+      api.post<{ data: PartnerRequestModel }>('partner-requests', {
         data: {
           ...data,
         },
