@@ -29,7 +29,7 @@ export const DoctorCardClinic = ({
           {getClinicAddress(addr)}
         </Typography>
       ))}
-      {metro && (
+      {metro && metro.length ? (
         <ul className="clinic-metro">
           {metro.map(item => (
             <li key={item.name}>
@@ -41,7 +41,7 @@ export const DoctorCardClinic = ({
             </li>
           ))}
         </ul>
-      )}
+      ) : null}
       {insurancesList.length ? (
         <DoctorCardInsurances list={insurancesList} />
       ) : null}

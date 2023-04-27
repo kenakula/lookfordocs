@@ -12,13 +12,14 @@ const StyledButton = styled(Button, {
     let borderColor = 'transparent';
 
     if (variant === 'outlined') {
-      background = theme.palette.secondary.light;
-      hoverBackground = theme.palette.secondary.main;
       borderColor = theme.palette.misc.dark;
+      color = theme.palette.text.primary;
     }
 
     if (variant === 'contained') {
-      color = theme.palette.text.primary;
+      background = theme.palette.secondary.light;
+      hoverBackground = theme.palette.secondary.main;
+      color = theme.palette.background.default;
     }
 
     if (primaryColor) {
@@ -30,6 +31,7 @@ const StyledButton = styled(Button, {
     return {
       ...getTypography(theme, 16, 20),
       minHeight: size === 'large' ? 56 : 48,
+      border: '1px solid',
       borderColor,
       backgroundColor: background,
       boxShadow: shadow ? '0px 4px 16px rgba(7, 20, 48, 0.04)' : 'none',
