@@ -59,7 +59,7 @@ const PartnersPage = ({
         />
         <h1 className="visually-hidden">{pageSettings.h1}</h1>
         <BreadcrumbsComponent crumbs={[{ text: 'Докторам и клиникам' }]} />
-        <PartnersPageComponent data={partnersPageData} />
+        {partnersPageData && <PartnersPageComponent data={partnersPageData} />}
       </Layout>
     );
   }
