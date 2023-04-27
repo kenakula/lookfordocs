@@ -4,7 +4,7 @@ import { styled } from '@mui/material';
 export const StyledPartnersPageWrapper = styled('section')(({ theme }) => ({
   paddingTop: theme.spacing(3),
 
-  '.MuiTypography-h1': {
+  '.MuiTypography-h2': {
     marginBottom: theme.spacing(1.5),
 
     [theme.breakpoints.up('lg')]: {

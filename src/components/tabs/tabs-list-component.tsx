@@ -5,8 +5,8 @@ import { StyledTabsList } from './components';
 const DEFAULT_ARR_LENGTH_THRESHOLD = 4;
 
 interface Props {
-  currentTab: number;
-  handleChange: (id: number) => void;
+  currentTab: string;
+  handleChange: (tabSlug: string) => void;
   ariaLabel: string;
   items: ITabItem[];
   className?: string;
@@ -48,13 +48,14 @@ export const TabsListComponent = ({
     <StyledTabsList
       variant="fullWidth"
       value={currentTab}
-      onChange={(e, id) => handleChange(id)}
+      onChange={(_, slug) => handleChange(slug)}
       aria-label={ariaLabel}
       className={className}
       small={small}
     >
-      {items.map(({ label, shortLabel }, index, arr) => (
+      {items.map(({ label, shortLabel, slug }, _, arr) => (
         <Tab
+          value={slug}
           key={label}
           disableRipple
           disableFocusRipple

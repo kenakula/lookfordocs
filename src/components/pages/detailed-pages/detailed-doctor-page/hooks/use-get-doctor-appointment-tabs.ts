@@ -1,51 +1,51 @@
+import { useTabs } from '@/components';
 import { IDoctor, ITabItem } from '@/shared/types';
-import { useEffect, useState } from 'react';
 
 interface Props {
   data: IDoctor;
 }
 
 interface HookValue {
-  tabItems: ITabItem[];
-  currentTabId: number;
-  changeCurrentTab: (id: number) => void;
+  tabsList: ITabItem[];
+  currentTabValue: string;
+  handleTabChange: (tabSlug: string) => void;
 }
 
 export const useGetDoctorAppointmentTabs = ({ data }: Props): HookValue => {
-  const [tabItems, setTabItems] = useState<ITabItem[]>([]);
-  const [currentTabId, setCurrentTabId] = useState(0);
+  const tabsList: ITabItem[] = [];
 
-  useEffect(() => {
-    const result: ITabItem[] = [];
+  if (data.rnovaId) {
+    tabsList.push({
+      id: 0,
+      label: 'Онлайн прием',
+      shortLabel: 'Онлайн',
+      slug: 'online',
+    });
+  }
 
-    if (data.rnovaId) {
-      result.push({ id: 0, label: 'Онлайн прием', shortLabel: 'Онлайн' });
-    }
+  if (data.officeAppointmentsId) {
+    tabsList.push({
+      id: 1,
+      label: 'В клинике',
+      shortLabel: 'Клиника',
+      slug: 'office',
+    });
+  }
 
-    if (data.officeAppointmentsId) {
-      result.push({ id: 1, label: 'В клинике' });
-    }
+  if (data.homeAppointmentsId) {
+    tabsList.push({
+      id: 2,
+      label: 'На дому',
+      shortLabel: 'Дома',
+      slug: 'home',
+    });
+  }
 
-    if (data.homeAppointmentsId) {
-      result.push({ id: 2, label: 'На дому' });
-    }
-
-    setTabItems(result);
-  }, [data]);
-
-  const changeCurrentTab = (id: number): void => {
-    setCurrentTabId(id);
-  };
-
-  useEffect(() => {
-    if (tabItems.length) {
-      setCurrentTabId(0);
-    }
-  }, [tabItems]);
+  const { currentTabValue, handleTabChange } = useTabs({ tabsList });
 
   return {
-    tabItems,
-    currentTabId,
-    changeCurrentTab,
+    tabsList,
+    currentTabValue,
+    handleTabChange,
   };
 };
