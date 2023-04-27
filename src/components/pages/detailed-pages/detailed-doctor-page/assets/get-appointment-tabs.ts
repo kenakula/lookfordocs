@@ -1,17 +1,6 @@
-import { useTabs } from '@/components';
 import { IDoctor, ITabItem } from '@/shared/types';
 
-interface Props {
-  data: IDoctor;
-}
-
-interface HookValue {
-  tabsList: ITabItem[];
-  currentTabValue: string;
-  handleTabChange: (tabSlug: string) => void;
-}
-
-export const useGetDoctorAppointmentTabs = ({ data }: Props): HookValue => {
+export const getAppointmentTabs = (data: IDoctor): ITabItem[] => {
   const tabsList: ITabItem[] = [];
 
   if (data.rnovaId) {
@@ -41,11 +30,5 @@ export const useGetDoctorAppointmentTabs = ({ data }: Props): HookValue => {
     });
   }
 
-  const { currentTabValue, handleTabChange } = useTabs({ tabsList });
-
-  return {
-    tabsList,
-    currentTabValue,
-    handleTabChange,
-  };
+  return tabsList;
 };

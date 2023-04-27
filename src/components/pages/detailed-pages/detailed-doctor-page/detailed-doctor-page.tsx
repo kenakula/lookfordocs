@@ -11,6 +11,7 @@ import {
 } from './components';
 import { useQuery } from '@tanstack/react-query';
 import { getDoctorTestimonials } from '@/api';
+import { getAppointmentTabs } from './assets';
 
 interface Props {
   data: IDoctor;
@@ -19,6 +20,7 @@ interface Props {
 export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
   const isTablet = useMediaQuery(Breakpoints.TabeltWide);
   const dispatch = useAppDispatch();
+  const apppointmentTabs = getAppointmentTabs(data);
 
   const { data: doctorTestimonials } = useQuery({
     queryKey: ['doctorTestimonials', data.id],
@@ -65,10 +67,13 @@ export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
                 reembolso={data.reembolso}
                 clinics={data.clinics}
               />
-              <DetailedDoctorAppointment
-                data={data}
-                openAppointmentDialog={openRequestForm}
-              />
+              {apppointmentTabs.length ? (
+                <DetailedDoctorAppointment
+                  data={data}
+                  tabsList={apppointmentTabs}
+                  openAppointmentDialog={openRequestForm}
+                />
+              ) : null}
             </div>
           </Box>
         </Box>

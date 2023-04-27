@@ -1,19 +1,24 @@
-import { TabPanelComponent, TabsListComponent, Timetable } from '@/components';
-import { IDoctor, SelectedSlot } from '@/shared/types';
+import {
+  TabPanelComponent,
+  TabsListComponent,
+  Timetable,
+  useTabs,
+} from '@/components';
+import { IDoctor, ITabItem, SelectedSlot } from '@/shared/types';
 import { StyledDoctorAppointments } from './styled-components';
-import { useGetDoctorAppointmentTabs } from '../hooks';
 
 interface Props {
   data: IDoctor;
+  tabsList: ITabItem[];
   openAppointmentDialog: (slot?: SelectedSlot) => void;
 }
 
 export const DetailedDoctorAppointment = ({
   data,
+  tabsList,
   openAppointmentDialog,
 }: Props): JSX.Element => {
-  const { tabsList, currentTabValue, handleTabChange } =
-    useGetDoctorAppointmentTabs({ data });
+  const { currentTabValue, handleTabChange } = useTabs({ tabsList });
 
   return (
     <StyledDoctorAppointments>
