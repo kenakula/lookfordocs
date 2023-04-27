@@ -13,3 +13,16 @@ export const doctorFormSchema = object({
   specialty: string().required('Введите ваши специальность'),
   comment: string().required('Введите ваш комментарий'),
 });
+
+export const clinicFormSchema = object({
+  clinicName: string().required('Введите название клиники'),
+  contactName: string().required('Введите имя контактного лица'),
+  email: string()
+    .email('Введите корректно почту')
+    .required('Введите вашу почту'),
+  phone: string().required('Введите ваш номер телефона').test({
+    name: 'test phone number',
+    test: phoneNumberValidator,
+  }),
+  comment: string().required('Введите ваш комментарий'),
+});

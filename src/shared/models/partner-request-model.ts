@@ -3,6 +3,7 @@ export interface PartnerRequestModel {
   email: string;
   phone: string;
   specialty?: string;
+  clinicName?: string;
   comment: string;
   type: 'doctor' | 'clinic';
 }

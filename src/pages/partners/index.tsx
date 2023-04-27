@@ -1,14 +1,14 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { getSiteSettings, getPageSettings } from '@/api';
+import { PartnersPage as PartnersPageComponent } from '@/components';
 import {
+  BreadcrumbsComponent,
   Layout,
   ListPageSkeleton,
   PageSeo,
-  UnderConstructionPage,
 } from '@/components';
 import { ISiteSettings, IPageSettings } from '@/shared/types';
-import { Title } from '@/shared/assets';
 
 const PAGE_SLUG = 'partners';
 
@@ -49,12 +49,8 @@ const PartnersPage = ({
           siteUrl={siteSettings.siteUrl}
           favicons={siteSettings.favicons}
         />
-        {/* <PartnersPageComponent /> */}
-        <UnderConstructionPage image={siteSettings.constructionImage}>
-          <Title variant="h2" textAlign="center">
-            Докторам и Клиникам
-          </Title>
-        </UnderConstructionPage>
+        <BreadcrumbsComponent crumbs={[{ text: 'Докторам и клиникам' }]} />
+        <PartnersPageComponent />
       </Layout>
     );
   }

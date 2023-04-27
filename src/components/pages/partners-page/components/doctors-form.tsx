@@ -1,11 +1,12 @@
-import { ButtonComponent, InputComponent } from '@/components';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { doctorFormSchema } from '../assets';
 import { useMutation } from '@tanstack/react-query';
-import { testApi } from '@/api';
-import { PartnerRequestModel } from '@/shared/models';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { api } from '@/api';
 import { setToaster, useAppDispatch } from '@/stores';
+import { ButtonComponent, InputComponent } from '@/components';
+import { PartnerRequestModel } from '@/shared/models';
+import { doctorFormSchema } from '../assets';
+import { StyledPartnersForm } from './styled-components';
 
 export interface PartnerDoctorFormModel {
   name: string;
@@ -32,7 +33,7 @@ export const DoctorsForm = (): JSX.Element => {
 
   const { isLoading, mutateAsync: sendRequest } = useMutation({
     mutationFn: (data: PartnerRequestModel) =>
-      testApi.post<{ data: PartnerRequestModel }>('partner-requests', {
+      api.post<{ data: PartnerRequestModel }>('partner-requests', {
         data: {
           ...data,
         },
@@ -49,6 +50,7 @@ export const DoctorsForm = (): JSX.Element => {
             key: new Date().getTime(),
           }),
         );
+        reset();
       })
       .catch(() => {
         dispatch(
@@ -59,12 +61,13 @@ export const DoctorsForm = (): JSX.Element => {
           }),
         );
       });
-    reset();
   };
 
   return (
-    <form className="doctors-form" onSubmit={handleSubmit(onSubmit)}>
-      <h2>Doctors Form</h2>
+    <StyledPartnersForm
+      className="doctors-form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <InputComponent
         className="doctor-name-field"
         formControl={control}
@@ -77,6 +80,23 @@ export const DoctorsForm = (): JSX.Element => {
         error={!!formState.errors.name}
         errorMessage={
           formState.errors.name ? formState.errors.name.message : undefined
+        }
+        disabled={isLoading}
+      />
+      <InputComponent
+        className="doctor-specialty-field"
+        formControl={control}
+        id="doctor-specialty"
+        name="specialty"
+        type="text"
+        fullwidth
+        label="Ваша специальность"
+        placeholoder="Введите вашу специальность"
+        error={!!formState.errors.specialty}
+        errorMessage={
+          formState.errors.specialty
+            ? formState.errors.specialty.message
+            : undefined
         }
         disabled={isLoading}
       />
@@ -109,23 +129,6 @@ export const DoctorsForm = (): JSX.Element => {
         disabled={isLoading}
       />
       <InputComponent
-        className="doctor-specialty-field"
-        formControl={control}
-        id="doctor-specialty"
-        name="specialty"
-        type="text"
-        fullwidth
-        label="Ваша специальность"
-        placeholoder="Введите вашу специальность"
-        error={!!formState.errors.specialty}
-        errorMessage={
-          formState.errors.specialty
-            ? formState.errors.specialty.message
-            : undefined
-        }
-        disabled={isLoading}
-      />
-      <InputComponent
         formControl={control}
         type="text"
         id="doctors-comment"
@@ -149,6 +152,6 @@ export const DoctorsForm = (): JSX.Element => {
         type="submit"
         disabled={isLoading}
       />
-    </form>
+    </StyledPartnersForm>
   );
 };

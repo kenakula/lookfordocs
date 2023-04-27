@@ -37,7 +37,7 @@ export const ClinicCardAside = ({
             {getClinicAddress(addr)}
           </Typography>
         ))}
-      {metro && (
+      {metro && metro.length ? (
         <ul className="clinic-metro">
           {metro.map(item => (
             <li key={item.name}>
@@ -49,7 +49,7 @@ export const ClinicCardAside = ({
             </li>
           ))}
         </ul>
-      )}
+      ) : null}
       {worktime && worktime.length ? <WorkTime data={worktime} /> : null}
       {insurances.length ? <ClinicCardInsurances list={insurances} /> : null}
       {reembolso && (

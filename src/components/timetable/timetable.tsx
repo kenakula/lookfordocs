@@ -109,10 +109,12 @@ export const Timetable = ({
         text="Записаться"
         disabled={!selectedSlot}
         variant="contained"
+        primaryColor
         size="small"
         fullWidth
         className="timetable-button"
         onClick={handleButtonClick}
+        color="primary"
       />
     </StyledTimetable>
   );
