@@ -17,9 +17,11 @@ import {
 
 const PAGE_TABS: ITabItem[] = [
   {
+    id: 0,
     label: 'Для докторов',
   },
   {
+    id: 1,
     label: 'Для клиник',
   },
 ];
@@ -27,10 +29,10 @@ const PAGE_TABS: ITabItem[] = [
 // TODO динамический рендеринг содержимого табов
 
 export const PartnersPage = (): JSX.Element => {
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTabId, setCurrentTabId] = useState(0);
 
-  const handleTabChange = (event: React.SyntheticEvent, tab: number) => {
-    setCurrentTab(tab);
+  const handleTabChange = (id: number) => {
+    setCurrentTabId(id);
   };
 
   return (
@@ -46,17 +48,17 @@ export const PartnersPage = (): JSX.Element => {
         <StyledPartnersPageTabs>
           <TabsListComponent
             className="partners-tabs-list"
-            currentTab={currentTab}
+            currentTab={currentTabId}
             handleChange={handleTabChange}
             ariaLabel="Вкладки форм для партнеров"
             items={PAGE_TABS}
           />
 
           <StyledPartnersPanels>
-            <TabPanelComponent currentTab={currentTab} index={0}>
+            <TabPanelComponent currentTab={currentTabId} index={0}>
               <DoctorsForm />
             </TabPanelComponent>
-            <TabPanelComponent currentTab={currentTab} index={1}>
+            <TabPanelComponent currentTab={currentTabId} index={1}>
               <ClinicsForm />
             </TabPanelComponent>
           </StyledPartnersPanels>

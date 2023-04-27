@@ -167,3 +167,19 @@ export const StyledDoctorEducationItem = styled('div')(({ theme }) => ({
     columnGap: theme.spacing(4),
   },
 }));
+
+export const StyledDoctorAppointments = styled('div')(({ theme }) => ({
+  '.doctor-appointments-tabs': {
+    marginBottom: theme.spacing(3),
+  },
+
+  [theme.breakpoints.up('lmd')]: {
+    paddingTop: theme.spacing(3),
+  },
+
+  [theme.breakpoints.up('lg')]: {
+    padding: theme.spacing(3),
+    borderTop: `1px solid ${theme.palette.misc.dark}`,
+    backgroundColor: theme.palette.misc.light,
+  },
+}));

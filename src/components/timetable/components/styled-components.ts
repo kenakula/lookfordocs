@@ -3,8 +3,6 @@ import { alpha, styled } from '@mui/material';
 
 export const StyledTimetable = styled('form')(({ theme }) => ({
   width: '100%',
-  paddingTop: theme.spacing(3),
-  borderTop: `1px solid ${theme.palette.misc.dark}`,
   overflowX: 'hidden',
 
   '.MuiTypography-h3': {
@@ -29,9 +27,7 @@ export const StyledTimetable = styled('form')(({ theme }) => ({
       minHeight: 30,
       padding: theme.spacing(0.5, 1),
       fontWeight: 500,
-      color: theme.palette.primary.contrastText,
-      backgroundColor: theme.palette.primary.main,
-      borderRadius: theme.shape.borderRadius * 2,
+      color: theme.palette.secondary.dark,
       textAlign: 'center',
     },
 
@@ -63,15 +59,6 @@ export const StyledTimetable = styled('form')(({ theme }) => ({
     marginTop: theme.spacing(2),
     width: '100%',
     minHeight: 42,
-  },
-
-  [theme.breakpoints.up('lmd')]: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.misc.light,
-  },
-
-  [theme.breakpoints.up('lg')]: {
-    padding: theme.spacing(3),
   },
 }));
 
