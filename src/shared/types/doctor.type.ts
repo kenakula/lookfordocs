@@ -38,4 +38,7 @@ export interface IDoctor extends StrapiEditionsInfo {
   education: IDoctorEducation[];
   testimonials: ITestimonial[];
   rnovaId?: string;
+  // TODO extendStrapi
+  officeAppointmentsId?: string;
+  homeAppointmentsId?: string;
 }

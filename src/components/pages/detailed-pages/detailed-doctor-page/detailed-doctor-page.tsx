@@ -1,15 +1,14 @@
 import { Box, useMediaQuery } from '@mui/material';
-import {
-  ButtonComponent,
-  ContainerComponent,
-  DoctorCard,
-  Timetable,
-} from '@/components';
+import { ButtonComponent, ContainerComponent, DoctorCard } from '@/components';
 import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { DetailedPageLayout } from '@/shared/assets';
 import { IDoctor, SelectedSlot } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
-import { DetailedDoctorClinics, DetailedInfo } from './components';
+import {
+  DetailedDoctorAppointment,
+  DetailedDoctorClinics,
+  DetailedInfo,
+} from './components';
 import { useQuery } from '@tanstack/react-query';
 import { getDoctorTestimonials } from '@/api';
 
@@ -66,12 +65,10 @@ export const DetailedDoctorPage = ({ data }: Props): JSX.Element => {
                 reembolso={data.reembolso}
                 clinics={data.clinics}
               />
-              {data.rnovaId ? (
-                <Timetable
-                  docId={data.rnovaId}
-                  openAppointmentDialog={openRequestForm}
-                />
-              ) : null}
+              <DetailedDoctorAppointment
+                data={data}
+                openAppointmentDialog={openRequestForm}
+              />
             </div>
           </Box>
         </Box>

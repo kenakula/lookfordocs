@@ -1,4 +1,5 @@
 export * from './detailed-doctor-testimonials';
+export * from './detailed-doctor-appointment';
 export * from './detailed-testimonial-card';
 export * from './detailed-doctor-education';
 export * from './detailed-doctor-nosology';

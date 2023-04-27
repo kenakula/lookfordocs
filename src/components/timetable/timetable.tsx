@@ -72,7 +72,6 @@ export const Timetable = ({
 
   return (
     <StyledTimetable className="timetable">
-      <Typography variant="h3">Записаться на онлайн прием</Typography>
       <div className="timetable-day-header">
         <IconButton
           className="button-prev slider-button"

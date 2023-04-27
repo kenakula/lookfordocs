@@ -4,7 +4,6 @@ import { IAppointment } from '@/shared/types';
 
 export const getHeaderTitle = (
   appointmentType: IAppointment | null,
-  success = false,
 ): string => {
   if (appointmentType && appointmentType.clinic) {
     return capitalizeName(appointmentType.clinic.name);
@@ -14,7 +13,7 @@ export const getHeaderTitle = (
     return capitalizeName(appointmentType.doctor.fullName);
   }
 
-  return success ? '' : 'Заполните данные';
+  return 'Заполните данные';
 };
 
 export const getHeaderImageUrl = (
