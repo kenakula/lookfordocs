@@ -1,6 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import { getSiteSettings, getPageSettings } from '@/api';
+import { getSiteSettings, getPageSettings, getPartnersPageData } from '@/api';
 import { PartnersPage as PartnersPageComponent } from '@/components';
 import {
   BreadcrumbsComponent,
@@ -8,13 +8,18 @@ import {
   ListPageSkeleton,
   PageSeo,
 } from '@/components';
-import { ISiteSettings, IPageSettings } from '@/shared/types';
+import {
+  ISiteSettings,
+  IPageSettings,
+  IPartnersPageData,
+} from '@/shared/types';
 
 const PAGE_SLUG = 'partners';
 
 interface Props {
   siteSettings: ISiteSettings;
   pageSettings: IPageSettings;
+  partnersPageData: IPartnersPageData;
 }
 
 // TODO хранить города в редаксе
@@ -22,11 +27,13 @@ interface Props {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const siteSettings = await getSiteSettings();
   const pageSettings = await getPageSettings(PAGE_SLUG);
+  const partnersPageData = await getPartnersPageData();
 
   return {
     props: {
       siteSettings,
       pageSettings,
+      partnersPageData,
     },
   };
 };
@@ -34,6 +41,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 const PartnersPage = ({
   siteSettings,
   pageSettings,
+  partnersPageData,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
 
@@ -49,8 +57,9 @@ const PartnersPage = ({
           siteUrl={siteSettings.siteUrl}
           favicons={siteSettings.favicons}
         />
+        <h1 className="visually-hidden">{pageSettings.h1}</h1>
         <BreadcrumbsComponent crumbs={[{ text: 'Докторам и клиникам' }]} />
-        <PartnersPageComponent />
+        <PartnersPageComponent data={partnersPageData} />
       </Layout>
     );
   }

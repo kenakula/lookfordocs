@@ -1,6 +1,7 @@
 import {
   IDoctorsPageData,
   IMainPageData,
+  IPartnersPageData,
   ITestimonial,
   StrapiCollection,
   StrapiSingleton,
@@ -41,6 +42,15 @@ export const getDoctorsPageData = async () =>
     .get<StrapiSingleton<IDoctorsPageData>>('doctors-page', {
       params: {
         populate: 'promo.chips',
+      },
+    })
+    .then(res => res.data.data);
+
+export const getPartnersPageData = async () =>
+  api
+    .get<StrapiSingleton<IPartnersPageData>>('partners-page', {
+      params: {
+        populate: '*',
       },
     })
     .then(res => res.data.data);

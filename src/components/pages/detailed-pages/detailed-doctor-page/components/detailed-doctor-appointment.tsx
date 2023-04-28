@@ -1,34 +1,38 @@
-import { IDoctor, SelectedSlot } from '@/shared/types';
+import {
+  TabPanelComponent,
+  TabsListComponent,
+  Timetable,
+  useTabs,
+} from '@/components';
+import { IDoctor, ITabItem, SelectedSlot } from '@/shared/types';
 import { StyledDoctorAppointments } from './styled-components';
-import { TabPanelComponent, TabsListComponent } from '@/components/tabs';
-import { useGetDoctorAppointmentTabs } from '../hooks';
-import { Timetable } from '@/components';
 
 interface Props {
   data: IDoctor;
+  tabsList: ITabItem[];
   openAppointmentDialog: (slot?: SelectedSlot) => void;
 }
 
 export const DetailedDoctorAppointment = ({
   data,
+  tabsList,
   openAppointmentDialog,
 }: Props): JSX.Element => {
-  const { tabItems, currentTabId, changeCurrentTab } =
-    useGetDoctorAppointmentTabs({ data });
+  const { currentTabValue, handleTabChange } = useTabs({ tabsList });
 
   return (
     <StyledDoctorAppointments>
       <TabsListComponent
-        items={tabItems}
-        currentTab={currentTabId}
-        handleChange={changeCurrentTab}
+        items={tabsList}
+        currentTab={currentTabValue}
+        handleChange={handleTabChange}
         ariaLabel="Вкладки онлайн записи к врачу"
         itemsLengthThreshold={2}
         className="doctor-appointments-tabs"
         small
       />
       {data.rnovaId && (
-        <TabPanelComponent index={0} currentTab={currentTabId}>
+        <TabPanelComponent slug="online" currentTab={currentTabValue}>
           <div className="appointments-wrapper">
             <Timetable
               docId={data.rnovaId}
@@ -37,11 +41,11 @@ export const DetailedDoctorAppointment = ({
           </div>
         </TabPanelComponent>
       )}
-      <TabPanelComponent index={1} currentTab={currentTabId}>
-        Tab2
+      <TabPanelComponent slug="office" currentTab={currentTabValue}>
+        Office Appointments
       </TabPanelComponent>
-      <TabPanelComponent index={2} currentTab={currentTabId}>
-        Tab3
+      <TabPanelComponent slug="home" currentTab={currentTabValue}>
+        Home Appointments
       </TabPanelComponent>
     </StyledDoctorAppointments>
   );
