@@ -55,6 +55,9 @@ export const InputComponent = <T extends FieldValues>({
             <PhoneInput
               country={'pt'}
               {...field}
+              inputProps={{
+                id,
+              }}
               preferredCountries={['ru', 'pt']}
               placeholder={placeholoder}
               containerClass="phone-input"

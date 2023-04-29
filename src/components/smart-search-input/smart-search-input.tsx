@@ -132,7 +132,7 @@ export const SmartSearchInput = forwardRef(
       <StyledSearchBox>
         {imageRenderer && imageRenderer()}
         <Box className="input-container">
-          <IconSearch />
+          <IconSearch id="smart-search-input" />
           <form action="#" onSubmit={onSearchFormSubmit}>
             <Input
               id="main-search"

@@ -55,7 +55,7 @@ export const ScrollToTop = (): JSX.Element => {
         disableRipple
         disableFocusRipple
       >
-        <IconArrowLeft />
+        <IconArrowLeft id="scroll-top-icon" />
       </StyledFab>
     </Slide>
   );

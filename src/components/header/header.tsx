@@ -134,7 +134,7 @@ export const Header = ({
                   disableRipple
                   onClick={openSmartSearchBox}
                 >
-                  <IconSearch />
+                  <IconSearch id="header-search-icon" />
                 </StyledSearchButton>
               )}
               <StyledToggler

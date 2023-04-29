@@ -98,14 +98,14 @@ export const SliderComponent = ({ options, children }: Props): JSX.Element => {
           disableFocusRipple
           disableRipple
         >
-          <IconArrowLeft />
+          <IconArrowLeft id="slider-left" />
         </IconButton>
         <IconButton
           className="button-next slider-button"
           disableFocusRipple
           disableRipple
         >
-          <IconArrowRight />
+          <IconArrowRight id="slider-right" />
         </IconButton>
       </div>
     </StyledSliderWrapper>
