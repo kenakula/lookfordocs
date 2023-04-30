@@ -46,10 +46,9 @@ export const StyledFooterInfo = styled('div')(({ theme }) => ({
 }));
 
 export const StyledFooterList = styled('ul')(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: '1fr',
+  display: 'flex',
+  flexDirection: 'column',
   rowGap: theme.spacing(4),
-  columnGap: theme.spacing(2),
   width: '100%',
   margin: theme.spacing(0, 0, 5, 0),
   padding: 0,
@@ -83,7 +82,7 @@ export const StyledFooterList = styled('ul')(({ theme }) => ({
   },
 
   [theme.breakpoints.up('lmd')]: {
-    gridTemplateColumns: '1fr 1fr 1fr',
+    flexDirection: 'row-reverse',
     rowGap: theme.spacing(2.5),
     columnGap: theme.spacing(2),
     margin: 0,

@@ -15,8 +15,6 @@ import {
   StyledPartnersPanels,
 } from './components';
 
-// TODO использовать динамические импорты в проекте
-
 const DynamicClinicForm = dynamic(() =>
   import('./components/clinics-form').then(mod => mod.ClinicsForm),
 );

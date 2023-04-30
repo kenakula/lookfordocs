@@ -133,7 +133,6 @@ export const StyledCardBody = styled('div', {
   },
 }));
 
-// TODO бага с шириной изображения на десктопе детальной страницы
 export const DoctorCardInfo = styled('div')(({ theme }) => ({
   display: 'flex',
   columnGap: theme.spacing(2.25),

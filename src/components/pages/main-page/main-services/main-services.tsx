@@ -1,21 +1,25 @@
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { getImageUrl, PageSection, Title } from '@/shared/assets';
-import { IMainPageService } from '@/shared/types';
+import { IBlockData, IMainPageService } from '@/shared/types';
 import { ContainerComponent } from '@/components';
 import { StyledInner, StyledList, StyledService } from './components';
 
 interface Props {
   services: IMainPageService[];
+  blockData: IBlockData;
 }
 
-export const MainServices = ({ services = [] }: Props): JSX.Element => {
+export const MainServices = ({
+  services = [],
+  blockData,
+}: Props): JSX.Element => {
   return (
     <PageSection>
       <ContainerComponent>
         <StyledInner>
           <Title className="title" variant="h2" textAlign="center">
-            Услуги
+            {blockData.title}
           </Title>
           <StyledList>
             {services.map(({ id, title, description, image }) => (

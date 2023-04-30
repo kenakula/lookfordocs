@@ -79,11 +79,23 @@ export default function Home({
         />
         <MainPromo promoData={mainPageData.promo} />
         <MainAppointment appointmentData={mainPageData.appointment} />
-        <MainPopular />
-        <MainServices services={mainPageData.services} />
-        <MainInsurances insurances={insurances} />
-        <MainAdvantages advantages={mainPageData.advantages} />
-        <MainTestimonials testimonials={testimonials} />
+        <MainPopular data={mainPageData.popularBlock} />
+        <MainServices
+          services={mainPageData.services}
+          blockData={mainPageData.servicesBlock}
+        />
+        <MainInsurances
+          insurances={insurances}
+          data={mainPageData.insurancesBlock}
+        />
+        <MainAdvantages
+          advantages={mainPageData.advantages}
+          blockData={mainPageData.advantagesBlock}
+        />
+        <MainTestimonials
+          testimonials={testimonials}
+          blockData={mainPageData.testimonialsBlock}
+        />
       </Layout>
     );
   }

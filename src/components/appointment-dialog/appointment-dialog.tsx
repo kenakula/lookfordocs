@@ -12,7 +12,6 @@ import {
   RadioComponent,
 } from '@/components';
 import { RequestFormModel, RnovaAppointmentModel } from '@/shared/models';
-import { SelectedSlot } from '@/shared/types';
 import { AppointmentLabel, StyledAppointmentForm } from './components';
 import { formSchema, getHeaderImageUrl, getHeaderTitle } from './assets';
 import { useCommentBuilder } from './hooks';
@@ -29,39 +28,6 @@ export const AppointmentDialog = (): JSX.Element => {
       mutationFn: (data: RnovaAppointmentModel) =>
         nextApi.post('create-appointment', data),
     });
-
-  const saveAppointmentToRnova = async (
-    { start, end }: SelectedSlot,
-    { name, phone, email, comment }: RequestFormModel,
-  ) => {
-    if (target && target.doctor) {
-      const timeStart = formatRnovaDate(new Date(start), true);
-      const timeEnd = formatRnovaDate(new Date(end), true);
-      const doctorRnovaId = target.doctor.rnovaId ? target.doctor.rnovaId : '';
-      // TODO тонкий момент, как передавать айдишник клиники
-      const clinicRnovaId = RNOVA_QCLINIC_ID.toString();
-
-      createAppointment({
-        timeStart,
-        timeEnd,
-        doctorRnovaId,
-        isTelemed: true,
-        clinicRnovaId,
-        firstName: name,
-        mobile: phone,
-        comment,
-        email,
-      }).catch(() => {
-        dispatch(
-          setToaster({
-            message: 'Произошла ошибка, попробуйте позже',
-            severety: 'error',
-            key: new Date().getTime(),
-          }),
-        );
-      });
-    }
-  };
 
   const { handleSubmit, control, formState, reset, setValue } =
     useForm<RequestFormModel>({
@@ -96,16 +62,33 @@ export const AppointmentDialog = (): JSX.Element => {
       request.entityName = target.doctor.fullName;
     }
 
-    if (target && target.slot) {
-      request.isTelemed = true;
-      request.slot = new Date(target.slot.start);
-      successMessage =
-        'Вы успешно записаны на онлайн прием. Информация отправлена на указанную почту';
-
-      await saveAppointmentToRnova(target.slot, request);
-    }
-
     try {
+      if (target && target.doctor && target.slot) {
+        request.isTelemed = true;
+        request.slot = new Date(target.slot.start);
+        successMessage =
+          'Вы успешно записаны на онлайн прием. Информация отправлена на указанную почту';
+
+        const timeStart = formatRnovaDate(new Date(target.slot.start), true);
+        const timeEnd = formatRnovaDate(new Date(target.slot.end), true);
+        const doctorRnovaId = target.doctor.rnovaId
+          ? target.doctor.rnovaId
+          : '';
+        const clinicRnovaId = RNOVA_QCLINIC_ID.toString();
+
+        await createAppointment({
+          timeStart,
+          timeEnd,
+          doctorRnovaId,
+          isTelemed: true,
+          clinicRnovaId,
+          firstName: data.name,
+          mobile: data.phone,
+          comment: data.comment,
+          email: data.email,
+        });
+      }
+
       await sendRequest(request);
       closeDialog();
       reset();

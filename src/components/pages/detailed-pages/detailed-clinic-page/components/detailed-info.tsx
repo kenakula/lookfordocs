@@ -21,7 +21,7 @@ import {
 } from '@/shared/assets';
 import { useQuery } from '@tanstack/react-query';
 import { StyledDetailedClinicDoctorList } from './styled-components';
-// TODO рефактор
+
 interface Props {
   data: IClinic;
   testimonials: ITestimonial[];
@@ -140,7 +140,6 @@ export const DetailedInfo = ({
             />
           ) : null}
         </StyledDetailInfoBlockHeader>
-        {/* TODO сделать как на детальке врача */}
         <TestimonialsList
           testimonials={testimonials}
           openTestimonialDialog={handleOpenTestimonialsDialog}

@@ -6,14 +6,7 @@ const RNOVA_API_URL = process.env.NEXT_PUBLIC_RNOVA_API_URL;
 const RNOVA_API_KEY = process.env.NEXT_PUBLIC_RNOVA_API_KEY;
 
 export const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-export const testApi = axios.create({
-  baseURL: TEST_API_URL,
+  baseURL: process.env.NODE_ENV === 'development' ? TEST_API_URL : API_URL,
   headers: {
     'Content-Type': 'application/json',
   },

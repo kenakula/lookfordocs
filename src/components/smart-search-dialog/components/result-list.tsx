@@ -22,8 +22,6 @@ import { ClinicsItem } from './clinics-item';
 import { ImageSize } from '@/shared/enums';
 import { useMemo } from 'react';
 
-// TODO рефактор
-
 interface Props {
   result: ISmartSearchResult;
   search: string;

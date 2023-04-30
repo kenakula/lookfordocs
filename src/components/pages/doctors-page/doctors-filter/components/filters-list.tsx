@@ -36,8 +36,6 @@ export const FiltersList = ({
 }: Props): JSX.Element => {
   const { searchStr } = useAppSelector(state => state.smartSearch);
 
-  // TODO добавить фильтр города
-
   return (
     <form className="filter-form" onChange={() => handleChange(searchStr)}>
       <FilterGroupComponent<ISpecialty>

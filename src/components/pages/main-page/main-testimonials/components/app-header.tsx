@@ -1,13 +1,25 @@
+import { getImageUrl } from '@/shared/assets';
+import { ImageSize } from '@/shared/enums';
+import { IImage } from '@/shared/types';
 import { Avatar, Typography } from '@mui/material';
 
-export const AppHeader = (): JSX.Element => {
-  // TODO брать имя приложения из цмс
+interface Props {
+  siteName?: string;
+  icon: IImage | null;
+}
+
+export const AppHeader = ({ siteName, icon }: Props): JSX.Element => {
   return (
     <header className="card-header">
-      <Avatar className="app-avatar">LD</Avatar>
+      {icon && (
+        <Avatar
+          className="app-avatar"
+          src={getImageUrl(icon, ImageSize.Thumb)}
+        />
+      )}
       <div className="card-info">
         <Typography variant="h3" className="card-title">
-          LookForDocs
+          {siteName}
         </Typography>
       </div>
     </header>

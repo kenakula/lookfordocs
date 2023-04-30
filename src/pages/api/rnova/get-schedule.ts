@@ -26,9 +26,21 @@ const handler = async (
 
     const response = await rnovaApi
       .post<RnovaObjectResponse<SlotModel>>('getSchedule', formData)
-      .then(x => x.data.data);
+      .then(x => x.data);
 
-    const result = Object.values(response)[0].map(slot => ({
+    if (response.error === 1) {
+      res.status(500).end();
+      return;
+    }
+
+    const resultArr = Object.values(response.data);
+
+    if (!resultArr.length) {
+      res.status(200).json([]);
+      return;
+    }
+
+    const result = resultArr[0].map(slot => ({
       ...slot,
       time_end: new Date(slot.time_end),
       time_start: new Date(slot.time_start),

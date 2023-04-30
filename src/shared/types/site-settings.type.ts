@@ -20,6 +20,7 @@ export interface Favicons {
 export interface ISiteSettings extends StrapiEditionsInfo {
   id: number;
   siteUrl: string;
+  siteName: string;
   copyrights: string;
   testimonialsLimit: number;
   navigation: ILink[];
