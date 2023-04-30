@@ -1,7 +1,17 @@
-User-Agent: *
-Allow: /
-Disallow: /contacts
+# *
+User-agent: *
 Disallow: /telemed
+
+# *
+User-agent: *
 Disallow: /privacy-policy
+
+# *
+User-agent: *
 Disallow: /cities
-Disallow: /about
+
+# Host
+Host: https://lookfordocs.com
+
+# Sitemaps
+Sitemap: https://lookfordocs.com/sitemap.xml
