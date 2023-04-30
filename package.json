@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint --max-warnings=0",
     "lint-fix": "next lint --fix",
@@ -31,6 +32,7 @@
     "form-data": "^4.0.0",
     "next": "13.1.6",
     "next-redux-wrapper": "^8.1.0",
+    "next-sitemap": "^4.0.7",
     "nextjs-google-analytics": "^2.3.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
