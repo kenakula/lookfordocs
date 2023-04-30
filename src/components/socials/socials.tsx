@@ -37,7 +37,7 @@ interface Props {
 export const getSocialIcon = (type: SocialType): JSX.Element | null => {
   switch (type) {
     case 'email':
-      return <IconEmail />;
+      return <IconEmail id="icon-email" />;
     case 'telegram':
       return <IconTelegram />;
     case 'watsapp':

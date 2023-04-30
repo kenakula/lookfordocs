@@ -109,7 +109,7 @@ export const PaginationComponent = ({
         variant="text"
         disableRipple
         disableFocusRipple
-        startIcon={<IconArrowLeft />}
+        startIcon={<IconArrowLeft id="icon-left-pagination" />}
         disabled={page === 1}
         onClick={() => changePage(page - 1)}
         className="pagination-prev pagination-button"
@@ -128,7 +128,7 @@ export const PaginationComponent = ({
         variant="text"
         disableRipple
         disableFocusRipple
-        endIcon={<IconArrowRight />}
+        endIcon={<IconArrowRight id="icon-right-pagination" />}
         disabled={page === totalPages}
         onClick={() => changePage(page + 1)}
         className="pagination-next pagination-button"

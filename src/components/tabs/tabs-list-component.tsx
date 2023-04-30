@@ -14,10 +14,10 @@ interface Props {
   itemsLengthThreshold?: number;
 }
 
-const a11yProps = (tabNumber: number) => {
+const a11yProps = (tabSlug: string) => {
   return {
-    id: `tab-${tabNumber}`,
-    'aria-controls': `tabpanel-${tabNumber}`,
+    id: `tab-${tabSlug}`,
+    'aria-controls': `tabpanel-${tabSlug}`,
   };
 };
 
@@ -60,7 +60,7 @@ export const TabsListComponent = ({
           disableRipple
           disableFocusRipple
           label={getTabLabel(arr.length, label, shortLabel)}
-          {...a11yProps(0)}
+          {...a11yProps(slug)}
         />
       ))}
     </StyledTabsList>

@@ -78,7 +78,7 @@ export const Timetable = ({
           disableFocusRipple
           disableRipple
         >
-          <IconArrowLeft />
+          <IconArrowLeft id="timetable-left" />
         </IconButton>
         <Typography variant="h4">{activeSlideDate}</Typography>
         <IconButton
@@ -86,7 +86,7 @@ export const Timetable = ({
           disableFocusRipple
           disableRipple
         >
-          <IconArrowRight />
+          <IconArrowRight id="timetable-right" />
         </IconButton>
       </div>
       <Swiper
