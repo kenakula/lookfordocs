@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Typography } from '@mui/material';
 import { ContainerComponent } from '@/components';
 import { getImageUrl, PageSection, Title } from '@/shared/assets';
-import { IMainAdvantage } from '@/shared/types';
+import { IBlockData, IMainAdvantage } from '@/shared/types';
 
 import {
   StyledImageContainer,
@@ -14,15 +14,19 @@ import {
 
 interface Props {
   advantages: IMainAdvantage[];
+  blockData: IBlockData;
 }
 
-export const MainAdvantages = ({ advantages = [] }: Props): JSX.Element => {
+export const MainAdvantages = ({
+  advantages = [],
+  blockData,
+}: Props): JSX.Element => {
   return (
     <PageSection>
       <ContainerComponent>
         <StyledInner>
           <Title className="title" textAlign="center" variant="h2">
-            Почему нас выбирают?
+            {blockData.title}
           </Title>
           <StyledList>
             {advantages.map(({ id, title, description, image }) => (

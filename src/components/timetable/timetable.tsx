@@ -16,16 +16,17 @@ interface Props {
   openAppointmentDialog: (slot?: SelectedSlot) => void;
 }
 
-// TODO обработать ошибку
-// TODO сохранять где-то слоты на которые чел записался и их не показывать
-
 export const Timetable = ({
   docId,
   openAppointmentDialog,
 }: Props): JSX.Element => {
   const [activeSlideDate, setActiveSlideDate] = useState('');
   const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null);
-  const { data: schedule, isLoading } = useQuery(['getSchedule', docId], {
+  const {
+    data: schedule,
+    isLoading,
+    isError,
+  } = useQuery(['getSchedule', docId], {
     queryFn: () => getDoctorSlots(docId, RNOVA_CATEGORY_ONLINE),
     staleTime: 5000,
   });
@@ -52,6 +53,8 @@ export const Timetable = ({
     if (entries && entries.length) {
       const dayString = getDayString(new Date(entries[0][0]));
       setActiveSlideDate(dayString);
+    } else {
+      setActiveSlideDate('Пока нет свободного времени для записи');
     }
   }, [entries]);
 
@@ -72,6 +75,13 @@ export const Timetable = ({
 
   return (
     <StyledTimetable className="timetable">
+      {isError && (
+        <div>
+          <Typography color="error" textAlign="center">
+            Произошла ошибка. Попробуйте позже
+          </Typography>
+        </div>
+      )}
       <div className="timetable-day-header">
         <IconButton
           className="button-prev slider-button"

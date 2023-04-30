@@ -12,7 +12,8 @@ export const getMainPageData = async () =>
   api
     .get<StrapiSingleton<IMainPageData>>('main-page', {
       params: {
-        populate: 'promo,appointment,services.image,advantages.image',
+        populate:
+          'promo,appointment,services.image,advantages.image,insurancesBlock,popularBlock,servicesBlock,advantagesBlock,testimonialsBlock',
       },
     })
     .then(res => res.data.data);

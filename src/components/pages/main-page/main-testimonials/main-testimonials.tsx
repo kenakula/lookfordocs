@@ -3,16 +3,20 @@ import { SwiperSlide } from 'swiper/react';
 import { SwiperOptions } from 'swiper/types/swiper-options';
 import { Navigation, Pagination } from 'swiper';
 import { PageSection, Title } from '@/shared/assets';
-import { ITestimonial } from '@/shared/types';
+import { IBlockData, ITestimonial } from '@/shared/types';
 import { ContainerComponent, SliderComponent } from '@/components';
 import { StyledInner, TestimonialCard } from './components';
 import 'swiper/css/bundle';
 
 interface Props {
   testimonials: ITestimonial[];
+  blockData: IBlockData;
 }
 
-export const MainTestimonials = ({ testimonials = [] }: Props): JSX.Element => {
+export const MainTestimonials = ({
+  testimonials = [],
+  blockData: { title },
+}: Props): JSX.Element => {
   const sliderConfig: SwiperOptions = useMemo(
     () => ({
       modules: [Navigation, Pagination],
@@ -50,7 +54,7 @@ export const MainTestimonials = ({ testimonials = [] }: Props): JSX.Element => {
       <ContainerComponent>
         <StyledInner>
           <Title className="title" variant="h2" textAlign="center">
-            Отзывы
+            {title}
           </Title>
           <SliderComponent options={sliderConfig}>
             {testimonials.map(item => (

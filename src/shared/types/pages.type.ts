@@ -10,6 +10,11 @@ export interface IMainPageData extends StrapiEditionsInfo {
   appointment: IBlockData;
   services: IMainPageService[];
   advantages: IMainAdvantage[];
+  popularBlock: IBlockData;
+  insurancesBlock: IBlockData;
+  servicesBlock: IBlockData;
+  advantagesBlock: IBlockData;
+  testimonialsBlock: IBlockData;
 }
 
 export interface IDoctorsPageData extends StrapiEditionsInfo {

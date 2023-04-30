@@ -1,5 +1,3 @@
-// TODO рефактор
-
 export const getDayString = (date: Date, withTime?: boolean): string => {
   const weekDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
   const today = new Date(new Date());

@@ -22,8 +22,6 @@ interface Props {
   partnersPageData: IPartnersPageData;
 }
 
-// TODO хранить города в редаксе
-
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const siteSettings = await getSiteSettings();
   const pageSettings = await getPageSettings(PAGE_SLUG);

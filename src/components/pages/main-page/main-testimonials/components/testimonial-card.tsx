@@ -5,6 +5,7 @@ import { ClinicHeader } from './clinic-header';
 import { DoctorHeader } from './doctor-header';
 import { AppHeader } from './app-header';
 import { InsuranceHeader } from './insurance-header';
+import { useAppSelector } from '@/stores';
 
 interface Props {
   data: ITestimonial;
@@ -13,6 +14,7 @@ interface Props {
 export const TestimonialCard = ({
   data: { date, author, comment, type, doctor, clinic, insurance },
 }: Props): JSX.Element => {
+  const { siteName, icon } = useAppSelector(state => state.settings);
   const cardDate = new Date(date).toLocaleDateString('ru-RU');
   const dateTimeString = new Date(date).toISOString();
 
@@ -26,7 +28,7 @@ export const TestimonialCard = ({
     }
 
     if (type === 'app') {
-      return <AppHeader />;
+      return <AppHeader siteName={siteName} icon={icon} />;
     }
 
     if (type === 'insurance' && insurance) {

@@ -2,7 +2,7 @@ import { useMediaQuery } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { ContainerComponent } from '@/components';
 import { PageSection, Subtitle, Title } from '@/shared/assets';
-import { IInsurance } from '@/shared/types';
+import { IBlockData, IInsurance } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { CardsList, StyledInner } from './components';
 
@@ -11,9 +11,13 @@ const CARDS_COUNT_SHOW_DESKTOP = 8;
 
 interface Props {
   insurances: IInsurance[];
+  data: IBlockData;
 }
 
-export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
+export const MainInsurances = ({
+  insurances = [],
+  data: { title, subtitle },
+}: Props): JSX.Element => {
   const blockRef = useRef<HTMLElement>(null);
   const [expanded, setExpanded] = useState(false);
   const [cardsNumber, setCardsNumber] = useState(CARDS_COUNT_SHOW_MOBILE);
@@ -47,17 +51,15 @@ export const MainInsurances = ({ insurances = [] }: Props): JSX.Element => {
     }
   };
 
-  // TODO вынести тексты в цмс
-
   return (
     <PageSection bgColor="beje">
       <ContainerComponent>
         <StyledInner ref={blockRef}>
           <Title className="title" variant="h2" textAlign="center">
-            Страховые компании
+            {title}
           </Title>
           <Subtitle className="subtitle" textAlign="center">
-            Выберите свою страховую и узнайте какие врачи принимают по ней
+            {subtitle}
           </Subtitle>
           <CardsList
             insurances={insurances}

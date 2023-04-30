@@ -3,14 +3,11 @@ import { IChip } from './chip.type';
 export interface IBlockData {
   id: number;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   titleMobile?: string;
 }
 
-export interface IPromoBlockData {
-  id: number;
-  title: string;
-  subtitle: string;
+export interface IPromoBlockData extends IBlockData {
   buttonText?: string;
   chips?: IChip[];
 }

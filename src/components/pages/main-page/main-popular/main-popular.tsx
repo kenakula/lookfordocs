@@ -4,8 +4,13 @@ import { PageSection, Title } from '@/shared/assets';
 import { CardsList, StyledInner } from './components';
 import { useQuery } from '@tanstack/react-query';
 import { getSpecialties } from '@/api';
+import { IBlockData } from '@/shared/types';
 
-export const MainPopular = () => {
+interface Props {
+  data: IBlockData;
+}
+
+export const MainPopular = ({ data: { title } }: Props) => {
   const { data: specialties, isLoading } = useQuery(['mainPopular'], {
     queryFn: () => getSpecialties(true),
     staleTime: Infinity,
@@ -16,7 +21,7 @@ export const MainPopular = () => {
       <ContainerComponent>
         <StyledInner>
           <Title className="title" variant="h2" minor>
-            Популярные направления
+            {title}
           </Title>
           {isLoading && <Skeleton height={268} />}
           <CardsList specialties={specialties} />

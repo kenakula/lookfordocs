@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAppDispatch, setTestimonialsLimit } from '@/stores';
+import { useAppDispatch, setSiteSettings } from '@/stores';
 import { ISiteSettings } from '../types';
 
 export const useSaveSiteSettings = (settings: ISiteSettings | null): void => {
@@ -7,7 +7,7 @@ export const useSaveSiteSettings = (settings: ISiteSettings | null): void => {
 
   useEffect(() => {
     if (settings) {
-      dispatch(setTestimonialsLimit(settings.testimonialsLimit));
+      dispatch(setSiteSettings(settings));
     }
   }, [dispatch, settings]);
 };
