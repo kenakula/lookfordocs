@@ -27,13 +27,15 @@ const StyledChip = styled('span', {
 
 interface Props {
   data: IChip;
+  itemProp?: string;
 }
 
 export const ChipComponent = ({
   data: { text, variant = 'contained', size = 'small' },
+  itemProp,
 }: Props): JSX.Element => {
   return (
-    <StyledChip variant={variant} size={size}>
+    <StyledChip variant={variant} size={size} itemProp={itemProp}>
       {text}
     </StyledChip>
   );

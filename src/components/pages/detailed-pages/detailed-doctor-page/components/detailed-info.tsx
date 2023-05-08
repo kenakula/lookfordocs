@@ -49,6 +49,7 @@ export const DetailedInfo = ({
       <DetialedDoctorTestimonials
         testimonials={testimonials}
         openDialog={handleOpenTestimonialsDialog}
+        docName={capitalizeName(fullName)}
       />
 
       {nosologies.length ? (

@@ -15,12 +15,14 @@ const SHOWED_TESTIMONIALS_COUNT = 4;
 
 interface Props {
   testimonials: ITestimonial[];
+  docName: string;
   openDialog: () => void;
 }
 
 export const DetialedDoctorTestimonials = ({
   testimonials,
   openDialog,
+  docName,
 }: Props): JSX.Element => {
   const [testimonialsExpanded, setTestimonialsExpanded] = useState(false);
   const { showedCards, leftCards, hasHiddenCards } =
@@ -54,7 +56,11 @@ export const DetialedDoctorTestimonials = ({
       {testimonials && testimonials.length ? (
         <StyledDetailedTestimonialList>
           {showedCards.map(item => (
-            <DetailedTestimonialCard key={item.id} data={item} />
+            <DetailedTestimonialCard
+              key={item.id}
+              data={item}
+              docName={docName}
+            />
           ))}
         </StyledDetailedTestimonialList>
       ) : (
