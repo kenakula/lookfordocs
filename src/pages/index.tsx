@@ -1,5 +1,13 @@
-import { useRouter } from 'next/router';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { useRouter } from 'next/router';
+import Script from 'next/script';
+import {
+  getInsurances,
+  getMainPageData,
+  getMainPageTestimonials,
+  getPageSettings,
+  getSiteSettings,
+} from '@/api';
 import {
   Layout,
   ListPageSkeleton,
@@ -19,13 +27,7 @@ import {
   ISiteSettings,
   ITestimonial,
 } from '@/shared/types';
-import {
-  getInsurances,
-  getMainPageData,
-  getMainPageTestimonials,
-  getPageSettings,
-  getSiteSettings,
-} from '@/api';
+import { getImageUrl } from '@/shared/assets';
 
 const PAGE_SLUG = 'main';
 
@@ -76,6 +78,24 @@ export default function Home({
           pageSettings={pageSettings}
           siteUrl={siteSettings.siteUrl}
           favicons={siteSettings.favicons}
+        />
+        <Script
+          id="main-page-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'http://schema.org/',
+              '@type': 'Project',
+              name: siteSettings.siteName,
+              logo: getImageUrl(siteSettings.logo),
+              url: siteSettings.siteUrl,
+              email: siteSettings.email,
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'Portugal',
+              },
+            }),
+          }}
         />
         <MainPromo promoData={mainPageData.promo} />
         <MainAppointment appointmentData={mainPageData.appointment} />

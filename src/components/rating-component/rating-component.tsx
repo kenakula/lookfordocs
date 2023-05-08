@@ -36,7 +36,14 @@ export const RatingComponent = ({
   }
 
   return (
-    <StyledRatingWrapper>
+    <StyledRatingWrapper
+      itemProp="reviewRating"
+      itemScope
+      itemType="https://schema.org/Rating"
+    >
+      <meta itemProp="worstRating" content="1" />
+      <meta itemProp="ratingValue" content={rate.toString()} />
+      <meta itemProp="bestRating" content="5" />
       <StyledRating
         emptyIcon={<IconStar color="inherit" />}
         icon={<IconStar color="inherit" />}

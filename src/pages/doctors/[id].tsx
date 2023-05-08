@@ -1,11 +1,13 @@
-import { useRouter } from 'next/router';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import Script from 'next/script';
+import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { getDoctorInfo, getDoctorsIds, getSiteSettings } from '@/api';
 import {
   BreadcrumbsComponent,
   DetailedDoctorPage,
   DetailedDoctorSkeleton,
+  DoctorSchema,
   Layout,
   LayoutSkeleton,
   PageSeo,
@@ -14,6 +16,7 @@ import { IDoctor, ISiteSettings } from '@/shared/types';
 import {
   DOCTORS_PAGE,
   capitalizeName,
+  getImageUrl,
   getSeoDoctorKeywords,
   getSeoDoctorPageH1,
   getSeoDoctorPageTitle,
@@ -83,6 +86,28 @@ const DoctorPage = ({
           }}
           favicons={siteSettings.favicons}
           siteUrl={siteSettings.siteUrl}
+        />
+        <Script
+          id={`doctor-page-${doctorInfo.id}-structured-data`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'http://schema.org/',
+              '@type': 'Project',
+              name: siteSettings.siteName,
+              logo: getImageUrl(siteSettings.logo),
+              url: siteSettings.siteUrl,
+              email: siteSettings.email,
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'Portugal',
+              },
+            }),
+          }}
+        />
+        <DoctorSchema
+          data={doctorInfo}
+          url={`${siteSettings.siteUrl}${router.asPath}`}
         />
         <BreadcrumbsComponent
           crumbs={[

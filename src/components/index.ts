@@ -23,6 +23,7 @@ export * from './prices-list/prices-list';
 export * from './doctor-card/doctor-card';
 export * from './clinic-card/clinic-card';
 export * from './page-result/page-result';
+export * from './page-seo/doctor-schema';
 export * from './card-image/card-image';
 export * from './pages/detailed-pages';
 export * from './timetable/timetable';

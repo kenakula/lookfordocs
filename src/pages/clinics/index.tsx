@@ -1,5 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import {
   getCities,
   getDoctorsPageData,
@@ -29,6 +30,7 @@ import {
   ILanguage,
   ISpecialty,
 } from '@/shared/types';
+import { getImageUrl } from '@/shared/assets';
 
 const PAGE_SLUG = 'clinics';
 
@@ -91,7 +93,24 @@ const ClinicsPage = ({
           siteUrl={siteSettings.siteUrl}
           favicons={siteSettings.favicons}
         />
-
+        <Script
+          id="clinics-page-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'http://schema.org/',
+              '@type': 'Project',
+              name: siteSettings.siteName,
+              logo: getImageUrl(siteSettings.logo),
+              url: siteSettings.siteUrl,
+              email: siteSettings.email,
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'Portugal',
+              },
+            }),
+          }}
+        />
         <BreadcrumbsComponent crumbs={[{ text: 'Клиники' }]} />
         <Promo promoData={promoData.promo} />
         <PageResult>

@@ -27,10 +27,15 @@ export const DetailedDoctorNosology = ({
           <Typography variant="caption">5 проблем</Typography>
         </Box>
       </Box>
-      <Box className="nosology-list" component="ul">
+      <Box
+        className="nosology-list"
+        component="ul"
+        itemScope
+        itemType="https://schema.org/MedicalCondition"
+      >
         {chipsList.map((chip, index) => (
           <li key={`${chip.text}-${index}`}>
-            <ChipComponent data={chip} />
+            <ChipComponent data={chip} itemProp="name" />
           </li>
         ))}
       </Box>
