@@ -1,13 +1,18 @@
-import { openAppointmentDialog, useAppDispatch } from '@/stores';
-import { Subtitle, Title } from '@/shared/assets';
-import { IPromoBlockData } from '@/shared/types';
+import { useEffect } from 'react';
 import {
-  ButtonComponent,
-  ChipComponent,
-  ContainerComponent,
-} from '@/components';
+  closeAppointmentDialog,
+  openAppointmentDialog,
+  toggleContactDialog,
+  useAppDispatch,
+} from '@/stores';
+import { ButtonComponent, ContainerComponent } from '@/components';
+import { IPromoBlockData } from '@/shared/types';
 import { Becas } from '@/components/icons';
-import { StyledChips, StyledPromoSection } from './components';
+import {
+  ContactsBlock,
+  PromoDataBlock,
+  StyledPromoSection,
+} from './components';
 
 interface Props {
   promoData: IPromoBlockData;
@@ -15,37 +20,34 @@ interface Props {
 
 export const Promo = ({ promoData }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
+  const buttonText = promoData.buttonText ?? 'Записаться к врачу';
 
-  const openRequestDialog = () => {
+  const openDialog = () => {
+    if (promoData.type === 'contact') {
+      dispatch(toggleContactDialog(true));
+      return;
+    }
+
     dispatch(openAppointmentDialog());
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(closeAppointmentDialog());
+      dispatch(toggleContactDialog(false));
+    };
+  }, [dispatch]);
 
   return (
     <StyledPromoSection>
       <ContainerComponent>
-        <div
-          className={`promo-info ${
-            !promoData.chips || !promoData.chips.length ? 'padded' : ''
-          }`}
-        >
-          <Title
-            className="title"
-            variant="h2"
-            dangerouslySetInnerHTML={{ __html: promoData.title }}
-          />
-          <Subtitle className="subtitle" variant="body1">
-            {promoData.subtitle}
-          </Subtitle>
-          {promoData.chips ? (
-            <StyledChips className="chips">
-              {promoData.chips.map(chip => (
-                <li key={chip.text}>
-                  <ChipComponent data={chip} />
-                </li>
-              ))}
-            </StyledChips>
-          ) : null}
-        </div>
+        {promoData.type === 'appointment' && (
+          <PromoDataBlock promoData={promoData} />
+        )}
+
+        {promoData.type === 'contact' && (
+          <ContactsBlock promoData={promoData} />
+        )}
 
         <ButtonComponent
           className="promo-button"
@@ -54,8 +56,8 @@ export const Promo = ({ promoData }: Props): JSX.Element => {
           variant="contained"
           size="large"
           fullWidth
-          text="Записаться к врачу"
-          onClick={openRequestDialog}
+          text={buttonText}
+          onClick={openDialog}
         />
         <Becas className="becas" />
       </ContainerComponent>

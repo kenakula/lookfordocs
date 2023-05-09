@@ -1,4 +1,5 @@
 import { styled } from '@mui/material';
+import { getTypography } from '@/shared/assets';
 
 export const StyledPromoSection = styled('section')(({ theme }) => ({
   position: 'relative',
@@ -87,4 +88,62 @@ export const StyledChips = styled('ul')(({ theme }) => ({
   padding: 0,
   columnGap: theme.spacing(1.5),
   rowGap: theme.spacing(1.5),
+}));
+
+export const StyledContactsBlock = styled('div')(({ theme }) => ({
+  '.title': {
+    marginBottom: theme.spacing(2),
+  },
+
+  '.contacts-block-list': {
+    margin: theme.spacing(0, 0, 4, 0),
+    padding: 0,
+    listStyle: 'none',
+    display: 'grid',
+    rowGap: theme.spacing(3),
+
+    h2: {
+      ...getTypography(theme, 18, 24),
+      margin: theme.spacing(0, 0, 1, 0),
+      fontWeight: 500,
+    },
+
+    a: {
+      ...getTypography(theme, 16, 20),
+      color: theme.palette.text.primary,
+      textDecoration: 'none',
+      whiteSpace: 'nowrap',
+      transition: theme.transitions.create('color'),
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+      },
+
+      '&:active': {
+        color: theme.palette.primary.dark,
+      },
+
+      '&:focus-visible': {
+        color: theme.palette.primary.main,
+        textDecoration: 'underline',
+        outline: 'none',
+      },
+    },
+
+    [theme.breakpoints.up('lmd')]: {
+      gridTemplateColumns: '1fr 1fr',
+      columnGap: theme.spacing(2),
+      maxWidth: '60%',
+    },
+
+    [theme.breakpoints.up('lg')]: {
+      maxWidth: '70%',
+    },
+  },
+
+  [theme.breakpoints.up('lg')]: {
+    '.title': {
+      marginBottom: theme.spacing(3),
+    },
+  },
 }));

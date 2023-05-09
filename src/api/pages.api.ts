@@ -1,4 +1,6 @@
 import {
+  IAboutPageData,
+  IContactsPageData,
   IDoctorsPageData,
   IMainPageData,
   IPartnersPageData,
@@ -50,6 +52,24 @@ export const getDoctorsPageData = async () =>
 export const getPartnersPageData = async () =>
   api
     .get<StrapiSingleton<IPartnersPageData>>('partners-page', {
+      params: {
+        populate: '*',
+      },
+    })
+    .then(res => res.data.data);
+
+export const getContactsPageData = async () =>
+  api
+    .get<StrapiSingleton<IContactsPageData>>('contacts-page', {
+      params: {
+        populate: '*',
+      },
+    })
+    .then(res => res.data.data);
+
+export const getAboutPageData = async () =>
+  api
+    .get<StrapiSingleton<IAboutPageData>>('about-page', {
       params: {
         populate: '*',
       },

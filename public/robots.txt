@@ -6,10 +6,6 @@ Disallow: /telemed
 User-agent: *
 Disallow: /privacy-policy
 
-# *
-User-agent: *
-Disallow: /cities
-
 # Host
 Host: https://lookfordocs.com
 

@@ -1,30 +1,41 @@
-import { useRouter } from 'next/router';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { getSiteSettings, getPageSettings } from '@/api';
+import Script from 'next/script';
+import { useRouter } from 'next/router';
+import { getSiteSettings, getPageSettings, getContactsPageData } from '@/api';
 import {
+  ContactsAbout,
   Layout,
   ListPageSkeleton,
   PageSeo,
-  UnderConstructionPage,
+  Promo,
+  ContactDialog,
+  BreadcrumbsComponent,
 } from '@/components';
-import { Title } from '@/shared/assets';
-import { ISiteSettings, IPageSettings } from '@/shared/types';
+import {
+  ISiteSettings,
+  IPageSettings,
+  IContactsPageData,
+} from '@/shared/types';
+import { getImageUrl } from '@/shared/assets';
 
 const PAGE_SLUG = 'contacts';
 
 interface Props {
   siteSettings: ISiteSettings;
   pageSettings: IPageSettings;
+  pageData: IContactsPageData;
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const siteSettings = await getSiteSettings();
   const pageSettings = await getPageSettings(PAGE_SLUG);
+  const pageData = await getContactsPageData();
 
   return {
     props: {
       siteSettings,
       pageSettings,
+      pageData,
     },
   };
 };
@@ -32,6 +43,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 const ContactsPage = ({
   siteSettings,
   pageSettings,
+  pageData,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const router = useRouter();
 
@@ -47,11 +59,28 @@ const ContactsPage = ({
           siteUrl={siteSettings.siteUrl}
           favicons={siteSettings.favicons}
         />
-        <UnderConstructionPage image={siteSettings.constructionImage}>
-          <Title variant="h2" textAlign="center">
-            Наши <span className="highlighted">контакты</span>
-          </Title>
-        </UnderConstructionPage>
+        <Script
+          id="main-page-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'http://schema.org/',
+              '@type': 'Project',
+              name: siteSettings.siteName,
+              logo: getImageUrl(siteSettings.logo),
+              url: siteSettings.siteUrl,
+              email: siteSettings.email,
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'Portugal',
+              },
+            }),
+          }}
+        />
+        <BreadcrumbsComponent crumbs={[{ text: 'Контакты' }]} />
+        <Promo promoData={pageData.promo} />
+        <ContactsAbout data={pageData} />
+        <ContactDialog />
       </Layout>
     );
   }
