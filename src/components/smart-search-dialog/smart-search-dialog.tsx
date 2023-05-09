@@ -88,7 +88,7 @@ export const SmartSearchDialog = ({
             </StyledDialogHeader>
             <div className="input-container">
               <IconSearch id="smart-search-icon" />
-              <form action="#" onSubmit={onSearchFormSubmit}>
+              <form onSubmit={onSearchFormSubmit}>
                 <Input
                   inputRef={inputRef}
                   placeholder={placeholder}

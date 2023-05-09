@@ -22,6 +22,7 @@ export interface ISiteSettings extends StrapiEditionsInfo {
   siteUrl: string;
   siteName: string;
   email: string;
+  telegram: string;
   copyrights: string;
   testimonialsLimit: number;
   navigation: ILink[];

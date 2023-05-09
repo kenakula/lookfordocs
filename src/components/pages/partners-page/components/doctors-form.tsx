@@ -34,9 +34,7 @@ export const DoctorsForm = (): JSX.Element => {
   const { isLoading, mutateAsync: sendRequest } = useMutation({
     mutationFn: (data: PartnerRequestModel) =>
       api.post<{ data: PartnerRequestModel }>('partner-requests', {
-        data: {
-          ...data,
-        },
+        data,
       }),
   });
 

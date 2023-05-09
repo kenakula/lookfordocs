@@ -5,6 +5,7 @@ export * from './local-storage-keys';
 export * from './styled-components';
 export * from './get-filter-values';
 export * from './format-rnova-date';
+export * from './analytics-events';
 export * from './rnova-constants';
 export * from './get-typography';
 export * from './get-image-url';

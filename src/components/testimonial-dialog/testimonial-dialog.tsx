@@ -41,9 +41,7 @@ export const TestimonialDialog = ({
   const { isLoading, mutateAsync: saveTestimonial } = useMutation({
     mutationFn: (data: TestimonialModel) =>
       api.post<{ data: TestimonialModel }>('testimonials', {
-        data: {
-          ...data,
-        },
+        data,
       }),
   });
 
@@ -144,7 +142,7 @@ export const TestimonialDialog = ({
       title={entityName}
       imageUrl={getImageUrl(entityImage, ImageSize.Small)}
     >
-      <StyledDialogBody action="#" onSubmit={handleSubmit(onSubmit)}>
+      <StyledDialogBody onSubmit={handleSubmit(onSubmit)}>
         <InputComponent
           className="testimonial-dialog-field"
           formControl={control}

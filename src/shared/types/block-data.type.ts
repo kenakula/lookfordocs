@@ -9,5 +9,6 @@ export interface IBlockData {
 
 export interface IPromoBlockData extends IBlockData {
   buttonText?: string;
+  type: 'appointment' | 'contact';
   chips?: IChip[];
 }
