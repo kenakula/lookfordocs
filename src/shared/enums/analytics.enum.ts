@@ -5,6 +5,6 @@ export enum AnalyticsEvent {
 
 export enum EventCategory {
   ButtonClick = 'button-click',
-  ElemenClick = 'elemen-click',
+  ElementClick = 'element-click',
   SliderEvent = 'slider-event',
 }

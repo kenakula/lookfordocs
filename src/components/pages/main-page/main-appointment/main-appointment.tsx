@@ -1,10 +1,10 @@
 import { useMediaQuery } from '@mui/material';
+import { openAppointmentDialog, useAppDispatch } from '@/stores';
 import { ButtonComponent, ContainerComponent } from '@/components';
-import { PageSection, Subtitle, Title } from '@/shared/assets';
+import { PageSection, Subtitle, Title, pushGtmEvent } from '@/shared/assets';
 import { IBlockData } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { StyledInner } from './components';
-import { openAppointmentDialog, useAppDispatch } from '@/stores';
 
 interface Props {
   appointmentData: IBlockData | null;
@@ -15,6 +15,7 @@ export const MainAppointment = ({ appointmentData }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const openAppointmentForm = () => {
+    pushGtmEvent('mainPageAppointmentClick');
     dispatch(openAppointmentDialog());
   };
 

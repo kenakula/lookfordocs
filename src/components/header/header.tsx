@@ -25,6 +25,7 @@ import {
   getActiveStateClassName,
   getImageUrl,
   HOME_PAGE,
+  pushGtmEvent,
 } from '@/shared/assets';
 import {
   DrawerComponent,
@@ -75,6 +76,7 @@ export const Header = ({
   const openAppointmentForm = () => {
     setMobileOpen(false);
     dispatch(openAppointmentDialog());
+    pushGtmEvent('mainPageHeaderAppointmentPopupEvent');
   };
 
   const openDrawer = (): void => {

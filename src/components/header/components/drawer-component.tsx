@@ -86,7 +86,7 @@ export const DrawerComponent = ({
           )}
         </List>
         <StyledSocials>
-          <Socials socials={socials} />
+          <Socials location="header" socials={socials} />
         </StyledSocials>
         <Typography variant="caption" className="copyrights">
           {copyrights}
