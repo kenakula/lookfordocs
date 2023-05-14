@@ -1,6 +1,7 @@
 import { IconButton, styled } from '@mui/material';
 import Link from 'next/link';
 import { ISocial, SocialType } from '@/shared/types';
+import { pushMainGtmEvent } from '@/shared/assets';
 import { IconEmail, IconWatsapp, IconTelegram } from '../icons';
 
 const StyledSocials = styled('ul', {
@@ -32,6 +33,7 @@ const StyledSocials = styled('ul', {
 interface Props {
   socials: ISocial[];
   dense?: boolean;
+  location: 'footer' | 'header';
 }
 
 export const getSocialIcon = (type: SocialType): JSX.Element | null => {
@@ -48,11 +50,24 @@ export const getSocialIcon = (type: SocialType): JSX.Element | null => {
 };
 
 export const Socials = ({ dense, socials }: Props): JSX.Element => {
+  const onLinkClick = (link: string) => {
+    pushMainGtmEvent('mainPageSocialsClickEvent', {
+      eventContent: link,
+    });
+  };
+
   return (
     <StyledSocials dense={dense}>
       {socials.map(({ label, link, type }) => (
         <li key={label}>
-          <IconButton component={Link} href={link} disableFocusRipple>
+          <IconButton
+            component={Link}
+            href={link}
+            target="_blank"
+            rel="noreferrer noopener"
+            disableFocusRipple
+            onClick={() => onLinkClick(link)}
+          >
             <span className="visually-hidden">{label}</span>
             {getSocialIcon(type)}
           </IconButton>

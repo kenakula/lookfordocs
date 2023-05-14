@@ -6,6 +6,7 @@ import {
   capitalizeName,
   getHighlightedLetters,
   getImageUrl,
+  pushSmartSearchGtmEvent,
 } from '@/shared/assets';
 import {
   IClinic,
@@ -39,6 +40,11 @@ export const ClinicsItem = ({
         component={Link}
         href={`${DOCTORS_PAGE}?clinic=${id}`}
         onClick={e => {
+          pushSmartSearchGtmEvent('smartSearchResultClick', {
+            eventValue: name,
+            eventContent: 'clinics',
+          });
+
           if (useCustomQuery && handleChooseOptionCb) {
             e.preventDefault();
             handleChooseOptionCb({

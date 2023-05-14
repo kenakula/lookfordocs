@@ -13,7 +13,7 @@ import { setToaster, useAppDispatch, useAppSelector } from '@/stores';
 import { IImage, TestimonialFormModel, TestimonialType } from '@/shared/types';
 import { TestimonialModel } from '@/shared/models';
 import { useMutation } from '@tanstack/react-query';
-import { getImageUrl } from '@/shared/assets';
+import { getImageUrl, pushMainGtmEvent } from '@/shared/assets';
 import { StyledDialogBody, StyledRatingWrapper } from './components';
 import { ImageSize } from '@/shared/enums';
 import { api } from '@/api';
@@ -124,6 +124,10 @@ export const TestimonialDialog = ({
           key: new Date().getTime(),
         }),
       );
+      pushMainGtmEvent('testimonialsFormSumbitEvent', {
+        eventValue: testimonialData.rate.toString(),
+        eventContent: testimonialData.entityName,
+      });
     } catch (err) {
       dispatch(
         setToaster({

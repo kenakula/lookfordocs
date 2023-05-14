@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Typography,
   Link as MuiLink,
@@ -5,10 +6,14 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import Link from 'next/link';
-import React, { useState } from 'react';
 import { ButtonComponent } from '@/components';
 import { ISpecialty } from '@/shared/types';
-import { capitalize, DOCTORS_PAGE, numWord } from '@/shared/assets';
+import {
+  capitalize,
+  DOCTORS_PAGE,
+  numWord,
+  pushMainGtmEvent,
+} from '@/shared/assets';
 import { Breakpoints } from '@/shared/enums';
 import {
   StyledList,
@@ -30,6 +35,13 @@ export const CardsList = ({ specialties = [] }: Props): JSX.Element => {
 
   const handleChange = () => {
     setExpanded(prev => !prev);
+  };
+
+  const onLinkClick = (name: string, count: string) => {
+    pushMainGtmEvent('mainPagePopularClickEvent', {
+      eventValue: count,
+      eventContent: name,
+    });
   };
 
   const collapsedSize =
@@ -54,6 +66,9 @@ export const CardsList = ({ specialties = [] }: Props): JSX.Element => {
                 underline="none"
                 href={`${DOCTORS_PAGE}?specialty=${id}`}
                 component={Link}
+                onClick={() =>
+                  onLinkClick(capitalize(name), getCountValue(doctors.length))
+                }
               >
                 <Typography variant="h3">{capitalize(name)}</Typography>
                 <Typography variant="caption">

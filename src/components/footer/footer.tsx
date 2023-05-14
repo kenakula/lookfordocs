@@ -37,7 +37,7 @@ export const Footer = ({
                 alt="логотип сайта"
               />
               <Box sx={{ ml: -1 }}>
-                <Socials socials={socials} dense />
+                <Socials location="footer" socials={socials} dense />
               </Box>
             </StyledFooterInfo>
             <StyledFooterList>
