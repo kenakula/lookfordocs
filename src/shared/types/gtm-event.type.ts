@@ -2,7 +2,7 @@ import { AnalyticsEvent, EventCategory } from '../enums';
 
 export interface IGtmEvent {
   event: AnalyticsEvent;
-  category: EventCategory;
+  eventCategory: EventCategory;
   eventLabel?: string;
   eventValue?: string;
   eventContent?: string;

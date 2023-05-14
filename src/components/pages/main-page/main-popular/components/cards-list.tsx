@@ -12,7 +12,7 @@ import {
   capitalize,
   DOCTORS_PAGE,
   numWord,
-  pushGtmEvent,
+  pushMainGtmEvent,
 } from '@/shared/assets';
 import { Breakpoints } from '@/shared/enums';
 import {
@@ -38,7 +38,7 @@ export const CardsList = ({ specialties = [] }: Props): JSX.Element => {
   };
 
   const onLinkClick = (name: string, count: string) => {
-    pushGtmEvent('mainPagePopularClickEvent', {
+    pushMainGtmEvent('mainPagePopularClickEvent', {
       eventValue: count,
       eventContent: name,
     });

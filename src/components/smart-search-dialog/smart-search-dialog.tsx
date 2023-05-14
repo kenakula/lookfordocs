@@ -21,6 +21,7 @@ import { ISmartSearchQuery } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { SearchResult, StyledDialog, StyledDialogHeader } from './components';
 import { useCloseOnMainPageTablet, useFullscreenMode } from './hooks';
+import { pushSmartSearchGtmEvent } from '@/shared/assets';
 
 interface Props {
   handleSubmitCb: (name?: string) => void;
@@ -47,6 +48,9 @@ export const SmartSearchDialog = ({
   useEffect(() => {
     if (debouncedValue.length > 2) {
       dispatch(smartSearch(debouncedValue));
+      pushSmartSearchGtmEvent('smartSearchInputSearch', {
+        eventValue: debouncedValue,
+      });
     }
   }, [debouncedValue, dispatch]);
 

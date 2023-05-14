@@ -15,6 +15,7 @@ import { ContactFormModel } from '@/shared/types';
 import { DialogComponent } from '../dialog-component/dialog-component';
 import { ButtonComponent } from '../button-component/button-component';
 import { InputComponent } from '../form-components';
+import { pushMainGtmEvent } from '@/shared/assets';
 
 const StyledDialogBody = styled('form')(({ theme }) => ({
   display: 'flex',
@@ -76,6 +77,7 @@ export const ContactDialog = (): JSX.Element => {
           key: new Date().getTime(),
         }),
       );
+      pushMainGtmEvent('feedbackFormSumbitEvent');
     } catch (err) {
       dispatch(
         setToaster({

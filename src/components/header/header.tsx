@@ -25,7 +25,8 @@ import {
   getActiveStateClassName,
   getImageUrl,
   HOME_PAGE,
-  pushGtmEvent,
+  pushMainGtmEvent,
+  pushSmartSearchGtmEvent,
 } from '@/shared/assets';
 import {
   DrawerComponent,
@@ -61,6 +62,8 @@ export const Header = ({
   }, [position.position]);
 
   const openSmartSearchBox = (): void => {
+    pushSmartSearchGtmEvent('openSmartSearchButtonClick');
+
     if (isNotMobile) {
       const searchInput = document.getElementById('main-search');
 
@@ -76,7 +79,7 @@ export const Header = ({
   const openAppointmentForm = () => {
     setMobileOpen(false);
     dispatch(openAppointmentDialog());
-    pushGtmEvent('mainPageHeaderAppointmentPopupEvent');
+    pushMainGtmEvent('mainPageHeaderAppointmentPopupEvent');
   };
 
   const openDrawer = (): void => {

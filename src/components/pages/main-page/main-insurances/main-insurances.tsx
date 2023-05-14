@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from '@mui/material';
 import { ContainerComponent } from '@/components';
-import { PageSection, Subtitle, Title, pushGtmEvent } from '@/shared/assets';
+import {
+  PageSection,
+  Subtitle,
+  Title,
+  pushMainGtmEvent,
+} from '@/shared/assets';
 import { IBlockData, IInsurance } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { CardsList, StyledInner } from './components';
@@ -50,7 +55,7 @@ export const MainInsurances = ({
       }
     }
 
-    pushGtmEvent('mainPageInsuranseExpandEvent', {
+    pushMainGtmEvent('mainPageInsuranseExpandEvent', {
       eventContent: expanded ? 'collapse' : 'expand',
     });
   };

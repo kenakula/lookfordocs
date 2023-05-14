@@ -21,6 +21,7 @@ import { ISmartSearchQuery, SmartSearchLocation } from '@/shared/types';
 import { Breakpoints } from '@/shared/enums';
 import { SmartSearchDialog } from '@/components';
 import { StyledSearchBox, StyledSearchButton } from './components';
+import { pushSmartSearchGtmEvent } from '@/shared/assets';
 
 interface Props {
   placeholder: string;
@@ -90,6 +91,12 @@ export const SmartSearchInput = forwardRef(
       }
     };
 
+    const onInputClick = (): void => {
+      pushSmartSearchGtmEvent('smartSearchInputClick', {
+        eventValue: location,
+      });
+    };
+
     const onInputBlur = (): void => {
       if (isTablet) {
         dispatch(closeSmartSearch({ clear: false }));
@@ -98,6 +105,9 @@ export const SmartSearchInput = forwardRef(
 
     const onSearchClick = (): void => {
       handleSubmitCb(searchStr);
+      pushSmartSearchGtmEvent('smartSearchInputSearchClick', {
+        eventValue: searchStr,
+      });
     };
 
     const onSearchFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -144,6 +154,7 @@ export const SmartSearchInput = forwardRef(
               value={searchStr}
               onFocus={onInputFocus}
               onBlur={onInputBlur}
+              onClick={onInputClick}
               endAdornment={
                 searchStr.length ? (
                   <InputAdornment position="end">

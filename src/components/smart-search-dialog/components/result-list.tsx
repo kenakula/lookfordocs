@@ -6,6 +6,7 @@ import {
   DOCTORS_PAGE,
   getHighlightedLetters,
   CLINICS_PAGE,
+  pushSmartSearchGtmEvent,
 } from '@/shared/assets';
 import {
   ISmartSearchResult,
@@ -66,6 +67,11 @@ export const ResultList = ({
                   component={Link}
                   href={`${filterTargetUrl}?specialty=${id}`}
                   onClick={e => {
+                    pushSmartSearchGtmEvent('smartSearchResultClick', {
+                      eventValue: name,
+                      eventContent: 'specialty',
+                    });
+
                     if (useCustomQuery && handleChooseOptionCb) {
                       e.preventDefault();
                       handleChooseOptionCb({
@@ -100,6 +106,11 @@ export const ResultList = ({
                   component={Link}
                   href={`${filterTargetUrl}?service=${id}`}
                   onClick={e => {
+                    pushSmartSearchGtmEvent('smartSearchResultClick', {
+                      eventValue: name,
+                      eventContent: 'service',
+                    });
+
                     if (useCustomQuery && handleChooseOptionCb) {
                       e.preventDefault();
                       handleChooseOptionCb({
@@ -152,7 +163,13 @@ export const ResultList = ({
                   className="complex-item"
                   component={Link}
                   href={`${DOCTORS_PAGE}/${id}`}
-                  onClick={closeSearchBox}
+                  onClick={() => {
+                    closeSearchBox();
+                    pushSmartSearchGtmEvent('smartSearchResultClick', {
+                      eventValue: fullName,
+                      eventContent: 'doctors',
+                    });
+                  }}
                 >
                   <Avatar
                     sx={{ width: 40, height: 40 }}
@@ -188,6 +205,11 @@ export const ResultList = ({
                   component={Link}
                   href={`${filterTargetUrl}?insurance=${id}`}
                   onClick={e => {
+                    pushSmartSearchGtmEvent('smartSearchResultClick', {
+                      eventValue: name,
+                      eventContent: 'insurances',
+                    });
+
                     if (useCustomQuery && handleChooseOptionCb) {
                       e.preventDefault();
                       handleChooseOptionCb({
@@ -231,6 +253,11 @@ export const ResultList = ({
                   component={Link}
                   href={`${filterTargetUrl}?lang=${id}`}
                   onClick={e => {
+                    pushSmartSearchGtmEvent('smartSearchResultClick', {
+                      eventValue: name,
+                      eventContent: 'languages',
+                    });
+
                     if (useCustomQuery && handleChooseOptionCb) {
                       e.preventDefault();
                       handleChooseOptionCb({

@@ -1,42 +1,91 @@
 import { AnalyticsEvent, EventCategory } from '@/shared/enums';
 import { IGtmEvent } from '@/shared/types';
 
-export const baseMainPageEvent: IGtmEvent = {
+const baseMainPageEvent: IGtmEvent = {
   event: AnalyticsEvent.MainPage,
-  category: EventCategory.ButtonClick,
+  eventCategory: EventCategory.ButtonClick,
   interaction: true,
 };
 
-export const mainPageAppointmentClickEvent: IGtmEvent = {
+const mainPageAppointmentClickEvent: IGtmEvent = {
   ...baseMainPageEvent,
   eventLabel: 'main-appointment',
 };
 
-export const mainPagePopularClickEvent: IGtmEvent = {
+const mainPagePopularClickEvent: IGtmEvent = {
   ...baseMainPageEvent,
-  category: EventCategory.ElementClick,
+  eventCategory: EventCategory.ElementClick,
   eventLabel: 'main-popular',
 };
 
-export const mainPageInsuranseExpandEvent: IGtmEvent = {
+const mainPageInsuranseExpandEvent: IGtmEvent = {
   ...baseMainPageEvent,
   eventLabel: 'main-insurances',
 };
 
-export const mainPageTestimonialsEvent: IGtmEvent = {
+const mainPageTestimonialsEvent: IGtmEvent = {
   ...baseMainPageEvent,
   eventLabel: 'main-testimonials',
-  category: EventCategory.SliderEvent,
+  eventCategory: EventCategory.SliderEvent,
 };
 
-export const mainPageHeaderAppointmentPopupEvent: IGtmEvent = {
+const mainPageHeaderAppointmentPopupEvent: IGtmEvent = {
   ...baseMainPageEvent,
   eventLabel: 'main-header-popup',
-  category: EventCategory.ButtonClick,
+  eventCategory: EventCategory.ButtonClick,
 };
 
-export const mainPageSocialsClickEvent: IGtmEvent = {
+const mainPageSocialsClickEvent: IGtmEvent = {
   ...baseMainPageEvent,
   eventLabel: 'main-socials',
-  category: EventCategory.ElementClick,
+  eventCategory: EventCategory.ElementClick,
+};
+
+const appointmentFormSumbitEvent: IGtmEvent = {
+  event: AnalyticsEvent.RequestEvent,
+  eventLabel: 'appointment-form',
+  eventCategory: EventCategory.FormSubmit,
+  interaction: true,
+};
+
+const feedbackFormSumbitEvent: IGtmEvent = {
+  event: AnalyticsEvent.FeedbackEvent,
+  eventLabel: 'feedback-form',
+  eventCategory: EventCategory.FormSubmit,
+  interaction: true,
+};
+
+const testimonialsFormSumbitEvent: IGtmEvent = {
+  event: AnalyticsEvent.TestimonialEvent,
+  eventLabel: 'testimonial-form',
+  eventCategory: EventCategory.FormSubmit,
+  interaction: true,
+};
+
+export const mainPageEventsMapper = (
+  eventId: string,
+  eventData?: Partial<IGtmEvent>,
+): IGtmEvent => {
+  switch (eventId) {
+    case 'mainPageAppointmentClick':
+      return { ...mainPageAppointmentClickEvent, ...eventData };
+    case 'mainPagePopularClickEvent':
+      return { ...mainPagePopularClickEvent, ...eventData };
+    case 'mainPageInsuranseExpandEvent':
+      return { ...mainPageInsuranseExpandEvent, ...eventData };
+    case 'mainPageTestimonialsEvent':
+      return { ...mainPageTestimonialsEvent, ...eventData };
+    case 'mainPageHeaderAppointmentPopupEvent':
+      return { ...mainPageHeaderAppointmentPopupEvent, ...eventData };
+    case 'mainPageSocialsClickEvent':
+      return { ...mainPageSocialsClickEvent, ...eventData };
+    case 'appointmentFormSumbitEvent':
+      return { ...appointmentFormSumbitEvent, ...eventData };
+    case 'feedbackFormSumbitEvent':
+      return { ...feedbackFormSumbitEvent, ...eventData };
+    case 'testimonialsFormSumbitEvent':
+      return { ...testimonialsFormSumbitEvent, ...eventData };
+    default:
+      return baseMainPageEvent;
+  }
 };

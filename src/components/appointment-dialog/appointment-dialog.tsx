@@ -3,7 +3,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { sendRequest as sendApiRequest, nextApi } from '@/api';
 import { useAppDispatch, useAppSelector } from '@/stores';
-import { RNOVA_QCLINIC_ID, formatRnovaDate } from '@/shared/assets';
+import {
+  RNOVA_QCLINIC_ID,
+  formatRnovaDate,
+  pushMainGtmEvent,
+} from '@/shared/assets';
 import { closeAppointmentDialog, setToaster } from '@/stores/slices';
 import {
   ButtonComponent,
@@ -88,6 +92,11 @@ export const AppointmentDialog = (): JSX.Element => {
           email: data.email,
         });
       }
+
+      pushMainGtmEvent('appointmentFormSumbitEvent', {
+        eventValue: request.connectionType,
+        eventContent: request.entityName,
+      });
 
       await sendRequest(request);
       closeDialog();

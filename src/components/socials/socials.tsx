@@ -1,7 +1,7 @@
 import { IconButton, styled } from '@mui/material';
 import Link from 'next/link';
 import { ISocial, SocialType } from '@/shared/types';
-import { pushGtmEvent } from '@/shared/assets';
+import { pushMainGtmEvent } from '@/shared/assets';
 import { IconEmail, IconWatsapp, IconTelegram } from '../icons';
 
 const StyledSocials = styled('ul', {
@@ -51,7 +51,7 @@ export const getSocialIcon = (type: SocialType): JSX.Element | null => {
 
 export const Socials = ({ dense, socials }: Props): JSX.Element => {
   const onLinkClick = (link: string) => {
-    pushGtmEvent('mainPageSocialsClickEvent', {
+    pushMainGtmEvent('mainPageSocialsClickEvent', {
       eventContent: link,
     });
   };
